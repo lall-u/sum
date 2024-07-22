@@ -1,0 +1,22 @@
+//
+// Copyright 2012 Paytronix Systems, Inc.
+// All Rights Reserved
+// PAYTRONIX CONFIDENTIAL
+//
+
+package com.paytronix.client.android.api.exception;
+
+public class PxInsufficientTokenScopeException extends Exception {
+    private static final long serialVersionUID = -3858933897016432281L;
+    
+    private String response;
+    
+    public PxInsufficientTokenScopeException(String message, String response) {
+        super(message);
+        this.response = response;
+    }
+    
+    public String getResponse() {
+        return response;
+    }
+}

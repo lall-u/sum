@@ -1,0 +1,25 @@
+//
+// Copyright 2012 Paytronix Systems, Inc.
+// All Rights Reserved
+// PAYTRONIX CONFIDENTIAL
+//
+
+package com.exceptions;
+
+import java.util.List;
+import java.util.Map;
+
+public class PxInvalidInputsException extends Exception {
+	private static final long serialVersionUID = -3547257963754064115L;
+
+	private Map<String, List<String>> errorsByField;
+    
+    public PxInvalidInputsException(Map<String, List<String>> errorsByField) {
+        super();
+        this.errorsByField = errorsByField;
+    }
+    
+    public Map<String, List<String>> getErrorsByField() {
+    	return errorsByField;
+    }
+}

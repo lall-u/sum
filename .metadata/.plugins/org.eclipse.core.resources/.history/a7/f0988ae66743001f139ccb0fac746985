@@ -1,0 +1,2563 @@
+package com.features;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.text.SimpleDateFormat;
+import java.time.DayOfWeek;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.TextStyle;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.base.BaseClass;
+import com.base.CommonMethods;
+import com.locators.BasketLocators;
+import com.locators.ContactAndPhoneNumberLocators;
+import com.locators.DashBoardLocators;
+import com.locators.LocationLocators;
+import com.locators.MenuScreenLocators;
+import com.locators.NeedSomethingLocators;
+import com.locators.OrderAgainComponentLocators;
+import com.locators.OrderNowLocators;
+import com.locators.OrderPlacedScreenLocators;
+import com.locators.PlaceOrderScreenLocators;
+import com.locators.ReOrderLocators;
+import com.locators.RecommendedForYouLocators;
+import com.locators.SignInLocators;
+
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
+import io.github.ashwith.flutter.FlutterElement;
+import io.github.ashwith.flutter.FlutterFinder;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
+
+
+/**
+ * @Class_Name ReOrder
+ * @Description Contains code to execute reorder screen
+ * @return void
+ * @author Lalith Kishore Ravi
+ * @throws Exception
+ */
+public class ReOrder extends BaseClass {
+
+	public static String componentList;
+	public static String accessTokenGen;
+	public static String printedCardNumberResponse;
+	public static String userName;
+	public static String passWord;
+	public static String merchantId;
+	public static String cardTemplateCode;
+	public static String storeGroupCode;
+	public static String clientId;
+	public static String integrationDetail;
+	static String storeCode;
+	static String authorizationGrant;
+	static String key = "6d6bf06a4f653a54da8d88715a736a4ca6071ffb";
+	static String provider = "px";
+	static String recentlyOrderedName;
+	static ArrayList<String> matchedName = new ArrayList<>();
+	static ArrayList<Double> matchedNamePrice = new ArrayList<>();
+	static CommonMethods commonMethods = new CommonMethods();
+	RecommendedForYouLocators recommendedForYouLocators = new RecommendedForYouLocators();
+	Size size = new Size();
+	OptionGroups optionGroups = new OptionGroups();
+	ItemList itemList = new ItemList();
+	MenuScreenLocators menuScreenLocators = new MenuScreenLocators();
+	Pizza pizza = new Pizza();
+
+	static String specialInstructionsEnabled;
+
+	static String specialInstructionsNotesLimit;
+
+	static String specialInstructionsEnabledSubString;
+
+	static String specialInstructionsNotesLabel;
+
+	static int pos1;
+
+	static int pos;
+
+	static int position;
+
+	static int position1;
+
+	private static NeedSomethingLocators needSomethingLocators = new NeedSomethingLocators();
+
+	static ReOrderLocators reOrderLocators = new ReOrderLocators();
+
+	static BasketLocators basketLocators = new BasketLocators();
+
+	static APIMethods apiMethods = new APIMethods();
+
+	static LocationLocators locationLocators = new LocationLocators();
+
+	static OrderNowLocators orderNowLocators = new OrderNowLocators();
+
+	String takeoutOrderTypeText;
+
+	String curbsideOrderTypeText;
+
+	String deliveryOrderTypeText;
+
+	static String asapOrderTimeText;
+
+	static String laterOrderTimeText;
+
+	static PlaceOrderScreenLocators placeOrderScreenLocators = new PlaceOrderScreenLocators();
+	static OrderPlacedScreenLocators orderPlacedScreenLocators = new OrderPlacedScreenLocators();
+	static BasketLocators emptyBasketLocators = new BasketLocators();
+
+	static SignInLocators signInLocators = new SignInLocators();
+
+	static DashBoardLocators dashBoardLocators = new DashBoardLocators();
+	static AppLaunchAndLandingScreen appLaunchAndLandingScreen = new AppLaunchAndLandingScreen();
+	static FavouriteOrder favouriteOrder = new FavouriteOrder();
+	public static Response cdnResponse;
+	static String accessToken;
+	static String authorizationGrantReq;
+	static List<String> typeList = new ArrayList<>();
+	static OrderAgainComponentLocators orderAgainComponentLocators = new OrderAgainComponentLocators();
+	static String storeCodeValue;
+	static String storeId;
+	static String itemName;
+	static String itemId;
+	static String storeName;
+	static String orderType;
+	static String menuItemID;
+	static Response getAccessToken;
+	static String printedCard;
+	static String orderId;
+
+	static int matchingIndex;
+
+	static double gc;
+
+	static ContactAndPhoneNumberLocators contactAndPhoneNumberLocators = new ContactAndPhoneNumberLocators();
+
+	static SignIn signIn = new SignIn();
+
+	
+	/**
+	 * @Class_Name ReOrder
+	 * @Method_Name reOrder
+	 * @Description Contains code to execute reorder screen
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	@Test
+	public void reOrder() throws Throwable {
+
+		String reOrderTitleTextString = commonMethods.stringsReader(reOrderLocators.REORDER_TITLE_TEXT_STRING);
+
+		String reOrderOrderedOnTextString = commonMethods.stringsReader(reOrderLocators.REORDER_ORDERED_ON_TEXT_STRING);
+
+		String reOrderButtonTextString = commonMethods.stringsReader(reOrderLocators.REORDER_BUTTON_TEXT_STRING);
+
+		String basketHeaderTitleText = commonMethods.stringsReader(basketLocators.BASKET_HEADER_TITLE);
+
+		String itemNotAvailableString = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_DESCRIPTION_ITEM_NOT_AVAILABLE_STRING);
+
+		String restaurantNotAcceptingString = commonMethods.stringsReader(
+				dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_RESTAURANT_NOT_ACCEPTING_BUTTON_STRING);
+
+		String restaurantClosedString = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_RESTAURANT_CLOSED_STRING);
+
+		String reorderOneOrMoreNotAvailDescriptionString = commonMethods
+				.stringsReader(dashBoardLocators.OD_RE_ORDER_ONE_OR_MORE_ITEMS_NOT_AVAILABLE_DESCRIPTION_STRING);
+
+		Thread.sleep(32000);
+
+		BaseClass bc = new BaseClass();
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		boolean reOrderTitleText = commonMethods.elementFoundOrNotPopUp(reOrderTitleTextString);
+
+		if (reOrderTitleText == true) {
+
+			String nameofCurrMethod = new Object() {
+			}.getClass().getEnclosingMethod().getName();
+
+			test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+					.assignCategory("Re-Order");
+
+			test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+			ExtentTest nextGenReOrder = test.createNode("NextGenReOrder");
+
+			List<String> givenStringCode = bc.appConfiguration();
+
+			String merchantId = givenStringCode.get(8);
+
+			List<String> appConfiguration = bc.appConfiguration();
+
+			userName = appConfiguration.get(6);
+			passWord = appConfiguration.get(7);
+			merchantId = appConfiguration.get(8);
+			cardTemplateCode = appConfiguration.get(9);
+			storeGroupCode = appConfiguration.get(10);
+			clientId = appConfiguration.get(11);
+			integrationDetail = appConfiguration.get(12);
+
+			storeCode = appConfiguration.get(13);
+
+			String jsonString = "{\n" + "    \"fields\": {\n" + "        \"username\": \"" + userName + "\",\n"
+					+ "        \"password\": \"" + passWord + "\"\n" + "    },\n" + "    \"cardTemplateCode\": \""
+					+ cardTemplateCode + "\",\n"
+					+ "    \"scope\": \"user_read account_read account_write user_write\",\n" + "    \"merchantId\": \""
+					+ merchantId + "\",\n" + "    \"grant_type\": \"http:\\/\\/paytronix.com\\/oauth\\/fieldset\",\n"
+					+ "    \"authentication\": \"anonymous\",\n"
+					+ "    \"access_token\": \"VDc_p1vU2AaPShcFTWcdX9BqRsaFf9upuMP7epvhWS\",\n"
+					+ "    \"client_id\": \"" + clientId + "\"\n" + "}";
+
+			RequestSpecification request = io.restassured.RestAssured.given();
+
+			request.contentType(ContentType.JSON);
+
+			request.baseUri("https://www.train.paytronix.com:1283/rest/23.8/oauth/requestGuestToken.json");
+
+			request.body(jsonString);
+			Response response = request.post();
+			ValidatableResponse validatableResponse = response.then();
+			validatableResponse.statusCode(200);
+			JSONObject jObj = new JSONObject(response.body().asString());
+			accessTokenGen = jObj.optString("access_token");
+			printedCardNumberResponse = jObj.optString("printedCardNumber");
+
+			String json = "{\n" + "    \"thirdPartyIntegration\": \"lJI1mRVajw4FmFrNqOxEqFU_3QpH2HwpBSdpnt1m97\",\n"
+					+ "    \"response_type\": \"code\",\n"
+					+ "    \"scope\": \"user_read user_write account_read account_write\",\n" + "    \"merchantId\": "
+					+ merchantId + ",\n" + "    \"authentication\": \"oauth\",\n" + "    \"username\": \"" + userName
+					+ "\",\n"
+					+ "    \"integrationDetail\": \"os=iOS|osversion=14.7.1|device=iPhone|merchantId=60019|integrator=Paytronix|version=REST:14.15 - API:23.15-Rose(Branded)-SNAPSHOT - APP:2023072101\",\n"
+					+ "    \"access_token\": \"" + accessTokenGen + "\",\n"
+					+ "    \"client_id\": \"y5mjgC9v2raWoMkQ_1jJgZhMEinFx9Zl4fb7105Slp\"\n" + "}";
+
+			RequestSpecification requestAuth = io.restassured.RestAssured.given();
+			requestAuth.contentType(ContentType.JSON);
+			requestAuth.baseUri("https://www.train.paytronix.com:1283/rest/14.15/oauth/requestAuthorizationGrant.json");
+			requestAuth.body(json);
+			Response responseAuth = requestAuth.post();
+			ValidatableResponse validatableResponseAuth = responseAuth.then();
+			validatableResponseAuth.statusCode(200);
+			JSONObject jObjAuth = new JSONObject(responseAuth.body().asString());
+			authorizationGrant = jObjAuth.optString("authorizationGrant");
+
+			io.restassured.RestAssured.baseURI = "https://opendining.net/api/v1/account/orders?";
+// Construct the query parameters
+			Map<String, String> parametersRecent = new HashMap<>();
+			parametersRecent.put("key", key);
+			parametersRecent.put("access_token", authorizationGrant);
+			parametersRecent.put("merchant_id", merchantId);
+			parametersRecent.put("printed_card_number", printedCardNumberResponse);
+			parametersRecent.put("provider", provider);
+			RequestSpecification httpReqRecent = io.restassured.RestAssured.given();
+			RequestSpecification responseRecent = httpReqRecent.queryParams(parametersRecent);
+			Response respRecent = responseRecent.get("");
+			JSONArray jsonObjectRecent = new JSONArray(respRecent.body().asString());
+
+			if (jsonObjectRecent.length() >= 1) {
+
+				for (int i = 0; i < 1; i++) {
+
+					JSONObject optJSONObjectRecent = jsonObjectRecent.optJSONObject(i);
+
+					JSONArray itemsRecent = optJSONObjectRecent.optJSONArray("items");
+
+					matchedName.clear();
+
+					FlutterElement reOrderTitleVk = find.byValueKey(reOrderLocators.REORDER_TITLE_TEXT_VKL);
+
+					String reOrderTitleTextVk = reOrderTitleVk.getText();
+
+					commonMethods.assertMethod(reOrderTitleTextVk, reOrderTitleTextString, " re-order popup title ",nextGenReOrder);
+
+					FlutterElement reOrderOrderedOnVk = find.byValueKey(reOrderLocators.REORDER_ORDERED_ON_TEXT_VKL);
+
+					String reOrderOrderedOnTextVk = reOrderOrderedOnVk.getText();
+
+					commonMethods.assertMethod(reOrderOrderedOnTextVk, reOrderOrderedOnTextString,
+							" re-order popup description ",nextGenReOrder);
+
+					FlutterElement reOrderButtonVk = find.byValueKey(reOrderLocators.REORDER_BUTTON_VKL);
+
+					String reOrderButtonTextVk = reOrderButtonVk.getText();
+
+					commonMethods.assertMethod(reOrderButtonTextVk, reOrderButtonTextString, " re-order popup button ",nextGenReOrder);
+
+					for (int j = 0; j < itemsRecent.length(); j++) {
+
+						System.out.println(" recent orders length is : " + itemsRecent.length());
+
+						JSONObject recentItemsObject = itemsRecent.optJSONObject(j);
+
+						String recentItemsObjectName = recentItemsObject.optString("name");
+
+						if (j > 9) {
+
+							commonMethods.scrollOptionsGroupDown(recentItemsObjectName);
+
+						}
+
+						FlutterElement reOrderItemListVk = find.byValueKey(reOrderLocators.REORDER_ITEM_LIST_VKL + j);
+
+						String reOrderItemListTextVk = reOrderItemListVk.getText();
+
+						commonMethods.assertMethod(reOrderItemListTextVk, recentItemsObjectName,
+								" re-order popup item in the index : " + j,nextGenReOrder);
+
+						JSONArray optionsArray = recentItemsObject.optJSONArray("options");
+
+						if (optionsArray.length() > 0) {
+
+							if (optionsArray.length() > 1) {
+
+								System.out.println(
+										"It has option groups and its option group size is: " + optionsArray.length());
+
+								List<String> reOrderItemListOptionsTexts = new ArrayList<>();
+
+								for (int k = 0; k < optionsArray.length(); k++) {
+
+									JSONObject optionsArrayObject = optionsArray.optJSONObject(k);
+
+									String optionsArrayObjectName = optionsArrayObject.optString("name");
+
+									reOrderItemListOptionsTexts.add(optionsArrayObjectName);
+								}
+
+								String joinedOptions = String.join(", ", reOrderItemListOptionsTexts);
+
+								System.out.println("Joined options: " + joinedOptions);
+
+								nextGenReOrder.info(
+										MarkupHelper.createLabel("Joined options: " + joinedOptions, ExtentColor.CYAN));
+
+								FlutterElement reOrderItemListOptionsVk = find
+										.byValueKey(reOrderLocators.REORDER_ITEM_LIST_OPTIONS_VKL + j);
+
+								String reOrderItemListOptionsTextVk = reOrderItemListOptionsVk.getText();
+
+								System.out.println(" Validated that the re-order popup item: " + reOrderItemListTextVk
+										+ " in the index: " + j + " and its option group name from the UI is : "
+										+ reOrderItemListOptionsTextVk + " and from the API is : " + joinedOptions
+										+ " are same ");
+
+								nextGenReOrder.info(MarkupHelper.createLabel(" Validated that the re-order popup item: "
+										+ reOrderItemListTextVk + " in the index: " + j
+										+ " and its option group name from the UI is : " + reOrderItemListOptionsTextVk
+										+ " and from the API is : " + joinedOptions + " are same ", ExtentColor.CYAN));
+
+								commonMethods.scrollDown();
+
+							} else if (optionsArray.length() == 1) {
+
+								System.out.println(
+										"It has option groups and its option group size is : " + optionsArray.length());
+
+								JSONObject optionsArrayObject = optionsArray.optJSONObject(0);
+
+								String optionsArrayObjectName = optionsArrayObject.optString("name");
+
+								FlutterElement reOrderItemListOptionsVk = find
+										.byValueKey(reOrderLocators.REORDER_ITEM_LIST_OPTIONS_VKL + j);
+
+								String reOrderItemListOptionsTextVk = reOrderItemListOptionsVk.getText();
+
+								System.out.println(" Validated that the re-order popup item: " + reOrderItemListTextVk
+										+ " in the index: " + j + " and its option group name from the UI is : "
+										+ reOrderItemListOptionsTextVk + " and from the API is : "
+										+ optionsArrayObjectName + " are same ");
+
+								nextGenReOrder.info(MarkupHelper.createLabel(" Validated that the re-order popup item: "
+										+ reOrderItemListTextVk + " in the index: " + j
+										+ " and its option group name from the UI is : " + reOrderItemListOptionsTextVk
+										+ " and from the API is : " + optionsArrayObjectName + " are same ",
+										ExtentColor.CYAN));
+
+								commonMethods.scrollDown();
+
+							} else {
+
+								System.out.println(" Options is not available for the item : " + reOrderItemListTextVk);
+
+								nextGenReOrder.info(MarkupHelper.createLabel(
+										" Options is not available for the item : " + reOrderItemListTextVk,
+										ExtentColor.CYAN));
+							}
+
+						}
+
+					}
+
+					List<String> itemNames = new ArrayList<>();
+
+					List<Double> specifiedPrices = new ArrayList<>();
+
+					if (jsonObjectRecent.length() > 1) {
+
+						Map<String, Set<Double>> matchedItems = new HashMap<>();
+
+						List<String> store = new ArrayList<>();
+
+						// Iterate through each order in the JSON array
+
+						for (int k = 0; k < jsonObjectRecent.length(); k++) {
+
+							JSONObject order = jsonObjectRecent.optJSONObject(k);
+
+							JSONArray itemsArray = order.optJSONArray("items");
+
+							// Iterate through each item in the items array
+
+							for (int j = 0; j < itemsArray.length(); j++) {
+
+								JSONObject item = itemsArray.optJSONObject(j);
+
+								// Iterate through each item name in the list
+
+								for (int m = 0; m < itemNames.size(); m++) {
+
+									String itemName = itemNames.get(m);
+
+									double specifiedPrice = specifiedPrices.get(m);
+
+									// Initialize the set for the item name if it does not exist
+
+									matchedItems.putIfAbsent(itemName, new HashSet<>());
+
+									// Check if the item name matches and the price has not been matched before
+
+									if (itemName.equals(item.optString("name"))
+											&& item.getDouble("total_price") == specifiedPrice
+											&& !matchedItems.get(itemName).contains(specifiedPrice)) {
+
+										// Add the specified price to the set for the item name
+
+										if (order.has("px_store_code")
+												&& order.optString("px_store_code").equals(storeCode.toUpperCase())) {
+
+											store.add(itemName);
+
+										}
+
+										matchedItems.get(itemName).add(specifiedPrice);
+
+									}
+								}
+							}
+						}
+
+						reOrderButtonVk.click();
+
+						boolean basketHeaderTitleTextFound = commonMethods.elementFoundOrNot(basketHeaderTitleText);
+
+						if (basketHeaderTitleTextFound == true) {
+
+							System.out.println(" It's navigated to basket screen ");
+
+							items();
+
+						}
+
+						else {
+
+							boolean reorderOneOrMoreNotAvailDescriptionStringBoolean = commonMethods
+									.elementFoundOrNotPopUp("One or more items");
+
+							boolean itemNotAvailableStringBoolean = commonMethods.elementFoundOrNotPopUp("no longer");
+
+							boolean alternateStringBoolean = commonMethods.elementFoundOrNotPopUp("alternat");
+
+							boolean switchStringBoolean = commonMethods.elementFoundOrNotPopUp("switch");
+
+							boolean restaurantNotAcceptingStringBoolean = commonMethods
+									.elementFoundOrNotPopUp(restaurantNotAcceptingString);
+
+							boolean restaurantClosedStringBoolean = commonMethods
+									.elementFoundOrNotPopUp(restaurantClosedString);
+
+							if (reorderOneOrMoreNotAvailDescriptionStringBoolean == true
+									|| itemNotAvailableStringBoolean == true || alternateStringBoolean == true
+									|| switchStringBoolean == true || restaurantNotAcceptingStringBoolean == true
+									|| restaurantClosedStringBoolean == true) {
+
+								CommonMethods.switchContext("FLUTTER");
+
+								FlutterElement popUpDescriptionVk = find
+										.byValueKey(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_DESCRIPTION_VK);
+
+								String popUpDescriptionTextVk = popUpDescriptionVk.getText();
+
+								if (popUpDescriptionTextVk.equals(reorderOneOrMoreNotAvailDescriptionString)) {
+
+									oneOrMoreNotAvailString();
+
+									noPopUp();
+
+									items();
+								}
+
+								else if (popUpDescriptionTextVk.equals(itemNotAvailableString)) {
+
+									itemsNoLongerAvailable();
+
+								} else if (popUpDescriptionTextVk.toLowerCase().contains("alternate")) {
+
+									changeToAlternateOrderType();
+
+									items();
+
+								} else if (popUpDescriptionTextVk.toLowerCase().contains("switch")) {
+
+									switchedOrder();
+
+									items();
+
+								} else if (popUpDescriptionTextVk.equals(restaurantNotAcceptingString)) {
+
+									restaurantNotAcceptingOrders();
+
+								} else if (popUpDescriptionTextVk.equals(restaurantClosedString)) {
+
+									restaurantIsClosed();
+
+								}
+
+							}
+
+							else {
+								noPopUp();
+							}
+
+						}
+
+					}
+
+				}
+
+			} else {
+
+				System.out.println(" Re-order popup is not appeared in the dashboard ");
+
+				nextGenReOrder.info(MarkupHelper.createLabel(" Re-order popup is not appeared in the dashboard ",
+						ExtentColor.CYAN));
+
+				Thread.sleep(1500);
+
+				nextGenReOrder.addScreenCaptureFromBase64String(" Re-order popup is not appeared in the dashboard ");
+
+			}
+		}
+
+	}
+
+	/**
+	 * @Class_Name ReOrder
+	 * @Method_Name noPopUp
+	 * @Description Contains code to execute if no error popup appears
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	private void noPopUp() throws Throwable {
+
+		String orderTypeTitleString = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_TITLE_STRING);
+		String asapText = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_ASAP_STRING);
+		String laterText = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_LATER_STRING);
+		String laterDescriptionText = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_LATER_DESCRIPTION_STRING);
+
+		Thread.sleep(5000);
+
+		new FlutterFinder(driver);
+
+		BaseClass bc = new BaseClass();
+
+		List<String> selectedFlow = bc.configuration();
+
+		String nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest = selectedFlow.get(9);
+
+		String nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest = selectedFlow.get(10);
+
+		String nextGenOrderNowFlowWithCurbsideAsapConfiguredGuest = selectedFlow.get(11);
+
+		String nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest = selectedFlow.get(12);
+
+		String nextGenOrderNowFlowWithDeliveryAsapConfiguredGuest = selectedFlow.get(13);
+
+		String nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest = selectedFlow.get(14);
+
+		String nextGenLocationListFlowWithTakeoutAsapConfiguredGuest = selectedFlow.get(15);
+
+		String nextGenLocationListFlowWithTakeoutLaterConfiguredGuest = selectedFlow.get(16);
+
+		String nextGenLocationListFlowWithCurbsideAsapConfiguredGuest = selectedFlow.get(17);
+
+		String nextGenLocationListFlowWithCurbsideLaterConfiguredGuest = selectedFlow.get(18);
+
+		String nextGenLocationListFlowWithDeliveryAsapConfiguredGuest = selectedFlow.get(19);
+
+		String nextGenLocationListFlowWithDeliveryLaterConfiguredGuest = selectedFlow.get(20);
+
+		String nextGenOrderNowFlowWithTakeoutAsapConfigured = selectedFlow.get(64);
+
+		String nextGenOrderNowFlowWithTakeoutLaterConfigured = selectedFlow.get(65);
+
+		String nextGenOrderNowFlowWithCurbsideAsapConfigured = selectedFlow.get(66);
+
+		String nextGenOrderNowFlowWithCurbsideLaterConfigured = selectedFlow.get(67);
+
+		String nextGenOrderNowFlowWithDeliveryAsapConfigured = selectedFlow.get(68);
+
+		String nextGenOrderNowFlowWithDeliveryLaterConfigured = selectedFlow.get(69);
+
+		String nextGenOrderNowFlowWithTakeoutAsapMapViewConfigured = selectedFlow.get(70);
+
+		String nextGenOrderNowFlowWithTakeoutLaterMapViewConfigured = selectedFlow.get(71);
+
+		String nextGenOrderNowFlowWithCurbsideAsapMapViewConfigured = selectedFlow.get(72);
+
+		String nextGenOrderNowFlowWithCurbsideLaterMapViewConfigured = selectedFlow.get(73);
+
+		String nextGenOrderNowFlowWithDeliveryAsapMapViewConfigured = selectedFlow.get(74);
+
+		String nextGenOrderNowFlowWithDeliveryLaterMapViewConfigured = selectedFlow.get(75);
+
+		String nextGenOrderNowFlowWithTakeoutAsapStoreMapViewConfigured = selectedFlow.get(76);
+
+		String nextGenOrderNowFlowWithTakeoutLaterStoreMapViewConfigured = selectedFlow.get(77);
+
+		String nextGenOrderNowFlowWithCurbsideAsapStoreMapViewConfigured = selectedFlow.get(78);
+
+		String nextGenOrderNowFlowWithCurbsideLaterStoreMapViewConfigured = selectedFlow.get(79);
+
+		String nextGenOrderNowFlowWithDeliveryAsapStoreMapViewConfigured = selectedFlow.get(80);
+
+		String nextGenOrderNowFlowWithDeliveryLaterStoreMapViewConfigured = selectedFlow.get(81);
+
+		String nextGenLocationListFlowWithTakeoutAsapConfigured = selectedFlow.get(82);
+
+		String nextGenLocationListFlowWithTakeoutLaterConfigured = selectedFlow.get(83);
+
+		String nextGenLocationListFlowWithCurbsideAsapConfigured = selectedFlow.get(84);
+
+		String nextGenLocationListFlowWithCurbsideLaterConfigured = selectedFlow.get(85);
+
+		String nextGenLocationListFlowWithDeliveryAsapConfigured = selectedFlow.get(86);
+
+		String nextGenLocationListFlowWithDeliveryLaterConfigured = selectedFlow.get(87);
+
+		String nextGenLocationListFlowWithTakeoutAsapMapViewConfigured = selectedFlow.get(88);
+
+		String nextGenLocationListFlowWithTakeoutLaterMapViewConfigured = selectedFlow.get(89);
+
+		String nextGenLocationListFlowWithCurbsideAsapMapViewConfigured = selectedFlow.get(90);
+
+		String nextGenLocationListFlowWithCurbsideLaterMapViewConfigured = selectedFlow.get(91);
+
+		String nextGenLocationListFlowWithDeliveryAsapMapViewConfigured = selectedFlow.get(92);
+
+		String nextGenLocationListFlowWithDeliveryLaterMapViewConfigured = selectedFlow.get(93);
+
+		String nextGenLocationListFlowWithTakeoutAsapStoreMapViewConfigured = selectedFlow.get(94);
+
+		String nextGenLocationListFlowWithTakeoutLaterStoreMapViewConfigured = selectedFlow.get(95);
+
+		String nextGenLocationListFlowWithCurbsideAsapStoreMapViewConfigured = selectedFlow.get(96);
+
+		String nextGenLocationListFlowWithCurbsideLaterStoreMapViewConfigured = selectedFlow.get(97);
+
+		String nextGenLocationListFlowWithDeliveryAsapStoreMapViewConfigured = selectedFlow.get(98);
+
+		String nextGenLocationListFlowWithDeliveryLaterStoreMapViewConfigured = selectedFlow.get(99);
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+				.assignCategory("Re-Order");
+
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		System.out.println(" The pop-up is not appeared ");
+
+		boolean orderTypeTitleStringBoolean = commonMethods.elementFoundOrNotPopUp(orderTypeTitleString);
+
+		if (orderTypeTitleStringBoolean == true) {
+
+			boolean asapConfig = commonMethods.elementFoundOrNotPopUp(asapText);
+
+			boolean laterConfig = commonMethods.elementFoundOrNotPopUp(laterText);
+
+			if (asapConfig == true || laterConfig == true) {
+
+				if (nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithTakeoutAsapConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithTakeoutAsapMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithTakeoutAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithTakeoutAsapConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithTakeoutAsapConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithTakeoutAsapMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithTakeoutAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+					String takeOutConfig = APIMethods.takeOutConfig();
+
+					String hideTakeOutConfig = APIMethods.hideTakeOutConfig();
+
+					if (takeOutConfig == "true") {
+
+						if (hideTakeOutConfig == "false") {
+
+							if (asapConfig == true) {
+
+								asap();
+							}
+						}
+
+					}
+				}
+
+				else if (nextGenOrderNowFlowWithCurbsideAsapConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithCurbsideAsapConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithCurbsideAsapMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithCurbsideAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithCurbsideAsapConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithCurbsideAsapConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithCurbsideAsapMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithCurbsideAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+					String curbsideConfig = APIMethods.curbsideConfig();
+
+					if (curbsideConfig == "true") {
+
+						if (asapConfig == true) {
+
+							asap();
+						}
+					}
+				}
+
+				else if (nextGenOrderNowFlowWithDeliveryAsapConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithDeliveryAsapConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithDeliveryAsapMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithDeliveryAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithDeliveryAsapConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithDeliveryAsapConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithDeliveryAsapMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithDeliveryAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+					String deliveryConfig = APIMethods.deliveryConfig();
+
+					if (deliveryConfig == "true") {
+
+						if (asapConfig == true) {
+
+							asap();
+						}
+					}
+				}
+
+				else if (nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithTakeoutLaterConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithTakeoutLaterMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithTakeoutLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithTakeoutLaterConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithTakeoutLaterConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithTakeoutLaterMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithTakeoutLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+					String takeOutConfig = APIMethods.takeOutConfig();
+
+					String hideTakeOutConfig = APIMethods.hideTakeOutConfig();
+
+					if (takeOutConfig == "true") {
+
+						if (hideTakeOutConfig == "false") {
+
+							if (laterConfig == true) {
+
+								later();
+
+							}
+						}
+
+					}
+				} else if (nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithCurbsideLaterConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithCurbsideLaterMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithCurbsideLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithCurbsideLaterConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithCurbsideLaterConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithCurbsideLaterMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithCurbsideLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+					String curbsideConfig = APIMethods.curbsideConfig();
+
+					if (curbsideConfig == "true") {
+
+						if (laterConfig == true) {
+
+							later();
+						}
+					}
+				}
+
+				else if (nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithDeliveryLaterConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithDeliveryLaterMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithDeliveryLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithDeliveryLaterConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithDeliveryLaterConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithDeliveryLaterMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithDeliveryLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+					String deliveryConfig = APIMethods.deliveryConfig();
+
+					if (deliveryConfig == "true") {
+
+						if (laterConfig == true) {
+
+							later();
+
+						}
+
+					}
+
+				}
+			}
+		 else {
+
+			boolean laterOrderTypeDescriptionStringBoolean = commonMethods.elementFoundOrNotPopUp(laterDescriptionText);
+
+			if (laterOrderTypeDescriptionStringBoolean == true) {
+
+				later();
+			}
+
+		}
+		}
+	}
+	/**
+	 * @Class_Name ReOrder
+	 * @Method_Name asap
+	 * @Description Contains code to execute if ASAP order time if appears in the screen
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	private void asap() throws Throwable {
+
+		CommonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		WebElement asapLabel = driver.findElement(By.xpath(OrderNowLocators.ORDER_NOW_LOGGEDIN_ASAP_TEXT_XPATHL));
+
+		asapLabel.click();
+
+		items();
+
+		CommonMethods.switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+	}
+	/**
+	 * @Class_Name ReOrder
+	 * @Method_Name later
+	 * @Description Contains code to execute if later order time if appears in the screen
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void later() throws Throwable {
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+				.assignCategory("Re-Order");
+
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		ExtentTest nextGenReOrder = test.createNode("NextGenReOrder");
+
+		String laterDescriptionNotAvailText = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_LATER_DATE_UNAVAILABLE_STRING);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		CommonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		WebElement laterLabel = driver.findElement(By.xpath(OrderNowLocators.ORDER_NOW_LOGGEDIN_LATER_TEXT_XPATHL));
+
+		laterLabel.click();
+
+		CommonMethods.switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+		LocalDate currentDate = LocalDate.now();
+
+		LocalDate nextDate = currentDate.plusDays(1);
+
+		int nextDayOfMonth = nextDate.getDayOfMonth();
+
+		String todayDayName = nextDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+
+		CommonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		WebElement date = driver
+				.findElement(By.xpath("//*[contains(@content-desc,'" + nextDayOfMonth + ", " + todayDayName + "')]"));
+
+		date.click();
+
+		Thread.sleep(4000);
+
+		WebElement laterDateselactionOk = driver.findElement(By.xpath(OrderNowLocators.OK_BUTTON_XPATHL));
+
+		laterDateselactionOk.click();
+
+		boolean laterDescriptionNotAvailTextboolean = commonMethods.elementFoundOrNot(laterDescriptionNotAvailText);
+
+		if (!laterDescriptionNotAvailTextboolean == true) {
+
+			System.out.println(" select the time for the later order ");
+
+			commonMethods.elementFoundOrNot("time");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(2000);
+
+			FlutterElement capacityManagementTimeDropdownVk = find
+					.byValueKey(OrderNowLocators.CAPACITY_MANAGEMENT_DROPDOWN_VKL);
+
+			capacityManagementTimeDropdownVk.click();
+
+			FlutterElement capacityManagementTime2Vk = find.byValueKey(OrderNowLocators.CAPACITY_MANAGEMENT_TIME_2);
+
+			capacityManagementTime2Vk.click();
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(2000);
+
+			WebElement laterTimeSelection = driver.findElement(By.xpath(OrderNowLocators.APPLY_BUTTON_XAPTHL));
+
+			laterTimeSelection.click();
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(2000);
+
+			items();
+		}
+
+		else {
+
+			System.out.println(" Change date time & popup ");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(2000);
+
+			find.byValueKey(OrderNowLocators.CHANGE_DATE_TIME_POPUP_BUTTON_VKL).click();
+
+			String day = day();
+
+			int datee = date();
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(2000);
+
+			driver.findElement(By.xpath("//*[contains(@content-desc,'" + day + ", " + datee + "')]")).click();
+
+			WebElement laterDateselectionOk = driver.findElement(By.xpath(OrderNowLocators.OK_BUTTON_XPATHL));
+
+			laterDateselectionOk.click();
+
+			boolean laterDescriptionNotAvailTextboolean1 = commonMethods
+					.elementFoundOrNot(laterDescriptionNotAvailText);
+
+			if (laterDescriptionNotAvailTextboolean1 == true) {
+
+				System.out.println(" As we have checked the next two days from today's date : " + currentDate
+						+ " and for that later order is not available and hence terminating the Re-order execution");
+
+				nextGenReOrder.log(Status.FAIL, " As we have checked the next two days from today's date : "
+						+ currentDate
+						+ " and for that later order is not available and hence terminating the Re-order execution");
+
+				Thread.sleep(1500);
+
+				nextGenReOrder.addScreenCaptureFromBase64String(takeScreenshot(driver),
+						" As we have checked the next two days from today's date : " + currentDate
+								+ " and for that later order is not available and hence terminating the Re-order execution");
+
+				CommonMethods.switchContext("NATIVE_APP");
+
+				Thread.sleep(2000);
+
+				WebElement laterTimeSelection = driver
+						.findElement(By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+				laterTimeSelection.click();
+
+			} else {
+
+				System.out.println(" select the time for the later order ");
+
+				commonMethods.elementFoundOrNot("time");
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(2000);
+
+				FlutterElement capacityManagementTimeDropdownVk = find
+						.byValueKey(OrderNowLocators.CAPACITY_MANAGEMENT_DROPDOWN_VKL);
+
+				capacityManagementTimeDropdownVk.click();
+
+				FlutterElement capacityManagementTime2Vk = find.byValueKey(OrderNowLocators.CAPACITY_MANAGEMENT_TIME_2);
+
+				capacityManagementTime2Vk.click();
+
+				CommonMethods.switchContext("NATIVE_APP");
+
+				Thread.sleep(2000);
+
+				WebElement laterTimeSelection = driver.findElement(By.xpath(OrderNowLocators.APPLY_BUTTON_XAPTHL));
+
+				laterTimeSelection.click();
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(2000);
+
+				items();
+
+			}
+
+		}
+
+	}
+	 /* @Class_Name ReOrder
+	 * @Method_Name oneOrMoreNotAvailString
+	 * @Description Contains code to execute if ONE OR MORE items not available pop-up
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	private void oneOrMoreNotAvailString() throws InterruptedException {
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		commonMethods.stringsReader(reOrderLocators.REORDER_TITLE_TEXT_STRING);
+
+		String basketHeaderTitleText = commonMethods.stringsReader(basketLocators.BASKET_HEADER_TITLE);
+
+		String reorderOneOrMoreNotAvailContinueString = commonMethods
+				.stringsReader(dashBoardLocators.OD_RE_ORDER_ONE_OR_MORE_ITEMS_NOT_AVAILABLE_CONTINUE_STRING);
+		String reorderOneOrMoreNotAvailCancelString = commonMethods
+				.stringsReader(dashBoardLocators.OD_RE_ORDER_ONE_OR_MORE_ITEMS_NOT_AVAILABLE_CANCEL_STRING);
+		String reorderOneOrMoreNotAvailDescriptionString = commonMethods
+				.stringsReader(dashBoardLocators.OD_RE_ORDER_ONE_OR_MORE_ITEMS_NOT_AVAILABLE_DESCRIPTION_STRING);
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+				.assignCategory("Re-Order");
+
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		ExtentTest nextGenReOrder = test.createNode("NextGenReOrder");
+
+		CommonMethods.switchContext("FLUTTER");
+
+		FlutterElement popUpDescriptionVk = find
+				.byValueKey(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_DESCRIPTION_VK);
+
+		String popUpDescriptionTextVk = popUpDescriptionVk.getText();
+
+		System.out.println(" One or more items not available with the text in the UI is : " + popUpDescriptionTextVk);
+
+		FlutterElement popUpOneOrMoreNotAvailDescriptionVk = find
+				.byValueKey(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_DESCRIPTION_VK);
+
+		String popUpOneOrMoreNotAvailDescriptionTextVk = popUpOneOrMoreNotAvailDescriptionVk.getText();
+		
+		commonMethods.assertMethod(popUpOneOrMoreNotAvailDescriptionTextVk, reorderOneOrMoreNotAvailDescriptionString, " One or more items not available pop up description ",nextGenReOrder);
+
+		FlutterElement popUpCancelButtonVk = find
+				.byValueKey(dashBoardLocators.OD_ORDER_AGAIN_FEW_ITEM_UNAVAILABLE_CANCEL_VK);
+
+		String popUpCancelButtonTextVk = popUpCancelButtonVk.getText();
+		
+		commonMethods.assertMethod(popUpCancelButtonTextVk, reorderOneOrMoreNotAvailCancelString, " One or more items not available pop up cancel button ",nextGenReOrder);
+
+		FlutterElement popUpContinueButtonVk = find
+				.byValueKey(dashBoardLocators.OD_ORDER_AGAIN_FEW_ITEM_UNAVAILABLE_CONTINUE_VK);
+
+		String popUpContinueButtonTextVk = popUpContinueButtonVk.getText();
+		
+		commonMethods.assertMethod(popUpContinueButtonTextVk, reorderOneOrMoreNotAvailContinueString, " One or more items not available pop up continue button ",nextGenReOrder);
+
+		popUpContinueButtonVk.click();
+
+		boolean basketHeaderTitleTextBoolean = commonMethods.elementFoundOrNot(basketHeaderTitleText);
+
+		if (basketHeaderTitleTextBoolean == true) {
+
+			FlutterElement basketHeaderVk = find.byValueKey(basketLocators.BASKET_HEADER_TITLE);
+
+			String basketHeaderTextVk = basketHeaderVk.getText();
+			
+			commonMethods.assertMethod(basketHeaderTextVk, basketHeaderTitleText, " after tapping the continue button in one or more item not available pop up it has been navigated to basket screen ",nextGenReOrder);
+
+		}
+
+	}
+	 /* @Class_Name ReOrder
+	 * @Method_Name itemsNoLongerAvailable
+	 * @Description Contains code to execute if ITEMS NO LONGER AVAILABLE pop-up items not available pop-up
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	private void itemsNoLongerAvailable() throws InterruptedException {
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		String itemNotAvailableString = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_DESCRIPTION_ITEM_NOT_AVAILABLE_STRING);
+
+		String popUpOkButton = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_OK_BUTTON_STRING);
+
+		commonMethods.stringsReader(reOrderLocators.REORDER_TITLE_TEXT_STRING);
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+				.assignCategory("Re-Order");
+
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		ExtentTest nextGenReOrder = test.createNode("NextGenReOrder");
+
+		CommonMethods.switchContext("FLUTTER");
+
+		FlutterElement popUpDescriptionItemNotAvailVk = find
+				.byValueKey(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_DESCRIPTION_VK);
+
+		String popUpDescriptionItemNotAvailTextVk = popUpDescriptionItemNotAvailVk.getText();
+
+		System.out.println(
+				" The item is no longer available with the text in the UI is : " + popUpDescriptionItemNotAvailTextVk);
+		
+		commonMethods.assertMethod(popUpDescriptionItemNotAvailTextVk,itemNotAvailableString," items no longer available text ",nextGenReOrder);
+
+		FlutterElement popUpOkButtonVk = find
+				.byValueKey(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_OK_BUTTON_VK);
+
+		String popUpOkButtonTextVk = popUpOkButtonVk.getText();
+		
+		commonMethods.assertMethod(popUpOkButtonTextVk,popUpOkButton," items no longer available Ok button ",nextGenReOrder);
+
+		popUpOkButtonVk.click();
+
+	}
+	 /* @Class_Name ReOrder
+		 * @Method_Name switchedOrder
+		 * @Description Contains code to execute if SWITCH ORDER pop-up items not available pop-up
+		 * @return void
+		 * @author Lalith Kishore Ravi
+		 * @throws Exception
+		 */
+	private void switchedOrder() throws InterruptedException {
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		String basketHeaderTitleText = commonMethods.stringsReader(basketLocators.BASKET_HEADER_TITLE);
+
+		String orderSwitchedToString = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_SWITCHED_TO_STRING);
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+				.assignCategory("Re-Order");
+
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		ExtentTest nextGenReOrder = test.createNode("NextGenReOrder");
+
+		CommonMethods.switchContext("FLUTTER");
+
+		FlutterElement popUpDescriptionSwitchedVk = find
+				.byValueKey(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_DESCRIPTION_VK);
+
+		String popUpDescriptionSwitchedTextVk = popUpDescriptionSwitchedVk.getText();
+
+		System.out.println(
+				" The placed order type is not available & it's switched to other type with the text in the UI is : "
+						+ popUpDescriptionSwitchedTextVk);
+		
+		commonMethods.assertMethod(popUpDescriptionSwitchedTextVk,orderSwitchedToString," Order switched to ",nextGenReOrder);
+
+		FlutterElement popUpOkButtonVk = find
+				.byValueKey(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_OK_BUTTON_VK);
+
+		popUpOkButtonVk.click();
+
+		boolean basketHeaderTitleTextBoolean = commonMethods.elementFoundOrNot(basketHeaderTitleText);
+
+		if (basketHeaderTitleTextBoolean == true) {
+
+			FlutterElement basketHeaderVk = find.byValueKey(basketLocators.BASKET_HEADER_TITLE);
+
+			String basketHeaderTextVk = basketHeaderVk.getText();
+			
+			commonMethods.assertMethod(basketHeaderTextVk,basketHeaderTitleText," after tapping the continue button in one or more item not available pop up it has been navigated to basket screen ",nextGenReOrder);
+
+		}
+
+	}
+	 /* @Class_Name ReOrder
+		 * @Method_Name restaurantNotAcceptingOrders
+		 * @Description Contains code to execute if restaurantNotAcceptingOrders pop-up items not available pop-up
+		 * @return void
+		 * @author Lalith Kishore Ravi
+		 * @throws Exception
+		 */
+	private void restaurantNotAcceptingOrders() throws InterruptedException {
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		String popUpOkButton = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_OK_BUTTON_STRING);
+
+		String restaurantNotAcceptingString = commonMethods.stringsReader(
+				dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_RESTAURANT_NOT_ACCEPTING_BUTTON_STRING);
+
+		commonMethods.stringsReader(reOrderLocators.REORDER_TITLE_TEXT_STRING);
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+				.assignCategory("Re-Order");
+
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		ExtentTest nextGenReOrder = test.createNode("NextGenReOrder");
+
+		CommonMethods.switchContext("FLUTTER");
+
+		FlutterElement popUpDescriptionRestaurantNotAcceptingOrdersVk = find
+				.byValueKey(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_DESCRIPTION_VK);
+
+		String popUpDescriptionRestaurantNotAcceptingOrdersTextVk = popUpDescriptionRestaurantNotAcceptingOrdersVk
+				.getText();
+
+		System.out.println(" The restaurant is not accepting orders with the text in the UI is : "
+				+ popUpDescriptionRestaurantNotAcceptingOrdersTextVk);
+		
+		commonMethods.assertMethod(popUpDescriptionRestaurantNotAcceptingOrdersTextVk, restaurantNotAcceptingString, " restaurant not accepting orders ",nextGenReOrder);
+
+		FlutterElement popUpOkButtonVk = find
+				.byValueKey(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_OK_BUTTON_VK);
+
+		String popUpOkButtonTextVk = popUpOkButtonVk.getText();
+		
+		commonMethods.assertMethod(popUpOkButtonTextVk, popUpOkButton, " restaurant is not accepting orders Ok button ",nextGenReOrder);
+
+		popUpOkButtonVk.click();
+
+	}
+	 /* @Class_Name ReOrder
+	 * @Method_Name restaurantIsClosed
+	 * @Description Contains code to execute if restaurantIsClosed pop-up items not available pop-up
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	private void restaurantIsClosed() throws InterruptedException {
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		String popUpOkButton = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_OK_BUTTON_STRING);
+
+		String restaurantClosedString = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_RESTAURANT_CLOSED_STRING);
+
+		commonMethods.stringsReader(reOrderLocators.REORDER_TITLE_TEXT_STRING);
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+				.assignCategory("Re-Order");
+
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		ExtentTest nextGenReOrder = test.createNode("NextGenReOrder");
+
+		CommonMethods.switchContext("FLUTTER");
+
+		FlutterElement popUpDescriptionRestaurantClosedVk = find
+				.byValueKey(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_DESCRIPTION_VK);
+
+		String popUpDescriptionRestaurantClosedTextVk = popUpDescriptionRestaurantClosedVk.getText();
+
+		System.out.println(
+				" The restaurant is closed with the text in the UI is : " + popUpDescriptionRestaurantClosedTextVk);
+		
+		commonMethods.assertMethod(popUpDescriptionRestaurantClosedTextVk, restaurantClosedString, " restaurant is closed text ",nextGenReOrder);
+
+		FlutterElement popUpOkButtonVk = find
+				.byValueKey(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_OK_BUTTON_VK);
+
+		String popUpOkButtonTextVk = popUpOkButtonVk.getText();
+		
+		commonMethods.assertMethod(popUpOkButtonTextVk, popUpOkButton, " restaurant is closed Ok button ",nextGenReOrder);
+
+		popUpOkButtonVk.click();
+
+	}
+	 /* @Class_Name ReOrder
+		 * @Method_Name changeToAlternateOrderType
+		 * @Description Contains code to execute if changeToAlternateOrderType pop-up items not available pop-up
+		 * @return void
+		 * @author Lalith Kishore Ravi
+		 * @throws Exception
+		 */
+	private void changeToAlternateOrderType() throws GeneralSecurityException, IOException, InterruptedException {
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+				.assignCategory("Re-Order");
+
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		String asapText = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_ASAP_STRING);
+		String laterText = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_LATER_STRING);
+
+		test.createNode("NextGenReOrder");
+
+		BaseClass bc = new BaseClass();
+
+		List<String> selectedFlow = bc.configuration();
+
+		String nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest = selectedFlow.get(9);
+
+		String nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest = selectedFlow.get(10);
+
+		String nextGenOrderNowFlowWithCurbsideAsapConfiguredGuest = selectedFlow.get(11);
+
+		String nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest = selectedFlow.get(12);
+
+		String nextGenOrderNowFlowWithDeliveryAsapConfiguredGuest = selectedFlow.get(13);
+
+		String nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest = selectedFlow.get(14);
+
+		String nextGenLocationListFlowWithTakeoutAsapConfiguredGuest = selectedFlow.get(15);
+
+		String nextGenLocationListFlowWithTakeoutLaterConfiguredGuest = selectedFlow.get(16);
+
+		String nextGenLocationListFlowWithCurbsideAsapConfiguredGuest = selectedFlow.get(17);
+
+		String nextGenLocationListFlowWithCurbsideLaterConfiguredGuest = selectedFlow.get(18);
+
+		String nextGenLocationListFlowWithDeliveryAsapConfiguredGuest = selectedFlow.get(19);
+
+		String nextGenLocationListFlowWithDeliveryLaterConfiguredGuest = selectedFlow.get(20);
+
+		String nextGenOrderNowFlowWithTakeoutAsapConfigured = selectedFlow.get(64);
+
+		String nextGenOrderNowFlowWithTakeoutLaterConfigured = selectedFlow.get(65);
+
+		String nextGenOrderNowFlowWithCurbsideAsapConfigured = selectedFlow.get(66);
+
+		String nextGenOrderNowFlowWithCurbsideLaterConfigured = selectedFlow.get(67);
+
+		String nextGenOrderNowFlowWithDeliveryAsapConfigured = selectedFlow.get(68);
+
+		String nextGenOrderNowFlowWithDeliveryLaterConfigured = selectedFlow.get(69);
+
+		String nextGenOrderNowFlowWithTakeoutAsapMapViewConfigured = selectedFlow.get(70);
+
+		String nextGenOrderNowFlowWithTakeoutLaterMapViewConfigured = selectedFlow.get(71);
+
+		String nextGenOrderNowFlowWithCurbsideAsapMapViewConfigured = selectedFlow.get(72);
+
+		String nextGenOrderNowFlowWithCurbsideLaterMapViewConfigured = selectedFlow.get(73);
+
+		String nextGenOrderNowFlowWithDeliveryAsapMapViewConfigured = selectedFlow.get(74);
+
+		String nextGenOrderNowFlowWithDeliveryLaterMapViewConfigured = selectedFlow.get(75);
+
+		String nextGenOrderNowFlowWithTakeoutAsapStoreMapViewConfigured = selectedFlow.get(76);
+
+		String nextGenOrderNowFlowWithTakeoutLaterStoreMapViewConfigured = selectedFlow.get(77);
+
+		String nextGenOrderNowFlowWithCurbsideAsapStoreMapViewConfigured = selectedFlow.get(78);
+
+		String nextGenOrderNowFlowWithCurbsideLaterStoreMapViewConfigured = selectedFlow.get(79);
+
+		String nextGenOrderNowFlowWithDeliveryAsapStoreMapViewConfigured = selectedFlow.get(80);
+
+		String nextGenOrderNowFlowWithDeliveryLaterStoreMapViewConfigured = selectedFlow.get(81);
+
+		String nextGenLocationListFlowWithTakeoutAsapConfigured = selectedFlow.get(82);
+
+		String nextGenLocationListFlowWithTakeoutLaterConfigured = selectedFlow.get(83);
+
+		String nextGenLocationListFlowWithCurbsideAsapConfigured = selectedFlow.get(84);
+
+		String nextGenLocationListFlowWithCurbsideLaterConfigured = selectedFlow.get(85);
+
+		String nextGenLocationListFlowWithDeliveryAsapConfigured = selectedFlow.get(86);
+
+		String nextGenLocationListFlowWithDeliveryLaterConfigured = selectedFlow.get(87);
+
+		String nextGenLocationListFlowWithTakeoutAsapMapViewConfigured = selectedFlow.get(88);
+
+		String nextGenLocationListFlowWithTakeoutLaterMapViewConfigured = selectedFlow.get(89);
+
+		String nextGenLocationListFlowWithCurbsideAsapMapViewConfigured = selectedFlow.get(90);
+
+		String nextGenLocationListFlowWithCurbsideLaterMapViewConfigured = selectedFlow.get(91);
+
+		String nextGenLocationListFlowWithDeliveryAsapMapViewConfigured = selectedFlow.get(92);
+
+		String nextGenLocationListFlowWithDeliveryLaterMapViewConfigured = selectedFlow.get(93);
+
+		String nextGenLocationListFlowWithTakeoutAsapStoreMapViewConfigured = selectedFlow.get(94);
+
+		String nextGenLocationListFlowWithTakeoutLaterStoreMapViewConfigured = selectedFlow.get(95);
+
+		String nextGenLocationListFlowWithCurbsideAsapStoreMapViewConfigured = selectedFlow.get(96);
+
+		String nextGenLocationListFlowWithCurbsideLaterStoreMapViewConfigured = selectedFlow.get(97);
+
+		String nextGenLocationListFlowWithDeliveryAsapStoreMapViewConfigured = selectedFlow.get(98);
+
+		String nextGenLocationListFlowWithDeliveryLaterStoreMapViewConfigured = selectedFlow.get(99);
+
+		List<String> addNewAddress = bc.odFlow();
+
+		List<String> ngaHsStoreAddress = bc.ngaHsStoreAddress();
+
+		String pxLabAddress = addNewAddress.get(5);
+
+		addNewAddress.get(5);
+
+		addNewAddress.get(6);
+
+		addNewAddress.get(7);
+
+		addNewAddress.get(8);
+
+		String ngaHsAddress = ngaHsStoreAddress.get(1);
+
+		ngaHsStoreAddress.get(1);
+
+		ngaHsStoreAddress.get(2);
+
+		ngaHsStoreAddress.get(3);
+
+		ngaHsStoreAddress.get(4);
+
+		if (nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithTakeoutAsapConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithTakeoutAsapMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithTakeoutAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithTakeoutAsapConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithTakeoutAsapConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithTakeoutAsapMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithTakeoutAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+			String takeOutConfig = APIMethods.takeOutConfig();
+
+			String hideTakeOutConfig = APIMethods.hideTakeOutConfig();
+
+			APIMethods.curbsideConfig();
+
+			String deliveryConfig = APIMethods.deliveryConfig();
+
+			if (takeOutConfig == "true") {
+
+				if (hideTakeOutConfig == "true") {
+
+					FlutterElement takeoutOrderTypeButtonVk = find.byValueKey(OrderNowLocators.ORDERTYPE_TAKEOUT_VKL);
+
+					takeoutOrderTypeText = takeoutOrderTypeButtonVk.getText();
+
+					takeoutOrderTypeButtonVk.click();
+
+					boolean asapConfig = commonMethods.elementFoundOrNot(asapText);
+
+					if (asapConfig == true) {
+
+						FlutterElement asapOrderButtonVk = find.byValueKey(OrderNowLocators.ORDER_ASAP_TEXT_VKL);
+
+						asapOrderTimeText = asapOrderButtonVk.getText();
+
+						asapOrderButtonVk.click();
+
+					}
+
+					else if (asapConfig == false) {
+
+//				CapacityManagement.ngaCapacityManagement(orderType, orderTime, orderId);
+
+					}
+				}
+
+				else if (hideTakeOutConfig == "false") {
+
+					FlutterElement curbSideOrderTypeButtonVk = find.byValueKey(OrderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+
+					curbSideOrderTypeButtonVk.click();
+
+					boolean asapConfig = commonMethods.elementFoundOrNot(asapText);
+
+					if (asapConfig == true) {
+
+						FlutterElement asapOrderButtonVk = find.byValueKey(OrderNowLocators.ORDER_ASAP_TEXT_VKL);
+
+						asapOrderTimeText = asapOrderButtonVk.getText();
+
+						asapOrderButtonVk.click();
+
+					}
+
+					else if (asapConfig == false) {
+
+//					CapacityManagement.ngaCapacityManagement(orderType, orderTime, orderId);
+
+					}
+				}
+			}
+
+			else if (takeOutConfig == "false") {
+
+				if (deliveryConfig == "true") {
+
+					if (storeCode.equals("PXLAB")) {
+
+						boolean pxLabAddressFoundOrNot = commonMethods.elementFoundOrNot(pxLabAddress);
+
+						if (pxLabAddressFoundOrNot == true) {
+
+							commonMethods.scrollAndTap(pxLabAddress);
+						}
+
+						else {
+
+							// add new address test script
+						}
+
+					}
+
+					else if (storeCode.equals("NGAHS01")) {
+
+						boolean ngaHsAddressFoundOrNot = commonMethods.elementFoundOrNot(ngaHsAddress);
+
+						if (ngaHsAddressFoundOrNot == true) {
+
+							commonMethods.scrollAndTap(ngaHsAddress);
+						}
+
+						else {
+
+							// add new address test script
+						}
+
+					}
+
+				} else {
+
+					System.out.println(" No order type is available to order at this time ");
+
+				}
+
+			}
+
+		}
+
+		else if (nextGenOrderNowFlowWithCurbsideAsapConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithCurbsideAsapConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithCurbsideAsapMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithCurbsideAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithCurbsideAsapConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithCurbsideAsapConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithCurbsideAsapMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithCurbsideAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+		}
+
+		else if (nextGenOrderNowFlowWithDeliveryAsapConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithDeliveryAsapConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithDeliveryAsapMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithDeliveryAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithDeliveryAsapConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithDeliveryAsapConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithDeliveryAsapMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithDeliveryAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+		}
+
+		else if (nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithTakeoutLaterConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithTakeoutLaterMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithTakeoutLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithTakeoutLaterConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithTakeoutLaterConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithTakeoutLaterMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithTakeoutLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+			String takeOutConfig = APIMethods.takeOutConfig();
+
+			String hideTakeOutConfig = APIMethods.hideTakeOutConfig();
+
+			APIMethods.curbsideConfig();
+
+			String deliveryConfig = APIMethods.deliveryConfig();
+
+			if (takeOutConfig == "true") {
+
+				if (hideTakeOutConfig == "false") {
+
+					FlutterElement takeoutOrderTypeButtonVk = find.byValueKey(OrderNowLocators.ORDERTYPE_TAKEOUT_VKL);
+
+					takeoutOrderTypeText = takeoutOrderTypeButtonVk.getText();
+
+					takeoutOrderTypeButtonVk.click();
+
+					boolean laterConfig = commonMethods.elementFoundOrNot(laterText);
+
+					if (laterConfig == true) {
+
+//				CapacityManagement.ngaCapacityManagement(orderType, orderTime, orderId);
+
+					}
+
+					else if (laterConfig == false) {
+
+						FlutterElement asapOrderButtonVk = find.byValueKey(OrderNowLocators.ORDER_ASAP_TEXT_VKL);
+
+						asapOrderTimeText = asapOrderButtonVk.getText();
+
+						asapOrderButtonVk.click();
+
+					}
+				} else if (hideTakeOutConfig == "true") {
+
+					FlutterElement curbSideOrderTypeButtonVk = find.byValueKey(OrderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+
+					curbSideOrderTypeButtonVk.click();
+
+					boolean laterConfig = commonMethods.elementFoundOrNot(laterText);
+
+					if (laterConfig == true) {
+
+//					CapacityManagement.ngaCapacityManagement(orderType, orderTime, orderId);
+
+					}
+
+					else if (laterConfig == false) {
+
+					}
+				}
+			}
+
+			else if (takeOutConfig == "false") {
+
+				if (deliveryConfig == "true") {
+
+					if (storeCode.equals("PXLAB")) {
+
+						boolean pxLabAddressFoundOrNot = commonMethods.elementFoundOrNot(pxLabAddress);
+
+						if (pxLabAddressFoundOrNot == true) {
+
+							commonMethods.scrollAndTap(pxLabAddress);
+						}
+
+						else {
+
+							// add new address test script
+						}
+
+					}
+
+					else if (storeCode.equals("NGAHS01")) {
+
+						boolean ngaHsAddressFoundOrNot = commonMethods.elementFoundOrNot(ngaHsAddress);
+
+						if (ngaHsAddressFoundOrNot == true) {
+
+							commonMethods.scrollAndTap(ngaHsAddress);
+						}
+
+						else {
+
+							// add new address test script
+						}
+
+					}
+
+				}
+
+			}
+
+		} else if (nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithCurbsideLaterConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithCurbsideLaterMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithCurbsideLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithCurbsideLaterConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithCurbsideLaterConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithCurbsideLaterMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithCurbsideLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+		}
+
+		else if (nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithDeliveryLaterConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithDeliveryLaterMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithDeliveryLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithDeliveryLaterConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithDeliveryLaterConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithDeliveryLaterMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithDeliveryLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+		}
+
+	}
+	 /* @Class_Name ReOrder
+	 * @Method_Name recentOrdersCount
+	 * @Description Contains code to GET recentOrdersCount
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public int recentOrdersCount() throws GeneralSecurityException, IOException, InterruptedException {
+
+		BaseClass bc = new BaseClass();
+
+		List<String> givenStringCode = bc.appConfiguration();
+
+		String storeCode = givenStringCode.get(13);
+
+		String merchantId = givenStringCode.get(8);
+
+		io.restassured.RestAssured.baseURI = "https://opendining.net/api/v1/merchant/" + merchantId + "/restaurants/"
+				+ storeCode + "/menu/tier?";
+		Map<String, String> paramsMenu = new HashMap<>();
+		paramsMenu.put("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+		paramsMenu.put("show_unavailable", "false");
+
+		paramsMenu.put("include_combo", "true");
+		paramsMenu.put("merchant_id", merchantId);
+		paramsMenu.put("provider", "px");
+//		paramsMenu.put("order_date", "11-01-2024");
+//		paramsMenu.put("eta", "5.00 am");
+
+		RequestSpecification httpRequestMenu = io.restassured.RestAssured.given();
+		RequestSpecification responseBodyMenu = httpRequestMenu.queryParams(paramsMenu);
+
+		Response responseMenu = responseBodyMenu.get("");
+
+		new JSONObject(responseMenu.body().asString());
+
+		List<String> appConfiguration = bc.appConfiguration();
+
+		userName = appConfiguration.get(6);
+		passWord = appConfiguration.get(7);
+		merchantId = appConfiguration.get(8);
+		cardTemplateCode = appConfiguration.get(9);
+		storeGroupCode = appConfiguration.get(10);
+		clientId = appConfiguration.get(11);
+		integrationDetail = appConfiguration.get(12);
+
+		storeCode = appConfiguration.get(13);
+
+		String jsonString = "{\n" + "    \"fields\": {\n" + "        \"username\": \"" + userName + "\",\n"
+				+ "        \"password\": \"" + passWord + "\"\n" + "    },\n" + "    \"cardTemplateCode\": \""
+				+ cardTemplateCode + "\",\n" + "    \"scope\": \"user_read account_read account_write user_write\",\n"
+				+ "    \"merchantId\": \"" + merchantId + "\",\n"
+				+ "    \"grant_type\": \"http:\\/\\/paytronix.com\\/oauth\\/fieldset\",\n"
+				+ "    \"authentication\": \"anonymous\",\n"
+				+ "    \"access_token\": \"VDc_p1vU2AaPShcFTWcdX9BqRsaFf9upuMP7epvhWS\",\n" + "    \"client_id\": \""
+				+ clientId + "\"\n" + "}";
+
+		RequestSpecification request = io.restassured.RestAssured.given();
+
+		request.contentType(ContentType.JSON);
+
+		request.baseUri("https://www.train.paytronix.com:1283/rest/23.8/oauth/requestGuestToken.json");
+
+		request.body(jsonString);
+		Response response = request.post();
+		ValidatableResponse validatableResponse = response.then();
+		validatableResponse.statusCode(200);
+		JSONObject jObj = new JSONObject(response.body().asString());
+		accessTokenGen = jObj.optString("access_token");
+		printedCardNumberResponse = jObj.optString("printedCardNumber");
+
+		String json = "{\n" + "    \"thirdPartyIntegration\": \"lJI1mRVajw4FmFrNqOxEqFU_3QpH2HwpBSdpnt1m97\",\n"
+				+ "    \"response_type\": \"code\",\n"
+				+ "    \"scope\": \"user_read user_write account_read account_write\",\n" + "    \"merchantId\": "
+				+ merchantId + ",\n" + "    \"authentication\": \"oauth\",\n" + "    \"username\": \"" + userName
+				+ "\",\n"
+				+ "    \"integrationDetail\": \"os=iOS|osversion=14.7.1|device=iPhone|merchantId=60019|integrator=Paytronix|version=REST:14.15 - API:23.15-Rose(Branded)-SNAPSHOT - APP:2023072101\",\n"
+				+ "    \"access_token\": \"" + accessTokenGen + "\",\n"
+				+ "    \"client_id\": \"y5mjgC9v2raWoMkQ_1jJgZhMEinFx9Zl4fb7105Slp\"\n" + "}";
+
+		RequestSpecification requestAuth = io.restassured.RestAssured.given();
+		requestAuth.contentType(ContentType.JSON);
+		requestAuth.baseUri("https://www.train.paytronix.com:1283/rest/14.15/oauth/requestAuthorizationGrant.json");
+		requestAuth.body(json);
+		Response responseAuth = requestAuth.post();
+		ValidatableResponse validatableResponseAuth = responseAuth.then();
+		validatableResponseAuth.statusCode(200);
+		JSONObject jObjAuth = new JSONObject(responseAuth.body().asString());
+		authorizationGrant = jObjAuth.optString("authorizationGrant");
+
+		io.restassured.RestAssured.baseURI = "https://opendining.net/api/v1/account/orders?";
+// Construct the query parameters
+		Map<String, String> parametersRecent = new HashMap<>();
+		parametersRecent.put("key", key);
+		parametersRecent.put("access_token", authorizationGrant);
+		parametersRecent.put("merchant_id", merchantId);
+		parametersRecent.put("printed_card_number", printedCardNumberResponse);
+		parametersRecent.put("provider", provider);
+		RequestSpecification httpReqRecent = io.restassured.RestAssured.given();
+		RequestSpecification responseRecent = httpReqRecent.queryParams(parametersRecent);
+		Response respRecent = responseRecent.get("");
+		JSONArray jsonObjectRecent = new JSONArray(respRecent.body().asString());
+
+		int recentOrdersLength = jsonObjectRecent.length();
+
+		return recentOrdersLength;
+	}
+	 /* @Class_Name ReOrder
+	 * @Method_Name date
+	 * @Description Contains code to  get the date
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	@Test
+	private int date() {
+
+		LocalDate currentDate = LocalDate.now();
+
+		LocalDate dayAfterNext = currentDate.plusDays(2);
+
+		int day = dayAfterNext.getDayOfMonth();
+
+		System.out.println(day);
+
+		return day;
+
+	}
+	 /* @Class_Name ReOrder
+	 * @Method_Name day
+	 * @Description Contains code to get the day
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	@Test
+	private String day() {
+
+		LocalDate today = LocalDate.now();
+
+		LocalDate dayAfterTomorrow = today.plusDays(2);
+		String tomorrowDayName = dayAfterTomorrow.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+		System.out.println("The day after tomorrow is: " + tomorrowDayName);
+
+		return tomorrowDayName;
+
+	}
+	 /* @Class_Name ReOrder
+	 * @Method_Name capitalizeFirstLetter
+	 * @Description Contains code to capitalizeFirstLetter
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public static String capitalizeFirstLetter(String str) {
+		if (str == null || str.isEmpty()) {
+			return str;
+		}
+		return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
+	}
+
+	 /* @Class_Name ReOrder
+	 * @Method_Name items
+	 * @Description Contains code to execute the edit item script with item list and place an order in order again component
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public static void items() throws Throwable {
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		BaseClass bass = new BaseClass();
+
+		List<String> takeoutFlowConfiguration = bass.appConfiguration();
+		List<String> appConfiguration = bass.appConfiguration();
+
+		merchantId = takeoutFlowConfiguration.get(8);
+		// storeCode = takeoutFlowConfiguration.get(13);
+
+		String cardTemplateCode = appConfiguration.get(9);
+
+		 String userName = appConfiguration.get(6);
+ 
+		 String passWord = appConfiguration.get(7);
+ 		String storeCode = takeoutFlowConfiguration.get(13);
+
+		io.restassured.RestAssured.baseURI = "https://91qz6u58.apicdn.sanity.io/v2021-06-07/data/query/train?";
+		// Construct the query parameters
+		Map<String, String> parameters = new HashMap<>();
+		parameters.put("Authorization",
+				"Bearer sknhhVhBLBa8k3ZZKnX5eZuCzeI18ATJJ4t0Z0MgmJiMZYafbYCxCcjr7VlsHEXyJrI9f4MXSAhE7xStCL3wSyepk4LR2py9eoxKueCXQansBwcsQVE1DNk0VLLBN34uy7F91WRHVBVXydhR6jAT0HKtVt4yioIJY1LvWZ0VNXuYXvmnYct9");
+		parameters.put("Content-Type", "application/json");
+
+		RequestSpecification httpReqestContent = io.restassured.RestAssured.given();
+
+		RequestSpecification responseBodyCon = httpReqestContent.headers(parameters).queryParam("query",
+				"query=*[!(_id in path('drafts.**')) %26%26 (_type==\"dashboard\" %26%26 merchant_id==\"60019\")]{...,content[]{...,_type == \"imageList\" => {content[]->{...,\"image\": image.asset->}},_type == \"p97\" => {...,\"icon\": icon.asset->}}}");
+		cdnResponse = responseBodyCon.get("");
+
+		int statusCode = cdnResponse.getStatusCode();
+		if (statusCode == 200) {
+
+			System.out.println("CDN API response is success");
+
+		} else {
+			io.restassured.RestAssured.baseURI = "https://91qz6u58.api.sanity.io/v2021-06-07/data/query/train?query=";
+			// Construct the query parameters
+			Map<String, String> param = new HashMap<>();
+			param.put("Authorization",
+					"Bearer sknhhVhBLBa8k3ZZKnX5eZuCzeI18ATJJ4t0Z0MgmJiMZYafbYCxCcjr7VlsHEXyJrI9f4MXSAhE7xStCL3wSyepk4LR2py9eoxKueCXQansBwcsQVE1DNk0VLLBN34uy7F91WRHVBVXydhR6jAT0HKtVt4yioIJY1LvWZ0VNXuYXvmnYct9");
+			param.put("Content-Type", "application/json");
+
+			RequestSpecification httpReqestCont = io.restassured.RestAssured.given();
+
+			RequestSpecification responseContent = httpReqestCont.headers(parameters)
+					.queryParam("query", "*[!(_id in path('drafts.**')) && (_type==\"dashboard\" && merchant_id==\""
+							+ merchantId
+							+ "\")]{...,content[]{...,_type == \"imageList\" => {content[]->{...,\"image\": image.asset->}}}}");
+
+			cdnResponse = responseContent.get("");
+			System.out.println("Live API response is success");
+
+		}
+		JSONObject jsonObject = new JSONObject(cdnResponse.body().asString());
+		// List to store _type values
+
+		if (jsonObject.has("result")) {
+			JSONArray array1 = jsonObject.optJSONArray("result");
+			for (int i = 0; i < array1.length(); i++) {
+				JSONObject resultObject = array1.optJSONObject(i);
+				if (resultObject.has("content")) {
+					JSONArray array3 = resultObject.optJSONArray("content");
+					for (int j = 0; j < array3.length(); j++) {
+						JSONObject arrObject = array3.optJSONObject(j);
+
+						// Extract _type from the current object
+						String type = arrObject.optString("_type");
+						typeList.add(type);
+						System.out.println("The _type is: " + type);
+					}
+				}
+			}
+		}
+
+// Check if the list contains "purchaseAgain"
+		if (typeList.contains("purchaseAgain")) {
+
+			System.out.println("Show order again");
+		} else {
+			System.out.println("No order again");
+		}
+//to get the accessToken
+		getAccessToken = APIMethods.generateAccessToken(userName, passWord, cardTemplateCode, merchantId);
+
+		JSONObject jsonObject1 = new JSONObject(getAccessToken.getBody().asString());
+		String printedCard = jsonObject1.optString("printedCardNumber");
+
+		accessToken = jsonObject1.optString("access_token");
+		userName = jsonObject1.optString("username");
+		// to get the authorization token
+		authorizationGrantReq = APIMethods.generateAuthorizationGrant(accessToken, userName);
+		System.err.println(authorizationGrantReq);
+
+		io.restassured.RestAssured.baseURI = "https://opendining.net/api/v1/account/orders?";
+// Construct the query parameters
+		Map<String, String> parametersRecent = new HashMap<>();
+		parametersRecent.put("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+		parametersRecent.put("access_token", authorizationGrantReq);
+		parametersRecent.put("merchant_id", merchantId);
+		parametersRecent.put("printed_card_number", printedCard);
+		parametersRecent.put("provider", "px");
+		RequestSpecification httpReqRecent = io.restassured.RestAssured.given();
+		RequestSpecification responseRecent = httpReqRecent.queryParams(parametersRecent);
+		Response respRecent = responseRecent.get("");
+		JSONArray jsonObjectRecents = new JSONArray(respRecent.body().asString());
+//0,0
+		if (jsonObjectRecents != null && typeList.contains("purchaseAgain")) {
+
+			merchantId = takeoutFlowConfiguration.get(8);
+			// storeCode = takeoutFlowConfiguration.get(13);
+
+			// to get the accessToken
+			getAccessToken = APIMethods.generateAccessToken(userName, passWord, cardTemplateCode, merchantId);
+
+			JSONObject jsonObjectAcesstk = new JSONObject(getAccessToken.getBody().asString());
+			printedCard = jsonObjectAcesstk.optString("printedCardNumber");
+
+			accessToken = jsonObject1.optString("access_token");
+			userName = jsonObject1.optString("username");
+			// to get the authorization token
+			String authorizationGrantReq = APIMethods.generateAuthorizationGrant(accessToken, userName);
+			System.err.println(authorizationGrantReq);
+ 
+			String storeCodeConfig = takeoutFlowConfiguration.get(13);
+			
+			
+			//////// RECENT ORDERS API ///////////
+			
+			
+			// Set the base URI for the API
+			RestAssured.baseURI = "https://opendining.net/api/v1/account/orders";
+
+			// Construct the query parameters
+			Map<String, String> parametersRecent1 = new HashMap<>();
+			parametersRecent1.put("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+			parametersRecent1.put("access_token", authorizationGrantReq);
+			parametersRecent1.put("merchant_id", "60019");
+			parametersRecent1.put("printed_card_number", printedCard);
+			parametersRecent1.put("provider", "px");
+
+			// Make the API request
+			RequestSpecification httpReqRecent1 = RestAssured.given();
+			RequestSpecification responseRecent1 = httpReqRecent1.queryParams(parametersRecent1);
+			Response respRecent1 = responseRecent1.get();
+
+			// Parse the response
+			JSONArray jsonArrayRecent = new JSONArray(respRecent1.body().asString());
+
+			// Store unique item names and their ids along with store names, ids and
+			// store
+			// code values
+			Set<String> uniqueItems = new LinkedHashSet<>();
+			Set<String> seenNames = new LinkedHashSet<>();
+
+			for (int i = 0; i < jsonArrayRecent.length(); i++) {
+				JSONObject order = jsonArrayRecent.getJSONObject(i);
+				JSONArray items = order.getJSONArray("items");
+
+				String storeName = order.getString("name");
+				String storeId = order.getString("id");
+				String storeCodeValue = order.getString("px_store_code");
+				String restaurentId = order.getString("restaurant");
+				orderType = order.getString("type");
+
+				for (int j = 0; j < items.length(); j++) {
+					JSONObject item = items.getJSONObject(j);
+					String itemName = item.getString("name");
+					String itemId = item.getString("id");
+					String menuItemID = item.getString("menuitem");
+
+					if (!seenNames.contains(itemName)) {
+						seenNames.add(itemName);
+						uniqueItems.add(itemName + "|" + itemId + "|" + storeName + "|" + storeId + "|" + storeCodeValue
+								+ "|" + restaurentId + "|" + menuItemID + "|" + orderType);
+					}
+				}
+			}
+			// Print the first 3 unique item names and their ids along with store
+			// names, ids
+			// and store code values
+			int index = 0;
+			matchingIndex = -1;
+			String matchingItemName = null;
+			String matchingItemId = null;
+			String matchingStoreName = null;
+			String matchingStoreId = null;
+			String matchingStoreCode = null;
+			String matchingrestaurentId = null;
+			String matchingmenuItemID = null;
+			String matchingorderType = null;
+
+			int count = 0;
+
+			for (String item : uniqueItems) {
+				if (count >= 3)
+					break;
+				String[] parts = item.split("\\|");
+				String itemName = parts[0];
+				String itemId = parts[1];
+				String storeName = parts[2];
+				String storeId = parts[3];
+				String storeCodeValue = parts[4];
+				String restaurentId = parts[5];
+				menuItemID = parts[6];
+				orderType = parts[7];
+
+				System.out.println("Item name: " + itemName + ", Item ID: " + itemId + ", Store name: " + storeName
+						+ ", Store ID: " + storeId + ", Store Code: " + storeCodeValue + ", restaurentID: "
+						+ restaurentId + ", menuItem ID: " + menuItemID + ", order type: " + orderType);
+				count++;
+			}
+
+			// Check for a matching store code in the unique items
+			for (String item : uniqueItems) {
+				String[] parts = item.split("\\|");
+				String itemName = parts[0];
+				String itemId = parts[1];
+				String storeName = parts[2];
+				String storeId = parts[3];
+				String storeCodeValue = parts[4];
+				String restaurentId = parts[5];
+				menuItemID = parts[6];
+				orderType = parts[7];
+
+				// Check if storeCodeValue matches storeCodeConfig
+				if (storeCodeValue.equals(storeCodeConfig)) {
+					matchingIndex = index;
+
+					matchingItemName = itemName;
+					matchingItemId = itemId;
+					matchingStoreName = storeName;
+					matchingStoreId = storeId;
+					matchingStoreCode = storeCodeValue;
+					matchingrestaurentId = restaurentId;
+					matchingmenuItemID = menuItemID;
+					matchingorderType = orderType;
+					break; // Stop checking after the first match is found
+				}
+				index++;
+
+			}
+
+			// Print the matching item details if found
+			if (matchingItemName != null) {
+				System.out.println("Matching with the store code: ");
+				System.out.println("Matching Item name: " + matchingItemName);
+				System.out.println("Matching Item ID: " + matchingItemId);
+				System.out.println("Matching Store name: " + matchingStoreName);
+				System.out.println("Matching Store ID: " + matchingStoreId);
+				System.out.println("Matching Store Code: " + matchingStoreCode);
+				System.out.println("Matching Restaurent ID: " + matchingrestaurentId);
+				System.out.println("Matching menu item ID: " + matchingmenuItemID);
+				System.out.println("Matching order type : " + matchingorderType);
+				System.out.println("Matching Item Index: " + matchingIndex);
+
+				//////// RESTAURENT API ///////////
+
+				// Make the request to the restaurant API
+				String matchingRestaurantId = matchingrestaurentId;
+				RestAssured.baseURI = "https://opendining.net/api/v1/restaurants/" + matchingRestaurantId + "?";
+				System.out.println("Matching Restaurant ID: " + matchingRestaurantId);
+
+				// Construct the query parameters
+				Map<String, String> restaurantApiParams = new HashMap<>();
+				restaurantApiParams.put("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+
+				// Make the API request
+				RequestSpecification restaurantReq = RestAssured.given();
+				RequestSpecification responseRestaurantReq = restaurantReq.queryParams(restaurantApiParams);
+				Response responseRestaurantRequest = responseRestaurantReq.get();
+
+				// Parse the response
+				JSONObject restaurantData = new JSONObject(responseRestaurantRequest.body().asString());
+				boolean takeout = restaurantData.getBoolean("takeout");
+				boolean delivery = restaurantData.getBoolean("delivery");
+
+				// Print takeout and delivery information
+				System.out.println("Takeout: " + takeout);
+				System.out.println("Delivery: " + delivery);
+
+
+				//////// MENU TIER API ///////////
+
+				io.restassured.RestAssured.baseURI = "https://opendining.net/api/v1/merchant/" + merchantId
+						+ "/restaurants/" + storeCode + "/menu/tier?";
+				Map<String, String> paramsMenu = new HashMap<>();
+				paramsMenu.put("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+				paramsMenu.put("show_unavailable", "false");
+				paramsMenu.put("include_combo", "true");
+				paramsMenu.put("merchant_id", merchantId);
+				paramsMenu.put("provider", "px");
+//		paramsMenu.put("order_date", "11-01-2024");
+//		paramsMenu.put("eta", "5.00 am");
+
+				RequestSpecification httpRequestMenu = io.restassured.RestAssured.given();
+				RequestSpecification responseBodyMenu = httpRequestMenu.queryParams(paramsMenu);
+
+				Response responseMenu = responseBodyMenu.get("");
+				JSONObject jObjectMenu = new JSONObject(responseMenu.body().asString());
+				//////// ORDERS API ///////////
+
+				Map<String, String> orderapiParam = new HashMap<>();
+				orderapiParam.put("access_token", accessToken);
+
+				String Json1 = "{\n" + "    \"access_token\" : \"" + accessToken + "\",\n" + "    \"address\" : \"\",\n"
+						+ "    \"address_line_2\" : \"\",\n" + "    \"app\" : \"PXBA-iOS\",\n" + "    \"force\" : 1,\n"
+						+ "    \"merchant_id\" : 60019,\n" + "    \"printed_card_number\" : " + printedCard + ",\n"
+						+ "    \"provider\" : \"px\",\n" + "    \"restaurant_id\" : \"" + matchingRestaurantId + "\",\n"
+						+ "    \"type\" : \"" + orderType + "\",\n" + "    \"zip\" : \"\"\n" + "}";
+
+				RequestSpecification requestOrders = io.restassured.RestAssured.given();
+
+				RequestSpecification parameterReq = requestOrders.queryParam("key",
+						"6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+
+				parameterReq.contentType(ContentType.JSON);
+
+				parameterReq.baseUri("https://opendining.net/api/v1/orders?");
+
+				parameterReq.body(Json1);
+				Response responseOrders = parameterReq.post();
+				ValidatableResponse validatableOrdersResponse = responseOrders.then();
+
+				validatableOrdersResponse.statusCode(200);
+				JSONObject jObjOrders = new JSONObject(responseOrders.body().asString());
+				orderId = jObjOrders.optString("order_id");
+				System.out.println("the order id is" + orderId);
+
+				/////// menu items api //////////
+
+				io.restassured.RestAssured.baseURI = "https://opendining.net/api/v1/menuitems/" + menuItemID + "?";
+				Map<String, String> menuParam = new HashMap<>();
+				menuParam.put("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+
+				RequestSpecification htttpMenuParam = io.restassured.RestAssured.given();
+				RequestSpecification responsemenuParam = htttpMenuParam.queryParams(menuParam);
+
+				Response respMenuParam = responsemenuParam.get("");
+
+				System.err.println("icon click");
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(2000);
+				// basket screen item edit icon click
+				FlutterElement basketEditIcon = find.byValueKey(basketLocators.BASKET_EDIT_ITEM_ICON_VKL + "0");
+
+				basketEditIcon.click();
+
+				FlutterElement basketEditYesButton = find.byValueKey(basketLocators.BASKET_ITEM_DELETE_YES_VK);
+
+				basketEditYesButton.click();
+
+				Thread.sleep(3000);
+
+				
+				///// submit api/////////
+				
+				
+				RequestSpecification requestSpec = RestAssured.given()
+						.baseUri("https://opendining.net/api/v1/orders/" + orderId + "/items?")
+						.queryParam("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+
+				// Create map for card parameters
+				HashMap<String, String> cardParam = new HashMap<>();
+
+				cardParam.put("id", menuItemID);
+				cardParam.put("notes", "");
+				cardParam.put("quantity", "1");
+
+				RequestSpecification requestSpecWithParams = requestSpec.formParams(cardParam);
+
+				Response response1 = requestSpecWithParams.post();
+
+				System.out.println(response1.getBody().asString());
+				System.out.println(response1.statusCode());
+
+				ItemList.itemListOrderAgainComponent(orderId);
+
+				find.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL).click();
+
+				boolean needSomethingFeature = commonMethods.features("need_something");
+
+				if (needSomethingFeature == false) {
+
+					NeedSomething.needSomethingOrderAgainComponent();
+
+				} else {
+
+					NeedSomething.needSomething();
+				}
+
+		boolean curbsideEnabled = APIMethods.curbsideOrderType();
+
+				if (curbsideEnabled == true) {
+
+					CurbsideScreen.curbside();
+
+				}
+
+				SinglePayment singlePayment = new SinglePayment();
+
+				singlePayment.paymentOrderAgainComponent(orderId);
+
+				find.byValueKey(contactAndPhoneNumberLocators.LOGEDIN_PHONENUMBERSCREENCONTINUEBUTTON).click();
+
+				boolean tipFeature = commonMethods.features("tip");
+
+				if (tipFeature == true) {
+
+					Tip.ngaOrderAgainTip(orderId, gc);
+
+				}
+
+				find.byValueKey(placeOrderScreenLocators.PLACE_ORDER_BUTTON_VK).click();
+
+				//// orders api ////
+
+				io.restassured.RestAssured.baseURI = "https://opendining.net/api/v1/orders/" + orderId + "?";
+				Map<String, String> orderParam = new HashMap<>();
+
+				orderParam.put("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+
+				RequestSpecification given = io.restassured.RestAssured.given();
+				RequestSpecification queryParams = given.queryParams(orderParam);
+
+				Response response = queryParams.get();
+
+				System.out.println(response.statusCode());
+
+			} else {
+				System.out.println("No matching item found with the store code.");
+			}
+
+		} else {
+			System.out.println("final NO order again");
+
+		}
+	}
+	
+	public void laterCapacityManagement() throws InterruptedException {
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+				.assignCategory("Re-Order");
+
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		ExtentTest nextGenReOrder = test.createNode("NextGenReOrder");
+
+		String laterDescriptionNotAvailText = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_LATER_DATE_UNAVAILABLE_STRING);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		CommonMethods.switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+		LocalDate currentDate = LocalDate.now();
+
+		LocalDate nextDate = currentDate.plusDays(1);
+
+		int nextDayOfMonth = nextDate.getDayOfMonth();
+
+		String todayDayName = nextDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+
+		CommonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		WebElement date = driver
+				.findElement(By.xpath("//*[contains(@content-desc,'" + nextDayOfMonth + ", " + todayDayName + "')]"));
+
+		date.click();
+
+		Thread.sleep(4000);
+
+		WebElement laterDateselactionOk = driver.findElement(By.xpath(OrderNowLocators.OK_BUTTON_XPATHL));
+
+		laterDateselactionOk.click();
+
+		boolean laterDescriptionNotAvailTextboolean = commonMethods.elementFoundOrNot(laterDescriptionNotAvailText);
+
+		if (!laterDescriptionNotAvailTextboolean == true) {
+
+			System.out.println(" select the time for the later order ");
+
+			commonMethods.elementFoundOrNot("time");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(2000);
+
+			FlutterElement capacityManagementTimeDropdownVk = find
+					.byValueKey(OrderNowLocators.CAPACITY_MANAGEMENT_DROPDOWN_VKL);
+
+			capacityManagementTimeDropdownVk.click();
+
+			FlutterElement capacityManagementTime2Vk = find.byValueKey(OrderNowLocators.CAPACITY_MANAGEMENT_TIME_2);
+
+			capacityManagementTime2Vk.click();
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(2000);
+
+			WebElement laterTimeSelection = driver.findElement(By.xpath(OrderNowLocators.APPLY_BUTTON_XAPTHL));
+
+			laterTimeSelection.click();
+		
+		}
+
+		else {
+
+			System.out.println(" Change date time & popup ");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(2000);
+
+			find.byValueKey(OrderNowLocators.CHANGE_DATE_TIME_POPUP_BUTTON_VKL).click();
+
+			String day = day();
+
+			int datee = date();
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(2000);
+
+			driver.findElement(By.xpath("//*[contains(@content-desc,'" + day + ", " + datee + "')]")).click();
+
+			WebElement laterDateselectionOk = driver.findElement(By.xpath(OrderNowLocators.OK_BUTTON_XPATHL));
+
+			laterDateselectionOk.click();
+
+			boolean laterDescriptionNotAvailTextboolean1 = commonMethods
+					.elementFoundOrNot(laterDescriptionNotAvailText);
+
+			if (laterDescriptionNotAvailTextboolean1 == true) {
+
+				System.out.println(" As we have checked the next two days from today's date : " + currentDate
+						+ " and for that later order is not available and hence terminating the Re-order execution");
+
+				nextGenReOrder.log(Status.FAIL, " As we have checked the next two days from today's date : "
+						+ currentDate
+						+ " and for that later order is not available and hence terminating the Re-order execution");
+
+				Thread.sleep(1500);
+
+				nextGenReOrder.addScreenCaptureFromBase64String(takeScreenshot(driver),
+						" As we have checked the next two days from today's date : " + currentDate
+								+ " and for that later order is not available and hence terminating the Re-order execution");
+
+				CommonMethods.switchContext("NATIVE_APP");
+
+				Thread.sleep(2000);
+
+				WebElement laterTimeSelection = driver
+						.findElement(By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+				laterTimeSelection.click();
+
+			} else {
+
+				System.out.println(" select the time for the later order ");
+
+				commonMethods.elementFoundOrNot("time");
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(2000);
+
+				FlutterElement capacityManagementTimeDropdownVk = find
+						.byValueKey(OrderNowLocators.CAPACITY_MANAGEMENT_DROPDOWN_VKL);
+
+				capacityManagementTimeDropdownVk.click();
+
+				FlutterElement capacityManagementTime2Vk = find.byValueKey(OrderNowLocators.CAPACITY_MANAGEMENT_TIME_2);
+
+				capacityManagementTime2Vk.click();
+
+				CommonMethods.switchContext("NATIVE_APP");
+
+				Thread.sleep(2000);
+
+				WebElement laterTimeSelection = driver.findElement(By.xpath(OrderNowLocators.APPLY_BUTTON_XAPTHL));
+
+				laterTimeSelection.click();
+
+			}
+
+		}
+		
+		CommonMethods.switchContext("FLUTTER");
+
+	}
+
+
+
+}

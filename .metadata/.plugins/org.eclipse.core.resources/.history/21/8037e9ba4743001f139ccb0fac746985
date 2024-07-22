@@ -1,0 +1,283 @@
+package com.locators;
+
+public class LocationLocators {
+
+	public static final String DELIVERY_ADDRESS_CHOOSE_ADDRESS_STRING = null;
+
+	public final String SIDEDRAWER_LOCATION_BUTTON_VKL = "side_drawer_location_button";
+
+	public final String LOCATION_SCREEN_TITLE_TEXT_VKL = "location_title";
+
+	public final String LOCATION_SCREEN_BACK_BUTTON_VKL = "location_back_arrow_icon";
+
+	public final String LOCATION_SCREEN_HOME_BUTTON_VKL = "bottombar_dashboard";
+
+	public final String LOCATION_SCREEN_SEARCH_FIELD_VKL = "search_input_field";
+
+	public final String LOCATION_SCREEN_LOCATION_FILTER_BUTTON_VKL = "filter_icon";
+
+	public final String LOCATION_SCREEN_INVALID_POPUP_TEXT_VKL = "";
+
+	public final String LOCATION_SCREEN_INVALID_POPUP_OK_VKL = "";
+
+	public final String LOCATION_SCREEN_SEARCHBOX_CLEAR_BUTTON_VKL = "";
+
+	public final String LOCATION_SCREEN_MAP_ICON_BUTTON_VKL = "location_icon";
+
+	public final String LOCATION_SCREEN_FILTER_APPLY_BUTTON_VKL = "location_filter_apply_button";
+
+	public final String LOCATION_SCREEN_FILTER_DESCRIPTION_VKL = "location_filter_title_Text";
+
+	public final String LOCATION_SCREEN_FILTER_CANCEL_BUTTON_VKL = "location_filter_cancel_Button";
+
+	public final String LOCATIONSCREEN_ALLOW_WHILE_USING_ID = "com.android.permissioncontroller:id/permission_allow_foreground_only_button";
+
+	public final String BACKGROUND_LOCATIONACCESS_CONTINUE_VKL = "locationScreen_continue";
+
+	public final String LOCATIONSCREEN_DONTALLOW_IDL = "com.android.permissioncontroller:id/permission_deny_button";
+
+	public final String LANDINGSCREEN_PUSHNOTIFICATION_NO_VKL = "YES";
+
+	// Locators for StoreInfo Screen
+
+	public final String STOREINFO_SCREEN_TITLE_VKL = "store_info_title";
+	public final String STOREINFO_SCREEN_HOMEBUTTON_VKL = "bottombar_dashboard";
+	public final String STOREINFO_SCREEN_BACKNAVIGATION_VKL = "store_info_backarrow_icon";
+	public final String STOREINFO_SCREEN_STOREINFOVKL = "store_info_data_text";
+	public final String STOREINFO_SCREEN_STOREINFO_ADDRESSVKL = "store_info_address_text";
+	public final String STOREINFO_SCREEN_CALLICON_VKL = "store_info_call_image";
+	public final String STOREINFO_SCREEN_CALLTEXT_VKL = "store_info_call_button_text";
+	public final String STOREINFO_SCREEN_ORDERNOWICON_VKL = "store_info_order_now_image";
+	public final String STOREINFO_SCREEN_ORDERNOWTEXT_VKL = "store_info_order_now_button_text";
+	public final String STOREINFO_SCREEN_DIRECTIONICON_VKL = "store_info_directions_image";
+	public final String STOREINFO_SCREEN_DIRECTIONTEXT_VKL = "store_info_directions_button_text";
+	public final String STOREINFO_SCREEN_CHECKINICON_VKL = "store_info_check_in_image";
+	public final String STOREINFO_SCREEN_CHECKINTEXT_VKL = "store_info_check_in_button_text";
+	public final String STOREINFO_SCREEN_DESCRIPTIONTEXT_VKL = "store_info_address_text";
+
+	public final String STOREINFO_SCREEN_LOCATIONINFO_LOCATION1ICONVKL = "location_list_2_location_icon";
+
+	public final String STOREINFO_SCREEN_CHECKINCODETEXT_VKL = "";
+	public final String STOREINFO_SCREEN_YOURSHORTCODE_TEXT_VKL = "";
+	public final String STOREINFO_SCREEN_YOURSHORTCODE_VALUE_VKL = "";
+	public final String STOREINFO_SCREEN_OPENHOURS_TEXT_VKL = "store_info_open_hours_title";
+	public final String STOREINFO_SCREEN_AMENITIES_TEXT_VKL = "store_info_amenities_title";
+	public final String STOREINFO_SCREEN_FUELPRICES_TEXT_VKL = "store_info_fuel_prices_title";
+	public final String STOREINFO_SCREEN_OPEN24HOURS_TEXT_VKL = "store_info_open_hours_description";
+	public final String STOREINFO_SCREEN_MAPVIEWVKL = "store_info_map_address_text";
+	public final String STOREINFO_SCREEN_ORDERNOWALERTVKL = "store_info_order_now_alert";
+	public final String STOREINFO_SCREEN_ORDERNOWALERT_OKBUTTONVKL = "store_info_order_now_ok_alert_btn";
+	public final String STOREINFO_SCREEN_STORENAME_LOCATION_SCREEN_CORPORATE_STORECODEVKL = "location_info_window_corp";
+	public final String STOREINFO_SCREEN_CHECKINALERTVKL = "store_info_check_in_ok_alert_btn";
+	public final String STOREINFO_SCREEN_ORDERTYPE_TEXT_VKL = "store_info_order_type_title";
+	public final String STOREINFO_SCREEN_VISITUSVKL = "store_info_visit_us_button";
+	public final String LOCATIONSCREEN_DENY_ID = "com.android.permissioncontroller:id/permission_deny_and_dont_ask_again_button";
+
+	public final String STOREINFO_SCREEN_CHECKIN_POPUP_TEXT_VKL = "checkin_success_content_text";
+
+	public final String STOREINFO_SCREEN_CHECKIN_POPUP_OK_BUTTON_VKL = "checkin_success_okay_button";
+
+	public final String STOREINFO_SCREEN_SHORTCARD_NUMBER_VKL = "store_info_short_code_value";
+
+	public final String STOREINFO_SCREEN_QRSCREEN_PRINTEDCARD_NUMBER_VKL = "checkin_printed_card_number";
+
+	public final String STOREINFO_SCREEN_SUCCESS_CODE_NUMBER_VKL = "checkin_expired_message_and_success_code";
+
+	public final String STOREINFO_SCREEN_QR_SCREEN_BACK_BUTTON_VKL = "checkin_backarrow_icon";
+
+	public final String STOREINFO_SCREEN_QR_SCREEN_ERROR_TEXT_VKL = "checkin_error_message";
+
+	public final String LOCATION_LIST_FILTER_SCREEN_FILTER_ORDER_TYPE_HEADER_VKL = "location_order_type_filter_title";
+
+	public final String LOCATION_LIST_FILTER_SCREEN_FILTER_ORDER_TYPE_DESCRIPTION_VKL = "location_order_type_filter_des_text";
+
+	public final String LOCATION_LIST_FILTER_SCREEN_FILTER_ORDER_TYPE_TEXT_VKL = "location_order_type_filter_order_type_text";
+
+	public final String LOCATION_LIST_FILTER_SCREEN_BACK_ICON = "location_order_type_filter_back_icon";
+
+	public final String LOCATION_FILTER_SCREEN_APPLY_BUTTON_ANDROID = "//android.view.View[@content-desc='Apply']";
+
+	public final String LOCATION_FILTER_SCREEN_APPLY_BUTTON_IOS = "//XCUIElementTypeButton[contains(@name,'Apply')]";
+
+	public final String LOCATION_FILTER_SCREEN_CLEAR_BUTTON_ANDROID = "//*[contains(@content-desc,'Clear')]";
+
+	public final String LOCATION_FILTER_SCREEN_CLEAR_BUTTON_IOS = "//XCUIElementTypeStaticText[@name='Clear']";
+
+	public final String LOCATION_LIST_FILTER_SCREEN_DISTANCE_TITLE_VK = "location_order_type_filter_miles_text";
+
+	public final String LOCATION_SCREEN_PICKUP_BUTTON_CHECK_BOX_ANDROID_XPATH = "//*[contains(@content-desc,'Pickup')]";
+
+	public final String LOCATION_SCREEN_PICKUP_BUTTON_CHECK_BOX_IOS_XPATH = "//XCUIElementTypeStaticText[@name='Pickup']";;
+
+	public final String LOCATION_SCREEN_DISTANCE_SLIDER_VK = "location_order_type_filter_range_slider";
+
+	public final String LOCATION_SCREEN_DISTANCE_MILES_VK = "location_order_type_filter_selected_miles";
+
+	public final String LOCATION_SCREEN_DISTANCE_SLIDER_XPATH = "//*[contains(@content-desc,'Swipe left to decrease')]";
+
+	public final String LOCATION_SCREEN_DISTANCE_SLIDER_IOS_XPATH = "";
+
+	public final String LOCATION_FILTER_SCREEN_CLEAR_BUTTON_VK = "location_order_type_filter_clear_text";
+
+	public final String LOCATION_SCREEN_DELIVERY_BUTTON_CHECK_BOX_ANDROID_XPATH = "//*[contains(@content-desc,'Delivery')]";
+
+	public final String LOCATION_SCREEN_DELIVERY_BUTTON_CHECK_BOX_IOS_XPATH = "//XCUIElementTypeStaticText[@name='Delivery']";
+
+	public final String LOCATION_SCREEN_CURBSIDE_BUTTON_CHECK_BOX_ANDROID_XPATH = "//*[contains(@content-desc,'Curbside')]";
+
+	public final String LOCATION_SCREEN_CURBSIDE_BUTTON_CHECK_BOX_IOS_XPATH = "//XCUIElementTypeStaticText[@name='Curbside']";;
+
+	public final String ADD_NEW_ADDRESS_DETAILS_VK = "delivery_address_screen_title";
+
+	public final String ADD_NEW_ADDRESS_BACK_ICON_VK = "delivery_address_back_icon";
+
+	public final String ADD_NEW_ADDRESS_ORDER_TYPE_VK = "order_type_header";
+
+	public final String ADD_NEW_ADDRESS_BUTTON_VK = "add_address_button";
+
+	public final String ADD_NEW_DELIVERY_ADDRESS_HEADER_VK = "add_address_header";
+
+	public final String ADD_NEW_ADDRESS_LINE1_VK = "address_one_field";
+
+	public final String ADD_NEW_ADDRESS_LINE1_ANDROID_XPATH = "//*[contains(@content-desc,'Address')]";
+
+	public final String ADD_NEW_ADDRESS_LINE1_IOS_XPATH = "//XCUIElementTypeStaticText[contains(@name,'Address')]";
+
+	public final String ADD_NEW_ADDRESS_LINE2_VK = "address_two_field";
+
+	public final String ADD_NEW_ADDRESS_LINE2_ANDROID_XPATH = "//*[contains(@content-desc,'Address Line')]";
+
+	public final String ADD_NEW_ADDRESS_LINE2_IOS_XPATH = "//XCUIElementTypeStaticText[contains(@name,'Address Line')]";
+
+	public final String ADD_NEW_ADDRESS_ZIP_VK = "postal_code_field";
+
+	public final String ADD_NEW_ADDRESS_ZIP_ANDROID_XPATH = "//*[contains(@content-desc,'Zip')]";
+
+	public final String ADD_NEW_ADDRESS_ZIP_IOS_XPATH = "//XCUIElementTypeStaticText[contains(@name,'Zip')]";
+
+	public final String ADD_NEW_ADDRESS_SPECIAL_INSTRUCTIONS_VK = "special_instruction_field";
+
+	public final String ADD_NEW_ADDRESS_SPECIAL_INSTRUCTIONS_ANDROID_XPATH = "//*[contains(@content-desc,'Special')]";
+
+	public final String ADD_NEW_ADDRESS_SPECIAL_INSTRUCTIONS_IOS_XPATH = "//XCUIElementTypeStaticText[contains(@name,'Special')]";
+
+	public final String ADD_NEW_ADDRESS_SCREEN_CONTINUE_BUTTON_VK = "continue_button";
+
+	public final String ADD_NEW_ADDRESS_SCREEN_CONTINUE_BUTTON_ANDROID_XPATH = "//*[contains(@content-desc,'CONTINUE')]";
+
+	public final String ADD_NEW_ADDRESS_SCREEN_CONTINUE_BUTTON_IOS_XPATH = "//XCUIElementTypeButton[@name='CONTINUE']";
+
+	public final String ADD_NEW_ADDRESS_SCREEN_NATIVE_DONE_ANDROID_XPATH = "//*[@content-desc='Done']";
+
+	public final String ADD_NEW_ADDRESS_SCREEN_NATIVE_DONE_IOS_XPATH = "//XCUIElementTypeStaticText[@name='Done']";
+
+	public final String ADD_NEW_ADDRESS_DELIVERY_SECTION_ADDRESS_ANDROID_VK = "//*[contains(@content-desc,'elivery')]";
+
+	public final String ADD_NEW_ADDRESS_DELIVERY_SECTION_ADDRESS_IOS_VK = "//XCUIElementTypeStaticText[contains(@name,'elivery')]";
+
+	public final String ADD_NEW_ADDRESS_NO_SAVED_ADDRESS_ANDROID_XPATH = "//*[contains(@content-desc,'NO SAVED ADDRESS')]";
+
+	public final String ADD_NEW_ADDRESS_NO_SAVED_ADDRESS_IOS_XPATH = "//XCUIElementTypeStaticText[contains(@name,'NO SAVED ADDRESS')]";
+
+	public final String ADD_NEW_UPDATE_ADDRESS_TEXT_HEADER_VK = "update_delivery_address_title_text";
+
+	public final String ADD_NEW_UPDATE_ADDRESS_CANCEL_BUTTON_VK = "editaddress_cancel_button";
+
+	public final String SAVED_DELIVERY_ADDRESS_HEADER_VK = "saved_delivery_address_header";
+
+	public final String UPDATE_DELIVERY_ADDRESS_ADDRESS_LINE1_VK = "address_one_field";
+
+	public final String UPDATE_DELIVERY_ADDRESS_ADDRESS_LINE2_VK = "address_two_field";
+
+	public final String UPDATE_DELIVERY_ADDRESS_ADDRESS_ZIP_VK = "zip_code_field";
+
+	public final String UPDATE_DELIVERY_ADDRESS_ADDRESS_SPECIAL_INSTRUCTIONS_VK = "special_instruction_field";
+
+	public final String UPDATE_DELIVERY_ADDRESS_UPDATE_BUTTON_VK = "editaddress_update_button";
+
+	public final String UPDATE_DELIVERY_ADDRESS_UPDATE_BUTTON_ANDROID_XPATH = "//*[contains(@content-desc,'UPDATE')]";
+
+	public final String UPDATE_DELIVERY_ADDRESS_UPDATE_BUTTON_IOS_XPATH = "(//*[@type='XCUIElementTypeButton'])[1]";
+
+	public final String POPUP_TITLE_VK = "delivery_list_title_text";
+
+	public final String POPUP_DESCRIPTION_VK = "delivery_list_alert_description_text";
+
+	public final String POPUP_OK_BUTTON_VK = "delivery_list_yes_button";
+
+	public final String ADD_NEW_ADDRESS_DELETE_POPUP_NO_BUTTON_VK = "delivery_list_no_button";
+
+	public final String ADD_NEW_ADDRESS_DELETE_POPUP_YES_BUTTON_VK = "delivery_list_yes_button";
+
+	public final String LOCATION_LIST_FILTER_SCREEN_MIN_MILES_VK = "location_order_type_filter_min_miles";
+
+	public final String LOCATION_LIST_FILTER_SCREEN_MAX_MILES_VK = "location_order_type_filter_max_miles";
+
+	public final String LOCATION_LIST_FILTER_SCREEN_SELECTED_MILES_VK = "location_order_type_filter_selected_miles";
+
+	public final String LOCATION_LIST_ORDER_TYPE_DELIVERY_VK = "order_type_items_delivery";
+
+	public final String AVAILABLE_ORDER_TYPE_WHEN_CLOSE_BUTTON_VK = "available_order_asap_type_close_button";
+	
+	public final String AVAILABLE_ORDER_TYPE_ITEMS_VK = "order_asap_type_items_";
+
+	public final String ADD_NEW_ADDRESS_STATE_DROPDOWN_VK = "state_selection_field";
+
+	public final String ADD_NEW_ADDRESS_COUNTRY_DROPDOWN_VK = "country_selection_field";
+
+	public final String DELIVERY_ADDRESS_SCREEN_HOME_ICON_VK = "delivery_address_home_icon";
+	public final String DELIVERY_ADDRESS_SCREEN_BACK_ICON_VK = "delivery_address_back_icon";
+	public final String DELIVERY_ADDRESS_SCREEN_ADD_ADDRESS_BUTTON_VK = "add_address_button";
+	public final String DELIVERY_ADDRESS_SCREEN_ORDER_TYPE_HEADERTEXT_VK = "order_type_header";
+	public final String DELIVERY_ADDRESS_SCREEN_SAVED_DELIVERY_ADDRESS_HEADERTEXT_VK = "saved_delivery_address_header";
+	public final String DELIVERY_ADDRESS_SCREEN_ADD_DELIVERY_ADDRESS_HEADERTEXT_VK = "add_address_header";
+	public final String DELIVERY_ADDRESS_SCREEN_ORDER_TYPE_BUTTON_VK = "order_type";
+	public final String DELIVERY_ADDRESS_SCREEN_TITLE_TEXT_VK = "delivery_address_screen_title";
+	public final String DELIVERY_ADDRESS_SCREEN_CONTINUE_BUTTON_VK = "continue_button";
+	public final String DELIVERY_ADDRESS_SCREEN_DELIVERY_LIST_ITEM_VK = "delivery_list";
+	public final String DELIVERY_ADDRESS_SCREEN_EDIT_ICON_VK = "edit_icon";
+	public final String DELIVERY_ADDRESS_SCREEN_DELETE_ICON_VK = "delete_icon";
+	public final String DELIVERY_ADDRESS_SCREEN_NO_SAVED_ADDRESS_TEXT_VK = "no_saved_address_text";
+	public final String DELIVERY_ADDRESS_ADD_SCREEN_ADDRESS_ONE_FIELD_VK = "address_one_field";
+	public final String DELIVERY_ADDRESS_ADD_SCREEN_ADDRESS_TWO_FIELD_VK = "address_two_field";
+	public final String DELIVERY_ADDRESS_ADD_SCREEN_STATE_FIELD_VK = "state_selection_field";
+	public final String DELIVERY_ADDRESS_ADD_SCREEN_COUNTRY_FIELD_VK = "country_selection_field";
+	public final String DELIVERY_ADDRESS_ADD_SCREEN_ZIPCODE_FIELD_VK = "postal_code_field";
+	public final String DELIVERY_ADDRESS_ADD_SCREEN_SPECIAL_INSTRUCTION_FIELD_VK = "special_instruction_field";
+	public final String DELIVERY_ADDRESS_SCREEN_POPUP_DESCRIPTION_VK = "delivery_list_alert_description_text";
+	public final String DELIVERY_ADDRESS_SCREEN_POPUP_YES_TEXT_VK = "delivery_list_yes_button";
+	public final String DELIVERY_ADDRESS_SCREEN_POPUP_NO_TEXT_VK = "delivery_list_no_button";
+	public final String DELIVERY_ADDRESS_SCREEN_UPDATE_ORDER_TYPE_ERROR_POPUP_VK = "no_order_time_error_title_alert_text";
+	public final String DELIVERY_ADDRESS_SCREEN_UPDATE_ORDER_TYPE_ERROR_POPUP_OK_VK = "no_order_time_error_alert_okay_button";
+	public final String DELIVERY_ADDRESS_SCREEN_NO_ORDERTIME_ERROR_POPUP_DESCRIPTION_VK = "no_order_time_error_title_alert_text";
+	public final String DELIVERY_ADDRESS_SCREEN_NO_ORDERTIME_ERROR_POPUP_OKAY_VK = "no_order_time_error_alert_okay_button";
+	public final String DELIVERY_ADDRESS_SCREEN_EDIT_ADDRESS_TITLE_VK = "update_delivery_address_title_text";
+	public final String DELIVERY_ADDRESS_SCREEN_EDIT_ADDRESS_UPDATE_VK = "editaddress_update_button";
+	public final String DELIVERY_ADDRESS_SCREEN_EDIT_ADDRESS_CANCEL_VK = "editaddress_cancel_button";
+	public final String DELIVERY_ADDRESS_SCREEN_CANNOT_COMPLETE_THIS_ORDER_DESCRIPTION_VK = "no_order_time_error_alert_content_text";
+	public final String DELIVERY_ADDRESS_SCREEN_CANNOT_COMPLETE_THIS_ORDER_OK_BUTTON_VK = "no_order_time_error_alert_okay_button";
+
+	// Strings for Address screen
+
+	public final String EDIT_ADDRESS_HEADER_TEXT_STRING = "od_deliveryaddress_edit_alertbox_title_text";
+	public final String EDIT_ADDRESS_UPDATE_BUTTON_TEXT_STRING = "od_deliveryaddress_edit_alertbox_update_button_text";
+	public final String EDIT_ADDRESS_CANCEL_BUTTON_TEXT_STRING = "od_deliveryaddress_edit_alertbox_cancel_button_text";
+	public final String DELETE_ADDRESS_HEADER_TEXT_STRING = "od_deliveryaddress_delete_alert_description";
+	public final String ADDRESS_NOT_DELIVERABLE_TEXT_STRING = "od_deliveryaddress_restaurant_notsupport_delivery_text";
+	public final String ADDRESS_INVALID_TEXT_STRING = "od_deliveryaddress_invalid_address_text";
+	public final String NO_SAVED_ADDRESS_TEXT_STRING = "od_deliveryaddress_empty_list";
+
+	public final String DELIVERY_ADDRESS_HEADER_TEXT_STRING = "od_delivery_address_title_text";
+	public final String DELIVERY_ADDRESS_ORDERTYPE_TEXT_STRING = "od_delivery_address_order_type_text";
+	public final String DELIVERY_ADDRESS_SAVED_DELIVERY_ADDRESS_TEXT_STRING = "od_delivery_address_saved_delivery_address_text";
+	public final String DELIVERY_ADDRESS_ADD_NEW_ADDRESS_TEXT_STRING = "od_delivery_address_add_button_text";
+	public final String DELIVERY_ADDRESS_CONTINUE_BUTTON_TEXT_STRING = "od_delivery_address_continue_button_text";
+	public final String DELIVERY_ADDRESS_ADD_NEW_DELIVERY_ADDRESS_TEXT_STRING = "od_delivery_address_add_title_text";
+	public final String DELIVERY_ADDRESS_DELIVERY_TEXT_STRING = "od_delivery";
+	public final String DELIVERY_ADDRESS_TAKE_OUT_TEXT_STRING = "od_take_out";
+	public final String DELIVERY_ADDRESS_CURBSIDE_TEXT_STRING = "od_curbside";
+	public final String DELIVERY_ADDRESS_RESTAURANT_NOT_DELIVERING_TO_ADDRESS_TEXT_STRING = "od_deliveryaddress_restaurant_notsupport_delivery_text";
+	public final String DELIVERY_ADDRESS_INVALID_ADDRESS_STRING = "od_deliveryaddress_invalid_address_text";
+	
+
+}

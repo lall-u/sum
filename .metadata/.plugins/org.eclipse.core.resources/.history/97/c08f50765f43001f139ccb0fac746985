@@ -1,0 +1,148 @@
+package com.locators;
+
+public class BasketLocators {
+
+	public final String BASKET_HEADER_TEXT_VKL = "basket_screen_title";
+	public final String BASKET_STORE_TITLE_TEXT_VKL = "basket_store_name_text";
+	public final String BASKET_EDIT_LOCATION_ICON_VKL = "basket_change_location_edit_icon";
+	public final String BASKET_EDIT_LOCATION_ICON_POPUP_HEADER_TEXT_VKL = "basket_change_location_alert_popup_header_text";
+	public final String BASKET_EDIT_LOCATION_ICON_POPUP_DESCRIPTION_TEXT_VKL = "basket_change_location_alert_popup_description_text";
+	public final String BASKET_EDIT_LOCATION_ICON_POPUP_CONTINUE_BUTTON_VKL = "basket_change_location_alert_popup_continue_button";
+	public final String BASKET_EDIT_LOCATION_ICON_POPUP_CANCEL_BUTTON_VKL = "basket_change_location_alert_popup_cancel_button";
+	public final String ORDER_TYPE_TEXT_VKL = "basket_order_type_text";
+	public final String WHEN_TIME_TEXT_VKL = "basket_order_time_text";
+	public final String DEFAULT_ORDER_TYPE_TEXT_VKL = "basket_order_type_value_text";
+	public final String DEFAULT_WHEN_TIME_TEXT_VKL = "basket_order_time_value_text";
+	public final String ORDER_TYPE_POPUP_TAKEOUT_CHECKBOX_VKL = "basket_list_order_type_check_box takeout";
+	public final String ORDER_TYPE_POPUP_CURBSIDE_CHECKBOX_VKL = "basket_list_order_type_check_box curbside";
+	public final String ORDER_TYPE_POPUP_DELIVERY_CHECKBOX_VKL = "basket_list_order_type_check_box delivery";
+	public final String ORDER_TIME_POPUP_ASAP_CHECKBOX_VKL = "basket_list_order_type_asap_check_box asap";
+	public final String ORDER_TIME_POPUP_LATER_CHECKBOX_VKL = "basket_list_order_type_asap_check_box later";
+	public final String ORDER_TIME_ASAP_BUTTON_VKL = "order_asap_type_items_asap";
+	public final String ORDER_TIME_LATER_BUTTON_VKL = "order_asap_type_items_later";
+	public final String ORDER_TYPE_POPUP_APPLY_BUTTON_VKL = "od_type_apply_button";
+	public final String ORDER_TYPE_POPUP_CANCEL_BUTTON_VKL = "od_type_cancel_button";
+	public final String BASKET_SCREEN_BACK_ICON_VKL = "basket_screen_back_icon";
+	public final String BASKET_ADD_MORE_ITEMS_TEXT_VK = "basket_add_more_items_text";
+	public final String BASKET_SCREEN_CHECKOUT_BUTTON_VKL = "basket_checkout_text";
+	public final String BASKET_SCREEN_CHECKOUT_OK_BUTTON_VKL = "basket_checkout_alert_ok_alert_btn";
+	public final String BASKET_SCREEN_CHECKOUT_UNDER_DEVELOPMENT_OK_BUTTON_VKL = "basket_ok_alert_btn";
+	public final String BASKET_SCREEN_CHANGE_DATE_AND_TIME_VKL = "unavailable_time_change_date_time_button";
+	public final String BASKET_SCREEN_CHECKOUT_ALERT_DESCRIPTION_TEXT_VKL = "basket_checkout_alert_description_text";
+	public final String BASKET_SCREEN_CHECKOUT_ALERT_HEADER_TEXT_VKL = "basket_checkout_alert_title_text";
+	public final String BASKET_HOME_ICON_VK = "basket_screen_home_icon";
+	public final String BASKET_SCREEN_CHECKOUT_CHANGE_DATE_TIME_DESCRIPTION_TEXT_VKL = "unavailable_time_description_text";
+	public final String BASKET_INVALID_COUPON_CODE_TEXT_VKL = "//*[contains(@name,'code')]";
+	public final String ADDNEW_DELIVERY_ADDRESS_VKL = "//*[(@name=\"ADD NEW DELIVERY ADDRESS\")]";
+
+	public final String BASKET_ITEM_DELETE_YES_VK = "item_edit_and_delete_warning_alert_yes_btn";
+	public final String BASKET_ITEM_DELETE_NO_VK = "item_edit_and_delete_warning_alert_no_btn";
+
+	public final String EMPTY_BASKET_SCREEN_NO_ITEMS_FOUND_VKL = "empty_basket_you_have_no_items_text";
+	public final String EMPTY_BASKET_SCREEN_START_ORDER_BUTTON_AND_TEXT_VKL = "empty_basket_start_order_button";
+
+	public final String BASKET_ITEM_DELETE_ICON_VK = "basket_delete_icon_item_";
+	public final String BASKET_EDIT_ITEM_ICON_VKL = "basket_edit_icon_item_";
+	public final String BASKET_ITEM_DELETE_ALERT_DESCRIPTION_VK = "item_edit_and_delete_warning_alert_description_text";
+	public final String BASKET_SCREEN_CHECKOUT_LATER_XPATH = "//*[contains(@name,'ater')]";
+			public final String BASKET_SCREEN_CHECKOUT_ASAP_XPATH = "//*[contains(@name,'ASAP')]";
+
+	/////////////////////////// Coupon Locators/////////////////////////
+
+	public final String BASKET_HAVE_A_COUPON_TEXT_VKL = "basket_coupon_title_text";
+	public final String BASKET_APPLY_COUPON_BUTTON_VKL = "basket_screen_apply_coupon";
+	public final String BASKET_DELETE_COUPON_BUTTON_VKL = "basket_screen_apply_coupon";
+	public final String BASKET_COUPON_APPLIED_VKL = "basket_coupon_description_text";
+	public final String BASKET_COUPON_APPLIED_POPUP_HEADER_TEXT_VKL = "coupon_code_applied_popup_title_text";
+	public final String BASKET_REDEEM_APPLIED_COUPON_POPUP_TEXT_VKL = "coupon_code_applied_popup_redeem_applied_coupon_text";
+	public final String BASKET_CLOSE_BUTTON_VKL = "coupon_code_applied_popup_close_icon";
+	public final String BASKET_COUPON_POPUP_DELETE_ICON_VKL = "coupon_code_applied_popup_redeem_applied_coupon_delete_icon";
+	public final String BASKET_COUPON_REDEEM_TEXT_VKL = "basket_coupon_description_text";
+	public final String BASKET_ENTER_COUPON_POPUP_HEADER_TEXT_VKL = "coupon_code_enter_coupon_code_title_text";
+	public final String BASKET_ENTER_COUPON_CODE_FIELD_VKL = "coupon_code_enter_coupon_code_title_text_description";
+	public final String BASKET_ENTER_COUPON_POPUP_APPLY_BUTTON_VKL = "coupon_code_apply_button";
+	public final String BASKET_ENTER_COUPON_POPUP_CANCEL_BUTTON_VKL = "coupon_code_cancel_button";
+	public final String BASKET_COUPON_APPLIED_XPATHL = "//*[contains(@name,'Coupon Applied')]";
+	public final String BASKET_REDEEM_COUPON_XPATHL = "//*[contains(@name,'Have a coupon')]";
+	public final String BASKET_INVALID_COUPON_POPUP_TEXT_VKL = "coupon_code_invalid_coupon_code_text";
+	public final String BASKET_INVALID_COUPON_POPUP_OKBUTTON_VKL = "coupon_code_invalid_coupon_code_ok_button";
+	public final String BASKET_ESTIMATED_VALUE_TEXT_VK = "basket_screen_estimated_price";
+	public final String BASKET_COUPON_DISCOUNT_TEXT_VK = "basket_screen_discount_text";
+	public final String BASKET_COUPON_DISCOUNT_PRICE_TEXT_VK = "basket_screen_discount_price";
+	public final String BASKET_AUTO_COUPON_DISCOUNT_TEXT_VK = "basket_screen_auto_discount_text";
+	public final String BASKET_AUTO_COUPON_DISCOUNT_PRICE_TEXT_VK = "basket_screen_auto__discount_price";
+	public final String BASKET_AUTO_DISCOUNT_XPATH = "//*[contains(@name,'Discount')]";
+	public final String BASKET_FREE_ITEM_XPATH = "//*[contains(@name,'Free')]";
+	public final String BASKET_FREE_ITEM_VK = "basket_item_position_0";
+	public final String OD_RE_ORDER_ASAP_LATER_TEXT_STRING = "od_basket_asap_later_error_text";
+	public final String BASKET_CHECKOUT_ALERT_DESCRIPTION_POPUP_TEXTVKL = "basket_checkout_alert_description_text";
+		public final String BASKET_CHECKOUT_ALERT_DESCRIPTION_POPUP_OK_BUTTONVKL = "basket_checkout_alert_ok_alert_btn";
+
+	/////// String File Text /////////////
+
+	public final String BASKET_HEADER_TITLE = "od_basket_title_text";
+	public final String ORDER_TYPE_TITLE_TEXT = "od_basket_order_type_text";
+	public final String WHEN_TIME_TITLE_TEXT = "od_basket_order_time_text";
+	public final String TAKEOUT_LOCAL_CONFIG_TEXT = "od_take_out";
+	public final String CURBSIDE_LOCAL_CONFIG_TEXT = "od_curbside";
+	public final String DELIVERY_LOCAL_CONFIG_TEXT = "od_delivery";
+	public final String ASAP_LOCAL_CONFIG_TEXT = "od_asap";
+	public final String LATER_LOCAL_CONFIG_TEXT = "od_later";
+	public final String TIME_HEADER_TEXT = "od_time_text";
+	public final String ALERT_POPUP_APPLY_BUTTON = "od_ordertype_alertbox_apply_button_semantics";
+	public final String ALERT_POPUP_CANCEL_BUTTON = "od_ordertype_alertbox_close_icon_semantics";
+
+	public final String BASKET_CHANGE_LOCATION_POPUP_HEADER_TEXT = "od_change_location_alert_title_text";
+	public final String BASKET_CHANGE_LOCATION_POPUP_DESCRIPTION_TEXT = "od_change_location_alert_sub_text";
+	public final String BASKET_CHANGE_LOCATION_POPUP_CONTINUE_TEXT = "od_change_location_alert_continue_text";
+	public final String BASKET_CHANGE_LOCATION_POPUP_CANCEL_TEXT = "od_change_location_alert_cancel_text";
+
+	///////////////// CheckOut /////////////
+
+	public final String BASKET_CHECKOUT_CHANGE_DATE_AND_TIME_POPUP_TEXT_XPATH = "//*[contains(@name,'change Date')]";
+	public final String BASKET_CHECKOUT_NEEDSOMETHING_HEADER_TEXT_XPATH = "//*[contains(@name,'Need Something')]";
+	public final String BASKET_CHECKOUT_SORRY_POPUP_HEADER_TEXT_XPATH = "//*[contains(@name,'SORRY')]";
+	public final String BASKET_ADDRESS_ADD_NEW_XPATH = "//*[contains(@name,'add new')]";
+	public final String BASKET_CHECKOUT_DELIVERY_ORDER_ALERT_VKL = "basket_checkout_alert_description_text";
+
+	public final String REVIEW_BASKET_BUTTON_TEXT_XPATH = "//*[contains(@name,'basket')]";
+
+	/////////////// Coupon Text/////////////////////////
+
+	public final String BASKET_HAVE_A_COUPON_TEXT = "od_basket_coupon_title_text";
+	public final String BASKET_COUPON_APPLIED_TEXT = "od_basket_applied_coupon_title_text";
+	public final String BASKET_REDEEM_COUPON_TEXT = "od_basket_coupon_description_text";
+	public final String BASKET_COUPON_APPLIED_POPUP_TEXT = "od_basket_applied_coupon_popup_title_text";
+	public final String BASKET_REDEEM_APPLIED_COUPON_POPUP_TEXT = "od_basket_applied_coupon_popup_sub_title_text";
+	public final String BASKET_REDEEM_TEXT = "od_basket_applied_coupon_title_text";
+	public final String BASKET_ENTER_COUPON_POPUP_TEXT = "od_basket_coupon_popup_title_text";
+	public final String BASKET_ENTER_COUPON_CODE_POPUP_APPLY_BUTTON_TEXT = "od_basket_coupon_popup_apply_text";
+	public final String BASKET_ENTER_COUPON_CODE_POPUP_CANCEL_BUTTON_TEXT = "od_basket_coupon_popup_cancel_text";
+	public final String BASKET_APPLY_COUPON_TEXT = "od_rewards_basket_apply_coupon_button";
+	public final String BASKET_DELETE_COUPON_TEXT = "od_rewards_basket_delete_coupon_button";
+
+	//////////////////// Rewards ///////////////
+
+	public final String BASKET_REWARDS_BUTTON_VK = "basket_screen_apply_rewards";
+	public final String BASKET_REWARDS_EDIT_BUTTON_VK = "basket_screen_apply_rewards";
+	public final String BASKET_REWARDS_DESCRIPTION_TEXT_VK = "basket_rewards_description_text";
+	public final String BASKET_APPLYREWARDS_TEXT_VK = "basket_screen_apply_rewards";
+	public final String REWARDS_TITLE_TEXT_VK = "reward_screen_title";
+	public final String REWARDS_HOME_BUTTON_VK = "reward_screen_home_icon";
+	public final String REWARDS_BACK_BUTTON_VK = "reward_screen_back_icon";
+	public final String REWARDS_DESCRIPTION_TEXT_VK = "rewards_screen_description_text";
+	public final String REWARDS_NO_REWARDS_FOUND_TEXT_VK = "reward_screen_no_reward";
+	public final String REWARDS_APPLY_REWARDS_BUTTON_VK = "reward_screen_apply_rewards";
+	public final String REWARDS_NONE_BUTTON_VK = "rewards_screen_none_checkbox_0";
+	public final String REWARDS_DISCOUNT_TEXT_VK = "basket_screen_discount_text";
+	public final String REWARDS_DISCOUNT_VALUE_VK = "basket_screen_discount_price";
+	// REWARDS STRING TEXT
+	public final String BASKET_REWARDS_BUTTON_TEXT = "od_basket_rewards_title_text";
+	public final String BASKET_REWARDS_EDIT_BUTTON_TEXT = "";
+	public final String BASKET_REWARDS_DESCRIPTION_TEXT = "";
+	public final String BASKET_APPLYREWARDS_TEXT = "";
+	public final String REWARDS_TITLE_TEXT = "od_basket_rewards_title_text";
+	public final String REWARDS_DESCRIPTION_TEXT = "";
+	public final String REWARDS_NO_REWARDS_FOUND_TEXT = "";
+
+}

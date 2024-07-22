@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="MavenProjectImportWizardPage">
+		<list key="rootDirectory">
+			<item value="/Users/lallu/Documents/Prep/carbonfour-selenium-4-main"/>
+			<item value="/Users/lallu/Documents/Prep/AppiumJavaSample-master"/>
+			<item value="/Users/lallu/Downloads/AT_Androidd"/>
+			<item value="/Users/lallu/Documents/Pro/Jb_Od"/>
+			<item value="/Users/lallu/Downloads/Jb_Od"/>
+			<item value="/Users/lallu/Documents/GitHub/Test-Automation-iOS/AT_IOS"/>
+			<item value="/Users/lallu/Downloads/AT_Android 4"/>
+			<item value="/Users/lallu/Downloads/AT_Android"/>
+			<item value="/Users/lallu/Downloads/AT_Android 3"/>
+			<item value="/Users/lallu/Documents/GitHub/Test-Automation-Android/AT_Android"/>
+			<item value="/Users/lallu/Downloads/AT_IOS 2"/>
+			<item value="/Users/lallu/Downloads/AT_IOS"/>
+			<item value="/Users/lallu/Downloads/AT_Androids"/>
+			<item value="/Users/lallu/Downloads/AT_IOSs"/>
+			<item value="/Users/lallu/Downloads/Test-Automation-Android-develop/AT_Androidd"/>
+		</list>
+		<list key="projectNameTemplate">
+			<item value="AT_Androidd"/>
+			<item value="AT_ANDROID_4"/>
+			<item value="AT_Android_1"/>
+			<item value="AT_ANDROID_3"/>
+			<item value="AT_IOS_2"/>
+			<item value="AT_Androids"/>
+			<item value="AT_IOSs"/>
+			<item value="AT_IOS_GSheet"/>
+			<item value="AT_IOS_Gsheet"/>
+			<item value="Test"/>
+			<item value="Grid"/>
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+		</list>
+	</section>
+	<section name="org.eclipse.m2e.core.pom.overview">
+		<list key="ciManagementUrl">
+		</list>
+		<list key="ciManagementSystem">
+		</list>
+		<list key="issueManagementSystem">
+		</list>
+		<list key="issueManagementUrl">
+		</list>
+	</section>
+	<section name="org.eclipse.m2e.core.pom.dependencies">
+	</section>
+	<section name="MavenProjectWizardLocationPage">
+		<list key="location">
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="MavenProjectWizardArchetypePage">
+		<item key="catalog" value="All Catalogs"/>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+	</section>
+	<section name="Maven2ProjectWizardArchifactPage">
+		<list key="package">
+		</list>
+		<list key="groupId">
+		</list>
+		<list key="artifactId">
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+		<list key="version">
+			<item value="0.0.1-SNAPSHOT"/>
+		</list>
+	</section>
+	<section name="MavenProjectWizardArtifactPage">
+		<list key="groupId">
+		</list>
+		<list key="name">
+		</list>
+		<list key="artifactId">
+		</list>
+		<list key="projectNameTemplate">
+			<item value="[artifactId]"/>
+			<item value="[artifactId]-TRUNK"/>
+			<item value="[artifactId]-[version]"/>
+			<item value="[groupId].[artifactId]"/>
+			<item value="[groupId].[artifactId]-[version]"/>
+			<item value="[name]"/>
+		</list>
+		<list key="version">
+			<item value="0.0.1-SNAPSHOT"/>
+		</list>
+	</section>
+	<section name="org.eclipse.m2e.core.ui.internal.wizards.CustomArchetypeDialog">
+	</section>
+</section>

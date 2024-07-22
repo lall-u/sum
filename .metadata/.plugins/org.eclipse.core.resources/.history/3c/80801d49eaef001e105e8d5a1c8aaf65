@@ -1,0 +1,1393 @@
+package com.features;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.NoSuchElementException;
+import java.util.concurrent.TimeUnit;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.base.BaseClass;
+import com.base.CommonMethods;
+import com.locators.BasketLocators;
+import com.locators.LocationLocators;
+import com.locators.MenuScreenLocators;
+import com.locators.SignInLocators;
+
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
+import io.github.ashwith.flutter.FlutterElement;
+import io.github.ashwith.flutter.FlutterFinder;
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
+import io.appium.java_client.ios.IOSTouchAction;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+import java.net.URL;
+
+public class ItemList extends BaseClass {
+
+	static CommonMethods commonMethods = new CommonMethods();
+
+	static BasketLocators basketLocators = new BasketLocators();
+
+	static MenuScreenLocators menuScreenLocators = new MenuScreenLocators();
+
+	static long optJSONArrayOptionGroupsObjectMax;
+	
+	static JSONArray optJSONArrayOptionGroupsObjectSizeConditions;
+
+	static String specialInstructionsEnabled;
+
+	static String specialInstructionsNotesLimit;
+
+	static String specialInstructionsEnabledSubString;
+
+	static String specialInstructionsNotesLabel;
+
+	static ArrayList<String> levelsList = new ArrayList<>();
+
+	static Map<String, Integer> MultiOptions = new HashMap<>();
+
+	static ArrayList<String> formParamsList = new ArrayList<>();
+
+	static Map<String, String> formParams = new HashMap<>();
+
+	static JSONObject replaceColonsWithEquals;
+	
+	static String screenTitleText;
+
+	/**
+	 * @Class_Name ItemList
+	 * @Method_Name itemList
+	 * @Description Contains code to execute the test scripts for Item List
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+
+	@Test
+	public static void itemList(String orderId, int pos, int position) throws Exception {
+		BaseClass bc = new BaseClass();
+
+		List<String> givenStringCode = bc.appConfiguration();
+
+		String storeCode = givenStringCode.get(13);		
+		
+		String merchantId = givenStringCode.get(8);
+
+		io.restassured.RestAssured.baseURI = "https://opendining.net/api/v1/merchant/"+merchantId+"/restaurants/"+storeCode+"/menu/tier?";
+		Map<String, String> paramsMenu = new HashMap<>();
+		paramsMenu.put("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+		paramsMenu.put("show_unavailable", "false");
+		paramsMenu.put("include_combo", "true");
+		paramsMenu.put("merchant_id", merchantId);
+		paramsMenu.put("provider", "px");
+//		paramsMenu.put("order_date", "11-01-2024");
+//		paramsMenu.put("eta", "5.00 am");
+
+		RequestSpecification httpRequestMenu = io.restassured.RestAssured.given();
+		RequestSpecification responseBodyMenu = httpRequestMenu.queryParams(paramsMenu);
+
+		Response responseMenu = responseBodyMenu.get("");
+		
+		JSONObject jObjectMenu = new JSONObject(responseMenu.body().asString());
+
+		JSONArray optJSONArrayMenu = jObjectMenu.optJSONArray("menu");
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice("iPhone 14 Pro")
+				.assignCategory("Item List");
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		ExtentTest nextGenItemList001 = test.createNode("nextGenItemList_001");
+		
+		io.restassured.RestAssured.baseURI = "https://opendining.net/api/v1/merchant/"+merchantId+"/restaurants/"+storeCode+"?";
+		Map<String, String> paramsRestaurant = new HashMap<>();
+		paramsRestaurant.put("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+
+		RequestSpecification httpRequestRestaurant = io.restassured.RestAssured.given();
+
+		RequestSpecification responseBodyRestaurant = httpRequestRestaurant.queryParams(paramsRestaurant);
+
+		Response responseRestaurant = responseBodyRestaurant.get("");
+
+		JSONObject jObjectRestaurant = new JSONObject(responseRestaurant.body().asString());
+
+		specialInstructionsEnabled = jObjectRestaurant.optString("allow_notes");
+
+		specialInstructionsNotesLabel = jObjectRestaurant.optString("notes_label");
+
+		specialInstructionsEnabledSubString = specialInstructionsNotesLabel.substring(0, 3).toLowerCase();
+
+		specialInstructionsNotesLimit = jObjectRestaurant.optString("notes_limit");
+
+		FlutterElement menuScreenTitleVk = find.byValueKey(menuScreenLocators.ITEM_QUANTITY_SCREEN_TITLE_VK);
+
+		String menuScreenTitleTextVk = menuScreenTitleVk.getText();
+		
+		
+		if(menuScreenTitleTextVk.length() > 22) {
+			
+			screenTitleText = menuScreenTitleTextVk.substring(0, 20);
+		}
+		
+		else if(menuScreenTitleTextVk.length() < 22) {
+			
+			
+			screenTitleText = menuScreenTitleTextVk;
+			
+		}
+
+		System.out.println("the title " + screenTitleText);
+
+		for (int t = pos; t < position; t++) {
+
+			JSONObject menuItem = optJSONArrayMenu.getJSONObject(t);
+
+			String name = menuItem.optString("name");
+
+			String canOrder = menuItem.optString("can_order");
+
+			System.out.println(" the name : " + name);
+
+			JSONArray itemsArray = menuItem.getJSONArray("items");
+
+			formParamsList.clear();
+
+			JSONObject item = itemsArray.getJSONObject(0);
+
+			String itemName = item.optString("name");
+
+			String active = item.optString("active");
+
+			int parseInt = Integer.parseInt(active);
+
+			System.out.println(itemName);
+
+			if (canOrder == "true" && parseInt == 1) {
+
+				String id = item.optString("id");
+
+				String idParam = "id=" + id;
+
+				formParamsList.add(idParam);
+
+				String itemNameReplace = itemName.replace(" ", "_").toLowerCase();
+
+				if (itemName.contains(screenTitleText)) {
+
+					JSONArray prices = item.getJSONArray("prices");
+
+					if (prices.length() > 1) {
+
+						scrollSize();
+
+						commonMethods.switchContext("FLUTTER");
+
+						Thread.sleep(3000);
+
+						FlutterElement optionGroupObjectNameSelectedOptionsVk = find
+								.byValueKey(itemNameReplace + "_size_selected_options");
+
+						String optionGroupObjectNameSelectedOptionsTextVk = optionGroupObjectNameSelectedOptionsVk
+								.getText();
+
+						String trimmedOption = optionGroupObjectNameSelectedOptionsTextVk.trim();
+
+						if (!trimmedOption.isEmpty()) {
+
+							String size = "size=" + optionGroupObjectNameSelectedOptionsTextVk;
+
+							formParamsList.add(size);
+
+						} else {
+
+							System.out.println(" Size array name is lesser than 1 ");
+
+							String size = "size=";
+
+							formParamsList.add(size);
+
+						}
+					}
+
+					JSONArray optionGroupsArray = item.getJSONArray("option_groups");
+
+					MultiOptions.clear();
+
+					for (int j = 0; j < optionGroupsArray.length(); j++) {
+
+						JSONObject optionGroup = optionGroupsArray.getJSONObject(j);
+
+						for (int m = 0; m < optionGroupsArray.length(); m++) {
+
+							JSONObject optionGroup1 = optionGroupsArray.getJSONObject(m);
+
+							JSONArray optJSONArray = optionGroup1.optJSONArray("options");
+
+							for (int k = 0; k < optJSONArray.length(); k++) {
+
+								JSONObject optJSONObject = optJSONArray.optJSONObject(k);
+
+								String optString = optJSONObject.optString("name");
+
+								MultiOptions.put(optString, k);
+
+							}
+
+						}
+
+						String optionGroupName = optionGroup.optString("name");
+
+						String optionGroupNameReplace = optionGroupName.replace(" ", "_").toLowerCase();
+
+						String quantities = optionGroup.optString("quantities");
+
+						String multiSelect = optionGroup.optString("multiselect");
+
+						commonMethods.switchContext("NATIVE_APP");
+
+						Thread.sleep(3000);
+						
+						TouchAction touchAction = new TouchAction(driver);
+						touchAction.press(PointOption.point(500, 600))
+								.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(2)))
+								.moveTo(PointOption.point(500, 600)).release().perform();
+
+						By targetElementLocator = By.xpath(
+								"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+										+ "'" + optionGroupName.toLowerCase() + "'" + ")]");
+
+						boolean elementFound = false;
+
+						while (!elementFound) {
+
+							try {
+
+								commonMethods.switchContext("NATIVE_APP");
+
+								Thread.sleep(3000);
+
+								WebElement element = driver.findElement(targetElementLocator);
+
+								if (element.isDisplayed()) {
+
+									TouchAction touchAction1 = new TouchAction(driver);
+									touchAction1.press(PointOption.point(500, 800))
+											.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+											.moveTo(PointOption.point(500, 600)).release().perform();
+
+									String elementName = element.getText();
+
+									if (elementName.contains(optionGroupName)) {
+
+										if (quantities == "true") {
+
+											// have to give increment decrement logic
+
+											commonMethods.switchContext("FLUTTER");
+
+											Thread.sleep(3000);
+
+											FlutterElement selectedOptionsVk = find.byValueKey(itemNameReplace + "_"
+													+ optionGroupNameReplace + "_selected_options");
+
+											String selectedOptionsTextVk = selectedOptionsVk.getText();
+
+											if (selectedOptionsTextVk.contains(",")) {
+												String[] split = selectedOptionsTextVk.split(",");
+												for (int i2 = 0; i2 < split.length; i2++) {
+													String trimmedOption2 = split[i2].trim();
+													if (!trimmedOption2.isEmpty()) {
+														String optionKey = "options[" + optionGroupName + "]["
+																+ trimmedOption2 + "]";
+														formParamsList.add(optionKey);
+													}
+												}
+											}
+
+										} else if (quantities == "false") {
+
+											if (multiSelect == "true") {
+
+												System.out.println(" It's a multi selection field checkbox ");
+
+												// have to give the multiple check box logic
+
+												commonMethods.switchContext("FLUTTER");
+
+												Thread.sleep(3000);
+
+												FlutterElement selectedOptionsVk = find.byValueKey(itemNameReplace + "_"
+														+ optionGroupNameReplace + "_selected_options");
+
+												String selectedOptionsTextVk = selectedOptionsVk.getText();
+
+												if (selectedOptionsTextVk.contains(",")) {
+													String[] split = selectedOptionsTextVk.split(",");
+													for (int i2 = 0; i2 < split.length; i2++) {
+														String trimmedOptions = split[i2].trim();
+														if (!trimmedOptions.isEmpty()) {
+
+															if (optionGroup.has("option_levels")) {
+
+																JSONObject optionLevels = optionGroup
+																		.optJSONObject("option_levels");
+
+																JSONArray levels = optionLevels.optJSONArray("levels");
+
+																if (levels != null) {
+
+																	for (int b = 0; b < levels.length(); b++) {
+
+																		JSONObject jsonObjectLevelss = levels
+																				.optJSONObject(b);
+
+																		String previousLevelName = null;
+
+																		if (jsonObjectLevelss.has("is_default")
+																				&& jsonObjectLevelss
+																						.getBoolean("is_default")) {
+																			break;
+																		}
+
+																		previousLevelName = jsonObjectLevelss
+																				.optString("name");
+
+																		String optionKey = "option_levels["
+																				+ optionGroupName + "]["
+																				+ trimmedOptions + "][]="
+																				+ previousLevelName;
+
+																		formParamsList.add(optionKey);
+
+																		String optionKey1 = "options[" + optionGroupName
+																				+ "]["
+																				+ MultiOptions.get(trimmedOptions)
+																				+ "]=" + trimmedOptions;
+
+																		formParamsList.add(optionKey1);
+
+																	}
+
+																} else {
+
+																	System.out.println(
+																			" levels is null for the option levels : ");
+
+																}
+
+															} else {
+																String optionKey = "options[" + optionGroupName + "]["
+																		+ MultiOptions.get(trimmedOptions) + "]="
+																		+ trimmedOptions;
+
+																formParamsList.add(optionKey);
+
+															}
+
+														}
+													}
+
+												}
+
+											} else if (multiSelect == "false") {
+
+												// have to give the single check box logic
+
+												System.out.println(" It's a single selection field checkbox ");
+
+												commonMethods.switchContext("FLUTTER");
+
+												Thread.sleep(3000);
+
+												FlutterElement selectedOptionsVk = find.byValueKey(itemNameReplace + "_"
+														+ optionGroupNameReplace + "_selected_options");
+
+												String selectedOptionsTextVk = selectedOptionsVk.getText();
+
+												String trimmedOptionSingle = selectedOptionsTextVk.trim();
+
+												if (!trimmedOptionSingle.isEmpty()) {
+
+													if (optionGroup.has("option_levels")) {
+
+														JSONObject optionLevels = optionGroup
+																.optJSONObject("option_levels");
+
+														JSONArray levels = optionLevels.optJSONArray("levels");
+
+														if (levels != null) {
+
+															for (int b = 0; b < levels.length(); b++) {
+
+																JSONObject jsonObjectLevelss = levels.optJSONObject(b);
+
+																String previousLevelName = null;
+
+																if (jsonObjectLevelss.has("is_default")
+																		&& jsonObjectLevelss.getBoolean("is_default")) {
+																	break;
+																}
+
+																previousLevelName = jsonObjectLevelss.optString("name");
+
+																String optionKey = "option_levels[" + optionGroupName
+																		+ "][" + trimmedOptionSingle + "][]:"
+																		+ previousLevelName;
+
+																formParamsList.add(optionKey);
+
+																String optionKey1 = "options[" + optionGroupName + "]["
+																		+ MultiOptions.get(trimmedOptionSingle) + "]="
+																		+ trimmedOptionSingle;
+
+																formParamsList.add(optionKey1);
+
+															}
+
+														} else {
+
+															System.out.println(
+																	" levels is null for the option levels : ");
+
+														}
+
+													} else {
+
+														String optionKey = "options[" + optionGroupName + "][]="
+																+ trimmedOptionSingle;
+
+														formParamsList.add(optionKey);
+//															System.out.println("the scond item" +formParamsList.add(optionKey));
+
+													}
+												}
+
+											}
+
+										}
+
+									}
+									commonMethods.switchContext("NATIVE_APP");
+
+									Thread.sleep(3000);
+
+									try {
+										elementFound = true;
+
+									} catch (Exception clickException) {
+										TouchAction touchAction2 = new TouchAction(driver);
+										touchAction2.press(PointOption.point(500, 800))
+												.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+												.moveTo(PointOption.point(500, 600)).release().perform();
+									}
+
+								} else {
+									TouchAction touchAction1 = new TouchAction(driver);
+									touchAction1.press(PointOption.point(500, 800))
+											.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+											.moveTo(PointOption.point(500, 600)).release().perform();
+								}
+							} catch (NoSuchElementException e2) {
+								TouchAction touchAction1 = new TouchAction(driver);
+								touchAction1.press(PointOption.point(500, 800))
+										.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+										.moveTo(PointOption.point(500, 600)).release().perform();
+							}
+
+						}
+
+						commonMethods.switchContext("FLUTTER");
+
+						Thread.sleep(1200);
+
+						scrollOptionsGroupUpAndClick(optionGroupName);
+
+					}
+
+					if (specialInstructionsEnabled == "true") {
+
+						System.out.println(" Special Instructions enabled in item list ");
+
+//						scrollOptionsGroupDown(specialInstructionsEnabledSubString);
+
+						commonMethods.switchContext("FLUTTER");
+
+						Thread.sleep(3000);
+
+						FlutterElement itemQuantitySpecialInstructionsTitleVk = find
+								.byValueKey(menuScreenLocators.ITEM_QUANTITY_SPECIAL_INSTRUCTION_TITLE_VK);
+
+						String itemQuantitySpecialInstructionsTitleTextVk = itemQuantitySpecialInstructionsTitleVk
+								.getText();
+
+						String numericOnly = itemQuantitySpecialInstructionsTitleTextVk.replaceAll("[^0-9]", "");
+
+						int parseLong = Integer.parseInt(numericOnly);
+
+						FlutterElement itemQuantitySpecialInstructionsTextFieldVk = find
+								.byValueKey(menuScreenLocators.ITEM_QUANTITY_SPECIAL_INSTRUCTION_TEXT_FIELD_VK);
+
+						String testText = "This is a text which is to find the length of the special instructions text field, This is a text which is to find the length of the special instructions text field, This is a text which is to find the length of the special instructions text field,This is a text which is to find the length of the special instructions text field ";
+
+						itemQuantitySpecialInstructionsTextFieldVk.sendKeys(testText);
+
+						String substring = testText.substring(0, parseLong);
+
+						String notes = "notes=";
+
+						String finalString = notes + substring;
+
+						formParamsList.add(finalString);
+
+						FlutterElement itemQuantityScreenQuantityCountVk = find
+								.byValueKey(menuScreenLocators.ITEM_QUANTITY_SCREEN_ITEM_QUANTITY_COUNT_VK);
+
+						String itemQuantityScreenQuantityCountTextVk = itemQuantityScreenQuantityCountVk.getText();
+
+						int itemQuantityScreenQuantityCountIntVk = Integer
+								.parseInt(itemQuantityScreenQuantityCountTextVk);
+
+						String quantity = "quantity=" + itemQuantityScreenQuantityCountIntVk;
+
+						formParamsList.add(quantity);
+
+					}
+
+					else {
+
+						String string = "notes=";
+
+						String emptyString = "";
+
+						String finalString = string + emptyString;
+						System.out.println(formParamsList.add(finalString));
+
+						formParamsList.add(finalString);
+
+						FlutterElement itemQuantityScreenQuantityCountVk = find
+								.byValueKey(menuScreenLocators.ITEM_QUANTITY_SCREEN_ITEM_QUANTITY_COUNT_VK);
+
+						String itemQuantityScreenQuantityCountTextVk = itemQuantityScreenQuantityCountVk.getText();
+
+						int itemQuantityScreenQuantityCountIntVk = Integer
+								.parseInt(itemQuantityScreenQuantityCountTextVk);
+
+						String quantity = "quantity=" + itemQuantityScreenQuantityCountIntVk;
+
+						formParamsList.add(quantity);
+					}
+
+				} else {
+
+					System.out.println(" Item quantity screen title of : " + menuScreenTitleTextVk
+							+ " not matches with the : " + itemName);
+				}
+
+			}
+
+			JSONObject jsonObject = convertListToJsonObject(formParamsList);
+
+			replaceColonsWithEquals = replaceColonsWithEquals(jsonObject);
+
+			if (t % 2 != 0) {
+
+				FlutterElement buyNowButtonVk = find
+						.byValueKey(menuScreenLocators.ITEM_QUANTITY_SCREEN_BUY_NOW_BUTTON_VK);
+
+				String buyNowButtonTextVk = buyNowButtonVk.getText();
+
+				buyNowButtonVk.click();
+
+				String basketHeaderTitleText = commonMethods.stringsReader(basketLocators.BASKET_HEADER_TITLE);
+
+				nextGenItemList001.info(MarkupHelper.createLabel(" Validated that after tapping the : "
+						+ buyNowButtonTextVk + " button, it navigates to the basket screen with the title : "
+						+ basketHeaderTitleText, ExtentColor.CYAN));
+
+				find.byValueKey(basketLocators.BASKET_SCREEN_BACK_ICON_VKL).click();
+
+				FlutterElement menuScreenTitle1Vk = find.byValueKey(menuScreenLocators.MENU_SCREEN_TITLE_VK);
+
+				String menuScreenTitleText1Vk = menuScreenTitle1Vk.getText();
+
+				nextGenItemList001.info(MarkupHelper.createLabel(
+						" Validated that after tapping the basket screen back icon, it navigates to the menu screen with the title : "
+								+ menuScreenTitleText1Vk,
+						ExtentColor.CYAN));
+
+				System.out.println(
+						" Validated that after tapping the basket screen back icon, it navigates to the menu screen with the title : "
+								+ menuScreenTitleText1Vk);
+
+			} else {
+
+				FlutterElement addToBasketButtonVk = find
+						.byValueKey(menuScreenLocators.ITEM_QUANTITY_SCREEN_ADD_TO_BASKET_BUTTON_VK);
+
+				String addToBasketButtonTextVk = addToBasketButtonVk.getText();
+
+				addToBasketButtonVk.click();
+
+				FlutterElement menuScreenTitle1Vk = find.byValueKey(menuScreenLocators.MENU_SCREEN_TITLE_VK);
+
+				String menuScreenTitleText1Vk = menuScreenTitle1Vk.getText();
+
+				nextGenItemList001.info(MarkupHelper.createLabel(
+						" Validated that after tapping the " + addToBasketButtonTextVk
+								+ " button, it navigates to the menu screen with the title : " + menuScreenTitleText1Vk,
+						ExtentColor.CYAN));
+
+				System.out.println(" Validated that after tapping the " + addToBasketButtonTextVk
+						+ " button, it navigates to the menu screen with the title : " + menuScreenTitleText1Vk);
+
+			}
+
+			FlutterElement reviewButtonVk = find.byValueKey(menuScreenLocators.MENU_SCREEN_REVIEW_BASKET_BUTTON_VK);
+
+			String reviewButtonTextVk = reviewButtonVk.getText();
+
+			reviewButtonVk.click();
+
+			System.err.println("basket screen appears");
+//
+//			String basketHeaderTitleText1 = commonMethods.stringsReader(basketLocators.BASKET_HEADER_TITLE); 
+//			
+//			System.err.println("basket header title : "+reviewButtonTextVk);
+//
+//			nextGenItemList001.info(MarkupHelper.createLabel(
+//					" Validated that after tapping the : " + reviewButtonTextVk
+//							+ " button, it navigates to the basket screen with the title : " + basketHeaderTitleText1,
+//					ExtentColor.CYAN));
+//
+//			System.out.println(" Validated that after tapping the : " + reviewButtonTextVk
+//					+ " button, it navigates to the basket screen with the title : " + basketHeaderTitleText1);
+
+		}
+	}
+
+	@Test
+	public static void itemList2(String orderId, int pos, int position) throws Exception {
+
+		io.restassured.RestAssured.baseURI = "https://opendining.net/api/v1/merchant/60019/restaurants/PXLAB/menu/tier?";
+		Map<String, String> paramsMenu = new HashMap<>();
+		paramsMenu.put("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+		paramsMenu.put("show_unavailable", "false");
+		paramsMenu.put("include_combo", "true");
+		paramsMenu.put("merchant_id", "60019");
+		paramsMenu.put("provider", "px");
+//	paramsMenu.put("order_date", "11-01-2024");
+//	paramsMenu.put("eta", "5.00 am");
+
+		RequestSpecification httpRequestMenu = io.restassured.RestAssured.given();
+		RequestSpecification responseBodyMenu = httpRequestMenu.queryParams(paramsMenu);
+
+		Response responseMenu = responseBodyMenu.get("");
+		JSONObject jObjectMenu = new JSONObject(responseMenu.body().asString());
+
+		JSONArray optJSONArrayMenu = jObjectMenu.optJSONArray("menu");
+
+//	DesiredCapabilities caps = new DesiredCapabilities();
+//	caps.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone X NGA");
+//	caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
+//	caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "15.7.1");
+//	caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Flutter");
+//	caps.setCapability("bundleId", "com.paytronix.nexgenfl");
+//	caps.setCapability(MobileCapabilityType.UDID, "28EBFA71-D21D-4D7A-9426-87781C4AEA4F");
+//	caps.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "300");
+
+		// driver = new IOSDriver<WebElement>(new URL("http://0.0.0.0:4723/wd/hub"),
+		// caps);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		Thread.sleep(15000);
+
+		io.restassured.RestAssured.baseURI = "https://opendining.net/api/v1/merchant/60019/restaurants/PXLAB?";
+		Map<String, String> paramsRestaurant = new HashMap<>();
+		paramsRestaurant.put("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+
+		RequestSpecification httpRequestRestaurant = io.restassured.RestAssured.given();
+
+		RequestSpecification responseBodyRestaurant = httpRequestRestaurant.queryParams(paramsRestaurant);
+
+		Response responseRestaurant = responseBodyRestaurant.get("");
+
+		JSONObject jObjectRestaurant = new JSONObject(responseRestaurant.body().asString());
+
+		specialInstructionsEnabled = jObjectRestaurant.optString("allow_notes");
+
+		specialInstructionsNotesLabel = jObjectRestaurant.optString("notes_label");
+
+		specialInstructionsEnabledSubString = specialInstructionsNotesLabel.substring(0, 4).toLowerCase();
+
+		specialInstructionsNotesLimit = jObjectRestaurant.optString("notes_limit");
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		FlutterElement menuScreenTitleVk = find.byValueKey(menuScreenLocators.ITEM_QUANTITY_SCREEN_TITLE_VK);
+
+		String menuScreenTitleTextVk = menuScreenTitleVk.getText();
+
+		System.out.println("the title " + menuScreenTitleTextVk);
+
+		for (int t = pos; t < position; t++) {
+
+			JSONObject menuItem = optJSONArrayMenu.getJSONObject(t);
+
+			String name = menuItem.optString("name");
+
+			String canOrder = menuItem.optString("can_order");
+
+			System.out.println(" the name : " + name);
+
+			JSONArray itemsArray = menuItem.getJSONArray("items");
+
+			formParamsList.clear();
+
+			JSONObject item = itemsArray.getJSONObject(0);
+
+			String itemName = item.optString("name");
+
+			String active = item.optString("active");
+
+			int parseInt = Integer.parseInt(active);
+
+			System.out.println(itemName);
+
+			if (canOrder == "true" && parseInt == 1) {
+
+				String id = item.optString("id");
+
+				String idParam = "id=" + id;
+
+				System.out.println();
+
+				formParamsList.add(idParam);
+
+				String itemNameReplace = itemName.replace(" ", "_").toLowerCase();
+
+				if (itemName.contains(menuScreenTitleTextVk)) {
+
+					JSONArray prices = item.getJSONArray("prices");
+
+					if (prices.length() > 1) {
+
+						scrollSize();
+
+						commonMethods.switchContext("FLUTTER");
+
+						Thread.sleep(3000);
+
+						FlutterElement optionGroupObjectNameSelectedOptionsVk = find
+								.byValueKey(itemNameReplace + "_size_selected_options");
+
+						String optionGroupObjectNameSelectedOptionsTextVk = optionGroupObjectNameSelectedOptionsVk
+								.getText();
+
+						String trimmedOption = optionGroupObjectNameSelectedOptionsTextVk.trim();
+
+						if (!trimmedOption.isEmpty()) {
+
+							String size = "size=" + optionGroupObjectNameSelectedOptionsTextVk;
+
+							formParamsList.add(size);
+
+						} else {
+
+							System.out.println(" Size array name is lesser than 1 ");
+
+							String size = "size=";
+
+							formParamsList.add(size);
+
+						}
+					}
+
+					JSONArray optionGroupsArray = item.getJSONArray("option_groups");
+
+					MultiOptions.clear();
+
+					for (int j = 0; j < optionGroupsArray.length(); j++) {
+
+						JSONObject optionGroup = optionGroupsArray.getJSONObject(j);
+
+						for (int m = 0; m < optionGroupsArray.length(); m++) {
+
+							JSONObject optionGroup1 = optionGroupsArray.getJSONObject(m);
+
+							JSONArray optJSONArray = optionGroup1.optJSONArray("options");
+
+							for (int k = 0; k < optJSONArray.length(); k++) {
+
+								JSONObject optJSONObject = optJSONArray.optJSONObject(k);
+
+								String optString = optJSONObject.optString("name");
+
+								MultiOptions.put(optString, k);
+
+							}
+
+						}
+
+						String optionGroupName = optionGroup.optString("name");
+
+						String optionGroupNameReplace = optionGroupName.replace(" ", "_").toLowerCase();
+
+						String quantities = optionGroup.optString("quantities");
+
+						String multiSelect = optionGroup.optString("multiselect");
+
+						commonMethods.switchContext("NATIVE_APP");
+
+						Thread.sleep(3000);
+
+						By targetElementLocator = By.xpath(
+								"//*[contains(translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+										+ "'" + optionGroupName.toLowerCase() + "'" + ")]");
+
+						boolean elementFound = false;
+
+						while (!elementFound) {
+
+							try {
+
+								commonMethods.switchContext("NATIVE_APP");
+
+								Thread.sleep(3000);
+
+								WebElement element = driver.findElement(targetElementLocator);
+
+								if (element.isDisplayed()) {
+
+									TouchAction touchAction1 = new TouchAction(driver);
+									touchAction1.press(PointOption.point(500, 800))
+											.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+											.moveTo(PointOption.point(500, 600)).release().perform();
+
+									String elementName = element.getText();
+
+									if (elementName.contains(optionGroupName)) {
+
+										if (quantities == "true") {
+
+											// have to give increment decrement logic
+
+											commonMethods.switchContext("FLUTTER");
+
+											Thread.sleep(3000);
+
+											FlutterElement selectedOptionsVk = find.byValueKey(itemNameReplace + "_"
+													+ optionGroupNameReplace + "_selected_options");
+
+											String selectedOptionsTextVk = selectedOptionsVk.getText();
+
+											if (selectedOptionsTextVk.contains(",")) {
+												String[] split = selectedOptionsTextVk.split(",");
+												for (int i2 = 0; i2 < split.length; i2++) {
+													String trimmedOption2 = split[i2].trim();
+													if (!trimmedOption2.isEmpty()) {
+														String optionKey = "options[" + optionGroupName + "]["
+																+ trimmedOption2 + "]";
+														formParamsList.add(optionKey);
+													}
+												}
+											}
+
+										} else if (quantities == "false") {
+
+											if (multiSelect == "true") {
+
+												System.out.println(" It's a multi selection field checkbox ");
+
+												// have to give the multiple check box logic
+
+												commonMethods.switchContext("FLUTTER");
+
+												Thread.sleep(3000);
+
+												FlutterElement selectedOptionsVk = find.byValueKey(itemNameReplace + "_"
+														+ optionGroupNameReplace + "_selected_options");
+
+												String selectedOptionsTextVk = selectedOptionsVk.getText();
+
+												if (selectedOptionsTextVk.contains(",")) {
+													String[] split = selectedOptionsTextVk.split(",");
+													for (int i2 = 0; i2 < split.length; i2++) {
+														String trimmedOptions = split[i2].trim();
+														if (!trimmedOptions.isEmpty()) {
+
+															if (optionGroup.has("option_levels")) {
+
+																JSONObject optionLevels = optionGroup
+																		.optJSONObject("option_levels");
+
+																JSONArray levels = optionLevels.optJSONArray("levels");
+
+																if (levels != null) {
+
+																	for (int b = 0; b < levels.length(); b++) {
+
+																		JSONObject jsonObjectLevelss = levels
+																				.optJSONObject(b);
+
+																		String previousLevelName = null;
+
+																		if (jsonObjectLevelss.has("is_default")
+																				&& jsonObjectLevelss
+																						.getBoolean("is_default")) {
+																			break;
+																		}
+
+																		previousLevelName = jsonObjectLevelss
+																				.optString("name");
+
+																		String optionKey = "option_levels["
+																				+ optionGroupName + "]["
+																				+ trimmedOptions + "][]="
+																				+ previousLevelName;
+
+																		formParamsList.add(optionKey);
+
+																		String optionKey1 = "options[" + optionGroupName
+																				+ "]["
+																				+ MultiOptions.get(trimmedOptions)
+																				+ "]=" + trimmedOptions;
+
+																		formParamsList.add(optionKey1);
+
+																	}
+
+																} else {
+
+																	System.out.println(
+																			" levels is null for the option levels : ");
+
+																}
+
+															} else {
+																String optionKey = "options[" + optionGroupName + "]["
+																		+ MultiOptions.get(trimmedOptions) + "]="
+																		+ trimmedOptions;
+
+																formParamsList.add(optionKey);
+
+															}
+
+														}
+													}
+
+												}
+
+											} else if (multiSelect == "false") {
+
+												// have to give the single check box logic
+
+												System.out.println(" It's a single selection field checkbox ");
+
+												commonMethods.switchContext("FLUTTER");
+
+												Thread.sleep(3000);
+
+												FlutterElement selectedOptionsVk = find.byValueKey(itemNameReplace + "_"
+														+ optionGroupNameReplace + "_selected_options");
+
+												String selectedOptionsTextVk = selectedOptionsVk.getText();
+
+												String trimmedOptionSingle = selectedOptionsTextVk.trim();
+
+												if (!trimmedOptionSingle.isEmpty()) {
+
+													if (optionGroup.has("option_levels")) {
+
+														JSONObject optionLevels = optionGroup
+																.optJSONObject("option_levels");
+
+														JSONArray levels = optionLevels.optJSONArray("levels");
+
+														if (levels != null) {
+
+															for (int b = 0; b < levels.length(); b++) {
+
+																JSONObject jsonObjectLevelss = levels.optJSONObject(b);
+
+																String previousLevelName = null;
+
+																if (jsonObjectLevelss.has("is_default")
+																		&& jsonObjectLevelss.getBoolean("is_default")) {
+																	break;
+																}
+
+																previousLevelName = jsonObjectLevelss.optString("name");
+
+																String optionKey = "option_levels[" + optionGroupName
+																		+ "][" + trimmedOptionSingle + "][]:"
+																		+ previousLevelName;
+
+																formParamsList.add(optionKey);
+
+																String optionKey1 = "options[" + optionGroupName + "]["
+																		+ MultiOptions.get(trimmedOptionSingle) + "]="
+																		+ trimmedOptionSingle;
+
+																formParamsList.add(optionKey1);
+
+															}
+
+														} else {
+
+															System.out.println(
+																	" levels is null for the option levels : ");
+
+														}
+
+													} else {
+
+														String optionKey = "options[" + optionGroupName + "][]="
+																+ trimmedOptionSingle;
+
+														formParamsList.add(optionKey);
+//														System.out.println("the scond item" +formParamsList.add(optionKey));
+
+													}
+												}
+
+											}
+
+										}
+
+									}
+									commonMethods.switchContext("NATIVE_APP");
+
+									Thread.sleep(3000);
+
+									try {
+										elementFound = true;
+
+									} catch (Exception clickException) {
+										TouchAction touchAction2 = new TouchAction(driver);
+										touchAction2.press(PointOption.point(500, 800))
+												.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+												.moveTo(PointOption.point(500, 600)).release().perform();
+									}
+
+								} else {
+									TouchAction touchAction1 = new TouchAction(driver);
+									touchAction1.press(PointOption.point(500, 800))
+											.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+											.moveTo(PointOption.point(500, 600)).release().perform();
+								}
+							} catch (NoSuchElementException e2) {
+								TouchAction touchAction1 = new TouchAction(driver);
+								touchAction1.press(PointOption.point(500, 800))
+										.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+										.moveTo(PointOption.point(500, 600)).release().perform();
+							}
+
+						}
+
+						commonMethods.switchContext("FLUTTER");
+
+						Thread.sleep(1200);
+
+						scrollOptionsGroupUpAndClick(optionGroupName);
+
+					}
+
+					if (specialInstructionsEnabled == "true") {
+
+						scrollDown();
+
+						commonMethods.switchContext("FLUTTER");
+
+						Thread.sleep(3000);
+
+						FlutterElement itemQuantitySpecialInstructionsTitleVk = find
+								.byValueKey(menuScreenLocators.ITEM_QUANTITY_SPECIAL_INSTRUCTION_TITLE_VK);
+
+						String itemQuantitySpecialInstructionsTitleTextVk = itemQuantitySpecialInstructionsTitleVk
+								.getText();
+
+						String numericOnly = itemQuantitySpecialInstructionsTitleTextVk.replaceAll("[^0-9]", "");
+
+						int parseLong = Integer.parseInt(numericOnly);
+
+						FlutterElement itemQuantitySpecialInstructionsTextFieldVk = find
+								.byValueKey(menuScreenLocators.ITEM_QUANTITY_SPECIAL_INSTRUCTION_TEXT_FIELD_VK);
+
+						String testText = "This is a text which is to find the length of the special instructions text field, This is a text which is to find the length of the special instructions text field, This is a text which is to find the length of the special instructions text field,This is a text which is to find the length of the special instructions text field ";
+
+						itemQuantitySpecialInstructionsTextFieldVk.sendKeys(testText);
+
+						String substring = testText.substring(0, parseLong);
+
+						String notes = "notes=";
+
+						String finalString = notes + substring;
+
+						formParamsList.add(finalString);
+
+						FlutterElement itemQuantityScreenQuantityCountVk = find
+								.byValueKey(menuScreenLocators.ITEM_QUANTITY_SCREEN_ITEM_QUANTITY_COUNT_VK);
+
+						String itemQuantityScreenQuantityCountTextVk = itemQuantityScreenQuantityCountVk.getText();
+
+						int itemQuantityScreenQuantityCountIntVk = Integer
+								.parseInt(itemQuantityScreenQuantityCountTextVk);
+
+						String quantity = "quantity=" + itemQuantityScreenQuantityCountIntVk;
+
+						formParamsList.add(quantity);
+
+					}
+
+					else {
+
+						String string = "notes=";
+
+						String emptyString = "";
+
+						String finalString = string + emptyString;
+						System.out.println(formParamsList.add(finalString));
+
+						formParamsList.add(finalString);
+
+						FlutterElement itemQuantityScreenQuantityCountVk = find
+								.byValueKey(menuScreenLocators.ITEM_QUANTITY_SCREEN_ITEM_QUANTITY_COUNT_VK);
+
+						String itemQuantityScreenQuantityCountTextVk = itemQuantityScreenQuantityCountVk.getText();
+
+						int itemQuantityScreenQuantityCountIntVk = Integer
+								.parseInt(itemQuantityScreenQuantityCountTextVk);
+
+						String quantity = "quantity=" + itemQuantityScreenQuantityCountIntVk;
+
+						formParamsList.add(quantity);
+					}
+
+				} else {
+
+					System.out.println(" Item quantity screen title of : " + menuScreenTitleTextVk
+							+ " not matches with the : " + itemName);
+				}
+
+			}
+
+			JSONObject jsonObject = convertListToJsonObject(formParamsList);
+
+			replaceColonsWithEquals = replaceColonsWithEquals(jsonObject);
+
+		}
+
+		for (Object object : formParamsList) {
+
+			System.out.println(object.toString());
+
+		}
+
+		commonMethods.switchContext("FLUTTER");
+
+		Thread.sleep(3000);
+
+		find.byValueKey(menuScreenLocators.ITEM_QUANTITY_SCREEN_BUY_NOW_BUTTON_VK).click();
+	}
+
+	private static void scrollSize() throws InterruptedException {
+
+		commonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		By targetElementLocator3 = By.xpath(
+				"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'size'" + ")]");
+
+		int maxScrollAttempts3 = 5;
+
+		for (int j1 = 0; j1 <= maxScrollAttempts3; j1++) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator3);
+				if (element.isDisplayed()) {
+					TouchAction touchAction1 = new TouchAction(driver);
+					touchAction1.press(PointOption.point(500, 800))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+							.moveTo(PointOption.point(500, 600)).release().perform();
+
+					break;
+				}
+			} catch (Exception e2) {
+
+				TouchAction touchAction1 = new TouchAction(driver);
+				touchAction1.press(PointOption.point(500, 1200))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6))).moveTo(PointOption.point(500, 600))
+						.release().perform();
+				System.out.println(" Store not found in the : " + j1
+						+ " : scroll attempt made in the UI in the given maximum scroll attempts of : "
+						+ maxScrollAttempts3);
+			}
+
+		}
+
+		commonMethods.switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+	}
+
+	private static void scrollOptionsGroupUpAndClick(String input) throws InterruptedException {
+
+		commonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		By targetElementLocator3 = By.xpath(
+				"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+
+		int maxScrollAttempts3 = 5;
+
+		for (int j1 = 0; j1 <= maxScrollAttempts3; j1++) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator3);
+				if (element.isDisplayed()) {
+					TouchAction touchAction1 = new TouchAction(driver);
+					touchAction1.press(PointOption.point(500, 600))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+							.moveTo(PointOption.point(500, 800)).release().perform();
+
+					break;
+				}
+			} catch (Exception e2) {
+
+				TouchAction touchAction1 = new TouchAction(driver);
+				touchAction1.press(PointOption.point(500, 600))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6))).moveTo(PointOption.point(500, 1200))
+						.release().perform();
+				System.out.println(" Store not found in the : " + j1
+						+ " : scroll attempt made in the UI in the given maximum scroll attempts of : "
+						+ maxScrollAttempts3);
+			}
+
+		}
+
+		commonMethods.switchContext("FLUTTER");
+
+		Thread.sleep(2500);
+
+	}
+
+	private static void scrollOptionsGroupDown(String input) throws InterruptedException {
+
+		commonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		By targetElementLocator3 = By.xpath(
+				"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+
+		int maxScrollAttempts3 = 5;
+
+		for (int j1 = 0; j1 <= maxScrollAttempts3; j1++) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator3);
+				if (element.isDisplayed()) {
+					TouchAction touchAction1 = new TouchAction(driver);
+					touchAction1.press(PointOption.point(500, 800))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+							.moveTo(PointOption.point(500, 600)).release().perform();
+					break;
+				}
+			} catch (Exception e2) {
+
+				TouchAction touchAction1 = new TouchAction(driver);
+				touchAction1.press(PointOption.point(500, 1200))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6))).moveTo(PointOption.point(500, 600))
+						.release().perform();
+			}
+
+		}
+
+		commonMethods.switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+	}
+
+	private static JSONObject replaceColonsWithEquals(JSONObject jsonObject) {
+		JSONObject modifiedJsonObject = new JSONObject();
+
+		for (String key : jsonObject.keySet()) {
+			String modifiedKey = key.replace(":", "=");
+			modifiedJsonObject.put(modifiedKey, jsonObject.get(key));
+		}
+
+		return modifiedJsonObject;
+	}
+
+	private static JSONObject convertListToJsonObject(List<String> list) {
+		JSONObject jsonObject = new JSONObject();
+		for (String item : list) {
+			int equalsIndex = item.indexOf('=');
+			if (equalsIndex > 0) {
+				String key = item.substring(0, equalsIndex).trim();
+				String value = item.substring(equalsIndex + 1).trim();
+				jsonObject.put(key, value);
+			}
+		}
+		return jsonObject;
+	}
+
+	private static Map<String, Object> convertJsonObjectToMap(JSONObject jsonObject) {
+		Map<String, Object> map = new HashMap<>();
+
+		for (String key : jsonObject.keySet()) {
+			map.put(key, jsonObject.get(key));
+		}
+
+		return map;
+	}
+	
+	private static void scrollDown() throws InterruptedException {
+
+		commonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(1000);
+
+		TouchAction touchAction1 = new TouchAction(driver);
+		touchAction1.press(PointOption.point(500, 800)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(2)))
+				.moveTo(PointOption.point(500, 600)).release().perform();
+
+		commonMethods.switchContext("FLUTTER");
+
+		Thread.sleep(1000);
+
+	}
+
+}

@@ -1,0 +1,4007 @@
+package com.features;
+
+import java.util.concurrent.TimeUnit;
+
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+
+import io.github.ashwith.flutter.FlutterFinder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.base.BaseClass;
+import com.base.CommonMethods;
+import com.locators.DashBoardLocators;
+import com.locators.LocationLocators;
+import com.locators.MenuScreenLocators;
+import com.locators.OrderNowLocators;
+import com.locators.SideDrawerLocators;
+import com.locators.SignInLocators;
+import io.github.ashwith.flutter.FlutterElement;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @Class_Name Address
+ * @Description Contains code to execute the test scripts for Address login flow
+ *              feature for Android platform
+ * @author Lalith Kishore Ravi
+ */
+
+public class Address extends BaseClass {
+
+	static SideDrawerLocators sideDrawerLocators = new SideDrawerLocators();
+	static SignInLocators signInLocators = new SignInLocators();
+	static CommonMethods commonMethods = new CommonMethods();
+	static LocationLocators locationLocators = new LocationLocators();
+	static OrderNowLocators orderNowLocators = new OrderNowLocators();
+	static APIMethods apiMethods = new APIMethods();
+	static DashBoardLocators dashBoardLocators = new DashBoardLocators();
+	static MenuScreenLocators menuScreenLocators = new MenuScreenLocators();
+
+	static ArrayList<String> urlList = new ArrayList<>();
+	static ArrayList<String> filterList = new ArrayList<>();
+
+	public static String componentList;
+	public static String accessTokenGen;
+	public static String printedCardNumberResponse;
+	public static String firstnameResponse;
+	public static String lastnameResponse;
+	public static String salutationResponse;
+	public static String welcomeResponse;
+	public static String welcomeResponseDefault;
+	public static String usernameResponse;
+	public static StringBuilder welcomeString;
+	public static StringBuilder welcomeDefault;
+	public static StringBuilder pointTrackHead;
+	public static StringBuilder actualSubHeader;
+	public static StringBuilder responseHeader;
+	public static StringBuilder actualHeader;
+	public static String availableHeader;
+	public static String availableViewall;
+	public static StringBuilder actualWelcome;
+	public static String pointTrackerHeader;
+	public static String pointTrackerSubHeader;
+	public static int walletMaximum;
+	public static String pointBalance1;
+	public static String finalPointValue;
+	public static JSONArray resultArray;
+	public static String pullMessageResponse;
+	public static String pullMessageHeaderResponse;
+	public static String barcodeAlttextResponse;
+	public static String barcodeHeaderResponse;
+	public static String scannableLoyaltyCardHeaderText;
+	public static String mobilephoneResponse;
+	public static String codeSourceResponse;
+	public static String primaryCardNumbersResponse;
+	public static String phoneNumberResponse;
+	public static StringBuilder barcodeHeaderString;
+	public static String pointTrackerHeaderAltResponse;
+	public static String codeTypeResponse;
+	public static String dateResponse;
+	public static String messageDescriptionResponse;
+	public static String formattedDate;
+	public static String expirationTimeResponse;
+	public static String shortCardNumberResponse;
+	public static String storeCodeResponse;
+	public static String storeNameResponse;
+	public static String corpExpirationTimeResponse;
+	public static String corpShortCardNumberResponse;
+	public static String corpStoreCodeResponse;
+	public static String corpStoreNameResponse;
+	public static String contentValue;
+
+	public static int walletCode;
+	public static int walletCdn;
+	public static JSONArray perksCdn;
+	public static String cardTemplateCdn;
+	public static String tierCdn;
+	public static JSONArray perks;
+	public static String cardTemplate;
+	public static String tier;
+	public static String activeDate;
+	public static String expiryDate;
+	public static String favoriteStore;
+	public static String storeGroup;
+	public static String imageUrl1;
+	public static String imageAltText;
+	public static Response cdnResponse;
+
+	public static WebElement imagecomponent;
+
+	public static String preCheckInAltTextResponse;
+	public static String preCheckInTextResponse;
+	public static String postCheckInTextResponse;
+	public static String codeTypeCheckInResponse;
+	public static String codeSourceCheckInResponse;
+	public static StringBuilder preCheckInTextString;
+	public static StringBuilder postCheckInTextString;
+	public static String checkInStoreNameResponse;
+	public static String checkInStoreCodeResponse;
+	public static String availableRewardsHeader;
+	public static String availableRewardsViewAll;
+	public static String availableRewardsAltText;
+	public static StringBuilder availableRewardsViewAllString;
+	public static StringBuilder availableRewardsHeaderString;
+
+	public static String userName;
+	public static String passWord;
+	public static String merchantId;
+	public static String cardTemplateCode;
+	public static String storeGroupCode;
+	public static String clientId;
+	public static String integrationDetail;
+	public static String storeCode;
+	static String canDeliverResponse;
+	static String locatedResponse;
+	static String canDeliverResponse1;
+	static String locatedResponse1;
+	static String authorizationGrant;
+	static String merchantid;
+	static String key = "6d6bf06a4f653a54da8d88715a736a4ca6071ffb";
+	static String provider = "px";
+	static String recentlyOrderedName;
+	static int savedAddressLength;
+	static int savedAddressLengthUpdated;
+	static String deliveryActualText;
+
+	static String thirdPartyIntegration = "lJI1mRVajw4FmFrNqOxEqFU_3QpH2HwpBSdpnt1m97";
+
+	static String response_type = "code";
+
+	static String scope = "user_read user_write account_read account_write";
+
+	static String corpStoreCode;
+
+	static String store = "PXLAB";
+
+	static String authentication1 = "anonymous";
+
+	static String integrationDetail1 = "os=iOS%7Cosversion=16.6%7Cdevice=iPhone%7CmerchantId=60019%7Cintegrator=Paytronix%7Cversion=REST:14.15%20-%20API:23.21.20231010%20-%20APP:2023101001";
+
+	public static String authentication = "oauth";
+
+	public static String[] welcomeConfig = { "{salutation}", "{firstName}", "{lastName}", "{username}" };
+
+	/**
+	 * @Class_Name Address
+	 * @Method_Name address
+	 * @Description Contains code to execute the test scripts for Address login flow
+	 *              feature for Android platform
+	 * 
+	 * @author Lalith Kishore Ravi
+	 */
+	@Test
+	public static void addresss() throws GeneralSecurityException, IOException, InterruptedException {
+
+		String editAddressHeaderTextString = commonMethods
+				.stringsReader(locationLocators.EDIT_ADDRESS_HEADER_TEXT_STRING);
+		String editAddressUpdateButtonTextString = commonMethods
+				.stringsReader(locationLocators.EDIT_ADDRESS_UPDATE_BUTTON_TEXT_STRING);
+		String editAddressCancelButtonTextString = commonMethods
+				.stringsReader(locationLocators.EDIT_ADDRESS_CANCEL_BUTTON_TEXT_STRING);
+		String deleteAddressHeaderTextString = commonMethods
+				.stringsReader(locationLocators.DELETE_ADDRESS_HEADER_TEXT_STRING);
+		String addressInvalidTextString = commonMethods.stringsReader(locationLocators.ADDRESS_INVALID_TEXT_STRING);
+		String noSavedAddressTextString = commonMethods.stringsReader(locationLocators.NO_SAVED_ADDRESS_TEXT_STRING);
+		String deliveryAddressHeaderTextString = commonMethods
+				.stringsReader(locationLocators.DELIVERY_ADDRESS_HEADER_TEXT_STRING);
+		String deliveryAddressSavedDeliveryAddressTextString = commonMethods
+				.stringsReader(locationLocators.DELIVERY_ADDRESS_SAVED_DELIVERY_ADDRESS_TEXT_STRING);
+		String deliveryAddressAddNewAddressTextString = commonMethods
+				.stringsReader(locationLocators.DELIVERY_ADDRESS_ADD_NEW_ADDRESS_TEXT_STRING);
+		String deliveryAddressContinueButtonTextString = commonMethods
+				.stringsReader(locationLocators.DELIVERY_ADDRESS_CONTINUE_BUTTON_TEXT_STRING);
+		String deliveryAddressAddNewDeliveryAddressTextString = commonMethods
+				.stringsReader(locationLocators.DELIVERY_ADDRESS_ADD_NEW_DELIVERY_ADDRESS_TEXT_STRING);
+		String deliveryAddressDeliveryTextString = commonMethods
+				.stringsReader(locationLocators.DELIVERY_ADDRESS_DELIVERY_TEXT_STRING);
+		String deliveryAddressCurbsideTextString = commonMethods
+				.stringsReader(locationLocators.DELIVERY_ADDRESS_CURBSIDE_TEXT_STRING);
+		String orderTypeTitleString = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_TITLE_STRING);
+		String asapText = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_ASAP_STRING);
+		String laterText = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_LATER_STRING);
+		String laterDescriptionText = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_LATER_DESCRIPTION_STRING);
+		String menuScreenTitleTextString = commonMethods
+				.stringsReader(menuScreenLocators.MENU_SCREEN_TITLE_TEXT_STRING);
+		String deliveryAddressRestaurantNotDeliveringTextString = commonMethods
+				.stringsReader(locationLocators.DELIVERY_ADDRESS_RESTAURANT_NOT_DELIVERING_TO_ADDRESS_TEXT_STRING);
+		String invalidAddressTextString = commonMethods
+				.stringsReader(locationLocators.DELIVERY_ADDRESS_INVALID_ADDRESS_STRING);
+		String cannotCompleteOrder = commonMethods
+				.stringsReader(dashBoardLocators.OD_RE_ORDER_CANNOT_COMPLETE_THIS_ORDER_STRING);
+		
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		BaseClass bc = new BaseClass();
+		List<String> addNewAddress = bc.odFlow();
+		List<String> appConfiguration = bc.appConfiguration();
+		List<String> storeName = bc.odFlow();
+
+		String storeShortCodeNumberConfiguration = appConfiguration.get(4);
+		String corpShortCodeNumberConfiguration = appConfiguration.get(5);
+		String state = storeName.get(110);
+		String country = storeName.get(111);
+
+		userName = appConfiguration.get(6);
+		passWord = appConfiguration.get(7);
+		merchantId = appConfiguration.get(8);
+		cardTemplateCode = appConfiguration.get(9);
+		storeGroupCode = appConfiguration.get(10);
+		clientId = appConfiguration.get(11);
+		integrationDetail = appConfiguration.get(12);
+		storeCode = appConfiguration.get(13);
+
+		System.out.println(storeShortCodeNumberConfiguration);
+		System.out.println(corpShortCodeNumberConfiguration);
+
+		String address1Line1 = addNewAddress.get(1);
+		String address1Line2 = addNewAddress.get(2);
+		String address1Zip = addNewAddress.get(3);
+		String address1SpecialInstructions = addNewAddress.get(4);
+		String address2Line1 = addNewAddress.get(5);
+		String address2Line2 = addNewAddress.get(6);
+		String address2Zip = addNewAddress.get(7);
+		String address2SpecialInstructions = addNewAddress.get(8);
+		String editAddress1Line1 = addNewAddress.get(9);
+		String editAddress1Line2 = addNewAddress.get(10);
+		String editAddress1SpecialInstructions = addNewAddress.get(11);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		String jsonString = "{\n" + "    \"fields\": {\n" + "        \"username\": \"" + userName + "\",\n"
+				+ "        \"password\": \"" + passWord + "\"\n" + "    },\n" + "    \"cardTemplateCode\": \""
+				+ cardTemplateCode + "\",\n" + "    \"scope\": \"user_read account_read account_write user_write\",\n"
+				+ "    \"merchantId\": \"" + merchantId + "\",\n"
+				+ "    \"grant_type\": \"http:\\/\\/paytronix.com\\/oauth\\/fieldset\",\n"
+				+ "    \"authentication\": \"anonymous\",\n"
+				+ "    \"access_token\": \"VDc_p1vU2AaPShcFTWcdX9BqRsaFf9upuMP7epvhWS\",\n" + "    \"client_id\": \""
+				+ clientId + "\"\n" + "}";
+
+		RequestSpecification request = io.restassured.RestAssured.given();
+
+		request.contentType(ContentType.JSON);
+
+		request.baseUri("https://www.train.paytronix.com:1283/rest/23.8/oauth/requestGuestToken.json");
+
+		request.body(jsonString);
+		Response response = request.post();
+		ValidatableResponse validatableResponse = response.then();
+ 		JSONObject jObj = new JSONObject(response.body().asString());
+		accessTokenGen = jObj.optString("access_token");
+		printedCardNumberResponse = jObj.optString("printedCardNumber");
+
+		io.restassured.RestAssured.baseURI = "https://www.train.paytronix.com:1283/rest/14.15/guest/userInformationByPrintedCardNumber.json?";
+		// Construct the query parameters
+		Map<String, String> params = new HashMap<>();
+		params.put("access_token", accessTokenGen);
+		params.put("client_id", clientId);
+		params.put("integrationDetail", integrationDetail);
+		params.put("authentication", authentication);
+		params.put("merchantId", merchantId);
+		params.put("printedCardNumber", printedCardNumberResponse);
+		RequestSpecification httpReq = io.restassured.RestAssured.given();
+		// specify the method type (GET) and the parameters if any.
+		// In this case the request does not take any parameters
+		RequestSpecification responseBody1 = httpReq.queryParams(params);
+		Response response2 = responseBody1.get("");
+
+		JSONObject jObject1 = new JSONObject(response2.body().asString());
+		JSONArray addressObject2 = jObject1.optJSONArray("addresses");
+
+		savedAddressLength = addressObject2.length();
+
+		System.out.println(savedAddressLength);
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+				.assignCategory(" Add New Delivery screen ");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		ExtentTest nextGenAddress = test.createNode("nextGenAddress");
+
+		boolean deliveryAddressHeaderTextStringBoolean = commonMethods
+				.elementFoundOrNotPopUp(deliveryAddressHeaderTextString);
+
+		if (deliveryAddressHeaderTextStringBoolean == true) {
+
+			FlutterElement deliveryAddressScreenTitleVk = find
+					.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_TITLE_TEXT_VK);
+
+			String deliveryAddressScreenTitleTextVk = deliveryAddressScreenTitleVk.getText();
+
+			commonMethods.assertMethod(deliveryAddressScreenTitleTextVk, deliveryAddressHeaderTextString,
+					"delivery screen title ",nextGenAddress);
+
+			boolean noSavedAddressTextStringBoolean = commonMethods.elementFoundOrNot(noSavedAddressTextString);
+
+			if (noSavedAddressTextStringBoolean == true) {
+
+				System.out.println(" Validated that no address is saved & hence we have to add the new address ");
+
+				FlutterElement noSavedAddressVk = find
+						.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_NO_SAVED_ADDRESS_TEXT_VK);
+
+				String noSavedAddressTextVk = noSavedAddressVk.getText();
+
+				commonMethods.assertMethod(noSavedAddressTextVk, noSavedAddressTextString,
+						"delivery screen no saved address ",nextGenAddress);
+
+			}
+
+			else {
+
+				System.out.println(" Validated that address is saved & hence adding the new address ");
+
+			}
+
+			String takeOutConfig = APIMethods.takeOutConfig();
+			
+			String hideTakeOutConfig = APIMethods.hideTakeOutConfig();
+
+			if ((takeOutConfig == "true" && hideTakeOutConfig == null) || (takeOutConfig == "true" && hideTakeOutConfig == "false")) {
+
+				boolean deliveryAddressTakeoutTextStringBoolean = commonMethods.elementFoundOrNotPopUp("TAKEOUT");
+
+				if (deliveryAddressTakeoutTextStringBoolean == true) {
+
+					FlutterElement takeOutVk = find
+							.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_ORDER_TYPE_BUTTON_VK + "_0");
+
+					String takeOutTextVk = takeOutVk.getText();
+
+					commonMethods.assertMethod(takeOutTextVk, "", "take out order type ",nextGenAddress);
+
+					takeOutVk.click();
+
+					boolean orderTypeTitleStringBoolean = commonMethods.elementFoundOrNotPopUp(orderTypeTitleString);
+					
+					boolean cannotCompleteOrderBoolean = commonMethods.elementFoundOrNotPopUp(cannotCompleteOrder);
+					
+					if(cannotCompleteOrderBoolean==true) {
+						
+						FlutterElement cannotCompleteThisOrderVk = find.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_CANNOT_COMPLETE_THIS_ORDER_DESCRIPTION_VK);
+						
+						String cannotCompleteThisOrderTextVk = cannotCompleteThisOrderVk.getText();
+						
+						commonMethods.assertvalidation(cannotCompleteThisOrderTextVk, cannotCompleteOrder, "cannot complete order popup", nextGenAddress);
+						
+						System.out.println(" Takeout order cannot be completed at this time ");
+						
+						find.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_CANNOT_COMPLETE_THIS_ORDER_OK_BUTTON_VK).click();
+						
+					}
+
+					else if (orderTypeTitleStringBoolean == true) {
+
+						boolean asapConfig = commonMethods.elementFoundOrNotPopUp(asapText);
+
+						boolean laterConfig = commonMethods.elementFoundOrNotPopUp(laterText);
+
+						boolean laterOrderTypeDescriptionStringBoolean = commonMethods
+								.elementFoundOrNotPopUp(laterDescriptionText);
+
+						if (asapConfig == true && laterConfig == true) {
+
+							FlutterElement asapTextVk = find.byValueKey(orderNowLocators.ORDER_ASAP_TEXT_VKL);
+
+							String asapTexttVk = asapTextVk.getText();
+
+							commonMethods.assertMethod(asapTexttVk, asapText, " asap order time ",nextGenAddress);
+
+							FlutterElement laterTextVk = find.byValueKey(orderNowLocators.ORDER_LATER_TEXT_VKL);
+
+							String laterTexttVk = laterTextVk.getText();
+
+							commonMethods.assertMethod(laterTexttVk, laterText, " later order time ",nextGenAddress);
+
+							asapTextVk.click();
+
+							boolean menuScreenTitleTextStringBoolean = commonMethods
+									.elementFoundOrNot(menuScreenTitleTextString);
+
+							if (menuScreenTitleTextStringBoolean == true) {
+
+								FlutterElement menuTitleVk = find.byValueKey(menuScreenLocators.MENU_SCREEN_TITLE_VK);
+
+								String menuTitleTextVk = menuTitleVk.getText();
+
+								commonMethods.assertMethod(menuTitleTextVk, menuScreenTitleTextString,
+										" menu screen title ",nextGenAddress);
+
+								FlutterElement menuBackIconVk = find
+										.byValueKey(menuScreenLocators.MENU_SCREEN_BACK_ICON_VK);
+
+								menuBackIconVk.click();
+
+								commonMethods.assertMethod(deliveryAddressScreenTitleTextVk,
+										deliveryAddressHeaderTextString,
+										" after tapping back icon from the menu screen it navigated to the delivery screen title ",nextGenAddress);
+
+							}
+
+							boolean deliveryAddressHeaderTextStringBoolean1 = commonMethods
+									.elementFoundOrNotPopUp(deliveryAddressHeaderTextString);
+
+							if (deliveryAddressHeaderTextStringBoolean1 == true) {
+
+								FlutterElement deliveryAddressScreenTitle1Vk = find
+										.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_TITLE_TEXT_VK);
+
+								String deliveryAddressScreenTitleText1Vk = deliveryAddressScreenTitle1Vk.getText();
+
+								commonMethods.assertMethod(deliveryAddressScreenTitleText1Vk,
+										deliveryAddressHeaderTextString,
+										" after tapping the close icon it's still in the delivery address page with the delivery screen title ",nextGenAddress);
+
+							}
+
+						} else if (laterOrderTypeDescriptionStringBoolean == true) {
+
+							System.out.println(laterDescriptionText + " is displayed ");
+
+							laterCancel();
+
+						} else {
+
+							boolean menuScreenTitleTextStringBoolean = commonMethods
+									.elementFoundOrNot(menuScreenTitleTextString);
+
+							if (menuScreenTitleTextStringBoolean == true) {
+
+								FlutterElement menuTitleVk = find.byValueKey(menuScreenLocators.MENU_SCREEN_TITLE_VK);
+
+								String menuTitleTextVk = menuTitleVk.getText();
+
+								commonMethods.assertMethod(menuTitleTextVk, menuScreenTitleTextString,
+										" menu screen title ",nextGenAddress);
+
+								FlutterElement menuBackIconVk = find
+										.byValueKey(menuScreenLocators.MENU_SCREEN_BACK_ICON_VK);
+
+								menuBackIconVk.click();
+
+								commonMethods.assertMethod(deliveryAddressScreenTitleTextVk,
+										deliveryAddressHeaderTextString,
+										" after tapping back icon from the menu screen it navigated to the delivery screen title ",nextGenAddress);
+
+							}
+
+							boolean deliveryAddressHeaderTextStringBoolean1 = commonMethods
+									.elementFoundOrNotPopUp(deliveryAddressHeaderTextString);
+
+							if (deliveryAddressHeaderTextStringBoolean1 == true) {
+
+								FlutterElement deliveryAddressScreenTitle1Vk = find
+										.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_TITLE_TEXT_VK);
+
+								String deliveryAddressScreenTitleText1Vk = deliveryAddressScreenTitle1Vk.getText();
+
+								commonMethods.assertMethod(deliveryAddressScreenTitleText1Vk,
+										deliveryAddressHeaderTextString,
+										" after tapping the close icon it's still in the delivery address page with the delivery screen title ",nextGenAddress);
+
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
+			String curbsideConfig = APIMethods.curbsideConfig();
+			
+			if(curbsideConfig!=null) {
+
+			if (curbsideConfig == "true") {
+
+				boolean deliveryAddressCurbsideTextStringBoolean = commonMethods
+						.elementFoundOrNotPopUp(deliveryAddressCurbsideTextString);
+
+				if (deliveryAddressCurbsideTextStringBoolean == true) {
+
+					if (takeOutConfig == "true") {
+
+						String hideTakeOutConfig1 = APIMethods.hideTakeOutConfig();
+
+						if (hideTakeOutConfig1 == "false") {
+
+							FlutterElement curbSideVk = find
+									.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_ORDER_TYPE_BUTTON_VK + "_1");
+
+							String curbSideTextVk = curbSideVk.getText();
+
+							commonMethods.assertMethod(curbSideTextVk, deliveryAddressCurbsideTextString,
+									" curbside order type ",nextGenAddress);
+
+							curbSideVk.click();
+
+							boolean orderTypeTitleStringBoolean = commonMethods
+									.elementFoundOrNotPopUp(orderTypeTitleString);
+
+							if (orderTypeTitleStringBoolean == true) {
+
+								boolean asapConfig = commonMethods.elementFoundOrNotPopUp(asapText);
+
+								boolean laterConfig = commonMethods.elementFoundOrNotPopUp(laterText);
+
+								boolean laterOrderTypeDescriptionStringBoolean = commonMethods
+										.elementFoundOrNotPopUp(laterDescriptionText);
+
+								if (asapConfig == true && laterConfig == true) {
+
+									FlutterElement asapTextVk = find.byValueKey(orderNowLocators.ORDER_ASAP_TEXT_VKL);
+
+									String asapTexttVk = asapTextVk.getText();
+
+									commonMethods.assertMethod(asapTexttVk, asapText, " asap order time ",nextGenAddress);
+
+									FlutterElement laterTextVk = find.byValueKey(orderNowLocators.ORDER_LATER_TEXT_VKL);
+
+									String laterTexttVk = laterTextVk.getText();
+
+									commonMethods.assertMethod(laterTexttVk, laterText, " later order time ",nextGenAddress);
+
+									asapTextVk.click();
+
+									Thread.sleep(7000);
+
+									boolean menuScreenTitleTextStringBoolean = commonMethods
+											.elementFoundOrNot(menuScreenTitleTextString);
+
+									if (menuScreenTitleTextStringBoolean == true) {
+
+										FlutterElement menuTitleVk = find
+												.byValueKey(menuScreenLocators.MENU_SCREEN_TITLE_VK);
+
+										String menuTitleTextVk = menuTitleVk.getText();
+
+										commonMethods.assertMethod(menuTitleTextVk, menuScreenTitleTextString,
+												" menu screen title ",nextGenAddress);
+
+										FlutterElement menuBackIconVk = find
+												.byValueKey(menuScreenLocators.MENU_SCREEN_BACK_ICON_VK);
+
+										menuBackIconVk.click();
+
+										commonMethods.assertMethod(deliveryAddressScreenTitleTextVk,
+												deliveryAddressScreenTitleTextVk,
+												" after tapping back icon from the menu screen it navigated to the delivery screen title ",nextGenAddress);
+
+									}
+
+									boolean deliveryAddressHeaderTextStringBoolean1 = commonMethods
+											.elementFoundOrNotPopUp(deliveryAddressHeaderTextString);
+
+									if (deliveryAddressHeaderTextStringBoolean1 == true) {
+
+										FlutterElement deliveryAddressScreenTitle1Vk = find
+												.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_TITLE_TEXT_VK);
+
+										String deliveryAddressScreenTitleText1Vk = deliveryAddressScreenTitle1Vk
+												.getText();
+
+										commonMethods.assertMethod(deliveryAddressScreenTitleText1Vk,
+												deliveryAddressHeaderTextString,
+												" after tapping the close icon it's still in the delivery address page with the delivery screen title ",nextGenAddress);
+									}
+
+								} else if (laterOrderTypeDescriptionStringBoolean == true) {
+
+									laterCancel();
+
+								}
+
+								else {
+
+									boolean menuScreenTitleTextStringBoolean = commonMethods
+											.elementFoundOrNot(menuScreenTitleTextString);
+
+									if (menuScreenTitleTextStringBoolean == true) {
+
+										FlutterElement menuTitleVk = find
+												.byValueKey(menuScreenLocators.MENU_SCREEN_TITLE_VK);
+
+										String menuTitleTextVk = menuTitleVk.getText();
+
+										commonMethods.assertMethod(menuTitleTextVk, menuScreenTitleTextString,
+												" menu screen title ",nextGenAddress);
+
+										FlutterElement menuBackIconVk = find
+												.byValueKey(menuScreenLocators.MENU_SCREEN_BACK_ICON_VK);
+
+										menuBackIconVk.click();
+
+										commonMethods.assertMethod(deliveryAddressScreenTitleTextVk,
+												deliveryAddressHeaderTextString,
+												" after tapping back icon from the menu screen it navigated to the delivery screen title ",nextGenAddress);
+
+									}
+
+									boolean deliveryAddressHeaderTextStringBoolean1 = commonMethods
+											.elementFoundOrNotPopUp(deliveryAddressHeaderTextString);
+
+									if (deliveryAddressHeaderTextStringBoolean1 == true) {
+
+										FlutterElement deliveryAddressScreenTitle1Vk = find
+												.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_TITLE_TEXT_VK);
+
+										String deliveryAddressScreenTitleText1Vk = deliveryAddressScreenTitle1Vk
+												.getText();
+
+										commonMethods.assertMethod(deliveryAddressScreenTitleText1Vk,
+												deliveryAddressHeaderTextString,
+												" after tapping the close icon it's still in the delivery address page with the delivery screen title ",nextGenAddress);
+
+									}
+
+								}
+							}
+						}
+					} else {
+
+						FlutterElement curbSideVk = find
+								.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_ORDER_TYPE_BUTTON_VK + "_0");
+
+						String curbSideTextVk = curbSideVk.getText();
+
+						commonMethods.assertMethod(curbSideTextVk, deliveryAddressCurbsideTextString,
+								" curbside order type ",nextGenAddress);
+
+						curbSideVk.click();
+
+						boolean orderTypeTitleStringBoolean = commonMethods
+								.elementFoundOrNotPopUp(orderTypeTitleString);
+
+						if (orderTypeTitleStringBoolean == true) {
+
+							boolean asapConfig = commonMethods.elementFoundOrNotPopUp(asapText);
+
+							boolean laterConfig = commonMethods.elementFoundOrNotPopUp(laterText);
+
+							boolean laterOrderTypeDescriptionStringBoolean = commonMethods
+									.elementFoundOrNotPopUp(laterDescriptionText);
+
+							if (asapConfig == true && laterConfig == true) {
+
+								FlutterElement asapTextVk = find.byValueKey(orderNowLocators.ORDER_ASAP_TEXT_VKL);
+
+								String asapTexttVk = asapTextVk.getText();
+
+								commonMethods.assertMethod(asapTexttVk, asapText, " asap order time ",nextGenAddress);
+
+								FlutterElement laterTextVk = find.byValueKey(orderNowLocators.ORDER_LATER_TEXT_VKL);
+
+								String laterTexttVk = laterTextVk.getText();
+
+								commonMethods.assertMethod(laterTexttVk, laterText, " later order time ",nextGenAddress);
+
+								asapTextVk.click();
+
+								Thread.sleep(7000);
+
+								boolean menuScreenTitleTextStringBoolean = commonMethods
+										.elementFoundOrNot(menuScreenTitleTextString);
+
+								if (menuScreenTitleTextStringBoolean == true) {
+
+									FlutterElement menuTitleVk = find
+											.byValueKey(menuScreenLocators.MENU_SCREEN_TITLE_VK);
+
+									String menuTitleTextVk = menuTitleVk.getText();
+
+									commonMethods.assertMethod(menuTitleTextVk, menuScreenTitleTextString,
+											" menu screen title ",nextGenAddress);
+
+									FlutterElement menuBackIconVk = find
+											.byValueKey(menuScreenLocators.MENU_SCREEN_BACK_ICON_VK);
+
+									menuBackIconVk.click();
+
+									commonMethods.assertMethod(deliveryAddressScreenTitleTextVk,
+											deliveryAddressScreenTitleTextVk,
+											" after tapping back icon from the menu screen it navigated to the delivery screen title ",nextGenAddress);
+
+								}
+
+								boolean deliveryAddressHeaderTextStringBoolean1 = commonMethods
+										.elementFoundOrNotPopUp(deliveryAddressHeaderTextString);
+
+								if (deliveryAddressHeaderTextStringBoolean1 == true) {
+
+									FlutterElement deliveryAddressScreenTitle1Vk = find
+											.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_TITLE_TEXT_VK);
+
+									String deliveryAddressScreenTitleText1Vk = deliveryAddressScreenTitle1Vk.getText();
+
+									commonMethods.assertMethod(deliveryAddressScreenTitleText1Vk,
+											deliveryAddressHeaderTextString,
+											" after tapping the close icon it's still in the delivery address page with the delivery screen title ",nextGenAddress);
+								}
+
+							} else if (laterOrderTypeDescriptionStringBoolean == true) {
+
+								laterCancel();
+							}
+
+							else {
+
+								boolean menuScreenTitleTextStringBoolean = commonMethods
+										.elementFoundOrNot(menuScreenTitleTextString);
+
+								if (menuScreenTitleTextStringBoolean == true) {
+
+									FlutterElement menuTitleVk = find
+											.byValueKey(menuScreenLocators.MENU_SCREEN_TITLE_VK);
+
+									String menuTitleTextVk = menuTitleVk.getText();
+
+									commonMethods.assertMethod(menuTitleTextVk, menuScreenTitleTextString,
+											" menu screen title ",nextGenAddress);
+
+									FlutterElement menuBackIconVk = find
+											.byValueKey(menuScreenLocators.MENU_SCREEN_BACK_ICON_VK);
+
+									menuBackIconVk.click();
+
+									commonMethods.assertMethod(deliveryAddressScreenTitleTextVk,
+											deliveryAddressHeaderTextString,
+											" after tapping back icon from the menu screen it navigated to the delivery screen title ",nextGenAddress);
+
+								}
+
+								boolean deliveryAddressHeaderTextStringBoolean1 = commonMethods
+										.elementFoundOrNotPopUp(deliveryAddressHeaderTextString);
+
+								if (deliveryAddressHeaderTextStringBoolean1 == true) {
+
+									FlutterElement deliveryAddressScreenTitle1Vk = find
+											.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_TITLE_TEXT_VK);
+
+									String deliveryAddressScreenTitleText1Vk = deliveryAddressScreenTitle1Vk.getText();
+
+									commonMethods.assertMethod(deliveryAddressScreenTitleText1Vk,
+											deliveryAddressHeaderTextString,
+											" after tapping the close icon it's still in the delivery address page with the delivery screen title ",nextGenAddress);
+
+								}
+
+							}
+						}
+
+					}
+
+				}
+
+			}
+		}else {
+			
+			System.out.println(" Curbside is null and it's not displayed");
+		}
+
+			String deliveryConfig = APIMethods.deliveryConfig();
+
+			if (deliveryConfig == "true") {
+
+				boolean deliveryAddressDeliveryTextStringBoolean = commonMethods
+						.elementFoundOrNotPopUp(deliveryAddressDeliveryTextString);
+
+				String hideTakeOutConfig1 = APIMethods.hideTakeOutConfig();
+
+				if (deliveryAddressDeliveryTextStringBoolean == true) {
+
+					if (takeOutConfig == "true" && curbsideConfig == "true" && hideTakeOutConfig1 == "false") {
+
+						FlutterElement deliveryVk = find
+								.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_ORDER_TYPE_BUTTON_VK + "_2");
+
+						String deliveryTextVk = deliveryVk.getText();
+
+						commonMethods.assertMethod(deliveryTextVk, deliveryAddressDeliveryTextString,
+								" delivery order type ",nextGenAddress);
+
+						deliveryVk.click();
+
+					} else if ((takeOutConfig == "false" && curbsideConfig == "false")||(takeOutConfig == "false" && curbsideConfig == null)) {
+
+						FlutterElement deliveryVk = find
+								.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_ORDER_TYPE_BUTTON_VK + "_0");
+
+						String deliveryTextVk = deliveryVk.getText();
+
+						commonMethods.assertMethod(deliveryTextVk, deliveryAddressDeliveryTextString,
+								" delivery order type ",nextGenAddress);
+
+						deliveryVk.click();
+
+					}
+
+					else if ((takeOutConfig == "false" && curbsideConfig == "true") ||(takeOutConfig == "true" && curbsideConfig == null)
+							|| (takeOutConfig == "true" && curbsideConfig == "false")) {
+
+						FlutterElement deliveryVk = find
+								.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_ORDER_TYPE_BUTTON_VK + "_1");
+
+						String deliveryTextVk = deliveryVk.getText();
+
+						commonMethods.assertMethod(deliveryTextVk, deliveryAddressDeliveryTextString,
+								" delivery order type ",nextGenAddress);
+
+						deliveryVk.click();
+
+					}
+
+				}
+
+			}
+
+			CommonMethods.switchContext("FLUTTER");
+
+			FlutterElement addNewAddressDetailsVk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_DETAILS_VK);
+
+			String addNewAddressDetailsTextVk = addNewAddressDetailsVk.getText();
+
+			commonMethods.assertMethod(addNewAddressDetailsTextVk, deliveryAddressDeliveryTextString,
+					" add new address header ",nextGenAddress);
+
+			FlutterElement addNewAddressOrderTypeVk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_ORDER_TYPE_VK);
+
+			String addNewAddressOrderTypeTextVk = addNewAddressOrderTypeVk.getText();
+
+			commonMethods.assertMethod(addNewAddressOrderTypeTextVk, deliveryAddressAddNewAddressTextString,
+					" add new address sub header ",nextGenAddress);
+
+			FlutterElement savedDeliveryAddressHeaderVk = find
+					.byValueKey(locationLocators.SAVED_DELIVERY_ADDRESS_HEADER_VK);
+
+			String savedDeliveryAddressHeaderTextVk = savedDeliveryAddressHeaderVk.getText();
+
+			commonMethods.assertMethod(savedDeliveryAddressHeaderTextVk, deliveryAddressSavedDeliveryAddressTextString,
+					" saved delivery address header ",nextGenAddress);
+
+			FlutterElement addNewAddressVk = find.byValueKey((locationLocators.ADD_NEW_ADDRESS_BUTTON_VK));
+
+			addNewAddressVk.click();
+
+			FlutterElement addNewDeliveryAddressHeaderVk = find
+					.byValueKey(locationLocators.ADD_NEW_DELIVERY_ADDRESS_HEADER_VK);
+
+			String addNewDeliveryAddressHeaderTextVk = addNewDeliveryAddressHeaderVk.getText();
+
+			commonMethods.assertMethod(addNewDeliveryAddressHeaderTextVk,
+					deliveryAddressAddNewDeliveryAddressTextString, " add new delivery address header ",nextGenAddress);
+
+			commonMethods.scrollDown();
+
+			FlutterElement addNewAddressLineVk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_LINE1_VK);
+
+			addNewAddressLineVk.sendKeys(address1Line1 + ",");
+
+			FlutterElement addNewAddressZipVk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_ZIP_VK);
+
+			addNewAddressZipVk.sendKeys(address1Zip);
+
+			FlutterElement addNewAddressLine2Vk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_LINE2_VK);
+
+			addNewAddressLine2Vk.sendKeys(address1Line2 + ",");
+
+			FlutterElement stateField = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_STATE_DROPDOWN_VK);
+
+			stateField.click();
+
+			state(state);
+
+			FlutterElement countryField = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_COUNTRY_DROPDOWN_VK);
+
+			countryField.click();
+
+			country(country);
+
+			FlutterElement addNewAddressSpecialInstructionVk = find
+					.byValueKey(locationLocators.ADD_NEW_ADDRESS_SPECIAL_INSTRUCTIONS_VK);
+
+			addNewAddressSpecialInstructionVk.sendKeys(address1SpecialInstructions);
+
+			find.byValueKey(locationLocators.ADD_NEW_ADDRESS_LINE1_VK).sendKeys(address1Line1);
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(3000);
+
+			driver.findElement(By.xpath(locationLocators.ADD_NEW_ADDRESS_SCREEN_NATIVE_DONE_ANDROID_XPATH)).click();
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(3000);
+
+			FlutterElement addNewAddressScreenContinueButtonVk = find
+					.byValueKey(locationLocators.ADD_NEW_ADDRESS_SCREEN_CONTINUE_BUTTON_VK);
+
+			String addNewAddressScreenContinueButtonTextVk = addNewAddressScreenContinueButtonVk.getText();
+
+			commonMethods.assertMethod(addNewAddressScreenContinueButtonTextVk, deliveryAddressContinueButtonTextString,
+					" add new address screen continue button ",nextGenAddress);
+
+			addNewAddressScreenContinueButtonVk.click();
+
+			String invalidAddressPopUpText = find.byValueKey(locationLocators.POPUP_DESCRIPTION_VK).getText();
+
+			commonMethods.assertMethod(invalidAddressPopUpText, addressInvalidTextString, " invalid address pop-up ",nextGenAddress);
+
+			find.byValueKey(locationLocators.POPUP_OK_BUTTON_VK).click();
+
+			commonMethods.scrollDown();
+
+			FlutterElement addNewAddress1Line1Vk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_LINE1_VK);
+
+			addNewAddress1Line1Vk.sendKeys(address2Line1);
+
+			FlutterElement addNewAddress1Line2Vk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_LINE2_VK);
+
+			addNewAddress1Line2Vk.sendKeys(address2Line2);
+
+			FlutterElement stateField2 = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_STATE_DROPDOWN_VK);
+
+			stateField2.click();
+
+			state(state);
+
+			FlutterElement countryField2 = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_COUNTRY_DROPDOWN_VK);
+
+			countryField.click();
+
+			country(country);
+
+			FlutterElement addNewAddressZip1Vk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_ZIP_VK);
+
+			addNewAddressZip1Vk.sendKeys(address2Zip);
+
+			FlutterElement addNewAddressSpecialInstruction1Vk = find
+					.byValueKey(locationLocators.ADD_NEW_ADDRESS_SPECIAL_INSTRUCTIONS_VK);
+
+			addNewAddressSpecialInstruction1Vk.sendKeys(address2SpecialInstructions);
+
+			Thread.sleep(3000);
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			driver.findElement(By.xpath(locationLocators.ADD_NEW_ADDRESS_SCREEN_NATIVE_DONE_ANDROID_XPATH)).click();
+
+			Thread.sleep(3000);
+
+			CommonMethods.switchContext("FLUTTER");
+
+			FlutterElement addNewAddressScreenContinueButton1Vk = find
+					.byValueKey(locationLocators.ADD_NEW_ADDRESS_SCREEN_CONTINUE_BUTTON_VK);
+
+			String addNewAddressScreenContinueButtonText1Vk = addNewAddressScreenContinueButtonVk.getText();
+
+			commonMethods.assertMethod(addNewAddressScreenContinueButtonText1Vk,
+					deliveryAddressContinueButtonTextString, " add new address screen continue button ",nextGenAddress);
+
+			addNewAddressScreenContinueButton1Vk.click();
+
+			boolean deliveryAddressRestaurantNotDeliveringTextStringBoolean = commonMethods
+					.elementFoundOrNotPopUp(deliveryAddressRestaurantNotDeliveringTextString);
+
+			boolean invalidAddressTextStringBoolean = commonMethods.elementFoundOrNotPopUp(invalidAddressTextString);
+
+			boolean orderTypeTitleStringBoolean = commonMethods.elementFoundOrNotPopUp(orderTypeTitleString);
+
+			if (deliveryAddressRestaurantNotDeliveringTextStringBoolean == true) {
+
+				FlutterElement deliveryAddressRestaurantNotDeliveringVk = find
+						.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_POPUP_DESCRIPTION_VK);
+
+				String deliveryAddressRestaurantNotDeliveringTextVk = deliveryAddressRestaurantNotDeliveringVk
+						.getText();
+
+				commonMethods.assertMethod(deliveryAddressRestaurantNotDeliveringTextVk,
+						deliveryAddressRestaurantNotDeliveringTextString,
+						deliveryAddressRestaurantNotDeliveringTextString,nextGenAddress);
+
+				find.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_POPUP_YES_TEXT_VK).click();
+
+				System.out.println(
+						" As the restaurant is not delivering to the given address & hence address needs to be changed ");
+
+			}
+
+			else if (invalidAddressTextStringBoolean == true) {
+
+				FlutterElement invalidAddressVk = find
+						.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_POPUP_DESCRIPTION_VK);
+
+				String invalidAddressTextVk = invalidAddressVk.getText();
+
+				commonMethods.assertMethod(invalidAddressTextVk, invalidAddressTextString, invalidAddressTextString,nextGenAddress);
+
+				find.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_POPUP_YES_TEXT_VK).click();
+
+				System.out.println(" As the given address is invalid & hence address needs to be changed ");
+			}
+
+			else if (orderTypeTitleStringBoolean == true) {
+				
+				boolean laterOrderTypeDescriptionStringBoolean = commonMethods
+						.elementFoundOrNotPopUp(laterDescriptionText);
+				
+				if(laterOrderTypeDescriptionStringBoolean==true) {
+					
+					laterCancel();
+					
+				}
+				
+				else {
+
+				find.byValueKey(locationLocators.AVAILABLE_ORDER_TYPE_WHEN_CLOSE_BUTTON_VK).click();
+				
+				}
+
+				Thread.sleep(7000);
+
+				io.restassured.RestAssured.baseURI = "https://www.train.paytronix.com:1283/rest/14.15/guest/userInformationByPrintedCardNumber.json?";
+				// Construct the query parameters
+				Map<String, String> params1 = new HashMap<>();
+				params1.put("access_token", accessTokenGen);
+				params1.put("client_id", clientId);
+				params1.put("integrationDetail", integrationDetail);
+				params1.put("authentication", authentication);
+				params1.put("merchantId", merchantId);
+				params1.put("printedCardNumber", printedCardNumberResponse);
+				RequestSpecification httpReq1 = io.restassured.RestAssured.given();
+				// specify the method type (GET) and the parameters if any.
+				// In this case the request does not take any parameters
+				RequestSpecification responseBody2 = httpReq1.queryParams(params);
+				Response response3 = responseBody2.get("");
+
+				JSONObject jObject2 = new JSONObject(response3.body().asString());
+				JSONArray addressObject3 = jObject2.optJSONArray("addresses");
+
+				savedAddressLengthUpdated = addressObject3.length();
+
+				System.out.println(savedAddressLengthUpdated);
+
+				try {
+					Assert.assertEquals(savedAddressLengthUpdated, savedAddressLength + 1,
+							" Validated that once after adding new address only one address is added and it's not duplicated ");
+
+					System.out.println(
+							" Validated that once after adding new address only one address is added and it's not duplicated ");
+
+					nextGenAddress.info(MarkupHelper.createLabel(
+							" Validated that once after adding new address only one address is added and it's not duplicated ",
+							ExtentColor.CYAN));
+
+					nextGenAddress.addScreenCaptureFromBase64String(takeScreenshot(driver),
+							" Validated that once after adding new address only one address is added and it's not duplicated ");
+
+				} catch (AssertionError e) {
+
+					nextGenAddress.log(Status.FAIL,
+							" Validated that once after adding new address only one address is added and it's duplicated ");
+
+					Thread.sleep(1500);
+
+					nextGenAddress.addScreenCaptureFromBase64String(takeScreenshot(driver),
+							" Validated that once after adding new address only one address is added and it's duplicated ");
+				}
+
+				commonMethods.scrollUp();
+
+				if (savedAddressLengthUpdated - savedAddressLength == 1) {
+
+					Assert.assertEquals(true, true, " Validated that after adding ");
+
+					for (int i = 0; i < savedAddressLengthUpdated; i++) {
+
+						FlutterElement selectSavedDeliveryAddressVk = find.byValueKey("delivery_list_" + i);
+
+						String selectSavedDeliveryAddressTextVk = selectSavedDeliveryAddressVk.getText();
+
+						System.out.println(" Saved delivery address text in the index : " + i + " is : "
+								+ selectSavedDeliveryAddressTextVk);
+
+						nextGenAddress.info(MarkupHelper.createLabel(" Saved delivery address text in the index : " + i
+								+ " is : " + selectSavedDeliveryAddressTextVk, ExtentColor.CYAN));
+
+						nextGenAddress.addScreenCaptureFromBase64String(takeScreenshot(driver),
+								" Saved delivery address text in the index : " + i + " is : "
+										+ selectSavedDeliveryAddressTextVk);
+
+					}
+
+					FlutterElement orderTypePopUpHeaderTextVk = find
+							.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_ORDER_TYPE_HEADERTEXT_VK);
+
+					String orderTypePopUpHeaderTextTVk = orderTypePopUpHeaderTextVk.getText();
+
+					System.out.println(" Order type pop-up header text is : " + orderTypePopUpHeaderTextTVk);
+
+					CommonMethods.switchContext("FLUTTER");
+
+					Thread.sleep(3000);
+
+					FlutterElement addNewAddressEditIcon = find
+							.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_EDIT_ICON_VK + "_1");
+
+					addNewAddressEditIcon.click();
+
+					FlutterElement addNewUpdateAddressTextVk = find
+							.byValueKey(locationLocators.ADD_NEW_UPDATE_ADDRESS_TEXT_HEADER_VK);
+
+					String addNewUpdateAddressTextTVk = addNewUpdateAddressTextVk.getText();
+
+					commonMethods.assertMethod(addNewUpdateAddressTextTVk, editAddressHeaderTextString,
+							" update delivery pop-up header ",nextGenAddress);
+
+					FlutterElement addNewUpdateAddressCancelButtonVk = find
+							.byValueKey(locationLocators.ADD_NEW_UPDATE_ADDRESS_CANCEL_BUTTON_VK);
+
+					String addNewUpdateAddressCancelButtonTextVk = addNewUpdateAddressCancelButtonVk.getText();
+
+					commonMethods.assertMethod(addNewUpdateAddressCancelButtonTextVk, editAddressCancelButtonTextString,
+							" update delivery pop-up cancel button ",nextGenAddress);
+
+					addNewUpdateAddressCancelButtonVk.click();
+
+					FlutterElement savedDeliveryAddressVk = find
+							.byValueKey(locationLocators.SAVED_DELIVERY_ADDRESS_HEADER_VK);
+
+					String savedDeliveryAddressTextVk = savedDeliveryAddressVk.getText();
+
+					commonMethods.assertMethod(savedDeliveryAddressTextVk,
+							deliveryAddressSavedDeliveryAddressTextString, " saved delivery address header ",nextGenAddress);
+
+					FlutterElement addNewAddressEdit1IconVk = find
+							.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_EDIT_ICON_VK + "_1");
+
+					addNewAddressEdit1IconVk.click();
+
+					FlutterElement updateDeliveryAddressAddressLine1Vk = find
+							.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_ADDRESS_LINE1_VK);
+
+					updateDeliveryAddressAddressLine1Vk.clear();
+
+					updateDeliveryAddressAddressLine1Vk.sendKeys(editAddress1Line1);
+
+					FlutterElement updateDeliveryAddressAddressLine2Vk = find
+							.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_ADDRESS_LINE2_VK);
+
+					updateDeliveryAddressAddressLine2Vk.clear();
+
+					updateDeliveryAddressAddressLine2Vk.sendKeys(editAddress1Line2);
+
+					CommonMethods.switchContext("FLUTTER");
+
+					Thread.sleep(3000);
+
+					FlutterElement updateDeliveryAddressSpecialDeliveryInstructionsVk = find
+							.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_ADDRESS_SPECIAL_INSTRUCTIONS_VK);
+
+					updateDeliveryAddressSpecialDeliveryInstructionsVk.clear();
+
+					updateDeliveryAddressSpecialDeliveryInstructionsVk.sendKeys(editAddress1SpecialInstructions);
+
+					FlutterElement updateDeliveryAddressUpdateButtonVk = find
+							.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_UPDATE_BUTTON_VK);
+
+					String updateDeliveryAddressUpdateButtontextVk = updateDeliveryAddressUpdateButtonVk.getText();
+
+					commonMethods.assertMethod(updateDeliveryAddressUpdateButtontextVk,
+							editAddressUpdateButtonTextString, " update delivery address update button ",nextGenAddress);
+
+					nextGenAddress
+							.addScreenCaptureFromBase64String(" Update delivery address update button text is : ");
+
+					updateDeliveryAddressUpdateButtonVk.click();
+
+					commonMethods.assertMethod(savedDeliveryAddressTextVk,
+							deliveryAddressSavedDeliveryAddressTextString, " saved delivery address header ",nextGenAddress);
+
+					for (int i = savedAddressLength; i >= 0; i--) {
+
+						if (i == 0) {
+
+							System.out.println(" Unable to delete the primary address which is in index : " + i);
+						}
+
+						else {
+
+							FlutterElement addNewAddressDeleteIconVk = find.byValueKey("delete_icon_" + i);
+
+							addNewAddressDeleteIconVk.click();
+
+							FlutterElement addNewAddressDeletePopUpTitleVk = find
+									.byValueKey(locationLocators.POPUP_DESCRIPTION_VK);
+
+							String addNewAddressDeletePopUpTitleTextVk = addNewAddressDeletePopUpTitleVk.getText();
+
+							commonMethods.assertMethod(addNewAddressDeletePopUpTitleTextVk,
+									deleteAddressHeaderTextString, " delete saved address pop-up header ",nextGenAddress);
+
+							FlutterElement addNewAddressDeleteNoButtonVk = find
+									.byValueKey(locationLocators.ADD_NEW_ADDRESS_DELETE_POPUP_NO_BUTTON_VK);
+
+							addNewAddressDeleteNoButtonVk.click();
+
+							String savedDeliveryAddressText1Vk = savedDeliveryAddressVk.getText();
+
+							commonMethods.assertMethod(savedDeliveryAddressText1Vk,
+									deliveryAddressSavedDeliveryAddressTextString,
+									" after tapping no button in the delete address pop-up the saved delivery address header ",nextGenAddress);
+
+							FlutterElement addNewAddressDeleteIcon1Vk = find.byValueKey("delete_icon_" + i);
+
+							addNewAddressDeleteIcon1Vk.click();
+
+							FlutterElement addNewAddressDeleteYesButtonVk = find
+									.byValueKey(locationLocators.ADD_NEW_ADDRESS_DELETE_POPUP_YES_BUTTON_VK);
+
+							addNewAddressDeleteYesButtonVk.click();
+
+						}
+					}
+
+				} else {
+
+					for (int i = 0; i < savedAddressLengthUpdated; i++) {
+
+						FlutterElement selectSavedDeliveryAddressVk = find.byValueKey("delivery_list_" + i);
+
+						String selectSavedDeliveryAddressTextVk = selectSavedDeliveryAddressVk.getText();
+
+						System.out.println(selectSavedDeliveryAddressTextVk);
+
+					}
+
+					CommonMethods.switchContext("FLUTTER");
+
+					Thread.sleep(3000);
+
+					FlutterElement addNewAddressEditIcon = find
+							.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_EDIT_ICON_VK + "_1");
+
+					addNewAddressEditIcon.click();
+
+					FlutterElement addNewUpdateAddressTextVk = find
+							.byValueKey(locationLocators.ADD_NEW_UPDATE_ADDRESS_TEXT_HEADER_VK);
+
+					String addNewUpdateAddressTextTVk = addNewUpdateAddressTextVk.getText();
+
+					commonMethods.assertMethod(addNewUpdateAddressTextTVk, editAddressHeaderTextString,
+							" update delivery pop-up header ",nextGenAddress);
+
+					FlutterElement addNewUpdateAddressCancelButtonVk = find
+							.byValueKey(locationLocators.ADD_NEW_UPDATE_ADDRESS_CANCEL_BUTTON_VK);
+
+					String addNewUpdateAddressCancelButtonTextVk = addNewUpdateAddressCancelButtonVk.getText();
+
+					commonMethods.assertMethod(addNewUpdateAddressCancelButtonTextVk, editAddressCancelButtonTextString,
+							" update delivery pop-up cancel button ",nextGenAddress);
+
+					addNewUpdateAddressCancelButtonVk.click();
+
+					FlutterElement savedDeliveryAddressVk = find
+							.byValueKey(locationLocators.SAVED_DELIVERY_ADDRESS_HEADER_VK);
+
+					String savedDeliveryAddressTextVk = savedDeliveryAddressVk.getText();
+
+					commonMethods.assertMethod(savedDeliveryAddressTextVk,
+							deliveryAddressSavedDeliveryAddressTextString, " saved delivery address header ",nextGenAddress);
+
+					FlutterElement addNewAddressEdit1IconVk = find
+							.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_EDIT_ICON_VK + "_1");
+
+					addNewAddressEdit1IconVk.click();
+
+					FlutterElement updateDeliveryAddressAddressLine1Vk = find
+							.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_ADDRESS_LINE1_VK);
+
+					updateDeliveryAddressAddressLine1Vk.clear();
+
+					updateDeliveryAddressAddressLine1Vk.sendKeys(editAddress1Line1);
+
+					FlutterElement updateDeliveryAddressAddressLine2Vk = find
+							.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_ADDRESS_LINE2_VK);
+
+					updateDeliveryAddressAddressLine2Vk.clear();
+
+					updateDeliveryAddressAddressLine2Vk.sendKeys(editAddress1Line2);
+
+					CommonMethods.switchContext("FLUTTER");
+
+					Thread.sleep(3000);
+
+					FlutterElement updateDeliveryAddressSpecialDeliveryInstructionsVk = find
+							.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_ADDRESS_SPECIAL_INSTRUCTIONS_VK);
+
+					updateDeliveryAddressSpecialDeliveryInstructionsVk.clear();
+
+					updateDeliveryAddressSpecialDeliveryInstructionsVk.sendKeys(editAddress1SpecialInstructions);
+
+					FlutterElement updateDeliveryAddressUpdateButtonVk = find
+							.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_UPDATE_BUTTON_VK);
+
+					String updateDeliveryAddressUpdateButtontextVk = updateDeliveryAddressUpdateButtonVk.getText();
+
+					commonMethods.assertMethod(updateDeliveryAddressUpdateButtontextVk,
+							editAddressUpdateButtonTextString, " update delivery address update button ",nextGenAddress);
+
+					updateDeliveryAddressUpdateButtonVk.click();
+
+					commonMethods.assertMethod(savedDeliveryAddressTextVk,
+							deliveryAddressSavedDeliveryAddressTextString,
+							" after tapping update button in the edit address pop-up it navigated to saved delivery address header ",nextGenAddress);
+
+					for (int i = savedAddressLength; i >= 0; i--) {
+
+						if (i == 0) {
+
+							System.out.println(" Unable to delete the primary address which is in index : " + i);
+
+							nextGenAddress.info(MarkupHelper.createLabel(
+									" Unable to delete the primary address which is in index : " + i,
+									ExtentColor.CYAN));
+
+							nextGenAddress.addScreenCaptureFromBase64String(
+									" Unable to delete the primary address which is in index : " + i);
+
+						}
+
+						else {
+
+							FlutterElement addNewAddressDeleteIconVk = find.byValueKey("delete_icon_" + i);
+
+							addNewAddressDeleteIconVk.click();
+
+							FlutterElement addNewAddressDeletePopUpTitleVk = find
+									.byValueKey(locationLocators.POPUP_DESCRIPTION_VK);
+
+							String addNewAddressDeletePopUpTitleTextVk = addNewAddressDeletePopUpTitleVk.getText();
+
+							commonMethods.assertMethod(addNewAddressDeletePopUpTitleTextVk,
+									deleteAddressHeaderTextString, " delete saved address pop-up header ",nextGenAddress);
+
+							FlutterElement addNewAddressDeleteNoButtonVk = find
+									.byValueKey(locationLocators.ADD_NEW_ADDRESS_DELETE_POPUP_NO_BUTTON_VK);
+
+							addNewAddressDeleteNoButtonVk.click();
+
+							String savedDeliveryAddressText1Vk = savedDeliveryAddressVk.getText();
+
+							commonMethods.assertMethod(savedDeliveryAddressText1Vk,
+									deliveryAddressSavedDeliveryAddressTextString,
+									" after tapping no button in the delete address pop-up the saved delivery address header ",nextGenAddress);
+
+							FlutterElement addNewAddressDeleteIcon1Vk = find.byValueKey("delete_icon_" + i);
+
+							addNewAddressDeleteIcon1Vk.click();
+
+							FlutterElement addNewAddressDeleteYesButtonVk = find
+									.byValueKey(locationLocators.ADD_NEW_ADDRESS_DELETE_POPUP_YES_BUTTON_VK);
+
+							addNewAddressDeleteYesButtonVk.click();
+
+						}
+
+					}
+
+				}
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(3000);
+
+				FlutterElement selectSavedDeliveryAddress2Vk = find
+						.byValueKey(locationLocators.DELIVERY_ADDRESS_SCREEN_DELIVERY_LIST_ITEM_VK + "_0");
+
+				selectSavedDeliveryAddress2Vk.click();
+
+			}
+
+		}
+
+	}
+
+	public static void basketAddress() throws Exception {
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		BaseClass bc = new BaseClass();
+		List<String> positiveSignInDatas = bc.signInPositiveData();
+		List<String> negtiveSignInDatas = bc.signInNegativeData();
+		List<String> addNewAddress = bc.odFlow();
+		List<String> appConfiguration = bc.appConfiguration();
+		List<String> storeName = bc.odFlow();
+		String desiredStoreName = storeName.get(15);
+
+		String pointTrackerConfiguration = appConfiguration.get(2);
+		String welcomeLocalConfiguration = appConfiguration.get(3);
+
+		String storeShortCodeNumberConfiguration = appConfiguration.get(4);
+		String corpShortCodeNumberConfiguration = appConfiguration.get(5);
+		String state = storeName.get(110);
+		String country = storeName.get(111);
+
+		userName = appConfiguration.get(6);
+		passWord = appConfiguration.get(7);
+		merchantId = appConfiguration.get(8);
+		cardTemplateCode = appConfiguration.get(9);
+		storeGroupCode = appConfiguration.get(10);
+		clientId = appConfiguration.get(11);
+		integrationDetail = appConfiguration.get(12);
+		storeCode = appConfiguration.get(13);
+
+		System.out.println(storeShortCodeNumberConfiguration);
+		System.out.println(corpShortCodeNumberConfiguration);
+
+		int storeShortCodeNumber = storeShortCodeNumberConfiguration.length();
+		int corpShortCodeNumber = corpShortCodeNumberConfiguration.length();
+
+		String negativeEmailId = negtiveSignInDatas.get(1);
+		String negativePassword = negtiveSignInDatas.get(4);
+		String positiveEmailId = positiveSignInDatas.get(2);
+		String positivePassword = positiveSignInDatas.get(5);
+		String address1Line1 = addNewAddress.get(1);
+		String address1Line2 = addNewAddress.get(2);
+		String address1Zip = addNewAddress.get(3);
+		String address1SpecialInstructions = addNewAddress.get(4);
+		String address2Line1 = addNewAddress.get(5);
+		String address2Line2 = addNewAddress.get(6);
+		String address2Zip = addNewAddress.get(7);
+		String address2SpecialInstructions = addNewAddress.get(8);
+		String editAddress1Line1 = addNewAddress.get(9);
+		String editAddress1Line2 = addNewAddress.get(10);
+		String editAddress1SpecialInstructions = addNewAddress.get(11);
+		String editAddress2Line1 = addNewAddress.get(12);
+		String editAddress2Line2 = addNewAddress.get(13);
+		String editAddress2SpecialInstructions = addNewAddress.get(14);
+
+//		DesiredCapabilities cap = new DesiredCapabilities();
+//		cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Samsung");
+//		cap.setCapability("platformName", "Android");
+//		cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, "14");
+//		cap.setCapability(MobileCapabilityType.UDID, "emulator-5554");
+//		cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Flutter");
+//		cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 300);
+//		cap.setCapability("appPackage", "com.paytronix.nexgenfl");
+//		cap.setCapability("appActivity", "com.paytronix.nexgenfl.MainActivity");
+//
+//		driver = new AndroidDriver<WebElement>(new URL("http://0.0.0.0:4723/wd/hub"), cap);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		String jsonString = "{\n" + "    \"fields\": {\n" + "        \"username\": \"" + userName + "\",\n"
+				+ "        \"password\": \"" + passWord + "\"\n" + "    },\n" + "    \"cardTemplateCode\": \""
+				+ cardTemplateCode + "\",\n" + "    \"scope\": \"user_read account_read account_write user_write\",\n"
+				+ "    \"merchantId\": \"" + merchantId + "\",\n"
+				+ "    \"grant_type\": \"http:\\/\\/paytronix.com\\/oauth\\/fieldset\",\n"
+				+ "    \"authentication\": \"anonymous\",\n"
+				+ "    \"access_token\": \"VDc_p1vU2AaPShcFTWcdX9BqRsaFf9upuMP7epvhWS\",\n" + "    \"client_id\": \""
+				+ clientId + "\"\n" + "}";
+
+		RequestSpecification request = io.restassured.RestAssured.given();
+
+		request.contentType(ContentType.JSON);
+
+		request.baseUri("https://www.train.paytronix.com:1283/rest/23.8/oauth/requestGuestToken.json");
+
+		request.body(jsonString);
+		Response response = request.post();
+		ValidatableResponse validatableResponse = response.then();
+		validatableResponse.statusCode(200);
+		JSONObject jObj = new JSONObject(response.body().asString());
+		accessTokenGen = jObj.optString("access_token");
+		printedCardNumberResponse = jObj.optString("printedCardNumber");
+
+		io.restassured.RestAssured.baseURI = "https://www.train.paytronix.com:1283/rest/14.15/guest/userInformationByPrintedCardNumber.json?";
+		// Construct the query parameters
+		Map<String, String> params = new HashMap<>();
+		params.put("access_token", accessTokenGen);
+		params.put("client_id", clientId);
+		params.put("integrationDetail", integrationDetail);
+		params.put("authentication", authentication);
+		params.put("merchantId", merchantId);
+		params.put("printedCardNumber", printedCardNumberResponse);
+		RequestSpecification httpReq = io.restassured.RestAssured.given();
+		// specify the method type (GET) and the parameters if any.
+		// In this case the request does not take any parameters
+		RequestSpecification responseBody1 = httpReq.queryParams(params);
+		Response response2 = responseBody1.get("");
+
+		JSONObject jObject1 = new JSONObject(response2.body().asString());
+		JSONArray addressObject2 = jObject1.optJSONArray("addresses");
+
+		savedAddressLength = addressObject2.length();
+
+		System.out.println(savedAddressLength);
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+				.assignCategory(" Add New Delivery screen ");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		// To initiate the test to be print
+
+		Thread.sleep(5000);
+
+//		FlutterElement landingLoginbutton = find.byValueKey(signInLocators.LANDING_LOGIN_BUTTON_VKL);
+//		commonMethods.checkAndClickTheElement(landingLoginbutton);
+//
+//		FlutterElement loginScreenEmailTextField = find.byValueKey(signInLocators.LOGINSCREEN_EMAILFIELD_VKL);
+//		commonMethods.checkAndSendTheValue(loginScreenEmailTextField, positiveEmailId);
+//
+//		// To enter the Valid password credentials //
+//		FlutterElement loginScreenPasswordField = find.byValueKey(signInLocators.LOGINSCREEN_PASSWORD_VKL);
+//		commonMethods.checkAndSendTheValue(loginScreenPasswordField, positivePassword);
+//
+//		FlutterElement loginButtonEnable = find
+//				.byValueKey((signInLocators.LOGINSCREEN_LOGINWITHEMAIL_BUTTON_ENABLEDVKL));
+//		commonMethods.checkAndClickTheElement(loginButtonEnable);
+//
+//		Thread.sleep(6000);
+//
+//		find.byValueKey("signin_biometry_bottomsheet_close_button").click();
+//
+//		find.byValueKey("bottombar_web_order").click();
+
+		Thread.sleep(3000);
+
+//		find.byValueKey("location_list_" + store + "_title").click();
+
+		Thread.sleep(10000);
+
+		boolean enabled = true;
+
+		boolean disabled = false;
+
+		CommonMethods.switchContext("NATIVE_APP");
+
+		ExtentTest nextGenAddress = test.createNode("nextGenAddress");
+
+		WebElement deliveryHeaderAddressPage = driver
+				.findElement(By.xpath(locationLocators.ADD_NEW_ADDRESS_DELIVERY_SECTION_ADDRESS_ANDROID_VK));
+
+		String deliveryHeaderAddressPageText = deliveryHeaderAddressPage.getText();
+
+		Assert.assertEquals(deliveryHeaderAddressPageText, deliveryHeaderAddressPageText,
+				" Validated that the text in the order pop-up is : Delivery and the selected order type text in address screen is : "
+						+ deliveryHeaderAddressPageText + " are same. ");
+
+		System.out.println(
+				" Validated that the text in the order pop-up is : Delivery and the selected order type text in address screen is : "
+						+ deliveryHeaderAddressPageText + " are same. ");
+
+		nextGenAddress.info(MarkupHelper.createLabel(
+				" Validated that the text in the order pop-up is : Delivery and the selected order type text in address screen is : "
+						+ deliveryHeaderAddressPageText + " are same. ",
+				ExtentColor.CYAN));
+
+		nextGenAddress.addScreenCaptureFromBase64String(
+				" Validated that the text in the order pop-up is : Delivery and the selected order type text in address screen is : "
+						+ deliveryHeaderAddressPageText + " are same. ");
+
+		boolean deliveryHeaderAddressPageEnabled = deliveryHeaderAddressPage.isEnabled();
+
+		SoftAssert s = new SoftAssert();
+
+		s.assertEquals(deliveryHeaderAddressPageEnabled, enabled,
+				" Validated that the selected delivery field is enabled ");
+
+		System.out.println(" Validated that the selected delivery field is enabled ");
+
+		nextGenAddress.info(
+				MarkupHelper.createLabel(" Validated that the selected delivery field is enabled ", ExtentColor.CYAN));
+
+		nextGenAddress.addScreenCaptureFromBase64String(" Validated that the selected delivery field is enabled ");
+
+		try {
+
+			WebElement noSavedAddressXpath = driver
+					.findElement(By.xpath(locationLocators.ADD_NEW_ADDRESS_NO_SAVED_ADDRESS_ANDROID_XPATH));
+
+			if (noSavedAddressXpath.isDisplayed()) {
+
+				CommonMethods.switchContext("FLUTTER");
+
+				FlutterElement addNewAddressDetailsVk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_DETAILS_VK);
+
+				String addNewAddressDetailsTextVk = addNewAddressDetailsVk.getText();
+
+				System.out.println(" Title in add new address screen is : " + addNewAddressDetailsTextVk);
+
+				nextGenAddress.info(MarkupHelper.createLabel(
+						" Title in add new address screen is : " + addNewAddressDetailsTextVk, ExtentColor.CYAN));
+
+				nextGenAddress.addScreenCaptureFromBase64String(
+						" Title in add new address screen is : " + addNewAddressDetailsTextVk);
+
+				FlutterElement addNewAddressOrderTypeVk = find
+						.byValueKey(locationLocators.ADD_NEW_ADDRESS_ORDER_TYPE_VK);
+
+				String addNewAddressOrderTypeTextVk = addNewAddressOrderTypeVk.getText();
+
+				System.out.println(" Sub title in add new address screen is :  " + addNewAddressOrderTypeTextVk);
+
+				nextGenAddress.info(MarkupHelper.createLabel(
+						" Sub title in add new address screen is :  " + addNewAddressOrderTypeTextVk,
+						ExtentColor.CYAN));
+
+				nextGenAddress.addScreenCaptureFromBase64String(
+						" Sub title in add new address screen is :  " + addNewAddressOrderTypeTextVk);
+
+				FlutterElement savedDeliveryAddressHeaderVk = find
+						.byValueKey(locationLocators.SAVED_DELIVERY_ADDRESS_HEADER_VK);
+
+				String savedDeliveryAddressHeaderTextVk = savedDeliveryAddressHeaderVk.getText();
+
+				System.out.println(" Saved delivery address header in add new address screen is :  "
+						+ savedDeliveryAddressHeaderTextVk);
+
+				nextGenAddress
+						.info(MarkupHelper.createLabel(" Saved delivery address header in add new address screen is :  "
+								+ savedDeliveryAddressHeaderTextVk, ExtentColor.CYAN));
+
+				nextGenAddress.addScreenCaptureFromBase64String(
+						" Saved delivery address header in add new address screen is :  "
+								+ savedDeliveryAddressHeaderTextVk);
+
+				for (int j = 0; j < 3; j++) {
+
+					FlutterElement addNewAddressOrderTypeTakeOutVk = find.byValueKey("order_type_" + j);
+
+					String addNewAddressOrderTypeTakeOutTextVk = addNewAddressOrderTypeTakeOutVk.getText();
+
+					System.out.println(
+							" Order type index " + j + " title text is : " + addNewAddressOrderTypeTakeOutTextVk);
+
+					nextGenAddress.info(MarkupHelper.createLabel(
+							" Order type index " + j + " title text is : " + addNewAddressOrderTypeTakeOutTextVk,
+							ExtentColor.CYAN));
+
+					nextGenAddress.addScreenCaptureFromBase64String(
+							" Order type index " + j + " title text is : " + addNewAddressOrderTypeTakeOutTextVk);
+
+//					if (addNewAddressOrderTypeTakeOutTextVk.contains("ake out")) {
+					//
+//						addNewAddressOrderTypeTakeOutVk.click();
+					//
+//						String popUpText = find.byValueKey(locationLocators.POPUP_DESCRIPTION_VK).getText();
+					//
+//						System.out.println(" Pop up description after tapping takeout ordertype is : " + popUpText);
+					//
+//						nextGenAddress.info(MarkupHelper.createLabel(
+//								" Pop up description after tapping takeout ordertype is : " + popUpText, ExtentColor.CYAN));
+					//
+//						nextGenAddress.addScreenCaptureFromBase64String(
+//								" Pop up description after tapping takeout ordertype is : " + popUpText);
+					//
+//						find.byValueKey(locationLocators.POPUP_OK_BUTTON_VK).click();
+					//
+//						CommonMethods.switchContext("NATIVE_APP");
+					//
+//						Thread.sleep(3000);
+					//
+//						driver.findElement(By.xpath(locationLocators.ADD_NEW_ADDRESS_DELIVERY_SECTION_ADDRESS_ANDROID_VK))
+//								.click();
+					//
+//						CommonMethods.switchContext("FLUTTER");
+					//
+//						Thread.sleep(3000);
+					//
+//					}
+					//
+//					else {
+					//
+//						System.out.println(" Takeout order type is not configured in index " + j );
+					//
+//						nextGenAddress
+//								.info(MarkupHelper.createLabel(" Takeout order type is not configured in index " + j, ExtentColor.CYAN));
+					//
+//						nextGenAddress
+//								.addScreenCaptureFromBase64String(" Takeout order type is not configured in index " + j);
+					//
+//					}
+					//
+//					if (addNewAddressOrderTypeTakeOutTextVk.contains("urbside")) {
+					//
+//						addNewAddressOrderTypeTakeOutVk.click();
+					//
+//						String popUpText = find.byValueKey(locationLocators.POPUP_DESCRIPTION_VK).getText();
+					//
+//						System.out.println(" Pop up description after tapping curbside ordertype is : " + popUpText);
+					//
+//						nextGenAddress.info(MarkupHelper.createLabel(
+//								" Pop up description after tapping curbside ordertype is : " + popUpText,
+//								ExtentColor.CYAN));
+					//
+//						nextGenAddress.addScreenCaptureFromBase64String(
+//								" Pop up description after tapping curbside ordertype is : " + popUpText);
+					//
+//						find.byValueKey(locationLocators.POPUP_OK_BUTTON_VK).click();
+					//
+//						CommonMethods.switchContext("NATIVE_APP");
+					//
+//						Thread.sleep(3000);
+					//
+//						driver.findElement(By.xpath(locationLocators.ADD_NEW_ADDRESS_DELIVERY_SECTION_ADDRESS_ANDROID_VK))
+//								.click();
+					//
+//						CommonMethods.switchContext("FLUTTER");
+					//
+//						Thread.sleep(3000);
+//					}
+					//
+//					else {
+					//
+//						System.out.println(" Curbside order type is not configured in index " + j);
+					//
+//						nextGenAddress.info(
+//								MarkupHelper.createLabel(" Curbside order type is not configured in index " + j, ExtentColor.CYAN));
+					//
+//						nextGenAddress
+//								.addScreenCaptureFromBase64String(" Curbside order type is not configured in index " + j);
+					//
+//					}
+
+				}
+
+				FlutterElement addNewAddressVk = find.byValueKey((locationLocators.ADD_NEW_ADDRESS_BUTTON_VK));
+
+				addNewAddressVk.click();
+
+				FlutterElement addNewDeliveryAddressHeaderVk = find
+						.byValueKey(locationLocators.ADD_NEW_DELIVERY_ADDRESS_HEADER_VK);
+
+				String addNewDeliveryAddressHeaderTextVk = addNewDeliveryAddressHeaderVk.getText();
+
+				System.out.println(" Add new delivery address header in add new address screen is :  "
+						+ addNewDeliveryAddressHeaderTextVk);
+
+				nextGenAddress.info(
+						MarkupHelper.createLabel(" Add new delivery address header in add new address screen is :  "
+								+ addNewDeliveryAddressHeaderTextVk, ExtentColor.CYAN));
+
+				nextGenAddress.addScreenCaptureFromBase64String(
+						" Add new delivery address header in add new address screen is :  "
+								+ addNewDeliveryAddressHeaderTextVk);
+
+				CommonMethods.switchContext("NATIVE_APP");
+
+				Thread.sleep(3000);
+
+				TouchAction touchAction1 = new TouchAction(driver);
+				touchAction1.press(PointOption.point(700, 1500))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3))).moveTo(PointOption.point(700, 1000))
+						.release().perform();
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(3000);
+
+				FlutterElement addNewAddressLineVk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_LINE1_VK);
+
+				addNewAddressLineVk.sendKeys(address1Line1 + ",");
+
+				FlutterElement addNewAddressZipVk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_ZIP_VK);
+
+				addNewAddressZipVk.sendKeys(address1Zip);
+
+				FlutterElement addNewAddressLine2Vk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_LINE2_VK);
+
+				addNewAddressLine2Vk.sendKeys(address1Line2 + ",");
+
+				FlutterElement stateField = find.byValueKey("state_selection_field");
+				stateField.click();
+				CommonMethods.switchContext("NATIVE_APP");
+				Thread.sleep(3000);
+				// Define your XPath locator for the target element
+				By targetElementLocator4 = By.xpath(
+						"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+								+ "'" + state + "'" + ")]");
+				// Set maximum number of scroll attempts
+				int maxScrollAttempts4 = 11;
+				// Loop to attempt finding the element and scrolling
+				for (int j1 = 0; j1 <= maxScrollAttempts4; j1++) {
+					try {
+						// Try to find the element
+						WebElement element = driver.findElement(targetElementLocator4);
+						if (element.isDisplayed()) {
+							// Element found and displayed, perform actions
+							element.click();
+							System.out.println(" successfully found the state in the state dropdown ");
+							break;
+						}
+					} catch (Exception e1) {
+						// Element not found, perform scroll action
+						TouchAction touchAction = new TouchAction(driver);
+						touchAction.press(PointOption.point(450, 1650))
+								.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+								.moveTo(PointOption.point(450, 1350)).release().perform();
+					}
+				}
+				CommonMethods.switchContext("FLUTTER");
+				FlutterElement countryField = find.byValueKey("country_selection_field");
+				countryField.click();
+				CommonMethods.switchContext("NATIVE_APP");
+				Thread.sleep(3000);
+				// Define your XPath locator for the target element
+				By targetElementLocator1 = By.xpath(
+						"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+								+ "'" + country + "'" + ")]");
+				// Set maximum number of scroll attempts
+				int maxScrollAttempts1 = 2;
+				// Loop to attempt finding the element and scrolling
+				for (int j1 = 0; j1 <= maxScrollAttempts1; j1++) {
+					try {
+						// Try to find the element
+						WebElement element = driver.findElement(targetElementLocator1);
+						if (element.isDisplayed()) {
+							// Element found and displayed, perform actions
+							element.click();
+							System.out.println(" successfully found the store in the Order Now screen ");
+							break;
+						}
+					} catch (Exception e2) {
+						// Element not found, perform scroll action
+						TouchAction touchAction = new TouchAction(driver);
+						touchAction.press(PointOption.point(450, 1650))
+								.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+								.moveTo(PointOption.point(450, 1350)).release().perform();
+					}
+				}
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(3000);
+
+				FlutterElement addNewAddressSpecialInstructionVk = find
+						.byValueKey(locationLocators.ADD_NEW_ADDRESS_SPECIAL_INSTRUCTIONS_VK);
+
+				addNewAddressSpecialInstructionVk.sendKeys(address1SpecialInstructions);
+
+				find.byValueKey(locationLocators.ADD_NEW_ADDRESS_LINE1_VK).sendKeys(address1Line1);
+
+				CommonMethods.switchContext("NATIVE_APP");
+
+				Thread.sleep(3000);
+
+				driver.findElement(By.xpath(locationLocators.ADD_NEW_ADDRESS_SCREEN_NATIVE_DONE_ANDROID_XPATH)).click();
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(3000);
+
+				FlutterElement addNewAddressScreenContinueButtonVk = find
+						.byValueKey(locationLocators.ADD_NEW_ADDRESS_SCREEN_CONTINUE_BUTTON_VK);
+
+				addNewAddressScreenContinueButtonVk.click();
+
+				String invalidAddressPopUpText = find.byValueKey(locationLocators.POPUP_DESCRIPTION_VK).getText();
+
+				System.out.println(" Pop up description after adding invalid address : " + invalidAddressPopUpText);
+
+				nextGenAddress.info(MarkupHelper.createLabel(
+						" Pop up description after adding invalid address : " + invalidAddressPopUpText,
+						ExtentColor.CYAN));
+
+				nextGenAddress.addScreenCaptureFromBase64String(" Pop up description after adding invalid address : "
+						+ invalidAddressPopUpText + addNewDeliveryAddressHeaderTextVk);
+
+				find.byValueKey(locationLocators.POPUP_OK_BUTTON_VK).click();
+
+//				find.byValueKey(locationLocators.ADD_NEW_ADDRESS_BACK_ICON_VK).click();
+//
+//				find.byValueKey("location_list_" + store + "_title").click();
+//
+//				FlutterElement locationListOrderTypeDeliveryVk = find
+//						.byValueKey(locationLocators.LOCATION_LIST_ORDER_TYPE_DELIVERY_VK);
+//
+//				locationListOrderTypeDeliveryVk.click();
+//
+//				Thread.sleep(3000);
+//
+//				FlutterElement addNewAddress1Vk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_BUTTON_VK);
+//
+//				addNewAddress1Vk.click();
+
+				CommonMethods.switchContext("NATIVE_APP");
+
+				Thread.sleep(3000);
+
+				TouchAction touchAction2 = new TouchAction(driver);
+				touchAction2.press(PointOption.point(700, 1500))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3))).moveTo(PointOption.point(700, 1000))
+						.release().perform();
+
+				CommonMethods.switchContext("FLUTTER");
+
+				FlutterElement addNewAddress1Line1Vk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_LINE1_VK);
+
+				addNewAddress1Line1Vk.sendKeys(address2Line1);
+
+				FlutterElement addNewAddress1Line2Vk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_LINE2_VK);
+
+				addNewAddress1Line2Vk.sendKeys(address2Line2);
+
+				FlutterElement stateField2 = find.byValueKey("state_selection_field");
+				stateField2.click();
+				CommonMethods.switchContext("NATIVE_APP");
+				Thread.sleep(3000);
+				// Define your XPath locator for the target element
+				By targetElementLocator42 = By.xpath(
+						"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+								+ "'" + state + "'" + ")]");
+				// Set maximum number of scroll attempts
+				int maxScrollAttempts42 = 11;
+				// Loop to attempt finding the element and scrolling
+				for (int j1 = 0; j1 <= maxScrollAttempts42; j1++) {
+					try {
+						// Try to find the element
+						WebElement element = driver.findElement(targetElementLocator42);
+						if (element.isDisplayed()) {
+							// Element found and displayed, perform actions
+							element.click();
+							System.out.println(" successfully found the state in the state dropdown ");
+							break;
+						}
+					} catch (Exception e2) {
+						// Element not found, perform scroll action
+						TouchAction touchAction = new TouchAction(driver);
+						touchAction.press(PointOption.point(450, 1650))
+								.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+								.moveTo(PointOption.point(450, 1350)).release().perform();
+					}
+				}
+				CommonMethods.switchContext("FLUTTER");
+				FlutterElement countryField2 = find.byValueKey("country_selection_field");
+				countryField.click();
+				CommonMethods.switchContext("NATIVE_APP");
+				Thread.sleep(3000);
+				// Define your XPath locator for the target element
+				By targetElementLocator12 = By.xpath(
+						"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+								+ "'" + country + "'" + ")]");
+				// Set maximum number of scroll attempts
+				int maxScrollAttempts12 = 2;
+				// Loop to attempt finding the element and scrolling
+				for (int j1 = 0; j1 <= maxScrollAttempts12; j1++) {
+					try {
+						// Try to find the element
+						WebElement element = driver.findElement(targetElementLocator12);
+						if (element.isDisplayed()) {
+							// Element found and displayed, perform actions
+							element.click();
+							System.out.println(" successfully found the store in the Order Now screen ");
+							break;
+						}
+					} catch (Exception e2) {
+						// Element not found, perform scroll action
+						TouchAction touchAction = new TouchAction(driver);
+						touchAction.press(PointOption.point(450, 1650))
+								.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+								.moveTo(PointOption.point(450, 1350)).release().perform();
+					}
+				}
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(3000);
+
+				FlutterElement addNewAddressZip1Vk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_ZIP_VK);
+
+				addNewAddressZip1Vk.sendKeys(address2Zip);
+
+				FlutterElement addNewAddressSpecialInstruction1Vk = find
+						.byValueKey(locationLocators.ADD_NEW_ADDRESS_SPECIAL_INSTRUCTIONS_VK);
+
+				addNewAddressSpecialInstruction1Vk.sendKeys(address2SpecialInstructions);
+
+				Thread.sleep(3000);
+
+				CommonMethods.switchContext("NATIVE_APP");
+
+				driver.findElement(By.xpath(locationLocators.ADD_NEW_ADDRESS_SCREEN_NATIVE_DONE_ANDROID_XPATH)).click();
+
+				Thread.sleep(3000);
+
+				CommonMethods.switchContext("FLUTTER");
+
+				FlutterElement addNewAddressScreenContinueButton1Vk = find
+						.byValueKey(locationLocators.ADD_NEW_ADDRESS_SCREEN_CONTINUE_BUTTON_VK);
+
+				addNewAddressScreenContinueButton1Vk.click();
+
+				find.byValueKey(locationLocators.AVAILABLE_ORDER_TYPE_WHEN_CLOSE_BUTTON_VK).click();
+
+				Thread.sleep(7000);
+
+				io.restassured.RestAssured.baseURI = "https://www.train.paytronix.com:1283/rest/14.15/guest/userInformationByPrintedCardNumber.json?";
+				// Construct the query parameters
+				Map<String, String> params1 = new HashMap<>();
+				params1.put("access_token", accessTokenGen);
+				params1.put("client_id", clientId);
+				params1.put("integrationDetail", integrationDetail);
+				params1.put("authentication", authentication);
+				params1.put("merchantId", merchantId);
+				params1.put("printedCardNumber", printedCardNumberResponse);
+				RequestSpecification httpReq1 = io.restassured.RestAssured.given();
+				// specify the method type (GET) and the parameters if any.
+				// In this case the request does not take any parameters
+				RequestSpecification responseBody2 = httpReq1.queryParams(params);
+				Response response3 = responseBody2.get("");
+
+				JSONObject jObject2 = new JSONObject(response3.body().asString());
+				JSONArray addressObject3 = jObject2.optJSONArray("addresses");
+
+				savedAddressLengthUpdated = addressObject3.length();
+
+				System.out.println(savedAddressLengthUpdated);
+
+				Assert.assertEquals(savedAddressLengthUpdated, savedAddressLength + 1,
+						" Validated that once after adding new address only one address is added and it's not duplicated ");
+
+				System.out.println(
+						" Validated that once after adding new address only one address is added and it's not duplicated ");
+
+				nextGenAddress.info(MarkupHelper.createLabel(
+						" Validated that once after adding new address only one address is added and it's not duplicated ",
+						ExtentColor.CYAN));
+
+				nextGenAddress.addScreenCaptureFromBase64String(
+						" Validated that once after adding new address only one address is added and it's not duplicated ");
+
+				CommonMethods.switchContext("NATIVE_APP");
+
+				Thread.sleep(3000);
+
+				TouchAction touchAction5 = new TouchAction(driver);
+				touchAction5.press(PointOption.point(550, 550))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(2))).moveTo(PointOption.point(550, 1900))
+						.release().perform();
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(3000);
+
+				if (savedAddressLengthUpdated - savedAddressLength == 1) {
+
+//				Assert.assertEquals(true, true, " Validated that after adding ");
+
+//					for (int i = 0; i < savedAddressLengthUpdated; i++) {
+					//
+//						FlutterElement selectSavedDeliveryAddressVk = find.byValueKey("delivery_list_" + i);
+					//
+//						String selectSavedDeliveryAddressTextVk = selectSavedDeliveryAddressVk.getText();
+					//
+//						System.out.println(selectSavedDeliveryAddressTextVk);
+					//
+//					}
+
+//					String selectSavedDeliveryAddressTextVk = selectSavedDeliveryAddressVk.getText();
+					//
+//					System.out.println(" Saved delivery address text is : " + selectSavedDeliveryAddressTextVk);
+
+//				FlutterElement orderTypePopUpHeaderTextVk = find
+//						.byValueKey(locationLocators.ORDER_TYPE_POPUP_HEADER_TEXT_VK);
+					//
+//				String orderTypePopUpHeaderTextTVk = orderTypePopUpHeaderTextVk.getText();
+					//
+//				System.out.println(" Order type pop-up header text is : " + orderTypePopUpHeaderTextTVk);
+					//
+
+					CommonMethods.switchContext("FLUTTER");
+
+					Thread.sleep(3000);
+
+					FlutterElement addNewAddressEditIcon = find.byValueKey("edit_icon_1");
+
+					addNewAddressEditIcon.click();
+
+					FlutterElement addNewUpdateAddressTextVk = find
+							.byValueKey(locationLocators.ADD_NEW_UPDATE_ADDRESS_TEXT_HEADER_VK);
+
+					String addNewUpdateAddressTextTVk = addNewUpdateAddressTextVk.getText();
+
+					System.out.println(addNewUpdateAddressTextTVk);
+
+					FlutterElement addNewUpdateAddressCancelButtonVk = find
+							.byValueKey(locationLocators.ADD_NEW_UPDATE_ADDRESS_CANCEL_BUTTON_VK);
+
+					String addNewUpdateAddressCancelButtonTextVk = addNewUpdateAddressCancelButtonVk.getText();
+
+					System.out.println(" Cancel Button text in update delivery address screen is : "
+							+ addNewUpdateAddressCancelButtonTextVk);
+
+					nextGenAddress
+							.info(MarkupHelper.createLabel(" Cancel Button text in update delivery address screen is : "
+									+ addNewUpdateAddressCancelButtonTextVk, ExtentColor.CYAN));
+
+					nextGenAddress.addScreenCaptureFromBase64String(
+							" Cancel Button text in update delivery address screen is : "
+									+ addNewUpdateAddressCancelButtonTextVk);
+
+					addNewUpdateAddressCancelButtonVk.click();
+
+					FlutterElement savedDeliveryAddressVk = find
+							.byValueKey(locationLocators.SAVED_DELIVERY_ADDRESS_HEADER_VK);
+
+					String savedDeliveryAddressTextVk = savedDeliveryAddressVk.getText();
+
+					Assert.assertEquals(savedDeliveryAddressTextVk.toUpperCase(), "SAVED DELIVERY ADDRESS",
+							" Validated that after clicking the cancel button it is navigated to add new address screen ");
+
+					System.out.println(
+							" Validated that after clicking the cancel button it is navigated to add new address screen ");
+
+					nextGenAddress.info(MarkupHelper.createLabel(
+							" Validated that after clicking the cancel button it is navigated to add new address screen ",
+							ExtentColor.CYAN));
+
+					FlutterElement addNewAddressEdit1IconVk = find.byValueKey("edit_icon_1");
+
+					addNewAddressEdit1IconVk.click();
+
+					FlutterElement updateDeliveryAddressAddressLine1Vk = find
+							.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_ADDRESS_LINE1_VK);
+
+					updateDeliveryAddressAddressLine1Vk.clear();
+
+					updateDeliveryAddressAddressLine1Vk.sendKeys(editAddress1Line1);
+
+					FlutterElement updateDeliveryAddressAddressLine2Vk = find
+							.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_ADDRESS_LINE2_VK);
+
+					updateDeliveryAddressAddressLine2Vk.clear();
+
+					updateDeliveryAddressAddressLine2Vk.sendKeys(editAddress1Line2);
+
+					CommonMethods.switchContext("FLUTTER");
+
+					Thread.sleep(3000);
+
+					FlutterElement updateDeliveryAddressSpecialDeliveryInstructionsVk = find
+							.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_ADDRESS_SPECIAL_INSTRUCTIONS_VK);
+
+					updateDeliveryAddressSpecialDeliveryInstructionsVk.clear();
+
+					updateDeliveryAddressSpecialDeliveryInstructionsVk.sendKeys(editAddress1SpecialInstructions);
+
+					FlutterElement updateDeliveryAddressUpdateButtonVk = find
+							.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_UPDATE_BUTTON_VK);
+
+					String updateDeliveryAddressUpdateButtontextVk = updateDeliveryAddressUpdateButtonVk.getText();
+
+					System.out.println(" Update delivery address update button text is : "
+							+ updateDeliveryAddressUpdateButtontextVk);
+
+					nextGenAddress.info(MarkupHelper.createLabel(" Update delivery address update button text is : ",
+							ExtentColor.CYAN));
+
+					nextGenAddress
+							.addScreenCaptureFromBase64String(" Update delivery address update button text is : ");
+
+					updateDeliveryAddressUpdateButtonVk.click();
+
+					String deliveryListAlertDescriptionText11Vk = find.byValueKey(locationLocators.POPUP_DESCRIPTION_VK)
+							.getText();
+
+					System.out.println(
+							" Validated that after entering invalid address details in the update address field the pop-up description is : "
+									+ deliveryListAlertDescriptionText11Vk);
+
+					nextGenAddress.info(MarkupHelper.createLabel(
+							" Validated that after entering invalid address details in the update address field the pop-up description is : "
+									+ deliveryListAlertDescriptionText11Vk,
+							ExtentColor.CYAN));
+
+					nextGenAddress.addScreenCaptureFromBase64String(
+							" Validated that after entering invalid address details in the update address field the pop-up description is : "
+									+ deliveryListAlertDescriptionText11Vk);
+
+					find.byValueKey(locationLocators.POPUP_OK_BUTTON_VK).click();
+
+					Assert.assertEquals(savedDeliveryAddressTextVk.toUpperCase(), "SAVED DELIVERY ADDRESS",
+							" Validated that after clicking the Update button it is navigated to add new address home screen ");
+
+					System.out.println(
+							" Validated that after clicking the Update button it is navigated to add new address home screen ");
+
+					nextGenAddress.info(MarkupHelper.createLabel(
+							" Validated that after clicking the Update button it is navigated to add new address home screen ",
+							ExtentColor.CYAN));
+
+					nextGenAddress.addScreenCaptureFromBase64String(
+							" Validated that after clicking the Update button it is navigated to add new address home screen "
+									+ deliveryListAlertDescriptionText11Vk);
+
+					for (int i = savedAddressLength; i >= 0; i--) {
+
+						if (i == 0) {
+
+							System.out.println(" Unable to delete the primary address which is in index : " + i);
+						}
+
+						else {
+
+							FlutterElement addNewAddressDeleteIconVk = find.byValueKey("delete_icon_" + i);
+
+							addNewAddressDeleteIconVk.click();
+
+							FlutterElement addNewAddressDeletePopUpTitleVk = find
+									.byValueKey(locationLocators.POPUP_DESCRIPTION_VK);
+
+							String addNewAddressDeletePopUpTitleTextVk = addNewAddressDeletePopUpTitleVk.getText();
+
+							System.out.println(
+									" Delete pop-up title in that pop-up is : " + addNewAddressDeletePopUpTitleTextVk);
+
+							nextGenAddress.info(MarkupHelper.createLabel(
+									" Delete pop-up title in that pop-up is : " + addNewAddressDeletePopUpTitleTextVk,
+									ExtentColor.CYAN));
+
+							nextGenAddress.addScreenCaptureFromBase64String(
+									" Delete pop-up title in that pop-up is : " + addNewAddressDeletePopUpTitleTextVk);
+
+							FlutterElement addNewAddressDeleteNoButtonVk = find
+									.byValueKey(locationLocators.ADD_NEW_ADDRESS_DELETE_POPUP_NO_BUTTON_VK);
+
+							addNewAddressDeleteNoButtonVk.click();
+
+							String savedDeliveryAddressText1Vk = savedDeliveryAddressVk.getText();
+
+							Assert.assertEquals(savedDeliveryAddressText1Vk.toUpperCase(), "SAVED DELIVERY ADDRESS",
+									" Validated that after clicking the Update button it is navigated to add new address home screen ");
+
+							nextGenAddress.info(MarkupHelper.createLabel(
+									" Validated that after clicking the Update button it is navigated to add new address home screen ",
+									ExtentColor.CYAN));
+
+							nextGenAddress.addScreenCaptureFromBase64String(
+									" Validated that after clicking the Update button it is navigated to add new address home screen ");
+
+							FlutterElement addNewAddressDeleteIcon1Vk = find.byValueKey("delete_icon_" + i);
+
+							addNewAddressDeleteIcon1Vk.click();
+
+							FlutterElement addNewAddressDeleteYesButtonVk = find
+									.byValueKey(locationLocators.ADD_NEW_ADDRESS_DELETE_POPUP_YES_BUTTON_VK);
+
+							addNewAddressDeleteYesButtonVk.click();
+
+						}
+					}
+
+				} else {
+
+//					for (int i = 0; i < savedAddressLengthUpdated; i++) {
+					//
+//						FlutterElement selectSavedDeliveryAddressVk = find.byValueKey("delivery_list_" + i);
+					//
+//						String selectSavedDeliveryAddressTextVk = selectSavedDeliveryAddressVk.getText();
+					//
+//						System.out.println(selectSavedDeliveryAddressTextVk);
+					//
+//					}
+
+					CommonMethods.switchContext("FLUTTER");
+
+					Thread.sleep(3000);
+
+					FlutterElement addNewAddressEditIcon = find.byValueKey("edit_icon_1");
+
+					addNewAddressEditIcon.click();
+
+					FlutterElement addNewUpdateAddressTextVk = find
+							.byValueKey(locationLocators.ADD_NEW_UPDATE_ADDRESS_TEXT_HEADER_VK);
+
+					String addNewUpdateAddressTextTVk = addNewUpdateAddressTextVk.getText();
+
+					System.out.println(addNewUpdateAddressTextTVk);
+
+					FlutterElement addNewUpdateAddressCancelButtonVk = find
+							.byValueKey(locationLocators.ADD_NEW_UPDATE_ADDRESS_CANCEL_BUTTON_VK);
+
+					String addNewUpdateAddressCancelButtonTextVk = addNewUpdateAddressCancelButtonVk.getText();
+
+					System.out.println(" Cancel Button text in update delivery address screen is : "
+							+ addNewUpdateAddressCancelButtonTextVk);
+
+					nextGenAddress
+							.info(MarkupHelper.createLabel(" Cancel Button text in update delivery address screen is : "
+									+ addNewUpdateAddressCancelButtonTextVk, ExtentColor.CYAN));
+
+					nextGenAddress.addScreenCaptureFromBase64String(
+							" Cancel Button text in update delivery address screen is : "
+									+ addNewUpdateAddressCancelButtonTextVk);
+
+					addNewUpdateAddressCancelButtonVk.click();
+
+					FlutterElement savedDeliveryAddressVk = find
+							.byValueKey(locationLocators.SAVED_DELIVERY_ADDRESS_HEADER_VK);
+
+					String savedDeliveryAddressTextVk = savedDeliveryAddressVk.getText();
+
+					Assert.assertEquals(savedDeliveryAddressTextVk.toUpperCase(), "SAVED DELIVERY ADDRESS",
+							" Validated that after clicking the cancel button it is navigated to add new address screen ");
+
+					nextGenAddress.info(MarkupHelper.createLabel(
+							" Validated that after clicking the cancel button it is navigated to add new address screen ",
+							ExtentColor.CYAN));
+
+					nextGenAddress.addScreenCaptureFromBase64String(
+							" Validated that after clicking the cancel button it is navigated to add new address screen ");
+
+					FlutterElement addNewAddressEdit1IconVk = find.byValueKey("edit_icon_1");
+
+					addNewAddressEdit1IconVk.click();
+
+					FlutterElement updateDeliveryAddressAddressLine1Vk = find
+							.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_ADDRESS_LINE1_VK);
+
+					updateDeliveryAddressAddressLine1Vk.clear();
+
+					updateDeliveryAddressAddressLine1Vk.sendKeys(editAddress1Line1);
+
+					FlutterElement updateDeliveryAddressAddressLine2Vk = find
+							.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_ADDRESS_LINE2_VK);
+
+					updateDeliveryAddressAddressLine2Vk.clear();
+
+					updateDeliveryAddressAddressLine2Vk.sendKeys(editAddress1Line2);
+
+					CommonMethods.switchContext("FLUTTER");
+
+					Thread.sleep(3000);
+
+					FlutterElement updateDeliveryAddressSpecialDeliveryInstructionsVk = find
+							.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_ADDRESS_SPECIAL_INSTRUCTIONS_VK);
+
+					updateDeliveryAddressSpecialDeliveryInstructionsVk.clear();
+
+					updateDeliveryAddressSpecialDeliveryInstructionsVk.sendKeys(editAddress1SpecialInstructions);
+
+					FlutterElement updateDeliveryAddressUpdateButtonVk = find
+							.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_UPDATE_BUTTON_VK);
+
+					String updateDeliveryAddressUpdateButtontextVk = updateDeliveryAddressUpdateButtonVk.getText();
+
+					System.out.println(" Update delivery address update button text is : "
+							+ updateDeliveryAddressUpdateButtontextVk);
+
+					nextGenAddress.info(MarkupHelper.createLabel(" Update delivery address update button text is : "
+							+ updateDeliveryAddressUpdateButtontextVk, ExtentColor.CYAN));
+
+					nextGenAddress.addScreenCaptureFromBase64String(" Update delivery address update button text is : "
+							+ updateDeliveryAddressUpdateButtontextVk);
+
+					updateDeliveryAddressUpdateButtonVk.click();
+
+//					Assert.assertEquals(savedDeliveryAddressTextVk.toUpperCase(), "SAVED DELIVERY ADDRESS",
+//							" Validated that after clicking the Update button it is navigated to add new address home screen ");
+
+//					FlutterElement selectSavedDeliveryAddress1Vk = find.byValueKey("delivery_list_1");
+					//
+//					selectSavedDeliveryAddress1Vk.click();
+					//
+//					find.byValueKey(locationLocators.POPUP_OK_BUTTON_VK).click();
+
+//					String selectSavedDeliveryAddressText1Vk = selectSavedDeliveryAddress1Vk.getText();
+					//
+//					System.out.println(" Saved delivery address text is : " + selectSavedDeliveryAddressText1Vk);
+
+//					Assert.assertNotEquals(selectSavedDeliveryAddressText1Vk, selectSavedDeliveryAddressTextVk,
+//							" Validated that after updating the address it differs ");
+
+					for (int i = savedAddressLength; i >= 0; i--) {
+
+						if (i == 0) {
+
+							System.out.println(" Unable to delete the primary address which is in index : " + i);
+
+							nextGenAddress.info(MarkupHelper.createLabel(
+									" Unable to delete the primary address which is in index : " + i,
+									ExtentColor.CYAN));
+
+							nextGenAddress.addScreenCaptureFromBase64String(
+									" Unable to delete the primary address which is in index : " + i);
+
+						}
+
+						else {
+
+							FlutterElement addNewAddressDeleteIconVk = find.byValueKey("delete_icon_" + i);
+
+							addNewAddressDeleteIconVk.click();
+
+							FlutterElement addNewAddressDeletePopUpTitleVk = find
+									.byValueKey(locationLocators.POPUP_DESCRIPTION_VK);
+
+							String addNewAddressDeletePopUpTitleTextVk = addNewAddressDeletePopUpTitleVk.getText();
+
+							System.out.println(
+									" Delete pop-up title in that pop-up is : " + addNewAddressDeletePopUpTitleTextVk);
+
+							nextGenAddress.info(MarkupHelper.createLabel(
+									" Delete pop-up title in that pop-up is : " + addNewAddressDeletePopUpTitleTextVk,
+									ExtentColor.CYAN));
+
+							nextGenAddress.addScreenCaptureFromBase64String(
+									" Delete pop-up title in that pop-up is : " + addNewAddressDeletePopUpTitleTextVk);
+
+							FlutterElement addNewAddressDeleteNoButtonVk = find
+									.byValueKey(locationLocators.ADD_NEW_ADDRESS_DELETE_POPUP_NO_BUTTON_VK);
+
+							addNewAddressDeleteNoButtonVk.click();
+
+							String savedDeliveryAddressText1Vk = savedDeliveryAddressVk.getText();
+
+							Assert.assertEquals(savedDeliveryAddressText1Vk.toUpperCase(), "SAVED DELIVERY ADDRESS",
+									" Validated that after clicking the Update button it is navigated to add new address home screen ");
+
+							FlutterElement addNewAddressDeleteIcon1Vk = find.byValueKey("delete_icon_" + i);
+
+							addNewAddressDeleteIcon1Vk.click();
+
+							FlutterElement addNewAddressDeleteYesButtonVk = find
+									.byValueKey(locationLocators.ADD_NEW_ADDRESS_DELETE_POPUP_YES_BUTTON_VK);
+
+							addNewAddressDeleteYesButtonVk.click();
+
+						}
+
+					}
+
+				}
+
+				System.out.println("click click 1 ");
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(3000);
+
+				FlutterElement selectSavedDeliveryAddress2Vk = find.byValueKey("delivery_list_0");
+
+				selectSavedDeliveryAddress2Vk.click();
+
+			}
+		} catch (Exception e) {
+
+			CommonMethods.switchContext("FLUTTER");
+
+			FlutterElement addNewAddressDetailsVk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_DETAILS_VK);
+
+			String addNewAddressDetailsTextVk = addNewAddressDetailsVk.getText();
+
+			System.out.println(" Title in add new address screen is : " + addNewAddressDetailsTextVk);
+
+			nextGenAddress.info(MarkupHelper.createLabel(
+					" Title in add new address screen is : " + addNewAddressDetailsTextVk, ExtentColor.CYAN));
+
+			nextGenAddress.addScreenCaptureFromBase64String(
+					" Title in add new address screen is : " + addNewAddressDetailsTextVk);
+
+			FlutterElement addNewAddressOrderTypeVk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_ORDER_TYPE_VK);
+
+			String addNewAddressOrderTypeTextVk = addNewAddressOrderTypeVk.getText();
+
+			System.out.println(" Sub title in add new address screen is :  " + addNewAddressOrderTypeTextVk);
+
+			nextGenAddress.info(MarkupHelper.createLabel(
+					" Sub title in add new address screen is :  " + addNewAddressOrderTypeTextVk, ExtentColor.CYAN));
+
+			nextGenAddress.addScreenCaptureFromBase64String(
+					" Sub title in add new address screen is :  " + addNewAddressOrderTypeTextVk);
+
+			FlutterElement savedDeliveryAddressHeaderVk = find
+					.byValueKey(locationLocators.SAVED_DELIVERY_ADDRESS_HEADER_VK);
+
+			String savedDeliveryAddressHeaderTextVk = savedDeliveryAddressHeaderVk.getText();
+
+			System.out.println(" Saved delivery address header in add new address screen is :  "
+					+ savedDeliveryAddressHeaderTextVk);
+
+			nextGenAddress
+					.info(MarkupHelper.createLabel(" Saved delivery address header in add new address screen is :  "
+							+ savedDeliveryAddressHeaderTextVk, ExtentColor.CYAN));
+
+			nextGenAddress
+					.addScreenCaptureFromBase64String(" Saved delivery address header in add new address screen is :  "
+							+ savedDeliveryAddressHeaderTextVk);
+
+			for (int j = 0; j < 3; j++) {
+
+				FlutterElement addNewAddressOrderTypeTakeOutVk = find.byValueKey("order_type_" + j);
+
+				String addNewAddressOrderTypeTakeOutTextVk = addNewAddressOrderTypeTakeOutVk.getText();
+
+				System.out
+						.println(" Order type index " + j + " title text is : " + addNewAddressOrderTypeTakeOutTextVk);
+
+				nextGenAddress.info(MarkupHelper.createLabel(
+						" Order type index " + j + " title text is : " + addNewAddressOrderTypeTakeOutTextVk,
+						ExtentColor.CYAN));
+
+				nextGenAddress.addScreenCaptureFromBase64String(
+						" Order type index " + j + " title text is : " + addNewAddressOrderTypeTakeOutTextVk);
+
+//				if (addNewAddressOrderTypeTakeOutTextVk.contains("ake out")) {
+				//
+//					addNewAddressOrderTypeTakeOutVk.click();
+				//
+//					String popUpText = find.byValueKey(locationLocators.POPUP_DESCRIPTION_VK).getText();
+				//
+//					System.out.println(" Pop up description after tapping takeout ordertype is : " + popUpText);
+				//
+//					nextGenAddress.info(MarkupHelper.createLabel(
+//							" Pop up description after tapping takeout ordertype is : " + popUpText, ExtentColor.CYAN));
+				//
+//					nextGenAddress.addScreenCaptureFromBase64String(
+//							" Pop up description after tapping takeout ordertype is : " + popUpText);
+				//
+//					find.byValueKey(locationLocators.POPUP_OK_BUTTON_VK).click();
+				//
+//					CommonMethods.switchContext("NATIVE_APP");
+				//
+//					Thread.sleep(3000);
+				//
+//					driver.findElement(By.xpath(locationLocators.ADD_NEW_ADDRESS_DELIVERY_SECTION_ADDRESS_ANDROID_VK))
+//							.click();
+				//
+//					CommonMethods.switchContext("FLUTTER");
+				//
+//					Thread.sleep(3000);
+				//
+//				}
+				//
+//				else {
+				//
+//					System.out.println(" Takeout order type is not configured in index " + j );
+				//
+//					nextGenAddress
+//							.info(MarkupHelper.createLabel(" Takeout order type is not configured in index " + j, ExtentColor.CYAN));
+				//
+//					nextGenAddress
+//							.addScreenCaptureFromBase64String(" Takeout order type is not configured in index " + j);
+				//
+//				}
+				//
+//				if (addNewAddressOrderTypeTakeOutTextVk.contains("urbside")) {
+				//
+//					addNewAddressOrderTypeTakeOutVk.click();
+				//
+//					String popUpText = find.byValueKey(locationLocators.POPUP_DESCRIPTION_VK).getText();
+				//
+//					System.out.println(" Pop up description after tapping curbside ordertype is : " + popUpText);
+				//
+//					nextGenAddress.info(MarkupHelper.createLabel(
+//							" Pop up description after tapping curbside ordertype is : " + popUpText,
+//							ExtentColor.CYAN));
+				//
+//					nextGenAddress.addScreenCaptureFromBase64String(
+//							" Pop up description after tapping curbside ordertype is : " + popUpText);
+				//
+//					find.byValueKey(locationLocators.POPUP_OK_BUTTON_VK).click();
+				//
+//					CommonMethods.switchContext("NATIVE_APP");
+				//
+//					Thread.sleep(3000);
+				//
+//					driver.findElement(By.xpath(locationLocators.ADD_NEW_ADDRESS_DELIVERY_SECTION_ADDRESS_ANDROID_VK))
+//							.click();
+				//
+//					CommonMethods.switchContext("FLUTTER");
+				//
+//					Thread.sleep(3000);
+//				}
+				//
+//				else {
+				//
+//					System.out.println(" Curbside order type is not configured in index " + j);
+				//
+//					nextGenAddress.info(
+//							MarkupHelper.createLabel(" Curbside order type is not configured in index " + j, ExtentColor.CYAN));
+				//
+//					nextGenAddress
+//							.addScreenCaptureFromBase64String(" Curbside order type is not configured in index " + j);
+				//
+//				}
+
+			}
+
+			FlutterElement addNewAddressVk = find.byValueKey((locationLocators.ADD_NEW_ADDRESS_BUTTON_VK));
+
+			addNewAddressVk.click();
+
+			FlutterElement addNewDeliveryAddressHeaderVk = find
+					.byValueKey(locationLocators.ADD_NEW_DELIVERY_ADDRESS_HEADER_VK);
+
+			String addNewDeliveryAddressHeaderTextVk = addNewDeliveryAddressHeaderVk.getText();
+
+			System.out.println(" Add new delivery address header in add new address screen is :  "
+					+ addNewDeliveryAddressHeaderTextVk);
+
+			nextGenAddress
+					.info(MarkupHelper.createLabel(" Add new delivery address header in add new address screen is :  "
+							+ addNewDeliveryAddressHeaderTextVk, ExtentColor.CYAN));
+
+			nextGenAddress.addScreenCaptureFromBase64String(
+					" Add new delivery address header in add new address screen is :  "
+							+ addNewDeliveryAddressHeaderTextVk);
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(3000);
+
+			TouchAction touchAction1 = new TouchAction(driver);
+			touchAction1.press(PointOption.point(700, 1500)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+					.moveTo(PointOption.point(700, 1000)).release().perform();
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(3000);
+
+			FlutterElement addNewAddressLineVk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_LINE1_VK);
+
+			addNewAddressLineVk.sendKeys(address1Line1 + ",");
+
+			FlutterElement addNewAddressZipVk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_ZIP_VK);
+
+			addNewAddressZipVk.sendKeys(address1Zip);
+
+			FlutterElement addNewAddressLine2Vk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_LINE2_VK);
+
+			addNewAddressLine2Vk.sendKeys(address1Line2 + ",");
+
+			FlutterElement stateField = find.byValueKey("state_selection_field");
+			stateField.click();
+			CommonMethods.switchContext("NATIVE_APP");
+			Thread.sleep(3000);
+			// Define your XPath locator for the target element
+			By targetElementLocator4 = By.xpath(
+					"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+							+ "'" + state + "'" + ")]");
+			// Set maximum number of scroll attempts
+			int maxScrollAttempts4 = 11;
+			// Loop to attempt finding the element and scrolling
+			for (int j1 = 0; j1 <= maxScrollAttempts4; j1++) {
+				try {
+					// Try to find the element
+					WebElement element = driver.findElement(targetElementLocator4);
+					if (element.isDisplayed()) {
+						// Element found and displayed, perform actions
+						element.click();
+						System.out.println(" successfully found the state in the state dropdown ");
+						break;
+					}
+				} catch (Exception e1) {
+					// Element not found, perform scroll action
+					TouchAction touchAction = new TouchAction(driver);
+					touchAction.press(PointOption.point(450, 1650))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(450, 1350)).release().perform();
+				}
+			}
+			CommonMethods.switchContext("FLUTTER");
+			FlutterElement countryField = find.byValueKey("country_selection_field");
+			countryField.click();
+			CommonMethods.switchContext("NATIVE_APP");
+			Thread.sleep(3000);
+			// Define your XPath locator for the target element
+			By targetElementLocator1 = By.xpath(
+					"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+							+ "'" + country + "'" + ")]");
+			// Set maximum number of scroll attempts
+			int maxScrollAttempts1 = 2;
+			// Loop to attempt finding the element and scrolling
+			for (int j1 = 0; j1 <= maxScrollAttempts1; j1++) {
+				try {
+					// Try to find the element
+					WebElement element = driver.findElement(targetElementLocator1);
+					if (element.isDisplayed()) {
+						// Element found and displayed, perform actions
+						element.click();
+						System.out.println(" successfully found the store in the Order Now screen ");
+						break;
+					}
+				} catch (Exception e2) {
+					// Element not found, perform scroll action
+					TouchAction touchAction = new TouchAction(driver);
+					touchAction.press(PointOption.point(450, 1650))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(450, 1350)).release().perform();
+				}
+			}
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(3000);
+
+			FlutterElement addNewAddressSpecialInstructionVk = find
+					.byValueKey(locationLocators.ADD_NEW_ADDRESS_SPECIAL_INSTRUCTIONS_VK);
+
+			addNewAddressSpecialInstructionVk.sendKeys(address1SpecialInstructions);
+
+			find.byValueKey(locationLocators.ADD_NEW_ADDRESS_LINE1_VK).sendKeys(address1Line1);
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(3000);
+
+			driver.findElement(By.xpath(locationLocators.ADD_NEW_ADDRESS_SCREEN_NATIVE_DONE_ANDROID_XPATH)).click();
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(3000);
+
+			FlutterElement addNewAddressScreenContinueButtonVk = find
+					.byValueKey(locationLocators.ADD_NEW_ADDRESS_SCREEN_CONTINUE_BUTTON_VK);
+
+			addNewAddressScreenContinueButtonVk.click();
+
+			String invalidAddressPopUpText = find.byValueKey(locationLocators.POPUP_DESCRIPTION_VK).getText();
+
+			System.out.println(" Pop up description after adding invalid address : " + invalidAddressPopUpText);
+
+			nextGenAddress.info(MarkupHelper.createLabel(
+					" Pop up description after adding invalid address : " + invalidAddressPopUpText, ExtentColor.CYAN));
+
+			nextGenAddress.addScreenCaptureFromBase64String(" Pop up description after adding invalid address : "
+					+ invalidAddressPopUpText + addNewDeliveryAddressHeaderTextVk);
+
+			find.byValueKey(locationLocators.POPUP_OK_BUTTON_VK).click();
+
+//			find.byValueKey(locationLocators.ADD_NEW_ADDRESS_BACK_ICON_VK).click();
+//
+//			find.byValueKey("location_list_" + store + "_title").click();
+//
+//			FlutterElement locationListOrderTypeDeliveryVk = find
+//					.byValueKey(locationLocators.LOCATION_LIST_ORDER_TYPE_DELIVERY_VK);
+//
+//			locationListOrderTypeDeliveryVk.click();
+//
+//			Thread.sleep(3000);
+//
+//			FlutterElement addNewAddress1Vk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_BUTTON_VK);
+//
+//			addNewAddress1Vk.click();
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(3000);
+
+			TouchAction touchAction2 = new TouchAction(driver);
+			touchAction2.press(PointOption.point(700, 1500)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+					.moveTo(PointOption.point(700, 1000)).release().perform();
+
+			CommonMethods.switchContext("FLUTTER");
+
+			FlutterElement addNewAddress1Line1Vk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_LINE1_VK);
+
+			addNewAddress1Line1Vk.sendKeys(address2Line1);
+
+			FlutterElement addNewAddress1Line2Vk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_LINE2_VK);
+
+			addNewAddress1Line2Vk.sendKeys(address2Line2);
+
+			FlutterElement stateField2 = find.byValueKey("state_selection_field");
+			stateField2.click();
+			CommonMethods.switchContext("NATIVE_APP");
+			Thread.sleep(3000);
+			// Define your XPath locator for the target element
+			By targetElementLocator42 = By.xpath(
+					"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+							+ "'" + state + "'" + ")]");
+			// Set maximum number of scroll attempts
+			int maxScrollAttempts42 = 11;
+			// Loop to attempt finding the element and scrolling
+			for (int j1 = 0; j1 <= maxScrollAttempts42; j1++) {
+				try {
+					// Try to find the element
+					WebElement element = driver.findElement(targetElementLocator42);
+					if (element.isDisplayed()) {
+						// Element found and displayed, perform actions
+						element.click();
+						System.out.println(" successfully found the state in the state dropdown ");
+						break;
+					}
+				} catch (Exception e2) {
+					// Element not found, perform scroll action
+					TouchAction touchAction = new TouchAction(driver);
+					touchAction.press(PointOption.point(450, 1650))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(450, 1350)).release().perform();
+				}
+			}
+			CommonMethods.switchContext("FLUTTER");
+			FlutterElement countryField2 = find.byValueKey("country_selection_field");
+			countryField.click();
+			CommonMethods.switchContext("NATIVE_APP");
+			Thread.sleep(3000);
+			// Define your XPath locator for the target element
+			By targetElementLocator12 = By.xpath(
+					"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+							+ "'" + country + "'" + ")]");
+			// Set maximum number of scroll attempts
+			int maxScrollAttempts12 = 2;
+			// Loop to attempt finding the element and scrolling
+			for (int j1 = 0; j1 <= maxScrollAttempts12; j1++) {
+				try {
+					// Try to find the element
+					WebElement element = driver.findElement(targetElementLocator12);
+					if (element.isDisplayed()) {
+						// Element found and displayed, perform actions
+						element.click();
+						System.out.println(" successfully found the store in the Order Now screen ");
+						break;
+					}
+				} catch (Exception e2) {
+					// Element not found, perform scroll action
+					TouchAction touchAction = new TouchAction(driver);
+					touchAction.press(PointOption.point(450, 1650))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(450, 1350)).release().perform();
+				}
+			}
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(3000);
+
+			FlutterElement addNewAddressZip1Vk = find.byValueKey(locationLocators.ADD_NEW_ADDRESS_ZIP_VK);
+
+			addNewAddressZip1Vk.sendKeys(address2Zip);
+
+			FlutterElement addNewAddressSpecialInstruction1Vk = find
+					.byValueKey(locationLocators.ADD_NEW_ADDRESS_SPECIAL_INSTRUCTIONS_VK);
+
+			addNewAddressSpecialInstruction1Vk.sendKeys(address2SpecialInstructions);
+
+			Thread.sleep(3000);
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			driver.findElement(By.xpath(locationLocators.ADD_NEW_ADDRESS_SCREEN_NATIVE_DONE_ANDROID_XPATH)).click();
+
+			Thread.sleep(3000);
+
+			CommonMethods.switchContext("FLUTTER");
+
+			FlutterElement addNewAddressScreenContinueButton1Vk = find
+					.byValueKey(locationLocators.ADD_NEW_ADDRESS_SCREEN_CONTINUE_BUTTON_VK);
+
+			addNewAddressScreenContinueButton1Vk.click();
+
+			find.byValueKey(locationLocators.AVAILABLE_ORDER_TYPE_WHEN_CLOSE_BUTTON_VK).click();
+
+			Thread.sleep(7000);
+
+			io.restassured.RestAssured.baseURI = "https://www.train.paytronix.com:1283/rest/14.15/guest/userInformationByPrintedCardNumber.json?";
+			// Construct the query parameters
+			Map<String, String> params1 = new HashMap<>();
+			params1.put("access_token", accessTokenGen);
+			params1.put("client_id", clientId);
+			params1.put("integrationDetail", integrationDetail);
+			params1.put("authentication", authentication);
+			params1.put("merchantId", merchantId);
+			params1.put("printedCardNumber", printedCardNumberResponse);
+			RequestSpecification httpReq1 = io.restassured.RestAssured.given();
+			// specify the method type (GET) and the parameters if any.
+			// In this case the request does not take any parameters
+			RequestSpecification responseBody2 = httpReq1.queryParams(params);
+			Response response3 = responseBody2.get("");
+
+			JSONObject jObject2 = new JSONObject(response3.body().asString());
+			JSONArray addressObject3 = jObject2.optJSONArray("addresses");
+
+			savedAddressLengthUpdated = addressObject3.length();
+
+			System.out.println(savedAddressLengthUpdated);
+
+			Assert.assertEquals(savedAddressLengthUpdated, savedAddressLength + 1,
+					" Validated that once after adding new address only one address is added and it's not duplicated ");
+
+			System.out.println(
+					" Validated that once after adding new address only one address is added and it's not duplicated ");
+
+			nextGenAddress.info(MarkupHelper.createLabel(
+					" Validated that once after adding new address only one address is added and it's not duplicated ",
+					ExtentColor.CYAN));
+
+			nextGenAddress.addScreenCaptureFromBase64String(
+					" Validated that once after adding new address only one address is added and it's not duplicated ");
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(3000);
+
+			TouchAction touchAction5 = new TouchAction(driver);
+			touchAction5.press(PointOption.point(550, 550)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(2)))
+					.moveTo(PointOption.point(550, 1900)).release().perform();
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(3000);
+
+			if (savedAddressLengthUpdated - savedAddressLength == 1) {
+
+//			Assert.assertEquals(true, true, " Validated that after adding ");
+
+//				for (int i = 0; i < savedAddressLengthUpdated; i++) {
+				//
+//					FlutterElement selectSavedDeliveryAddressVk = find.byValueKey("delivery_list_" + i);
+				//
+//					String selectSavedDeliveryAddressTextVk = selectSavedDeliveryAddressVk.getText();
+				//
+//					System.out.println(selectSavedDeliveryAddressTextVk);
+				//
+//				}
+
+//				String selectSavedDeliveryAddressTextVk = selectSavedDeliveryAddressVk.getText();
+				//
+//				System.out.println(" Saved delivery address text is : " + selectSavedDeliveryAddressTextVk);
+
+//			FlutterElement orderTypePopUpHeaderTextVk = find
+//					.byValueKey(locationLocators.ORDER_TYPE_POPUP_HEADER_TEXT_VK);
+				//
+//			String orderTypePopUpHeaderTextTVk = orderTypePopUpHeaderTextVk.getText();
+				//
+//			System.out.println(" Order type pop-up header text is : " + orderTypePopUpHeaderTextTVk);
+				//
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(3000);
+
+				FlutterElement addNewAddressEditIcon = find.byValueKey("edit_icon_1");
+
+				addNewAddressEditIcon.click();
+
+				FlutterElement addNewUpdateAddressTextVk = find
+						.byValueKey(locationLocators.ADD_NEW_UPDATE_ADDRESS_TEXT_HEADER_VK);
+
+				String addNewUpdateAddressTextTVk = addNewUpdateAddressTextVk.getText();
+
+				System.out.println(addNewUpdateAddressTextTVk);
+
+				FlutterElement addNewUpdateAddressCancelButtonVk = find
+						.byValueKey(locationLocators.ADD_NEW_UPDATE_ADDRESS_CANCEL_BUTTON_VK);
+
+				String addNewUpdateAddressCancelButtonTextVk = addNewUpdateAddressCancelButtonVk.getText();
+
+				System.out.println(" Cancel Button text in update delivery address screen is : "
+						+ addNewUpdateAddressCancelButtonTextVk);
+
+				nextGenAddress
+						.info(MarkupHelper.createLabel(" Cancel Button text in update delivery address screen is : "
+								+ addNewUpdateAddressCancelButtonTextVk, ExtentColor.CYAN));
+
+				nextGenAddress
+						.addScreenCaptureFromBase64String(" Cancel Button text in update delivery address screen is : "
+								+ addNewUpdateAddressCancelButtonTextVk);
+
+				addNewUpdateAddressCancelButtonVk.click();
+
+				FlutterElement savedDeliveryAddressVk = find
+						.byValueKey(locationLocators.SAVED_DELIVERY_ADDRESS_HEADER_VK);
+
+				String savedDeliveryAddressTextVk = savedDeliveryAddressVk.getText();
+
+				Assert.assertEquals(savedDeliveryAddressTextVk.toUpperCase(), "SAVED DELIVERY ADDRESS",
+						" Validated that after clicking the cancel button it is navigated to add new address screen ");
+
+				System.out.println(
+						" Validated that after clicking the cancel button it is navigated to add new address screen ");
+
+				nextGenAddress.info(MarkupHelper.createLabel(
+						" Validated that after clicking the cancel button it is navigated to add new address screen ",
+						ExtentColor.CYAN));
+
+				FlutterElement addNewAddressEdit1IconVk = find.byValueKey("edit_icon_1");
+
+				addNewAddressEdit1IconVk.click();
+
+				FlutterElement updateDeliveryAddressAddressLine1Vk = find
+						.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_ADDRESS_LINE1_VK);
+
+				updateDeliveryAddressAddressLine1Vk.clear();
+
+				updateDeliveryAddressAddressLine1Vk.sendKeys(editAddress1Line1);
+
+				FlutterElement updateDeliveryAddressAddressLine2Vk = find
+						.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_ADDRESS_LINE2_VK);
+
+				updateDeliveryAddressAddressLine2Vk.clear();
+
+				updateDeliveryAddressAddressLine2Vk.sendKeys(editAddress1Line2);
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(3000);
+
+				FlutterElement updateDeliveryAddressSpecialDeliveryInstructionsVk = find
+						.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_ADDRESS_SPECIAL_INSTRUCTIONS_VK);
+
+				updateDeliveryAddressSpecialDeliveryInstructionsVk.clear();
+
+				updateDeliveryAddressSpecialDeliveryInstructionsVk.sendKeys(editAddress1SpecialInstructions);
+
+				FlutterElement updateDeliveryAddressUpdateButtonVk = find
+						.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_UPDATE_BUTTON_VK);
+
+				String updateDeliveryAddressUpdateButtontextVk = updateDeliveryAddressUpdateButtonVk.getText();
+
+				System.out.println(
+						" Update delivery address update button text is : " + updateDeliveryAddressUpdateButtontextVk);
+
+				nextGenAddress.info(MarkupHelper.createLabel(" Update delivery address update button text is : ",
+						ExtentColor.CYAN));
+
+				nextGenAddress.addScreenCaptureFromBase64String(" Update delivery address update button text is : ");
+
+				updateDeliveryAddressUpdateButtonVk.click();
+
+				String deliveryListAlertDescriptionText11Vk = find.byValueKey(locationLocators.POPUP_DESCRIPTION_VK)
+						.getText();
+
+				System.out.println(
+						" Validated that after entering invalid address details in the update address field the pop-up description is : "
+								+ deliveryListAlertDescriptionText11Vk);
+
+				nextGenAddress.info(MarkupHelper.createLabel(
+						" Validated that after entering invalid address details in the update address field the pop-up description is : "
+								+ deliveryListAlertDescriptionText11Vk,
+						ExtentColor.CYAN));
+
+				nextGenAddress.addScreenCaptureFromBase64String(
+						" Validated that after entering invalid address details in the update address field the pop-up description is : "
+								+ deliveryListAlertDescriptionText11Vk);
+
+				find.byValueKey(locationLocators.POPUP_OK_BUTTON_VK).click();
+
+				Assert.assertEquals(savedDeliveryAddressTextVk.toUpperCase(), "SAVED DELIVERY ADDRESS",
+						" Validated that after clicking the Update button it is navigated to add new address home screen ");
+
+				System.out.println(
+						" Validated that after clicking the Update button it is navigated to add new address home screen ");
+
+				nextGenAddress.info(MarkupHelper.createLabel(
+						" Validated that after clicking the Update button it is navigated to add new address home screen ",
+						ExtentColor.CYAN));
+
+				nextGenAddress.addScreenCaptureFromBase64String(
+						" Validated that after clicking the Update button it is navigated to add new address home screen "
+								+ deliveryListAlertDescriptionText11Vk);
+
+				for (int i = savedAddressLength; i >= 0; i--) {
+
+					if (i == 0) {
+
+						System.out.println(" Unable to delete the primary address which is in index : " + i);
+					}
+
+					else {
+
+						FlutterElement addNewAddressDeleteIconVk = find.byValueKey("delete_icon_" + i);
+
+						addNewAddressDeleteIconVk.click();
+
+						FlutterElement addNewAddressDeletePopUpTitleVk = find
+								.byValueKey(locationLocators.POPUP_DESCRIPTION_VK);
+
+						String addNewAddressDeletePopUpTitleTextVk = addNewAddressDeletePopUpTitleVk.getText();
+
+						System.out.println(
+								" Delete pop-up title in that pop-up is : " + addNewAddressDeletePopUpTitleTextVk);
+
+						nextGenAddress.info(MarkupHelper.createLabel(
+								" Delete pop-up title in that pop-up is : " + addNewAddressDeletePopUpTitleTextVk,
+								ExtentColor.CYAN));
+
+						nextGenAddress.addScreenCaptureFromBase64String(
+								" Delete pop-up title in that pop-up is : " + addNewAddressDeletePopUpTitleTextVk);
+
+						FlutterElement addNewAddressDeleteNoButtonVk = find
+								.byValueKey(locationLocators.ADD_NEW_ADDRESS_DELETE_POPUP_NO_BUTTON_VK);
+
+						addNewAddressDeleteNoButtonVk.click();
+
+						String savedDeliveryAddressText1Vk = savedDeliveryAddressVk.getText();
+
+						Assert.assertEquals(savedDeliveryAddressText1Vk.toUpperCase(), "SAVED DELIVERY ADDRESS",
+								" Validated that after clicking the Update button it is navigated to add new address home screen ");
+
+						nextGenAddress.info(MarkupHelper.createLabel(
+								" Validated that after clicking the Update button it is navigated to add new address home screen ",
+								ExtentColor.CYAN));
+
+						nextGenAddress.addScreenCaptureFromBase64String(
+								" Validated that after clicking the Update button it is navigated to add new address home screen ");
+
+						FlutterElement addNewAddressDeleteIcon1Vk = find.byValueKey("delete_icon_" + i);
+
+						addNewAddressDeleteIcon1Vk.click();
+
+						FlutterElement addNewAddressDeleteYesButtonVk = find
+								.byValueKey(locationLocators.ADD_NEW_ADDRESS_DELETE_POPUP_YES_BUTTON_VK);
+
+						addNewAddressDeleteYesButtonVk.click();
+
+					}
+				}
+
+			} else {
+
+//				for (int i = 0; i < savedAddressLengthUpdated; i++) {
+				//
+//					FlutterElement selectSavedDeliveryAddressVk = find.byValueKey("delivery_list_" + i);
+				//
+//					String selectSavedDeliveryAddressTextVk = selectSavedDeliveryAddressVk.getText();
+				//
+//					System.out.println(selectSavedDeliveryAddressTextVk);
+				//
+//				}
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(3000);
+
+				FlutterElement addNewAddressEditIcon = find.byValueKey("edit_icon_1");
+
+				addNewAddressEditIcon.click();
+
+				FlutterElement addNewUpdateAddressTextVk = find
+						.byValueKey(locationLocators.ADD_NEW_UPDATE_ADDRESS_TEXT_HEADER_VK);
+
+				String addNewUpdateAddressTextTVk = addNewUpdateAddressTextVk.getText();
+
+				System.out.println(addNewUpdateAddressTextTVk);
+
+				FlutterElement addNewUpdateAddressCancelButtonVk = find
+						.byValueKey(locationLocators.ADD_NEW_UPDATE_ADDRESS_CANCEL_BUTTON_VK);
+
+				String addNewUpdateAddressCancelButtonTextVk = addNewUpdateAddressCancelButtonVk.getText();
+
+				System.out.println(" Cancel Button text in update delivery address screen is : "
+						+ addNewUpdateAddressCancelButtonTextVk);
+
+				nextGenAddress
+						.info(MarkupHelper.createLabel(" Cancel Button text in update delivery address screen is : "
+								+ addNewUpdateAddressCancelButtonTextVk, ExtentColor.CYAN));
+
+				nextGenAddress
+						.addScreenCaptureFromBase64String(" Cancel Button text in update delivery address screen is : "
+								+ addNewUpdateAddressCancelButtonTextVk);
+
+				addNewUpdateAddressCancelButtonVk.click();
+
+				FlutterElement savedDeliveryAddressVk = find
+						.byValueKey(locationLocators.SAVED_DELIVERY_ADDRESS_HEADER_VK);
+
+				String savedDeliveryAddressTextVk = savedDeliveryAddressVk.getText();
+
+				Assert.assertEquals(savedDeliveryAddressTextVk.toUpperCase(), "SAVED DELIVERY ADDRESS",
+						" Validated that after clicking the cancel button it is navigated to add new address screen ");
+
+				nextGenAddress.info(MarkupHelper.createLabel(
+						" Validated that after clicking the cancel button it is navigated to add new address screen ",
+						ExtentColor.CYAN));
+
+				nextGenAddress.addScreenCaptureFromBase64String(
+						" Validated that after clicking the cancel button it is navigated to add new address screen ");
+
+				FlutterElement addNewAddressEdit1IconVk = find.byValueKey("edit_icon_1");
+
+				addNewAddressEdit1IconVk.click();
+
+				FlutterElement updateDeliveryAddressAddressLine1Vk = find
+						.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_ADDRESS_LINE1_VK);
+
+				updateDeliveryAddressAddressLine1Vk.clear();
+
+				updateDeliveryAddressAddressLine1Vk.sendKeys(editAddress1Line1);
+
+				FlutterElement updateDeliveryAddressAddressLine2Vk = find
+						.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_ADDRESS_LINE2_VK);
+
+				updateDeliveryAddressAddressLine2Vk.clear();
+
+				updateDeliveryAddressAddressLine2Vk.sendKeys(editAddress1Line2);
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(3000);
+
+				FlutterElement updateDeliveryAddressSpecialDeliveryInstructionsVk = find
+						.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_ADDRESS_SPECIAL_INSTRUCTIONS_VK);
+
+				updateDeliveryAddressSpecialDeliveryInstructionsVk.clear();
+
+				updateDeliveryAddressSpecialDeliveryInstructionsVk.sendKeys(editAddress1SpecialInstructions);
+
+				FlutterElement updateDeliveryAddressUpdateButtonVk = find
+						.byValueKey(locationLocators.UPDATE_DELIVERY_ADDRESS_UPDATE_BUTTON_VK);
+
+				String updateDeliveryAddressUpdateButtontextVk = updateDeliveryAddressUpdateButtonVk.getText();
+
+				System.out.println(
+						" Update delivery address update button text is : " + updateDeliveryAddressUpdateButtontextVk);
+
+				nextGenAddress.info(MarkupHelper.createLabel(
+						" Update delivery address update button text is : " + updateDeliveryAddressUpdateButtontextVk,
+						ExtentColor.CYAN));
+
+				nextGenAddress.addScreenCaptureFromBase64String(
+						" Update delivery address update button text is : " + updateDeliveryAddressUpdateButtontextVk);
+
+				updateDeliveryAddressUpdateButtonVk.click();
+
+//				Assert.assertEquals(savedDeliveryAddressTextVk.toUpperCase(), "SAVED DELIVERY ADDRESS",
+//						" Validated that after clicking the Update button it is navigated to add new address home screen ");
+
+//				FlutterElement selectSavedDeliveryAddress1Vk = find.byValueKey("delivery_list_1");
+				//
+//				selectSavedDeliveryAddress1Vk.click();
+				//
+//				find.byValueKey(locationLocators.POPUP_OK_BUTTON_VK).click();
+
+//				String selectSavedDeliveryAddressText1Vk = selectSavedDeliveryAddress1Vk.getText();
+				//
+//				System.out.println(" Saved delivery address text is : " + selectSavedDeliveryAddressText1Vk);
+
+//				Assert.assertNotEquals(selectSavedDeliveryAddressText1Vk, selectSavedDeliveryAddressTextVk,
+//						" Validated that after updating the address it differs ");
+
+				for (int i = savedAddressLength; i >= 0; i--) {
+
+					if (i == 0) {
+
+						System.out.println(" Unable to delete the primary address which is in index : " + i);
+
+						nextGenAddress.info(MarkupHelper.createLabel(
+								" Unable to delete the primary address which is in index : " + i, ExtentColor.CYAN));
+
+						nextGenAddress.addScreenCaptureFromBase64String(
+								" Unable to delete the primary address which is in index : " + i);
+
+					}
+
+					else {
+
+						FlutterElement addNewAddressDeleteIconVk = find.byValueKey("delete_icon_" + i);
+
+						addNewAddressDeleteIconVk.click();
+
+						FlutterElement addNewAddressDeletePopUpTitleVk = find
+								.byValueKey(locationLocators.POPUP_DESCRIPTION_VK);
+
+						String addNewAddressDeletePopUpTitleTextVk = addNewAddressDeletePopUpTitleVk.getText();
+
+						System.out.println(
+								" Delete pop-up title in that pop-up is : " + addNewAddressDeletePopUpTitleTextVk);
+
+						nextGenAddress.info(MarkupHelper.createLabel(
+								" Delete pop-up title in that pop-up is : " + addNewAddressDeletePopUpTitleTextVk,
+								ExtentColor.CYAN));
+
+						nextGenAddress.addScreenCaptureFromBase64String(
+								" Delete pop-up title in that pop-up is : " + addNewAddressDeletePopUpTitleTextVk);
+
+						FlutterElement addNewAddressDeleteNoButtonVk = find
+								.byValueKey(locationLocators.ADD_NEW_ADDRESS_DELETE_POPUP_NO_BUTTON_VK);
+
+						addNewAddressDeleteNoButtonVk.click();
+
+						String savedDeliveryAddressText1Vk = savedDeliveryAddressVk.getText();
+
+						Assert.assertEquals(savedDeliveryAddressText1Vk.toUpperCase(), "SAVED DELIVERY ADDRESS",
+								" Validated that after clicking the Update button it is navigated to add new address home screen ");
+
+						FlutterElement addNewAddressDeleteIcon1Vk = find.byValueKey("delete_icon_" + i);
+
+						addNewAddressDeleteIcon1Vk.click();
+
+						FlutterElement addNewAddressDeleteYesButtonVk = find
+								.byValueKey(locationLocators.ADD_NEW_ADDRESS_DELETE_POPUP_YES_BUTTON_VK);
+
+						addNewAddressDeleteYesButtonVk.click();
+
+					}
+
+				}
+
+			}
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(3000);
+
+			FlutterElement selectSavedDeliveryAddress2Vk = find.byValueKey("delivery_list_0");
+
+			selectSavedDeliveryAddress2Vk.click();
+
+		}
+
+	}
+
+	private void noPopUp() throws GeneralSecurityException, IOException, InterruptedException {
+
+		String orderTypeTitleString = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_TITLE_STRING);
+		String asapText = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_ASAP_STRING);
+		String laterText = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_LATER_STRING);
+		String laterDescriptionText = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_LATER_DESCRIPTION_STRING);
+
+		Thread.sleep(5000);
+
+		BaseClass bc = new BaseClass();
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		List<String> selectedFlow = bc.configuration();
+
+		String nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest = selectedFlow.get(9);
+
+		String nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest = selectedFlow.get(10);
+
+		String nextGenOrderNowFlowWithCurbsideAsapConfiguredGuest = selectedFlow.get(11);
+
+		String nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest = selectedFlow.get(12);
+
+		String nextGenOrderNowFlowWithDeliveryAsapConfiguredGuest = selectedFlow.get(13);
+
+		String nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest = selectedFlow.get(14);
+
+		String nextGenLocationListFlowWithTakeoutAsapConfiguredGuest = selectedFlow.get(15);
+
+		String nextGenLocationListFlowWithTakeoutLaterConfiguredGuest = selectedFlow.get(16);
+
+		String nextGenLocationListFlowWithCurbsideAsapConfiguredGuest = selectedFlow.get(17);
+
+		String nextGenLocationListFlowWithCurbsideLaterConfiguredGuest = selectedFlow.get(18);
+
+		String nextGenLocationListFlowWithDeliveryAsapConfiguredGuest = selectedFlow.get(19);
+
+		String nextGenLocationListFlowWithDeliveryLaterConfiguredGuest = selectedFlow.get(20);
+
+		String nextGenOrderNowFlowWithTakeoutAsapConfigured = selectedFlow.get(64);
+
+		String nextGenOrderNowFlowWithTakeoutLaterConfigured = selectedFlow.get(65);
+
+		String nextGenOrderNowFlowWithCurbsideAsapConfigured = selectedFlow.get(66);
+
+		String nextGenOrderNowFlowWithCurbsideLaterConfigured = selectedFlow.get(67);
+
+		String nextGenOrderNowFlowWithDeliveryAsapConfigured = selectedFlow.get(68);
+
+		String nextGenOrderNowFlowWithDeliveryLaterConfigured = selectedFlow.get(69);
+
+		String nextGenOrderNowFlowWithTakeoutAsapMapViewConfigured = selectedFlow.get(70);
+
+		String nextGenOrderNowFlowWithTakeoutLaterMapViewConfigured = selectedFlow.get(71);
+
+		String nextGenOrderNowFlowWithCurbsideAsapMapViewConfigured = selectedFlow.get(72);
+
+		String nextGenOrderNowFlowWithCurbsideLaterMapViewConfigured = selectedFlow.get(73);
+
+		String nextGenOrderNowFlowWithDeliveryAsapMapViewConfigured = selectedFlow.get(74);
+
+		String nextGenOrderNowFlowWithDeliveryLaterMapViewConfigured = selectedFlow.get(75);
+
+		String nextGenOrderNowFlowWithTakeoutAsapStoreMapViewConfigured = selectedFlow.get(76);
+
+		String nextGenOrderNowFlowWithTakeoutLaterStoreMapViewConfigured = selectedFlow.get(77);
+
+		String nextGenOrderNowFlowWithCurbsideAsapStoreMapViewConfigured = selectedFlow.get(78);
+
+		String nextGenOrderNowFlowWithCurbsideLaterStoreMapViewConfigured = selectedFlow.get(79);
+
+		String nextGenOrderNowFlowWithDeliveryAsapStoreMapViewConfigured = selectedFlow.get(80);
+
+		String nextGenOrderNowFlowWithDeliveryLaterStoreMapViewConfigured = selectedFlow.get(81);
+
+		String nextGenLocationListFlowWithTakeoutAsapConfigured = selectedFlow.get(82);
+
+		String nextGenLocationListFlowWithTakeoutLaterConfigured = selectedFlow.get(83);
+
+		String nextGenLocationListFlowWithCurbsideAsapConfigured = selectedFlow.get(84);
+
+		String nextGenLocationListFlowWithCurbsideLaterConfigured = selectedFlow.get(85);
+
+		String nextGenLocationListFlowWithDeliveryAsapConfigured = selectedFlow.get(86);
+
+		String nextGenLocationListFlowWithDeliveryLaterConfigured = selectedFlow.get(87);
+
+		String nextGenLocationListFlowWithTakeoutAsapMapViewConfigured = selectedFlow.get(88);
+
+		String nextGenLocationListFlowWithTakeoutLaterMapViewConfigured = selectedFlow.get(89);
+
+		String nextGenLocationListFlowWithCurbsideAsapMapViewConfigured = selectedFlow.get(90);
+
+		String nextGenLocationListFlowWithCurbsideLaterMapViewConfigured = selectedFlow.get(91);
+
+		String nextGenLocationListFlowWithDeliveryAsapMapViewConfigured = selectedFlow.get(92);
+
+		String nextGenLocationListFlowWithDeliveryLaterMapViewConfigured = selectedFlow.get(93);
+
+		String nextGenLocationListFlowWithTakeoutAsapStoreMapViewConfigured = selectedFlow.get(94);
+
+		String nextGenLocationListFlowWithTakeoutLaterStoreMapViewConfigured = selectedFlow.get(95);
+
+		String nextGenLocationListFlowWithCurbsideAsapStoreMapViewConfigured = selectedFlow.get(96);
+
+		String nextGenLocationListFlowWithCurbsideLaterStoreMapViewConfigured = selectedFlow.get(97);
+
+		String nextGenLocationListFlowWithDeliveryAsapStoreMapViewConfigured = selectedFlow.get(98);
+
+		String nextGenLocationListFlowWithDeliveryLaterStoreMapViewConfigured = selectedFlow.get(99);
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+				.assignCategory("Re-Order");
+
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		System.out.println(" The pop-up is not appeared ");
+
+		boolean orderTypeTitleStringBoolean = commonMethods.elementFoundOrNotPopUp(orderTypeTitleString);
+
+		if (orderTypeTitleStringBoolean == true) {
+
+			boolean asapConfig = commonMethods.elementFoundOrNotPopUp(asapText);
+
+			boolean laterConfig = commonMethods.elementFoundOrNotPopUp(laterText);
+
+			if (asapConfig == true || laterConfig == true) {
+
+				if (nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithTakeoutAsapConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithTakeoutAsapMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithTakeoutAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithTakeoutAsapConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithTakeoutAsapConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithTakeoutAsapMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithTakeoutAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+					String takeOutConfig = APIMethods.takeOutConfig();
+
+					String hideTakeOutConfig = APIMethods.hideTakeOutConfig();
+
+					if (takeOutConfig == "true") {
+
+						if (hideTakeOutConfig == "false") {
+
+							if (asapConfig == true) {
+
+								CommonMethods.switchContext("NATIVE_APP");
+
+								Thread.sleep(2000);
+
+								WebElement asapLabel = driver
+										.findElement(By.xpath(orderNowLocators.ORDER_NOW_LOGGEDIN_ASAP_TEXT_XPATHL));
+
+								asapLabel.click();
+
+								CommonMethods.switchContext("FLUTTER");
+
+								Thread.sleep(2000);
+							}
+
+						}
+
+					}
+				}
+
+				else if (nextGenOrderNowFlowWithCurbsideAsapConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithCurbsideAsapConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithCurbsideAsapMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithCurbsideAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithCurbsideAsapConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithCurbsideAsapConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithCurbsideAsapMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithCurbsideAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+					String curbsideConfig = APIMethods.curbsideConfig();
+
+					if (curbsideConfig == "true") {
+
+						if (asapConfig == true) {
+
+							CommonMethods.switchContext("NATIVE_APP");
+
+							Thread.sleep(2000);
+
+							WebElement asapLabel = driver
+									.findElement(By.xpath(orderNowLocators.ORDER_NOW_LOGGEDIN_ASAP_TEXT_XPATHL));
+
+							asapLabel.click();
+
+							CommonMethods.switchContext("FLUTTER");
+
+							Thread.sleep(2000);
+						}
+					}
+				}
+
+				else if (nextGenOrderNowFlowWithDeliveryAsapConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithDeliveryAsapConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithDeliveryAsapMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithDeliveryAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithDeliveryAsapConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithDeliveryAsapConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithDeliveryAsapMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithDeliveryAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+					String deliveryConfig = APIMethods.deliveryConfig();
+
+					if (deliveryConfig == "true") {
+
+						if (asapConfig == true) {
+
+							CommonMethods.switchContext("NATIVE_APP");
+
+							Thread.sleep(2000);
+
+							WebElement asapLabel = driver
+									.findElement(By.xpath(orderNowLocators.ORDER_NOW_LOGGEDIN_ASAP_TEXT_XPATHL));
+
+							asapLabel.click();
+
+							CommonMethods.switchContext("FLUTTER");
+
+							Thread.sleep(2000);
+						}
+					}
+				}
+
+				else if (nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithTakeoutLaterConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithTakeoutLaterMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithTakeoutLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithTakeoutLaterConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithTakeoutLaterConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithTakeoutLaterMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithTakeoutLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+					String takeOutConfig = APIMethods.takeOutConfig();
+
+					String hideTakeOutConfig = APIMethods.hideTakeOutConfig();
+
+					if (takeOutConfig == "true") {
+
+						if (hideTakeOutConfig == "false") {
+
+							if (asapConfig == true && laterConfig == true) {
+
+								FlutterElement later = find
+										.byValueKey(locationLocators.AVAILABLE_ORDER_TYPE_ITEMS_VK + "1");
+
+								later.click();
+
+								later();
+
+							}
+
+							else if (asapConfig == false && laterConfig == true) {
+
+								if (laterConfig == true) {
+
+									FlutterElement later = find
+											.byValueKey(locationLocators.AVAILABLE_ORDER_TYPE_ITEMS_VK + "1");
+
+									later.click();
+
+									later();
+
+								}
+
+							}
+						}
+					}
+
+				} else if (nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithCurbsideLaterConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithCurbsideLaterMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithCurbsideLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithCurbsideLaterConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithCurbsideLaterConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithCurbsideLaterMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithCurbsideLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+					String curbsideConfig = APIMethods.curbsideConfig();
+
+					if (curbsideConfig == "true") {
+
+						if (asapConfig == true && laterConfig == true) {
+
+							FlutterElement later = find
+									.byValueKey(locationLocators.AVAILABLE_ORDER_TYPE_ITEMS_VK + "1");
+
+							later.click();
+
+							later();
+
+						}
+
+						else if (asapConfig == false && laterConfig == true) {
+
+							if (laterConfig == true) {
+
+								FlutterElement later = find
+										.byValueKey(locationLocators.AVAILABLE_ORDER_TYPE_ITEMS_VK + "1");
+
+								later.click();
+
+								later();
+
+							}
+
+						}
+					}
+
+				}
+
+				else if (nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithDeliveryLaterConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithDeliveryLaterMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenOrderNowFlowWithDeliveryLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithDeliveryLaterConfiguredGuest.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithDeliveryLaterConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithDeliveryLaterMapViewConfigured.equalsIgnoreCase("Yes")
+						|| nextGenLocationListFlowWithDeliveryLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+					String deliveryConfig = APIMethods.deliveryConfig();
+
+					if (deliveryConfig == "true") {
+
+						if (asapConfig == true && laterConfig == true) {
+
+							FlutterElement later = find
+									.byValueKey(locationLocators.AVAILABLE_ORDER_TYPE_ITEMS_VK + "1");
+
+							later.click();
+
+							later();
+
+						}
+
+						else if (asapConfig == false && laterConfig == true) {
+
+							if (laterConfig == true) {
+
+								FlutterElement later = find
+										.byValueKey(locationLocators.AVAILABLE_ORDER_TYPE_ITEMS_VK + "1");
+
+								later.click();
+
+								later();
+
+							}
+
+						}
+					}
+
+				}
+
+			} else {
+
+				boolean laterOrderTypeDescriptionStringBoolean = commonMethods
+						.elementFoundOrNotPopUp(laterDescriptionText);
+
+				if (laterOrderTypeDescriptionStringBoolean == true) {
+
+					later();
+				}
+
+			}
+		}
+	}
+
+	private void laterCancel() throws InterruptedException {
+
+		CommonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(1000);
+
+		driver.findElement(By.xpath(orderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL)).click();
+
+		CommonMethods.switchContext("FLUTTER");
+
+		Thread.sleep(1000);
+	}
+
+	private void later() throws InterruptedException {
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+				.assignCategory("Re-Order");
+
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		ExtentTest nextGenReOrder = test.createNode("NextGenReOrder");
+
+		String laterDescriptionNotAvailText = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_LATER_DATE_UNAVAILABLE_STRING);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		LocalDate currentDate = LocalDate.now();
+
+		LocalDate nextDate = currentDate.plusDays(1);
+
+		int nextDayOfMonth = nextDate.getDayOfMonth();
+
+		String todayDayName = nextDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+
+		CommonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		WebElement date = driver
+				.findElement(By.xpath("//*[contains(@content-desc,'" + nextDayOfMonth + ", " + todayDayName + "')]"));
+
+		date.click();
+
+		Thread.sleep(4000);
+
+		WebElement laterDateselactionOk = driver.findElement(By.xpath(orderNowLocators.OK_BUTTON_XPATHL));
+
+		laterDateselactionOk.click();
+
+		boolean laterDescriptionNotAvailTextboolean = commonMethods.elementFoundOrNot("change");
+
+		if (laterDescriptionNotAvailTextboolean == true) {
+
+			System.out.println(" Change date time & popup ");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(2000);
+
+			find.byValueKey(orderNowLocators.CHANGE_DATE_TIME_POPUP_BUTTON_VKL).click();
+
+			String day = day();
+
+			int datee = date();
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(2000);
+
+			driver.findElement(By.xpath("//*[contains(@content-desc,'" + day + ", " + datee + "')]")).click();
+
+			WebElement laterDateselectionOk = driver.findElement(By.xpath(orderNowLocators.OK_BUTTON_XPATHL));
+
+			laterDateselectionOk.click();
+
+			boolean laterDescriptionNotAvailTextboolean1 = commonMethods
+					.elementFoundOrNot(laterDescriptionNotAvailText);
+
+			if (laterDescriptionNotAvailTextboolean1 == true) {
+
+				System.out.println(" As we have checked the next two days from today's date : " + currentDate
+						+ " and for that later order is not available and hence terminating the Re-order execution");
+
+				nextGenReOrder.log(Status.FAIL, " As we have checked the next two days from today's date : "
+						+ currentDate
+						+ " and for that later order is not available and hence terminating the Re-order execution");
+
+				Thread.sleep(1500);
+
+				nextGenReOrder.addScreenCaptureFromBase64String(takeScreenshot(driver),
+						" As we have checked the next two days from today's date : " + currentDate
+								+ " and for that later order is not available and hence terminating the Re-order execution");
+
+				CommonMethods.switchContext("NATIVE_APP");
+
+				Thread.sleep(2000);
+
+				WebElement laterTimeSelection = driver
+						.findElement(By.xpath(orderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+				laterTimeSelection.click();
+
+			} else {
+
+				System.out.println(" select the time for the later order ");
+
+				commonMethods.elementFoundOrNot("time");
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(2000);
+
+				FlutterElement capacityManagementTimeDropdownVk = find
+						.byValueKey(orderNowLocators.CAPACITY_MANAGEMENT_DROPDOWN_VKL);
+
+				capacityManagementTimeDropdownVk.click();
+
+				FlutterElement capacityManagementTime2Vk = find.byValueKey(orderNowLocators.CAPACITY_MANAGEMENT_TIME_2);
+
+				capacityManagementTime2Vk.click();
+
+				CommonMethods.switchContext("NATIVE_APP");
+
+				Thread.sleep(2000);
+
+				WebElement laterTimeSelection = driver.findElement(By.xpath(orderNowLocators.APPLY_BUTTON_XAPTHL));
+
+				laterTimeSelection.click();
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(2000);
+
+			}
+
+		}
+
+		else {
+
+			System.out.println(" select the time for the later order ");
+
+			commonMethods.elementFoundOrNot("time");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(2000);
+
+			FlutterElement capacityManagementTimeDropdownVk = find
+					.byValueKey(orderNowLocators.CAPACITY_MANAGEMENT_DROPDOWN_VKL);
+
+			capacityManagementTimeDropdownVk.click();
+
+			FlutterElement capacityManagementTime2Vk = find.byValueKey(orderNowLocators.CAPACITY_MANAGEMENT_TIME_2);
+
+			capacityManagementTime2Vk.click();
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(2000);
+
+			WebElement laterTimeSelection = driver.findElement(By.xpath(orderNowLocators.APPLY_BUTTON_XAPTHL));
+
+			laterTimeSelection.click();
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(2000);
+
+		}
+
+	}
+
+	@Test
+	private int date() {
+
+		LocalDate currentDate = LocalDate.now();
+
+		LocalDate dayAfterNext = currentDate.plusDays(2);
+
+		int day = dayAfterNext.getDayOfMonth();
+
+		System.out.println(day);
+
+		return day;
+
+	}
+
+	@Test
+	private String day() {
+
+		LocalDate today = LocalDate.now();
+
+		LocalDate dayAfterTomorrow = today.plusDays(2);
+		String tomorrowDayName = dayAfterTomorrow.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+		System.out.println("The day after tomorrow is: " + tomorrowDayName);
+
+		return tomorrowDayName;
+
+	}
+
+	private void country(String input) throws InterruptedException {
+		CommonMethods.switchContext("NATIVE_APP");
+		Thread.sleep(3000);
+		// Define your XPath locator for the target element
+		By targetElementLocator1 = By.xpath(
+				"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input + "'" + ")]");
+		// Set maximum number of scroll attempts
+		int maxScrollAttempts1 = 2;
+		// Loop to attempt finding the element and scrolling
+		for (int j1 = 0; j1 <= maxScrollAttempts1; j1++) {
+			try {
+				// Try to find the element
+				WebElement element = driver.findElement(targetElementLocator1);
+				if (element.isDisplayed()) {
+					// Element found and displayed, perform actions
+					element.click();
+					System.out.println(" successfully found the store in the Order Now screen ");
+					break;
+				}
+			} catch (Exception e2) {
+				// Element not found, perform scroll action
+				TouchAction touchAction = new TouchAction(driver);
+				touchAction.press(PointOption.point(450, 1650))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3))).moveTo(PointOption.point(450, 1350))
+						.release().perform();
+			}
+		}
+
+		CommonMethods.switchContext("FLUTTER");
+
+		Thread.sleep(3000);
+	}
+
+	private void state(String input) throws InterruptedException {
+		CommonMethods.switchContext("NATIVE_APP");
+		Thread.sleep(3000);
+		// Define your XPath locator for the target element
+		By targetElementLocator4 = By.xpath(
+				"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input + "'" + ")]");
+		// Set maximum number of scroll attempts
+		int maxScrollAttempts4 = 11;
+		// Loop to attempt finding the element and scrolling
+		for (int j1 = 0; j1 <= maxScrollAttempts4; j1++) {
+			try {
+				// Try to find the element
+				WebElement element = driver.findElement(targetElementLocator4);
+				if (element.isDisplayed()) {
+					// Element found and displayed, perform actions
+					element.click();
+					System.out.println(" successfully found the state in the state dropdown ");
+					break;
+				}
+			} catch (Exception e1) {
+				// Element not found, perform scroll action
+				TouchAction touchAction = new TouchAction(driver);
+				touchAction.press(PointOption.point(450, 1650))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3))).moveTo(PointOption.point(450, 1350))
+						.release().perform();
+			}
+		}
+		CommonMethods.switchContext("FLUTTER");
+	}
+
+}

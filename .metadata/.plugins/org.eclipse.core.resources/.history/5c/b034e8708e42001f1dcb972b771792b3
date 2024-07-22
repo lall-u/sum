@@ -1,0 +1,643 @@
+package com.features;
+
+import java.net.URL;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ThreadGuard;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
+
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.base.BaseClass;
+import com.base.CommonMethods;
+import com.locators.AppLaunchAndLandingScreenLocators;
+import com.locators.AppRatingLocators;
+import com.locators.BottomBarNavigationLocator;
+import com.locators.DashBoardLocators;
+import com.locators.LocationLocators;
+import com.locators.MyAccountLocators;
+import com.locators.OLOLocators;
+import com.locators.OrderNowLocators;
+import com.locators.SideDrawerLocators;
+import com.locators.SignInLocators;
+import com.locators.TransactionHistoryLocators;
+
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.IOSTouchAction;
+import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
+import io.github.ashwith.flutter.FlutterElement;
+import io.github.ashwith.flutter.FlutterFinder;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
+
+public class OrderNowLoggedIn extends BaseClass {
+
+	static SignInLocators signInLocator = new SignInLocators();
+	static CommonMethods commonMethods = new CommonMethods();
+	static LocationLocators locationLocators = new LocationLocators();
+	static DashBoardLocators dashBoardLocators = new DashBoardLocators();
+	static SideDrawerLocators sideDrawerLocators = new SideDrawerLocators();
+	static OrderNowLocators orderNowLocators = new OrderNowLocators();
+	static BottomBarNavigationLocator bottomBarNavigationLocators = new BottomBarNavigationLocator();
+
+	static AppRatingLocators appRating = new AppRatingLocators();
+	static SignInLocators signInLocators = new SignInLocators();
+	static AppLaunchAndLandingScreenLocators appLaunchAndLandingScreenLocators = new AppLaunchAndLandingScreenLocators();
+	static MyAccountLocators myAccountLocators = new MyAccountLocators();
+	public static String isLocationEnabled = "true";
+	static TransactionHistoryLocators transactionHistoryLocators = new TransactionHistoryLocators();
+	static OLOLocators oloLocators = new OLOLocators();
+
+	final static ArrayList<JSONObject> jList = new ArrayList<>();
+
+	public static String componentList;
+	public static String accessTokenGen;
+	public static String printedCardNumberResponse;
+	public static String firstnameResponse;
+	public static String lastnameResponse;
+	public static String salutationResponse;
+	public static String welcomeResponse;
+	public static String welcomeResponseDefault;
+	public static String usernameResponse;
+	public static StringBuilder welcomeString;
+	public static StringBuilder welcomeDefault;
+	public static StringBuilder pointTrackHead;
+	public static StringBuilder actualSubHeader;
+	public static StringBuilder responseHeader;
+	public static StringBuilder actualHeader;
+	public static String availableHeader;
+	public static String availableViewall;
+	public static StringBuilder actualWelcome;
+	public static String pointTrackerHeader;
+	public static String pointTrackerSubHeader;
+	public static int walletMaximum;
+	public static String pointBalance1;
+	public static String finalPointValue;
+	public static JSONArray resultArray;
+	public static String pullMessageResponse;
+	public static String pullMessageHeaderResponse;
+	public static String barcodeAlttextResponse;
+	public static String barcodeHeaderResponse;
+	public static String scannableLoyaltyCardHeaderText;
+	public static String mobilephoneResponse;
+	public static String codeSourceResponse;
+	public static String primaryCardNumbersResponse;
+	public static String phoneNumberResponse;
+	public static StringBuilder barcodeHeaderString;
+	public static String pointTrackerHeaderAltResponse;
+	public static String codeTypeResponse;
+	public static String dateResponse;
+	public static String messageDescriptionResponse;
+	public static String formattedDate;
+	public static String expirationTimeResponse;
+	public static String shortCardNumberResponse;
+	public static String storeCodeResponse;
+	public static String storeNameResponse;
+	public static String corpExpirationTimeResponse;
+	public static String corpShortCardNumberResponse;
+	public static String corpStoreCodeResponse;
+	public static String corpStoreNameResponse;
+	public static String contentValue;
+
+	public static int walletCode;
+	public static int walletCdn;
+	public static JSONArray perksCdn;
+	public static String cardTemplateCdn;
+	public static String tierCdn;
+	public static JSONArray perks;
+	public static String cardTemplate;
+	public static String tier;
+	public static String activeDate;
+	public static String expiryDate;
+	public static String favoriteStore;
+	public static String storeGroup;
+	public static String imageUrl1;
+	public static String imageAltText;
+	public static Response cdnResponse;
+
+	static String canDeliverResponse;
+	static String locatedResponse;
+	static String canDeliverResponse1;
+	static String locatedResponse1;
+
+	static int savedAddressLength;
+	static int savedAddressLengthUpdated;
+
+	static String favStoreCode;
+	static String favStoreName;
+	static String optStringFavEmpty;
+
+	public static WebElement imagecomponent;
+
+	public static String preCheckInAltTextResponse;
+	public static String preCheckInTextResponse;
+	public static String postCheckInTextResponse;
+	public static String codeTypeCheckInResponse;
+	public static String codeSourceCheckInResponse;
+	public static StringBuilder preCheckInTextString;
+	public static StringBuilder postCheckInTextString;
+	public static String checkInStoreNameResponse;
+	public static String checkInStoreCodeResponse;
+	public static String availableRewardsHeader;
+	public static String availableRewardsViewAll;
+	public static String availableRewardsAltText;
+	public static StringBuilder availableRewardsViewAllString;
+	public static StringBuilder availableRewardsHeaderString;
+
+	public static String storeShortCode;
+	public static String userName;
+	public static String passWord;
+	public static String merchantId;
+	public static String cardTemplateCode;
+	public static String storeGroupCode;
+	public static String clientId;
+	public static String integrationDetail;
+	static String storeCode;
+	static String authorizationGrant;
+	static String merchantid;
+	static String key = "6d6bf06a4f653a54da8d88715a736a4ca6071ffb";
+	static String provider = "px";
+	static String recentlyOrderedName;
+
+	static String authentication = "oauth";
+
+	static String[] welcomeConfig = { "{salutation}", "{firstName}", "{lastName}", "{username}" };
+
+	static String thirdPartyIntegration = "lJI1mRVajw4FmFrNqOxEqFU_3QpH2HwpBSdpnt1m97";
+
+	static String response_type = "code";
+
+	static String scope = "user_read user_write account_read account_write";
+
+	static String corpStoreCode;
+
+	static String authentication1 = "anonymous";
+
+	static String integrationDetail1 = "os=iOS%7Cosversion=16.6%7Cdevice=iPhone%7CmerchantId=60019%7Cintegrator=Paytronix%7Cversion=REST:14.15%20-%20API:23.21.20231010%20-%20APP:2023101001";
+
+	static String Restaurant_Id;
+	static String get0;
+
+	static String get1;
+
+	static String get2;
+
+	static int size;
+
+	static String date;
+
+	static String substring;
+
+	static String DateApi;
+
+	static String Date;
+
+	static List<String> list = new ArrayList<String>();
+
+	@Test
+
+	public static void nextGenOrderNowFlowWithTakeoutAsapConfigured() throws Throwable {
+
+		DesiredCapabilities cap = new DesiredCapabilities();
+		cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Samsung");
+		cap.setCapability("platformName", "Android");
+		cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, "12");
+		cap.setCapability(MobileCapabilityType.UDID, "emulator-5554");
+		cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Flutter");
+		cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 10000);
+		cap.setCapability("appPackage", "com.paytronix.nexgenfl");
+		cap.setCapability("appActivity", "com.paytronix.nexgenfl.MainActivity");
+
+		driver = new AndroidDriver<WebElement>(new URL("http://0.0.0.0:4723/wd/hub"), cap);
+		System.out.println("App Launched Successfully");
+
+SignIn.nextGenSignInWithEmailSmoke();
+		//
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		// To initiate the test to be print
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Prasanna Venkatesh").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bass = new BaseClass();
+		List<String> takeoutFlowConfiguration = bass.odFlow();
+
+		String bottomBar = takeoutFlowConfiguration.get(32);
+		String sideDrawer = takeoutFlowConfiguration.get(33);
+
+		Thread.sleep(6000);
+
+		// Initiating the node to be print in the Extent report.
+		ExtentTest nextGenOrderNowFlowWithTakeoutAsapConfigured_003 = test
+				.createNode("nextGenOrderNowFlowWithTakeoutAsapConfigured_003");
+
+		if (bottomBar.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowLoggedIn.ngaOrderNowLoggedInTakeoutAsapBottomBarConfigured();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via bottom bar is not configured.");
+
+			nextGenOrderNowFlowWithTakeoutAsapConfigured_003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithTakeoutAsapConfigured_003 - Verified that ordernow via bottom bar is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		if (sideDrawer.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowLoggedIn.ngaOrderNowLoggedInTakeoutAsapSideDrawerConfigured();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via side drawer is not configured.");
+
+			nextGenOrderNowFlowWithTakeoutAsapConfigured_003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithTakeoutAsapConfigured_003 - Verified that ordernow via side drawer is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+		commonMethods.switchContext("FLUTTER");
+
+		Thread.sleep(6000);
+
+		FlutterElement bottomBarHomeButtonVk = find.byValueKey(bottomBarNavigationLocators.BOTTOMBAR_HOME_BUTTON_VKL);
+		bottomBarHomeButtonVk.click();
+	}
+
+	@Test
+
+	public static void nextGenOrderNowFlowWithCurbsideAsapConfigured() throws Throwable {
+
+		DesiredCapabilities cap = new DesiredCapabilities();
+		cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Samsung");
+		cap.setCapability("platformName", "Android");
+		cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, "12");
+		cap.setCapability(MobileCapabilityType.UDID, "emulator-5554");
+		cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Flutter");
+		cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 10000);
+		cap.setCapability("appPackage", "com.paytronix.nexgenfl");
+		cap.setCapability("appActivity", "com.paytronix.nexgenfl.MainActivity");
+
+		driver = new AndroidDriver<WebElement>(new URL("http://0.0.0.0:4723/wd/hub"), cap);
+
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		// To initiate the test to be print
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Prasanna Venkatesh").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bass = new BaseClass();
+		List<String> curbsideFlowConfiguration = bass.odFlow();
+		String bottomBar = curbsideFlowConfiguration.get(36);
+		String sideDrawer = curbsideFlowConfiguration.get(37);
+
+		ExtentTest nextGenOrderNowFlowWithCurbsideAsapConfigured_003 = test
+				.createNode("nextGenOrderNowFlowWithCurbsideAsapConfigured_003");
+
+		if (bottomBar.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowLoggedIn.ngaOrderNowLoggedInCurbsideAsapBottomBarConfigured();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via bottom bar is not configured.");
+
+			nextGenOrderNowFlowWithCurbsideAsapConfigured_003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithCurbsideAsapConfigured_003 - Verified that ordernow via bottom bar is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		if (sideDrawer.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowLoggedIn.ngaOrderNowLoggedInCurbsideAsapSideDrawerConfigured();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via side drawer is not configured.");
+
+			nextGenOrderNowFlowWithCurbsideAsapConfigured_003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithCurbsideAsapConfigured_003 - Verified that ordernow via side drawer is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		commonMethods.switchContext("FLUTTER");
+
+		Thread.sleep(6000);
+
+		FlutterElement bottomBarHomeButtonVk = find.byValueKey(bottomBarNavigationLocators.BOTTOMBAR_HOME_BUTTON_VKL);
+		bottomBarHomeButtonVk.click();
+
+	}
+
+	@Test
+	public void nextGenOrderNowFlowWithTakeoutLaterConfigured() throws Throwable {
+
+		DesiredCapabilities cap = new DesiredCapabilities();
+		cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Samsung");
+		cap.setCapability("platformName", "Android");
+		cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, "12");
+		cap.setCapability(MobileCapabilityType.UDID, "emulator-5554");
+		cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Flutter");
+		cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 10000);
+		cap.setCapability("appPackage", "com.paytronix.nexgenfl");
+		cap.setCapability("appActivity", "com.paytronix.nexgenfl.MainActivity");
+
+		driver = new AndroidDriver<WebElement>(new URL("http://0.0.0.0:4723/wd/hub"), cap);
+
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Prasanna Venkatesh").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bass = new BaseClass();
+		List<String> takeoutFlowConfiguration = bass.odFlow();
+		String bottomBar = takeoutFlowConfiguration.get(34);
+		String sideDrawer = takeoutFlowConfiguration.get(35);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		// Initiating the node to be print in the Extent report.
+		ExtentTest nextGenOrderNowFlowWithTakeoutLaterConfigured003 = test
+				.createNode("nextGenOrderNowFlowWithTakeoutLaterConfigured003");
+
+		if (bottomBar.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowLoggedIn.ngaOrderNowLoggedInTakeoutLaterBottomBarConfigured();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via bottom bar is not configured.");
+
+			nextGenOrderNowFlowWithTakeoutLaterConfigured003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithTakeoutLaterConfigured003 - Verified that ordernow via bottom bar is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		if (sideDrawer.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowLoggedIn.ngaOrderNowLoggedInTakeoutLaterSideDrawerConfigured();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via side drawer is not configured.");
+
+			nextGenOrderNowFlowWithTakeoutLaterConfigured003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithTakeoutLaterConfigured003 - Verified that ordernow via side drawer is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		commonMethods.switchContext("FLUTTER");
+
+		Thread.sleep(6000);
+
+		FlutterElement bottomBarHomeButtonVk = find.byValueKey(bottomBarNavigationLocators.BOTTOMBAR_HOME_BUTTON_VKL);
+		bottomBarHomeButtonVk.click();
+
+	}
+
+	@Test
+
+	public void nextGenOrderNowFlowWithCurbsideLaterConfigured() throws Throwable {
+
+		DesiredCapabilities cap = new DesiredCapabilities();
+		cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Samsung");
+		cap.setCapability("platformName", "Android");
+		cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, "12");
+		cap.setCapability(MobileCapabilityType.UDID, "emulator-5554");
+		cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Flutter");
+		cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 10000);
+		cap.setCapability("appPackage", "com.paytronix.nexgenfl");
+		cap.setCapability("appActivity", "com.paytronix.nexgenfl.MainActivity");
+
+		driver = new AndroidDriver<WebElement>(new URL("http://0.0.0.0:4723/wd/hub"), cap);
+
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		// To initiate the test to be print
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Prasanna Venkatesh").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bass = new BaseClass();
+		List<String> curbsideFlowConfiguration = bass.odFlow();
+		String bottomBar = curbsideFlowConfiguration.get(38);
+		String sideDrawer = curbsideFlowConfiguration.get(39);
+
+		ExtentTest nextGenOrderNowFlowWithCurbsideLaterConfigured003 = test
+				.createNode("nextGenOrderNowFlowWithCurbsideLaterConfigured003");
+
+		if (bottomBar.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowLoggedIn.ngaOrderNowLoggedInCurbsideLaterBottomBarConfigured();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via bottom bar is not configured.");
+
+			nextGenOrderNowFlowWithCurbsideLaterConfigured003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithCurbsideLaterConfigured003 - Verified that ordernow via bottom bar is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		if (sideDrawer.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowLoggedIn.ngaOrderNowLoggedInCurbsideLaterSideDrawerConfigured();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via side drawer is not configured.");
+
+			nextGenOrderNowFlowWithCurbsideLaterConfigured003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithCurbsideLaterConfigured003 - Verified that ordernow via side drawer is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		commonMethods.switchContext("FLUTTER");
+
+		Thread.sleep(6000);
+
+		FlutterElement bottomBarHomeButtonVk = find.byValueKey(bottomBarNavigationLocators.BOTTOMBAR_HOME_BUTTON_VKL);
+		bottomBarHomeButtonVk.click();
+
+	}
+
+	@Test
+
+	public static void nextGenOrderNowFlowWithDeliveryAsapConfigured() throws Throwable {
+
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Prasanna Venkatesh").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bass = new BaseClass();
+		List<String> deliveryFlowConfiguration = bass.odFlow();
+
+		String bottomBar = deliveryFlowConfiguration.get(40);
+		String sideDrawer = deliveryFlowConfiguration.get(41);
+
+		ExtentTest nextGenOrderNowFlowWithDeliveryAsapConfigured_003 = test
+				.createNode("nextGenOrderNowFlowWithDeliveryAsapConfigured_003");
+
+		if (bottomBar.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowLoggedIn.ngaOrderNowLoggedInDeliveryAsapBottomBarConfigured();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via bottom bar is not configured.");
+
+			nextGenOrderNowFlowWithDeliveryAsapConfigured_003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithDeliveryAsapConfigured_003 - Verified that ordernow via bottom bar is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		if (sideDrawer.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowLoggedIn.ngaOrderNowLoggedInDeliveryAsapSideDrawerConfigured();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via bottom bar is not configured.");
+
+			nextGenOrderNowFlowWithDeliveryAsapConfigured_003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithDeliveryAsapConfigured_003 - Verified that ordernow via side drawer is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+		commonMethods.switchContext("FLUTTER");
+
+		Thread.sleep(6000);
+
+		FlutterElement bottomBarHomeButtonVk = find.byValueKey(bottomBarNavigationLocators.BOTTOMBAR_HOME_BUTTON_VKL);
+		bottomBarHomeButtonVk.click();
+	}
+
+	@Test
+	public void nextGenOrderNowFlowWithDeliveryLaterConfigured() throws Throwable {
+
+//		DesiredCapabilities cap = new DesiredCapabilities();
+//		cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Samsung");
+//		cap.setCapability("platformName", "Android");
+//		cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, "12");
+//		cap.setCapability(MobileCapabilityType.UDID, "emulator-5554");
+//		cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Flutter");
+//		cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 10000);
+//		cap.setCapability("appPackage", "com.paytronix.nexgenfl");
+//		cap.setCapability("appActivity", "com.paytronix.nexgenfl.MainActivity");
+//
+//		driver = new AndroidDriver<WebElement>(new URL("http://0.0.0.0:4723/wd/hub"), cap);
+
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Prasanna Venkatesh").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bass = new BaseClass();
+		List<String> deliveryFlowConfiguration = bass.odFlow();
+
+		String bottomBar = deliveryFlowConfiguration.get(42);
+		String sideDrawer = deliveryFlowConfiguration.get(43);
+
+		ExtentTest nextGenOrderNowFlowWithDeliveryLaterConfigured003 = test
+				.createNode("nextGenOrderNowFlowWithDeliveryLaterConfigured003");
+		
+		if (bottomBar.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowLoggedIn.ngaOrderNowLoggedInDeliveryLaterBottomBarConfigured();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via bottom bar is not configured.");
+
+			nextGenOrderNowFlowWithDeliveryLaterConfigured003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithDeliveryLaterConfigured003 - Verified that ordernow via bottom bar is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		if (sideDrawer.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowLoggedIn.ngaOrderNowLoggedInDeliveryLaterSideDrawerConfigured();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via bottom bar is not configured.");
+
+			nextGenOrderNowFlowWithDeliveryLaterConfigured003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithDeliveryLaterConfigured003 - Verified that ordernow via side drawer is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		commonMethods.switchContext("FLUTTER");
+
+		Thread.sleep(6000);
+
+		FlutterElement bottomBarHomeButtonVk = find.byValueKey(bottomBarNavigationLocators.BOTTOMBAR_HOME_BUTTON_VKL);
+		bottomBarHomeButtonVk.click();
+
+	}
+
+}

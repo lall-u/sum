@@ -1,0 +1,4978 @@
+package com.features;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.base.BaseClass;
+import com.base.CommonMethods;
+import com.locators.AppLaunchAndLandingScreenLocators;
+import com.locators.AppRatingLocators;
+import com.locators.BottomBarNavigationLocator;
+import com.locators.DashBoardLocators;
+import com.locators.LocationLocators;
+import com.locators.MyAccountLocators;
+import com.locators.OLOLocators;
+import com.locators.OrderNowLocators;
+import com.locators.SideDrawerLocators;
+import com.locators.SignInLocators;
+import com.locators.TransactionHistoryLocators;
+
+import io.github.ashwith.flutter.FlutterElement;
+import io.github.ashwith.flutter.FlutterFinder;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
+
+public class NGALocationListGuest extends BaseClass {
+
+	static SignInLocators signInLocator = new SignInLocators();
+	static CommonMethods commonMethods = new CommonMethods();
+	static LocationLocators locationLocators = new LocationLocators();
+	static DashBoardLocators dashBoardLocators = new DashBoardLocators();
+	static SideDrawerLocators sideDrawerLocators = new SideDrawerLocators();
+	static OrderNowLocators orderNowLocators = new OrderNowLocators();
+	static BottomBarNavigationLocator bottomBarNavigationLocators = new BottomBarNavigationLocator();
+
+	static AppRatingLocators appRating = new AppRatingLocators();
+	static SignInLocators signInLocators = new SignInLocators();
+	static AppLaunchAndLandingScreenLocators appLaunchAndLandingScreenLocators = new AppLaunchAndLandingScreenLocators();
+	static MyAccountLocators myAccountLocators = new MyAccountLocators();
+	public static String isLocationEnabled = "true";
+	static TransactionHistoryLocators transactionHistoryLocators = new TransactionHistoryLocators();
+	static OLOLocators oloLocators = new OLOLocators();
+	static List<String> list = new ArrayList<String>();
+	static SplitPayment splitPayment = new SplitPayment();
+	static SinglePayment singlePayment = new SinglePayment();
+	static ReOrder reOrder = new ReOrder();
+
+	final static ArrayList<JSONObject> jList = new ArrayList<>();
+
+	public static String componentList;
+	public static String accessTokenGen;
+	public static String printedCardNumberResponse;
+	public static String firstnameResponse;
+	public static String lastnameResponse;
+	public static String salutationResponse;
+	public static String welcomeResponse;
+	public static String welcomeResponseDefault;
+	public static String usernameResponse;
+	public static StringBuilder welcomeString;
+	public static StringBuilder welcomeDefault;
+	public static StringBuilder pointTrackHead;
+	public static StringBuilder actualSubHeader;
+	public static StringBuilder responseHeader;
+	public static StringBuilder actualHeader;
+	public static String availableHeader;
+	public static String availableViewall;
+	public static StringBuilder actualWelcome;
+	public static String pointTrackerHeader;
+	public static String pointTrackerSubHeader;
+	public static int walletMaximum;
+	public static String pointBalance1;
+	public static String finalPointValue;
+	public static JSONArray resultArray;
+	public static String pullMessageResponse;
+	public static String pullMessageHeaderResponse;
+	public static String barcodeAlttextResponse;
+	public static String barcodeHeaderResponse;
+	public static String scannableLoyaltyCardHeaderText;
+	public static String mobilephoneResponse;
+	public static String codeSourceResponse;
+	public static String primaryCardNumbersResponse;
+	public static String phoneNumberResponse;
+	public static StringBuilder barcodeHeaderString;
+	public static String pointTrackerHeaderAltResponse;
+	public static String codeTypeResponse;
+	public static String dateResponse;
+	public static String messageDescriptionResponse;
+	public static String formattedDate;
+	public static String expirationTimeResponse;
+	public static String shortCardNumberResponse;
+	public static String storeCodeResponse;
+	public static String storeNameResponse;
+	public static String corpExpirationTimeResponse;
+	public static String corpShortCardNumberResponse;
+	public static String corpStoreCodeResponse;
+	public static String corpStoreNameResponse;
+	public static String contentValue;
+
+	public static int walletCode;
+	public static int walletCdn;
+	public static JSONArray perksCdn;
+	public static String cardTemplateCdn;
+	public static String tierCdn;
+	public static JSONArray perks;
+	public static String cardTemplate;
+	public static String tier;
+	public static String activeDate;
+	public static String expiryDate;
+	public static String favoriteStore;
+	public static String storeGroup;
+	public static String imageUrl1;
+	public static String imageAltText;
+	public static Response cdnResponse;
+
+	public static WebElement imagecomponent;
+
+	public static String preCheckInAltTextResponse;
+	public static String preCheckInTextResponse;
+	public static String postCheckInTextResponse;
+	public static String codeTypeCheckInResponse;
+	public static String codeSourceCheckInResponse;
+	public static StringBuilder preCheckInTextString;
+	public static StringBuilder postCheckInTextString;
+	public static String checkInStoreNameResponse;
+	public static String checkInStoreCodeResponse;
+	public static String availableRewardsHeader;
+	public static String availableRewardsViewAll;
+	public static String availableRewardsAltText;
+	public static StringBuilder availableRewardsViewAllString;
+	public static StringBuilder availableRewardsHeaderString;
+
+	public static String storeShortCode;
+	public static String userName;
+	public static String passWord;
+	public static String merchantId;
+	public static String cardTemplateCode;
+	public static String storeGroupCode;
+	public static String clientId;
+	public static String integrationDetail;
+	static String storeCode;
+	static String authorizationGrant;
+	static String merchantid;
+	static String key = "6d6bf06a4f653a54da8d88715a736a4ca6071ffb";
+	static String provider = "px";
+	static String recentlyOrderedName;
+	static String Restaurant_Id;
+
+	static String authentication = "oauth";
+
+	static String[] welcomeConfig = { "{salutation}", "{firstName}", "{lastName}", "{username}" };
+
+	static String thirdPartyIntegration = "lJI1mRVajw4FmFrNqOxEqFU_3QpH2HwpBSdpnt1m97";
+
+	static String response_type = "code";
+
+	static String scope = "user_read user_write account_read account_write";
+
+	static String corpStoreCode;
+
+	static String authentication1 = "anonymous";
+
+	static String integrationDetail1 = "os=iOS%7Cosversion=16.6%7Cdevice=iPhone%7CmerchantId=60019%7Cintegrator=Paytronix%7Cversion=REST:14.15%20-%20API:23.21.20231010%20-%20APP:2023101001";
+
+	static String favStoreCode;
+	static String favStoreName;
+	static String optStringFavEmpty;
+
+	static String get0;
+
+	static String get1;
+
+	static String get2;
+
+	static int size;
+
+	static String date;
+
+	static String substring;
+
+	static String DateApi;
+
+	static String Date;
+
+	static String orderId;
+
+	static String takeoutOrderTypeText;
+	static String curbsideOrderTypeText;
+	static String deliveryOrderTypeText;
+
+	static String asapOrderTimeText;
+	static String laterOrderTimeText;
+
+	public static void ngaLocationListTakeoutAsapSideDrawerConfiguredGuest() throws Throwable {
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		BaseClass bc = new BaseClass();
+
+		String localConfigTakeoutText = commonMethods.stringsReader(OrderNowLocators.LOCAL_CONFIGURATION_TAKEOUT_TEXT);
+
+		String asapText = commonMethods.stringsReader(OrderNowLocators.LOCAL_CONFIGURATION_ASAP_TEXT);
+
+		List<String> storeName = bc.odFlow();
+
+		String desiredStoreName = storeName.get(15);
+
+		Thread.sleep(6000);
+
+		// Initiating the node to be print in the Extent report.
+
+		ExtentTest nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_001 = test
+				.createNode("nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_001");
+		ExtentTest nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_002 = test
+				.createNode("nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_002");
+		ExtentTest nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 = test
+				.createNode("nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003");
+
+		try {
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(6000);
+
+			FlutterElement dashboardSideDrawerButtonVk = find.byValueKey(sideDrawerLocators.SIDE_DRAWER_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(dashboardSideDrawerButtonVk);
+
+			// To tap the Order now menu in the side drawer by searching the menu.
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(3000);
+
+			commonMethods.clickSideDrawerElementIos(driver, "LOCATIONS");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(3000);
+
+			FlutterElement sideDrawerLocationButtonVk = find
+					.byValueKey(sideDrawerLocators.SIDEDRAWER_LOCATION_BUTTON_VKL);
+
+			nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_001.info(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_001 - Validated that Location button is present in side drawer ",
+					ExtentColor.CYAN));
+			nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_001.addScreenCaptureFromBase64String(
+					takeScreenshot(driver), "Verified that Location button is present in side drawer");
+
+			sideDrawerLocationButtonVk.click();
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(11000);
+
+			try {
+
+				WebElement dontAllowId = driver.findElement(
+						By.id("com.android.permissioncontroller:id/permission_deny_and_dont_ask_again_button"));
+
+				if (dontAllowId.isDisplayed()) {
+
+					dontAllowId.click();
+
+				}
+
+			}
+
+			catch (Exception e) {
+
+				System.out.println("Native Popup not appears");
+
+			}
+
+			/**
+			 * @Class_Name LocationListGuest
+			 * @Method_Name nextGenLocationListFlowWithTakeoutAsapConfiguredGuest
+			 * @Description Ensure that user navigated to location screen while tapping the
+			 *              order now button via sidedrawer or bottom bar.
+			 * @TestID nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_002
+			 * @author Prasanna Venkatesh KP
+			 */
+
+			// To get the Order now screen title.
+
+			CommonMethods.switchContext("FLUTTER");
+
+			FlutterElement locationTitle = find.byValueKey(locationLocators.LOCATION_SCREEN_TITLE_TEXT_VKL);
+			String locationTitleText = locationTitle.getText();
+
+			nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_002.addScreenCaptureFromBase64String(
+					takeScreenshot(driver), "Verified user navigated to the location list screen.");
+			nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_002.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_002 - Verified that user navigated to the location list screen and the title is : "
+							+ locationTitleText,
+					ExtentColor.CYAN));
+
+			/**
+			 * @Class_Name LocationListGuest
+			 * @Method_Name nextGenLocationListFlowWithTakeoutAsapConfiguredGuest
+			 * @Description Ensure that user navigated to dashboard screen while tapping the
+			 *              backicon in the ordernow screen.
+			 * @TestID nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+			 * @author Prasanna Venkatesh KP
+			 */
+
+			// To get back from the Order now screen to the dashboard by the tapping
+			// the back icon.
+
+			FlutterElement locationBackIcon = find.byValueKey(locationLocators.LOCATION_SCREEN_BACK_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(locationBackIcon);
+
+			Thread.sleep(6000);
+
+			nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003.addScreenCaptureFromBase64String(
+					takeScreenshot(driver), "Verified user navigated to the Dashboard screen.");
+			nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003.info(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that user navigated to the dashboard screen while tapping the backicon in LocationList screen ",
+					ExtentColor.CYAN));
+
+			Thread.sleep(6000);
+
+			// To tap the order now menu in the side drawer by searching in the side
+			// drawer menu list.
+
+			commonMethods.checkAndClickTheElement(dashboardSideDrawerButtonVk);
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			commonMethods.clickSideDrawerElementIos(driver, "order now");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			commonMethods.checkAndClickTheElement(sideDrawerLocationButtonVk);
+
+			io.restassured.RestAssured.baseURI = "https://opendining.net/api/v1/merchant/" + merchantId
+					+ "/restaurants/" + storeCode + " ?key=6d6bf06a4f653a54da8d88715a736a4ca6071ffb";
+			// Construct the query parameters
+			RequestSpecification requestingHttp = io.restassured.RestAssured.given();
+			// specify the method type (GET) and the parameters if any.
+			// In this case the request does not take any parameter
+
+			RequestSpecification parameterRequest = requestingHttp.queryParam("key",
+					"6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+			Response restaurantsResponse = parameterRequest.get("");
+
+			JSONObject storeResponse = new JSONObject(restaurantsResponse.body().asString());
+			if (storeResponse.has("name")) {
+
+				String asapOrder = storeResponse.optString("advance_only");
+
+//				String deliveryResponse = storeResponse.optString("delivery");
+//				String deliveryResponseLabelText = storeResponse.optString("delivery_label");
+//
+				String takeoutResponse = storeResponse.optString("takeout");
+				String takeoutResponseLabelText = storeResponse.optString("takeout_label");
+
+//				JSONObject curbsideObject = storeResponse.optJSONObject("curbside");
+//				String curbsideResponse = curbsideObject.optString("en");
+//				String curbsideResponseLabelText = curbsideObject.optString("label_text");
+
+				try {
+
+					Thread.sleep(11000);
+
+					commonMethods.scrollDownAndClick(desiredStoreName);
+
+					try {
+
+						CommonMethods.switchContext("FLUTTER");
+
+						FlutterElement storeInfoTitleVk = find.byValueKey(locationLocators.STOREINFO_SCREEN_TITLE_VKL);
+						String storeInfoScreenTitleText = storeInfoTitleVk.getText();
+
+						System.out.println(storeInfoScreenTitleText);
+
+						nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003.addScreenCaptureFromBase64String(
+								takeScreenshot(driver), "Verified that user navigated to the store info screen");
+
+						nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003.info(MarkupHelper.createLabel(
+								"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that user navigated to the StoreInfo screen : "
+										+ storeInfoScreenTitleText,
+								ExtentColor.CYAN));
+
+						FlutterElement storeInfoScreenOrderNowIconVk = find
+								.byValueKey(locationLocators.STOREINFO_SCREEN_ORDERNOWICON_VKL);
+						storeInfoScreenOrderNowIconVk.click();
+
+					} catch (Exception e) {
+
+						nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003.fail(MarkupHelper.createLabel(
+								"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that the user not navigated to the StoreInfo screen ",
+								ExtentColor.CYAN));
+
+					}
+
+					if (takeoutResponse.equalsIgnoreCase("true")) {
+
+						if (!takeoutResponseLabelText.isEmpty()) {
+
+							try {
+
+								CommonMethods.switchContext("NATIVE_APP");
+
+								Thread.sleep(6000);
+
+								WebElement takeoutText = driver
+										.findElement(By.xpath(orderNowLocators.ORDER_TYPE_POPUP_TAKEEOUT_TEXT_XPATHL));
+
+								CommonMethods.switchContext("FLUTTER");
+
+								FlutterElement takeoutText1 = find.byValueKey(OrderNowLocators.ORDERTYPE_TAKEOUT_VKL);
+
+								takeoutOrderTypeText = takeoutText1.getText();
+								boolean equalsIgnoreCase = takeoutResponseLabelText
+										.equalsIgnoreCase(takeoutOrderTypeText);
+
+								if (equalsIgnoreCase == true) {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									takeoutText.click();
+
+									nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+											.info(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that takeout order type is displayed in the order type popup and displayed texts is "
+															+ takeoutOrderTypeText + " response text is : "
+															+ takeoutResponseLabelText + " matching.",
+													ExtentColor.CYAN));
+
+									// Text matches
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									Thread.sleep(6000);
+
+									takeoutText.click();
+
+									nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+											.fail(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that takeout order type is displayed in the order type popup and displayed texts is "
+															+ takeoutOrderTypeText + " response text is : "
+															+ takeoutResponseLabelText + "  not matching.",
+													ExtentColor.CYAN));
+
+								}
+
+								if (asapOrder.equalsIgnoreCase("false")) {
+
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(6000);
+
+										WebElement asapLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_ASAP_TEXT_XPATHL));
+
+										CommonMethods.switchContext("FLUTTER");
+
+										FlutterElement asapLabel1 = find
+												.byValueKey(OrderNowLocators.ORDER_ASAP_TEXT_VKL);
+
+										asapOrderTimeText = asapLabel1.getText();
+
+										boolean asapLabelComparison = asapText.equalsIgnoreCase(asapOrderTimeText);
+
+										if (asapLabelComparison == true) {
+
+											asapLabel1.click();
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that Alert appears when user taps the ASAP button and the Asap actaul text :"
+																	+ asapText + "Asap config text : "
+																	+ asapOrderTimeText + "matching",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(3000);
+
+											integratedMethods(takeoutOrderTypeText, asapOrderTimeText);
+
+											Thread.sleep(6000);
+
+										} else {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(6000);
+
+											// To fail that ASAP label text is not matching
+
+											asapLabel.click();
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											System.out.println("asap label text is : " + asapOrderTimeText);
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that Alert appears when user taps the ASAP button and the Asap actaul text :"
+																	+ asapText + "Asap config text : "
+																	+ asapOrderTimeText + " not matching",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(3000);
+
+											integratedMethods(takeoutOrderTypeText, asapOrderTimeText);
+
+											Thread.sleep(6000);
+
+										}
+
+									} catch (Exception e) {
+
+										try {
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(5000);
+
+											WebElement cancelButton = driver.findElement(
+													By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+											cancelButton.click();
+
+											System.out.println(
+													"ASAP is not displayed where as ASAP is configured on the back end ");
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that ASAP is not displayed where as ASAP is configured on the back end ",
+															ExtentColor.CYAN));
+
+										} catch (Exception e1) {
+
+											System.out.println(
+													" ASAP is only displayed where as ASAP is only configured on the back end ");
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that ASAP is only displayed where as ASAP is only configured on the back end  ",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(5000);
+
+											integratedMethods(takeoutOrderTypeText, asapOrderTimeText);
+
+										}
+
+									}
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									try {
+
+										Thread.sleep(6000);
+
+										WebElement asapLabel = driver.findElement(
+												By.xpath("orderNowLocators.ORDER_NOW_GUEST_ASAP_TEXT_XPATHL"));
+
+										if (asapLabel.isDisplayed()) {
+											// To fail the test case.
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that Asap is displayed in the screen.");
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that asap label is displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("FLUTTER");
+
+											FlutterElement closeIcon = find
+													.byValueKey("available_order_type_close_button");
+
+											closeIcon.click();
+
+										}
+
+									} catch (Exception e) {
+
+										try {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											WebElement cancelButton = driver.findElement(
+													By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+											cancelButton.click();
+
+											System.out.println(
+													"ASAP is not displayed where as ASAP is not configured on the back end but later is configured");
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenOrderNowFlowWithTakeoutAsapConfigured_003 - Verified that later is only configured and asap label is not displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+										} catch (Exception e1) {
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenOrderNowFlowWithTakeoutAsapConfigured_003 - Verified that asap label is not displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+										}
+
+									}
+
+								}
+
+							} catch (Exception E) {
+
+								if (asapOrder.equalsIgnoreCase("false")) {
+
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(6000);
+
+										WebElement asapLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_ASAP_TEXT_XPATHL));
+
+										CommonMethods.switchContext("FLUTTER");
+
+										FlutterElement asapLabel1 = find
+												.byValueKey(OrderNowLocators.ORDER_ASAP_TEXT_VKL);
+
+										asapOrderTimeText = asapLabel1.getText();
+
+										boolean asapLabelComparison = asapText.equalsIgnoreCase(asapOrderTimeText);
+
+										if (asapLabelComparison == true) {
+
+											asapLabel1.click();
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that Alert appears when user taps the ASAP button and the Asap actaul text :"
+																	+ asapText + "Asap config text : "
+																	+ asapOrderTimeText + "matching",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(3000);
+
+											integratedMethods(takeoutOrderTypeText, asapOrderTimeText);
+
+											Thread.sleep(6000);
+
+										} else {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(6000);
+
+											// To fail that ASAP label text is not matching
+
+											asapLabel.click();
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											System.out.println("asap label text is : " + asapOrderTimeText);
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that Alert appears when user taps the ASAP button and the Asap actaul text :"
+																	+ asapText + "Asap config text : "
+																	+ asapOrderTimeText + " not matching",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(3000);
+
+											integratedMethods(takeoutOrderTypeText, asapOrderTimeText);
+
+											Thread.sleep(6000);
+
+										}
+
+									} catch (Exception e) {
+
+										try {
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(5000);
+
+											WebElement cancelButton = driver.findElement(
+													By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+											cancelButton.click();
+
+											System.out.println(
+													"ASAP is not displayed where as ASAP is configured on the back end ");
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that ASAP is not displayed where as ASAP is configured on the back end ",
+															ExtentColor.CYAN));
+
+										} catch (Exception e1) {
+
+											System.out.println(
+													" ASAP is only displayed where as ASAP is only configured on the back end ");
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that ASAP is only displayed where as ASAP is only configured on the back end  ",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(5000);
+
+											integratedMethods(takeoutOrderTypeText, asapOrderTimeText);
+
+										}
+
+									}
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									try {
+
+										Thread.sleep(6000);
+
+										WebElement asapLabel = driver.findElement(
+												By.xpath("orderNowLocators.ORDER_NOW_GUEST_ASAP_TEXT_XPATHL"));
+
+										if (asapLabel.isDisplayed()) {
+											// To fail the test case.
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that Asap is displayed in the screen.");
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that asap label is displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("FLUTTER");
+
+											FlutterElement closeIcon = find
+													.byValueKey("available_order_type_close_button");
+
+											closeIcon.click();
+
+										}
+
+									} catch (Exception e) {
+
+										try {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											WebElement cancelButton = driver.findElement(
+													By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+											cancelButton.click();
+
+											System.out.println(
+													"ASAP is not displayed where as ASAP is not configured on the back end but later is configured");
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenOrderNowFlowWithTakeoutAsapConfigured_003 - Verified that later is only configured and asap label is not displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+										} catch (Exception e1) {
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenOrderNowFlowWithTakeoutAsapConfigured_003 - Verified that asap label is not displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+										}
+
+									}
+
+								}
+
+							}
+
+						} else {
+
+							try {
+
+								CommonMethods.switchContext("NATIVE_APP");
+
+								Thread.sleep(6000);
+
+								WebElement takeoutText = driver
+										.findElement(By.xpath(orderNowLocators.ORDER_TYPE_POPUP_TAKEEOUT_TEXT_XPATHL));
+
+								CommonMethods.switchContext("FLUTTER");
+
+								FlutterElement takeoutText1 = find.byValueKey(OrderNowLocators.ORDERTYPE_TAKEOUT_VKL);
+
+								takeoutOrderTypeText = takeoutText1.getText();
+								boolean equalsIgnoreCase = localConfigTakeoutText
+										.equalsIgnoreCase(takeoutOrderTypeText);
+
+								if (equalsIgnoreCase == true) {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									takeoutText.click();
+
+									nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+											.info(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that Desired store is displayed in the location list and displayed texts is "
+															+ takeoutOrderTypeText + " response text is : "
+															+ localConfigTakeoutText + " matching.",
+													ExtentColor.CYAN));
+
+									// Text matches
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									takeoutText.click();
+
+									nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+											.fail(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that Desired store is displayed in the location list and displayed texts is "
+															+ takeoutOrderTypeText + " response text is : "
+															+ localConfigTakeoutText + " not matching.",
+													ExtentColor.CYAN));
+
+									// text mismatches
+
+								}
+
+								if (asapOrder.equalsIgnoreCase("false")) {
+
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(6000);
+
+										WebElement asapLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_ASAP_TEXT_XPATHL));
+
+										CommonMethods.switchContext("FLUTTER");
+
+										FlutterElement asapLabel1 = find
+												.byValueKey(OrderNowLocators.ORDER_ASAP_TEXT_VKL);
+
+										asapOrderTimeText = asapLabel1.getText();
+
+										boolean asapLabelComparison = asapText.equalsIgnoreCase(asapOrderTimeText);
+
+										if (asapLabelComparison == true) {
+
+											asapLabel1.click();
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that Alert appears when user taps the ASAP button and the Asap actaul text :"
+																	+ asapText + "Asap config text : "
+																	+ asapOrderTimeText + "matching",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(3000);
+
+											integratedMethods(takeoutOrderTypeText, asapOrderTimeText);
+
+											Thread.sleep(6000);
+
+										} else {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(6000);
+
+											// To fail that ASAP label text is not matching
+
+											asapLabel.click();
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											System.out.println("asap label text is : " + asapOrderTimeText);
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that Alert appears when user taps the ASAP button and the Asap actaul text :"
+																	+ asapText + "Asap config text : "
+																	+ asapOrderTimeText + " not matching",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(3000);
+
+											integratedMethods(takeoutOrderTypeText, asapOrderTimeText);
+
+											Thread.sleep(6000);
+
+										}
+
+									} catch (Exception e) {
+
+										try {
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(5000);
+
+											WebElement cancelButton = driver.findElement(
+													By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+											cancelButton.click();
+
+											System.out.println(
+													"ASAP is not displayed where as ASAP is configured on the back end ");
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that ASAP is not displayed where as ASAP is configured on the back end ",
+															ExtentColor.CYAN));
+
+										} catch (Exception e1) {
+
+											System.out.println(
+													" ASAP is only displayed where as ASAP is only configured on the back end ");
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that ASAP is only displayed where as ASAP is only configured on the back end  ",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(5000);
+
+											integratedMethods(takeoutOrderTypeText, asapOrderTimeText);
+
+										}
+
+									}
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									try {
+
+										Thread.sleep(6000);
+
+										WebElement asapLabel = driver.findElement(
+												By.xpath("orderNowLocators.ORDER_NOW_GUEST_ASAP_TEXT_XPATHL"));
+
+										if (asapLabel.isDisplayed()) {
+											// To fail the test case.
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that Asap is displayed in the screen.");
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that asap label is displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("FLUTTER");
+
+											FlutterElement closeIcon = find
+													.byValueKey("available_order_type_close_button");
+
+											closeIcon.click();
+
+										}
+
+									} catch (Exception e) {
+
+										try {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											WebElement cancelButton = driver.findElement(
+													By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+											cancelButton.click();
+
+											System.out.println(
+													"ASAP is not displayed where as ASAP is not configured on the back end but later is configured");
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenOrderNowFlowWithTakeoutAsapConfigured_003 - Verified that later is only configured and asap label is not displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+										} catch (Exception e1) {
+
+											nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenOrderNowFlowWithTakeoutAsapConfigured_003 - Verified that asap label is not displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+										}
+
+									}
+
+								}
+
+							} catch (Exception e) {
+
+								nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003.fail(MarkupHelper.createLabel(
+										"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that Takeout lable is not displayed in the screen where as takeout is configured in the app level.",
+										ExtentColor.CYAN));
+							}
+
+						}
+
+					} else {
+
+						// take out asap is not configured.
+						nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003.info(MarkupHelper.createLabel(
+								"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that takeout lable is not displayed in the screen where as takeout is not configured in the app level.",
+								ExtentColor.CYAN));
+
+					}
+
+				} catch (Exception e) {
+
+					nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003.fail(MarkupHelper.createLabel(
+							"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that desired store is not found in the screen.",
+							ExtentColor.CYAN));
+
+					System.out.println("Store Not found or store not listed");
+
+				}
+			}
+
+		} catch (Exception e) {
+
+			nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003.fail(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that Location List is not displayed in the side drawer where as Location List is configured in the App level",
+					ExtentColor.CYAN));
+
+		}
+
+	}
+
+	public static void ngaLocationListTakeoutLaterSideDrawerConfiguredGuest() throws Throwable {
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		BaseClass bc = new BaseClass();
+		List<String> takeoutFlowConfiguration = bc.appConfiguration();
+
+		String localConfigTakeoutText = commonMethods.stringsReader(OrderNowLocators.LOCAL_CONFIGURATION_TAKEOUT_TEXT);
+
+		String laterText = commonMethods.stringsReader(OrderNowLocators.LOCAL_CONFIGURATION_LATER_TEXT);
+
+		merchantId = takeoutFlowConfiguration.get(8);
+
+		storeCode = takeoutFlowConfiguration.get(13);
+
+		cardTemplateCode = takeoutFlowConfiguration.get(9);
+
+		clientId = takeoutFlowConfiguration.get(11);
+
+		List<String> storeName = bc.odFlow();
+
+		String desiredStoreName = storeName.get(15);
+
+		Thread.sleep(6000);
+
+		ExtentTest nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_001 = test
+				.createNode("nextGenLocationListFlowWithTakeoutLaterConfiguredGuest001");
+		ExtentTest nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_002 = test
+				.createNode("nextGenLocationListFlowWithTakeoutLaterConfiguredGuest002");
+		ExtentTest nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 = test
+				.createNode("nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003");
+
+		try {
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(6000);
+
+			FlutterElement dashboardSideDrawerButtonVk = find.byValueKey(sideDrawerLocators.SIDE_DRAWER_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(dashboardSideDrawerButtonVk);
+
+			// To tap the Order now menu in the side drawer by searching the menu.
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			commonMethods.clickSideDrawerElementIos(driver, "LOCATIONS");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			FlutterElement sideDrawerLocationButtonVk = find
+					.byValueKey(sideDrawerLocators.SIDEDRAWER_LOCATION_BUTTON_VKL);
+
+			nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_001.info(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_001 - Validated that Location button is present in side drawer ",
+					ExtentColor.CYAN));
+			nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_001.addScreenCaptureFromBase64String(
+					takeScreenshot(driver), "Verified that Location button is present in side drawer");
+
+			sideDrawerLocationButtonVk.click();
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(11000);
+
+			try {
+
+				WebElement dontAllowId = driver.findElement(
+						By.id("com.android.permissioncontroller:id/permission_deny_and_dont_ask_again_button"));
+
+				if (dontAllowId.isDisplayed()) {
+
+					dontAllowId.click();
+
+				}
+
+			}
+
+			catch (Exception e) {
+
+				System.out.println("Native Popup not appears");
+
+			}
+
+			/**
+			 * @Class_Name LocationListGuest
+			 * @Method_Name nextGenLocationListFlowWithTakeoutLaterConfiguredGuest
+			 * @Description Ensure that user navigated to location screen while tapping the
+			 *              order now button via sidedrawer or bottom bar.
+			 * @TestID nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_002
+			 * @author Prasanna Venkatesh KP
+			 */
+
+			// To get the Order now screen title.
+
+			CommonMethods.switchContext("FLUTTER");
+
+			FlutterElement locationTitle = find.byValueKey(locationLocators.LOCATION_SCREEN_TITLE_TEXT_VKL);
+			String locationTitleText = locationTitle.getText();
+
+			nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_002.addScreenCaptureFromBase64String(
+					takeScreenshot(driver), "Verified user navigated to the location list screen.");
+			nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_002.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_002 - Verified that user navigated to the location list screen and the title is : "
+							+ locationTitleText,
+					ExtentColor.CYAN));
+
+			/**
+			 * @Class_Name LocationListGuest
+			 * @Method_Name nextGenLocationListFlowWithTakeoutLaterConfiguredGuest
+			 * @Description Ensure that user navigated to dashboard screen while tapping the
+			 *              backicon in the ordernow screen.
+			 * @TestID nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+			 * @author Prasanna Venkatesh KP
+			 */
+
+			// To get back from the Order now screen to the dashboard by the tapping
+			// the back icon.
+
+			FlutterElement locationBackIcon = find.byValueKey(locationLocators.LOCATION_SCREEN_BACK_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(locationBackIcon);
+
+			Thread.sleep(6000);
+
+			nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003.addScreenCaptureFromBase64String(
+					takeScreenshot(driver), "Verified user navigated to the Dashboard screen.");
+			nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003.info(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that user navigated to the dashboard screen while tapping the backicon in LocationList screen ",
+					ExtentColor.CYAN));
+
+			Thread.sleep(6000);
+
+			// To tap the order now menu in the side drawer by searching in the side
+			// drawer menu list.
+
+			commonMethods.checkAndClickTheElement(dashboardSideDrawerButtonVk);
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			commonMethods.clickSideDrawerElementIos(driver, "LOCATIONS");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			commonMethods.checkAndClickTheElement(sideDrawerLocationButtonVk);
+
+//		
+			io.restassured.RestAssured.baseURI = "https://opendining.net/api/v1/merchant/" + merchantId
+					+ "/restaurants/" + storeCode + "?key=6d6bf06a4f653a54da8d88715a736a4ca6071ffb";
+			// Construct the query parameters
+			RequestSpecification requestingHttp = io.restassured.RestAssured.given();
+			// specify the method type (GET) and the parameters if any.
+			// In this case the request does not take any parameter
+
+			RequestSpecification parameterRequest = requestingHttp.queryParam("key",
+					"6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+			Response restaurantsResponse = parameterRequest.get("");
+
+			JSONObject storeResponse = new JSONObject(restaurantsResponse.body().asString());
+			if (storeResponse.has("name")) {
+
+				String laterOrder = storeResponse.optString("use_eta");
+
+//				String deliveryResponse = storeResponse.optString("delivery");
+//				String deliveryResponseLabelText = storeResponse.optString("delivery_label");
+
+				String takeoutResponse = storeResponse.optString("takeout");
+				String takeoutResponseLabelText = storeResponse.optString("takeout_label");
+
+
+				Restaurant_Id = storeResponse.optString("id");
+
+				System.out.println("Restaurant Id is : " + Restaurant_Id);
+
+				List<String> appConfiguration = bc.appConfiguration();
+
+				userName = appConfiguration.get(6);
+				passWord = appConfiguration.get(7);
+				merchantId = appConfiguration.get(8);
+				cardTemplateCode = appConfiguration.get(9);
+				storeGroupCode = appConfiguration.get(10);
+				clientId = appConfiguration.get(11);
+				integrationDetail = appConfiguration.get(12);
+				storeCode = appConfiguration.get(13);
+
+				userName = appConfiguration.get(6);
+				passWord = appConfiguration.get(7);
+				merchantId = appConfiguration.get(8);
+				cardTemplateCode = appConfiguration.get(9);
+				storeGroupCode = appConfiguration.get(10);
+				clientId = appConfiguration.get(11);
+				integrationDetail = appConfiguration.get(12);
+
+				try {
+
+					Thread.sleep(11000);
+
+					commonMethods.scrollDownAndClick(desiredStoreName);
+
+					try {
+
+						CommonMethods.switchContext("FLUTTER");
+
+						FlutterElement storeInfoTitleVk = find.byValueKey(locationLocators.STOREINFO_SCREEN_TITLE_VKL);
+						String storeInfoScreenTitleText = storeInfoTitleVk.getText();
+
+						nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003.addScreenCaptureFromBase64String(
+								takeScreenshot(driver), "Verified that user navigated to the store info screen");
+
+						nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003.info(MarkupHelper.createLabel(
+								"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that user navigated to the StoreInfo screen : "
+										+ storeInfoScreenTitleText,
+								ExtentColor.CYAN));
+
+						FlutterElement storeInfoScreenOrderNowIconVk = find
+								.byValueKey(locationLocators.STOREINFO_SCREEN_ORDERNOWICON_VKL);
+						storeInfoScreenOrderNowIconVk.click();
+
+					} catch (Exception e) {
+
+						nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003.fail(MarkupHelper.createLabel(
+								"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that the user not navigated to the StoreInfo screen ",
+								ExtentColor.CYAN));
+
+					}
+
+					// To verify the Configured order type.
+
+					if (takeoutResponse.equalsIgnoreCase("true")) {
+
+						if (!takeoutResponseLabelText.isEmpty()) {
+
+							try {
+
+								CommonMethods.switchContext("NATIVE_APP");
+
+								Thread.sleep(6000);
+
+								WebElement takeoutText = driver
+										.findElement(By.xpath(orderNowLocators.ORDER_TYPE_POPUP_TAKEEOUT_TEXT_XPATHL));
+
+								CommonMethods.switchContext("FLUTTER");
+
+								FlutterElement takeoutText1 = find.byValueKey(OrderNowLocators.ORDERTYPE_TAKEOUT_VKL);
+
+								takeoutOrderTypeText = takeoutText1.getText();
+								boolean equalsIgnoreCase = takeoutResponseLabelText
+										.equalsIgnoreCase(takeoutOrderTypeText);
+
+								if (equalsIgnoreCase == true) {
+
+									takeoutText1.click();
+
+									nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+											.info(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that Desired store is displayed in the location list and displayed texts is "
+															+ takeoutOrderTypeText + " response text is : "
+															+ takeoutResponseLabelText + " matching.",
+													ExtentColor.CYAN));
+
+									// Text matches
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									Thread.sleep(6000);
+
+									takeoutText.click();
+
+									nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+											.fail(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that Desired store is displayed in the location list and displayed texts is "
+															+ takeoutOrderTypeText + " response text is : "
+															+ takeoutResponseLabelText + "  not matching.",
+													ExtentColor.CYAN));
+
+								}
+
+								if (laterOrder.equalsIgnoreCase("true")) {
+
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(5000);
+
+										WebElement laterLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_LATER_TEXT_XPATHL));
+
+										CommonMethods.switchContext("FLUTTER");
+
+										FlutterElement laterLabel1 = find
+												.byValueKey(OrderNowLocators.ORDER_LATER_TEXT_VKL);
+
+										laterOrderTimeText = laterLabel1.getText();
+
+										boolean laterLabelComparison = laterText.equalsIgnoreCase(laterOrderTimeText);
+
+										if (laterLabelComparison == true) {
+
+											laterLabel1.click();
+
+											nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that Alert appears when user taps the later button and the later actaul text :"
+																	+ laterText + "later config text : "
+																	+ laterOrderTimeText + "matching",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(4000);
+
+											integratedMethods(takeoutOrderTypeText, laterOrderTimeText);
+
+										} else {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(6000);
+
+											// To fail that later label text is not matching
+
+											laterLabel.click();
+
+											nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that Alert appears when user taps the later button and the later actaul text :"
+																	+ laterText + "later config text : "
+																	+ laterOrderTimeText + " not matching",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(4000);
+
+											integratedMethods(takeoutOrderTypeText, laterOrderTimeText);
+
+										}
+
+									} catch (Exception e) {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(4000);
+
+										integratedMethods(takeoutOrderTypeText, laterOrderTimeText);
+
+									}
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									try {
+
+										Thread.sleep(6000);
+
+										WebElement laterLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_LATER_TEXT_XPATHL));
+
+										if (laterLabel.isDisplayed()) {
+											// To fail the test case.
+
+											nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that later is displayed in the screen.");
+											nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that later label is displayed in the screen where later is not configured in the App level",
+															ExtentColor.CYAN));
+										}
+
+									} catch (Exception e) {
+										// Asap working fine.
+
+										nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+												.info(MarkupHelper.createLabel(
+														"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that later label is not displayed in the screen where later is not configured in the App level",
+														ExtentColor.CYAN));
+									}
+
+								}
+
+							} catch (Exception E) {
+
+								if (laterOrder.equalsIgnoreCase("true")) {
+
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(5000);
+
+										WebElement laterLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_LATER_TEXT_XPATHL));
+
+										CommonMethods.switchContext("FLUTTER");
+
+										FlutterElement laterLabel1 = find
+												.byValueKey(OrderNowLocators.ORDER_LATER_TEXT_VKL);
+
+										laterOrderTimeText = laterLabel1.getText();
+
+										boolean laterLabelComparison = laterText.equalsIgnoreCase(laterOrderTimeText);
+
+										if (laterLabelComparison == true) {
+
+											laterLabel1.click();
+
+											nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that Alert appears when user taps the later button and the later actaul text :"
+																	+ laterText + "later config text : "
+																	+ laterOrderTimeText + "matching",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(4000);
+
+											integratedMethods(takeoutOrderTypeText, laterOrderTimeText);
+
+										} else {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(6000);
+
+											// To fail that later label text is not matching
+
+											laterLabel.click();
+
+											nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that Alert appears when user taps the later button and the later actaul text :"
+																	+ laterText + "later config text : "
+																	+ laterOrderTimeText + " not matching",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(4000);
+
+											integratedMethods(takeoutOrderTypeText, laterOrderTimeText);
+
+										}
+
+									} catch (Exception e) {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(4000);
+
+										integratedMethods(takeoutOrderTypeText, laterOrderTimeText);
+
+									}
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									try {
+
+										Thread.sleep(6000);
+
+										WebElement laterLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_LATER_TEXT_XPATHL));
+
+										if (laterLabel.isDisplayed()) {
+											// To fail the test case.
+
+											nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that later is displayed in the screen.");
+											nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that later label is displayed in the screen where later is not configured in the App level",
+															ExtentColor.CYAN));
+										}
+
+									} catch (Exception e) {
+										// Asap working fine.
+
+										nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+												.info(MarkupHelper.createLabel(
+														"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that later label is not displayed in the screen where later is not configured in the App level",
+														ExtentColor.CYAN));
+									}
+
+								}
+							}
+
+						} else {
+
+							try {
+
+								WebElement takeoutText = driver
+										.findElement(By.xpath(orderNowLocators.ORDER_TYPE_POPUP_TAKEEOUT_TEXT_XPATHL));
+
+								CommonMethods.switchContext("FLUTTER");
+
+								FlutterElement takeoutText1 = find.byValueKey(OrderNowLocators.ORDERTYPE_TAKEOUT_VKL);
+
+								takeoutOrderTypeText = takeoutText1.getText();
+
+								boolean equalsIgnoreCase = localConfigTakeoutText
+										.equalsIgnoreCase(takeoutOrderTypeText);
+
+								if (equalsIgnoreCase == true) {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									Thread.sleep(5000);
+
+									takeoutText.click();
+
+									nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+											.info(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that Desired store is displayed in the location list and displayed texts is "
+															+ takeoutOrderTypeText + " response text is : "
+															+ localConfigTakeoutText + " matching.",
+													ExtentColor.CYAN));
+
+									// Text matches
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									takeoutText.click();
+
+									nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+											.fail(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that Desired store is displayed in the location list and displayed texts is "
+															+ takeoutOrderTypeText + " response text is : "
+															+ localConfigTakeoutText + " not matching.",
+													ExtentColor.CYAN));
+
+								}
+
+								if (laterOrder.equalsIgnoreCase("true")) {
+
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(5000);
+
+										WebElement laterLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_LATER_TEXT_XPATHL));
+
+										CommonMethods.switchContext("FLUTTER");
+
+										FlutterElement laterLabel1 = find
+												.byValueKey(OrderNowLocators.ORDER_LATER_TEXT_VKL);
+
+										laterOrderTimeText = laterLabel1.getText();
+
+										boolean laterLabelComparison = laterText.equalsIgnoreCase(laterOrderTimeText);
+
+										if (laterLabelComparison == true) {
+
+											laterLabel1.click();
+
+											nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that Alert appears when user taps the later button and the later actaul text :"
+																	+ laterText + "later config text : "
+																	+ laterOrderTimeText + "matching",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(4000);
+
+											integratedMethods(takeoutOrderTypeText, laterOrderTimeText);
+
+										} else {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(6000);
+
+											// To fail that later label text is not matching
+
+											laterLabel.click();
+
+											nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that Alert appears when user taps the later button and the later actaul text :"
+																	+ laterText + "later config text : "
+																	+ laterOrderTimeText + " not matching",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(4000);
+
+											integratedMethods(takeoutOrderTypeText, laterOrderTimeText);
+
+										}
+
+									} catch (Exception e) {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(4000);
+
+										integratedMethods(takeoutOrderTypeText, laterOrderTimeText);
+
+									}
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									try {
+
+										Thread.sleep(6000);
+
+										WebElement laterLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_LATER_TEXT_XPATHL));
+
+										if (laterLabel.isDisplayed()) {
+											// To fail the test case.
+
+											nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that later is displayed in the screen.");
+											nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that later label is displayed in the screen where later is not configured in the App level",
+															ExtentColor.CYAN));
+										}
+
+									} catch (Exception e) {
+										// Asap working fine.
+
+										nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+												.info(MarkupHelper.createLabel(
+														"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that later label is not displayed in the screen where later is not configured in the App level",
+														ExtentColor.CYAN));
+									}
+
+								}
+							} catch (Exception e) {
+
+								nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003
+										.fail(MarkupHelper.createLabel(
+												"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that takeout lable is not displayed in the screen where as takeout is configured in the back end ",
+												ExtentColor.CYAN));
+							}
+
+						}
+
+					} else {
+
+						// take out later is not configured.
+						nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003.info(MarkupHelper.createLabel(
+								"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that takeout lable is not displayed in the screen where as takeout is configured in the back end ",
+								ExtentColor.CYAN));
+
+					}
+
+				} catch (Exception e) {
+
+					nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003.fail(MarkupHelper.createLabel(
+							"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that desired store is not found in the screen.",
+							ExtentColor.CYAN));
+
+					System.out.println("Store Not found or store not listed");
+
+				}
+
+			}
+		} catch (Exception e) {
+
+			nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003.fail(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that ordernow is not displayed in the side drawer where as order now is configured in the App level",
+					ExtentColor.CYAN));
+		}
+
+	}
+
+	public static void ngaLocationListCurbsideAsapSideDrawerConfiguredGuest() throws Throwable {
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		BaseClass bc = new BaseClass();
+
+		String localConfigCurbsideText = commonMethods
+				.stringsReader(OrderNowLocators.LOCAL_CONFIGURATION_CURBSIDE_TEXT);
+
+		String asapText = commonMethods.stringsReader(OrderNowLocators.LOCAL_CONFIGURATION_ASAP_TEXT);
+
+		List<String> storeName = bc.odFlow();
+
+		String desiredStoreName = storeName.get(15);
+
+		Thread.sleep(6000);
+
+		ExtentTest nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_001 = test
+				.createNode("nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_001");
+		ExtentTest nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_002 = test
+				.createNode("nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_002");
+		ExtentTest nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 = test
+				.createNode("nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_003");
+
+		try {
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(6000);
+
+			FlutterElement dashboardSideDrawerButtonVk = find.byValueKey(sideDrawerLocators.SIDE_DRAWER_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(dashboardSideDrawerButtonVk);
+
+			// To tap the Order now menu in the side drawer by searching the menu.
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			commonMethods.clickSideDrawerElementIos(driver, "LOCATIONS");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			FlutterElement sideDrawerLocationButtonVk = find
+					.byValueKey(sideDrawerLocators.SIDEDRAWER_LOCATION_BUTTON_VKL);
+
+			nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_001.info(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_001 - Validated that Location button is present in side drawer ",
+					ExtentColor.CYAN));
+			nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_001.addScreenCaptureFromBase64String(
+					takeScreenshot(driver), "Verified that Location button is present in side drawer");
+
+			sideDrawerLocationButtonVk.click();
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(11000);
+
+			try {
+
+				WebElement dontAllowId = driver.findElement(
+						By.id("com.android.permissioncontroller:id/permission_deny_and_dont_ask_again_button"));
+
+				if (dontAllowId.isDisplayed()) {
+
+					dontAllowId.click();
+
+				}
+
+			}
+
+			catch (Exception e) {
+
+				System.out.println("Native Popup not appears");
+
+			}
+
+			/**
+			 * @Class_Name LocationListGuest
+			 * @Method_Name nextGenLocationListFlowWithCurbsideAsapConfiguredGuest
+			 * @Description Ensure that user navigated to location screen while tapping the
+			 *              order now button via sidedrawer or bottom bar.
+			 * @TestID nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_002
+			 * @author Prasanna Venkatesh KP
+			 */
+
+			// To get the Order now screen title.
+
+			CommonMethods.switchContext("FLUTTER");
+
+			FlutterElement locationTitle = find.byValueKey(locationLocators.LOCATION_SCREEN_TITLE_TEXT_VKL);
+			String locationTitleText = locationTitle.getText();
+
+			nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_002.addScreenCaptureFromBase64String(
+					takeScreenshot(driver), "Verified user navigated to the location list screen.");
+			nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_002.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_002 - Verified that user navigated to the location list screen and the title is : "
+							+ locationTitleText,
+					ExtentColor.CYAN));
+
+			/**
+			 * @Class_Name LocationListGuest
+			 * @Method_Name nextGenLocationListFlowWithCurbsideAsapConfiguredGuest
+			 * @Description Ensure that user navigated to dashboard screen while tapping the
+			 *              backicon in the ordernow screen.
+			 * @TestID nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+			 * @author Prasanna Venkatesh KP
+			 */
+
+			// To get back from the Order now screen to the dashboard by the tapping
+			// the back icon.
+
+			FlutterElement locationBackIcon = find.byValueKey(locationLocators.LOCATION_SCREEN_BACK_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(locationBackIcon);
+
+			Thread.sleep(6000);
+
+			nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003.addScreenCaptureFromBase64String(
+					takeScreenshot(driver), "Verified user navigated to the Dashboard screen.");
+			nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003.info(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that user navigated to the dashboard screen while tapping the backicon in LocationList screen ",
+					ExtentColor.CYAN));
+
+			Thread.sleep(6000);
+
+			// To tap the order now menu in the side drawer by searching in the side
+			// drawer menu list.
+
+			commonMethods.checkAndClickTheElement(dashboardSideDrawerButtonVk);
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			commonMethods.clickSideDrawerElementIos(driver, "LOCATIONS");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			commonMethods.checkAndClickTheElement(sideDrawerLocationButtonVk);
+
+			io.restassured.RestAssured.baseURI = "https://opendining.net/api/v1/merchant/" + merchantId
+					+ "/restaurants/" + storeCode + "?key=6d6bf06a4f653a54da8d88715a736a4ca6071ffb";
+			// Construct the query parameters
+			RequestSpecification requestingHttp = io.restassured.RestAssured.given();
+			// specify the method type (GET) and the parameters if any.
+			// In this case the request does not take any parameter
+
+			RequestSpecification parameterRequest = requestingHttp.queryParam("key",
+					"6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+			Response restaurantsResponse = parameterRequest.get("");
+
+			JSONObject storeResponse = new JSONObject(restaurantsResponse.body().asString());
+			if (storeResponse.has("name")) {
+
+				String asapOrder = storeResponse.optString("advance_only");
+
+//				String deliveryResponse = storeResponse.optString("delivery");
+//				String deliveryResponseLabelText = storeResponse.optString("delivery_label");
+//
+//				String takeoutResponse = storeResponse.optString("takeout");
+//				String takeoutResponseLabelText = storeResponse.optString("takeout_label");
+
+				JSONObject curbsideObject = storeResponse.optJSONObject("curbside");
+				String curbsideResponse = curbsideObject.optString("en");
+				String curbsideResponseLabelText = curbsideObject.optString("label_text");
+
+				try {
+
+					Thread.sleep(11000);
+
+					commonMethods.scrollDownAndClick(desiredStoreName);
+
+					try {
+
+						CommonMethods.switchContext("FLUTTER");
+
+						FlutterElement storeInfoTitleVk = find.byValueKey(locationLocators.STOREINFO_SCREEN_TITLE_VKL);
+						String storeInfoScreenTitleText = storeInfoTitleVk.getText();
+
+						nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003.addScreenCaptureFromBase64String(
+								takeScreenshot(driver), "Verified that user navigated to the store info screen");
+
+						nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003.info(MarkupHelper.createLabel(
+								"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that user navigated to the StoreInfo screen : "
+										+ storeInfoScreenTitleText,
+								ExtentColor.CYAN));
+
+						FlutterElement storeInfoScreenOrderNowIconVk = find
+								.byValueKey(locationLocators.STOREINFO_SCREEN_ORDERNOWICON_VKL);
+						storeInfoScreenOrderNowIconVk.click();
+
+					} catch (Exception e) {
+
+						nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003.fail(MarkupHelper.createLabel(
+								"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that the user not navigated to the StoreInfo screen ",
+								ExtentColor.CYAN));
+
+					}
+
+					if (curbsideResponse.equalsIgnoreCase("true")) {
+
+						if (!curbsideResponseLabelText.isEmpty()) {
+
+							try {
+
+								CommonMethods.switchContext("NATIVE_APP");
+
+								Thread.sleep(6000);
+
+								WebElement curbsideText = driver
+										.findElement(By.xpath(orderNowLocators.ORDER_TYPE_POPUP_CURBSIDE_TEXT_XPATHL));
+
+								CommonMethods.switchContext("FLUTTER");
+
+								FlutterElement curbsideText1 = find.byValueKey(OrderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+
+								curbsideOrderTypeText = curbsideText1.getText();
+								boolean equalsIgnoreCase = curbsideResponseLabelText
+										.equalsIgnoreCase(curbsideOrderTypeText);
+
+								if (equalsIgnoreCase == true) {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									curbsideText.click();
+
+									nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+											.info(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that Curbside order type is displayed in the order type popup and displayed texts is "
+															+ curbsideOrderTypeText + " response text is : "
+															+ curbsideResponseLabelText + " matching.",
+													ExtentColor.CYAN));
+
+									// Text matches
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									Thread.sleep(6000);
+
+									curbsideText.click();
+
+									nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+											.fail(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that curbside order type is displayed in the order type popup and displayed texts is "
+															+ curbsideOrderTypeText + " response text is : "
+															+ curbsideResponseLabelText + "  not matching.",
+													ExtentColor.CYAN));
+
+								}
+
+								if (asapOrder.equalsIgnoreCase("false")) {
+
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(6000);
+
+										WebElement asapLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_LOGGEDIN_ASAP_TEXT_XPATHL));
+
+										CommonMethods.switchContext("FLUTTER");
+
+										FlutterElement asapLabel1 = find
+												.byValueKey(OrderNowLocators.ORDER_ASAP_TEXT_VKL);
+
+										asapOrderTimeText = asapLabel1.getText();
+
+										boolean asapLabelComparison = asapText.equalsIgnoreCase(asapOrderTimeText);
+
+										if (asapLabelComparison == true) {
+
+											asapLabel1.click();
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that Alert appears when user taps the ASAP button and the Asap actual text :"
+																	+ asapText + "Asap config text : "
+																	+ asapOrderTimeText + "matching",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(5000);
+
+											integratedMethods(curbsideOrderTypeText, asapOrderTimeText);
+
+											Thread.sleep(6000);
+
+										} else {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(6000);
+
+											// To fail that ASAP label text is not matching
+
+											asapLabel.click();
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that Alert appears when user taps the ASAP button and the Asap actual text :"
+																	+ asapText + "Asap config text : "
+																	+ asapOrderTimeText + " not matching",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(5000);
+
+											integratedMethods(curbsideOrderTypeText, asapOrderTimeText);
+
+											Thread.sleep(6000);
+
+										}
+
+									} catch (Exception e) {
+
+										try {
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(5000);
+
+											WebElement cancelButton = driver.findElement(
+													By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+											cancelButton.click();
+
+											System.out.println(
+													"ASAP is not displayed where as ASAP is configured on the back end ");
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that ASAP is not displayed where as ASAP is configured on the back end ",
+															ExtentColor.CYAN));
+
+										} catch (Exception e1) {
+
+											System.out.println(
+													" ASAP is only displayed where as ASAP is only configured on the back end ");
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that ASAP is only displayed where as ASAP is only configured on the back end  ",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(5000);
+
+											integratedMethods(curbsideOrderTypeText, asapOrderTimeText);
+
+										}
+
+									}
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									try {
+
+										Thread.sleep(6000);
+
+										WebElement asapLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_LOGGEDIN_ASAP_TEXT_XPATHL));
+
+										if (asapLabel.isDisplayed()) {
+											// To fail the test case.
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that Asap is displayed in the screen.");
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that asap label is displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("FLUTTER");
+
+											FlutterElement closeIcon = find
+													.byValueKey("available_order_type_close_button");
+
+											closeIcon.click();
+										}
+
+									} catch (Exception e) {
+										// Asap working fine.
+
+										try {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											WebElement cancelButton = driver.findElement(
+													By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+											cancelButton.click();
+
+											System.out.println(
+													"ASAP is not displayed where as ASAP is not configured on the back end but later is configured");
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that later is only configured and asap label is not displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+										} catch (Exception e1) {
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that asap label is not displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+										}
+
+									}
+
+								}
+
+							} catch (Exception E) {
+
+								if (asapOrder.equalsIgnoreCase("false")) {
+
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(6000);
+
+										WebElement asapLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_LOGGEDIN_ASAP_TEXT_XPATHL));
+
+										CommonMethods.switchContext("FLUTTER");
+
+										FlutterElement asapLabel1 = find
+												.byValueKey(OrderNowLocators.ORDER_ASAP_TEXT_VKL);
+
+										asapOrderTimeText = asapLabel1.getText();
+
+										boolean asapLabelComparison = asapText.equalsIgnoreCase(asapOrderTimeText);
+
+										if (asapLabelComparison == true) {
+
+											asapLabel1.click();
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that Alert appears when user taps the ASAP button and the Asap actual text :"
+																	+ asapText + "Asap config text : "
+																	+ asapOrderTimeText + "matching",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(5000);
+
+											integratedMethods(curbsideOrderTypeText, asapOrderTimeText);
+
+											Thread.sleep(6000);
+
+										} else {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(6000);
+
+											// To fail that ASAP label text is not matching
+
+											asapLabel.click();
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that Alert appears when user taps the ASAP button and the Asap actual text :"
+																	+ asapText + "Asap config text : "
+																	+ asapOrderTimeText + " not matching",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(5000);
+
+											integratedMethods(curbsideOrderTypeText, asapOrderTimeText);
+
+											Thread.sleep(6000);
+
+										}
+
+									} catch (Exception e) {
+
+										try {
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(5000);
+
+											WebElement cancelButton = driver.findElement(
+													By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+											cancelButton.click();
+
+											System.out.println(
+													"ASAP is not displayed where as ASAP is configured on the back end ");
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that ASAP is not displayed where as ASAP is configured on the back end ",
+															ExtentColor.CYAN));
+
+										} catch (Exception e1) {
+
+											System.out.println(
+													" ASAP is only displayed where as ASAP is only configured on the back end ");
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that ASAP is only displayed where as ASAP is only configured on the back end  ",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(5000);
+
+											integratedMethods(curbsideOrderTypeText, asapOrderTimeText);
+
+										}
+
+									}
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									try {
+
+										Thread.sleep(6000);
+
+										WebElement asapLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_LOGGEDIN_ASAP_TEXT_XPATHL));
+
+										if (asapLabel.isDisplayed()) {
+											// To fail the test case.
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that Asap is displayed in the screen.");
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that asap label is displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("FLUTTER");
+
+											FlutterElement closeIcon = find
+													.byValueKey("available_order_type_close_button");
+
+											closeIcon.click();
+										}
+
+									} catch (Exception e) {
+										// Asap working fine.
+
+										try {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											WebElement cancelButton = driver.findElement(
+													By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+											cancelButton.click();
+
+											System.out.println(
+													"ASAP is not displayed where as ASAP is not configured on the back end but later is configured");
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that later is only configured and asap label is not displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+										} catch (Exception e1) {
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that asap label is not displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+										}
+
+									}
+
+								}
+
+							}
+
+						} else {
+
+							try {
+
+								CommonMethods.switchContext("NATIVE_APP");
+
+								Thread.sleep(6000);
+
+								WebElement curbsideText = driver
+										.findElement(By.xpath(orderNowLocators.ORDER_TYPE_POPUP_CURBSIDE_TEXT_XPATHL));
+
+								CommonMethods.switchContext("FLUTTER");
+
+								FlutterElement curbsideText1 = find.byValueKey(OrderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+
+								curbsideOrderTypeText = curbsideText1.getText();
+
+								boolean equalsIgnoreCase = localConfigCurbsideText
+										.equalsIgnoreCase(curbsideOrderTypeText);
+
+								if (equalsIgnoreCase == true) {
+
+									curbsideText1.click();
+
+									nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+											.info(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that Desired store is displayed in the location list and displayed texts is "
+															+ curbsideOrderTypeText + " response text is : "
+															+ localConfigCurbsideText + " matching.",
+													ExtentColor.CYAN));
+
+									// Text matches
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									curbsideText.click();
+
+									nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+											.fail(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that Desired store is displayed in the location list and displayed texts is "
+															+ curbsideOrderTypeText + " response text is : "
+															+ localConfigCurbsideText + " not matching.",
+													ExtentColor.CYAN));
+
+									// text mismatches
+
+								}
+
+								if (asapOrder.equalsIgnoreCase("false")) {
+
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(6000);
+
+										WebElement asapLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_LOGGEDIN_ASAP_TEXT_XPATHL));
+
+										CommonMethods.switchContext("FLUTTER");
+
+										FlutterElement asapLabel1 = find
+												.byValueKey(OrderNowLocators.ORDER_ASAP_TEXT_VKL);
+
+										asapOrderTimeText = asapLabel1.getText();
+
+										boolean asapLabelComparison = asapText.equalsIgnoreCase(asapOrderTimeText);
+
+										if (asapLabelComparison == true) {
+
+											asapLabel1.click();
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that Alert appears when user taps the ASAP button and the Asap actual text :"
+																	+ asapText + "Asap config text : "
+																	+ asapOrderTimeText + "matching",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(5000);
+
+											integratedMethods(curbsideOrderTypeText, asapOrderTimeText);
+
+											Thread.sleep(6000);
+
+										} else {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(6000);
+
+											// To fail that ASAP label text is not matching
+
+											asapLabel.click();
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that Alert appears when user taps the ASAP button and the Asap actual text :"
+																	+ asapText + "Asap config text : "
+																	+ asapOrderTimeText + " not matching",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(5000);
+
+											integratedMethods(curbsideOrderTypeText, asapOrderTimeText);
+
+											Thread.sleep(6000);
+
+										}
+
+									} catch (Exception e) {
+
+										try {
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(5000);
+
+											WebElement cancelButton = driver.findElement(
+													By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+											cancelButton.click();
+
+											System.out.println(
+													"ASAP is not displayed where as ASAP is configured on the back end ");
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that ASAP is not displayed where as ASAP is configured on the back end ",
+															ExtentColor.CYAN));
+
+										} catch (Exception e1) {
+
+											System.out.println(
+													" ASAP is only displayed where as ASAP is only configured on the back end ");
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that ASAP is only displayed where as ASAP is only configured on the back end  ",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(5000);
+
+											integratedMethods(curbsideOrderTypeText, asapOrderTimeText);
+
+										}
+
+									}
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									try {
+
+										Thread.sleep(6000);
+
+										WebElement asapLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_LOGGEDIN_ASAP_TEXT_XPATHL));
+
+										if (asapLabel.isDisplayed()) {
+											// To fail the test case.
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that Asap is displayed in the screen.");
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that asap label is displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("FLUTTER");
+
+											FlutterElement closeIcon = find
+													.byValueKey(OrderNowLocators.ORDERTYPE_CLOSE_ICON_VKL);
+
+											closeIcon.click();
+										}
+
+									} catch (Exception e) {
+										// Asap working fine.
+
+										try {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											WebElement cancelButton = driver.findElement(
+													By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+											cancelButton.click();
+
+											System.out.println(
+													"ASAP is not displayed where as ASAP is not configured on the back end but later is configured");
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that later is only configured and asap label is not displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+										} catch (Exception e1) {
+
+											nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that asap label is not displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+										}
+
+									}
+
+								}
+
+							} catch (Exception e) {
+
+								nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003
+										.fail(MarkupHelper.createLabel(
+												"nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_003 - Verified that curbside lable is not displayed in the screen where as curbside is configured in the app level.",
+												ExtentColor.CYAN));
+							}
+
+						}
+
+					} else {
+
+						// take out asap is not configured.
+						nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003.info(MarkupHelper.createLabel(
+								"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that Curbside lable is not displayed in the screen where as curbside is not configured in the app level.",
+								ExtentColor.CYAN));
+
+					}
+
+				} catch (Exception e) {
+
+					nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003.fail(MarkupHelper.createLabel(
+							"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that desired store is not found in the screen.",
+							ExtentColor.CYAN));
+
+					System.out.println("Store Not found or store not listed");
+
+				}
+			}
+
+		} catch (Exception e) {
+
+			nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003.fail(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that Location List is not displayed in the side drawer where as Location List is configured in the App level",
+					ExtentColor.CYAN));
+
+		}
+
+	}
+
+	public static void ngaLocationListCurbsideLaterSideDrawerConfiguredGuest() throws Throwable {
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		BaseClass bc = new BaseClass();
+		String localConfigCurbsideText = commonMethods
+				.stringsReader(OrderNowLocators.LOCAL_CONFIGURATION_CURBSIDE_TEXT);
+
+		String laterText = commonMethods.stringsReader(OrderNowLocators.LOCAL_CONFIGURATION_LATER_TEXT);
+
+		List<String> storeName = bc.odFlow();
+
+		String desiredStoreName = storeName.get(15);
+
+		Thread.sleep(6000);
+
+		// Initiating the node to be print in the Extent report.
+
+		ExtentTest nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_001 = test
+				.createNode("nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_001");
+		ExtentTest nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_002 = test
+				.createNode("nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_002");
+		ExtentTest nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 = test
+				.createNode("nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_003");
+
+		try {
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(6000);
+
+			FlutterElement dashboardSideDrawerButtonVk = find.byValueKey(sideDrawerLocators.SIDE_DRAWER_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(dashboardSideDrawerButtonVk);
+
+			// To tap the Order now menu in the side drawer by searching the menu.
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			commonMethods.clickSideDrawerElementIos(driver, "LOCATIONS");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			FlutterElement sideDrawerLocationButtonVk = find
+					.byValueKey(sideDrawerLocators.SIDEDRAWER_LOCATION_BUTTON_VKL);
+
+			nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_001.info(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_001 - Validated that Location button is present in side drawer ",
+					ExtentColor.CYAN));
+			nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_001.addScreenCaptureFromBase64String(
+					takeScreenshot(driver), "Verified that Location button is present in side drawer");
+
+			sideDrawerLocationButtonVk.click();
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(11000);
+
+			try {
+
+				WebElement dontAllowId = driver.findElement(
+						By.id("com.android.permissioncontroller:id/permission_deny_and_dont_ask_again_button"));
+
+				if (dontAllowId.isDisplayed()) {
+
+					dontAllowId.click();
+
+				}
+
+			}
+
+			catch (Exception e) {
+
+				System.out.println("Native Popup not appears");
+
+			}
+
+			/**
+			 * @Class_Name LocationListGuest
+			 * @Method_Name nextGenLocationListFlowWithCurbsideLaterConfiguredGuest
+			 * @Description Ensure that user navigated to location screen while tapping the
+			 *              order now button via sidedrawer or bottom bar.
+			 * @TestID nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_002
+			 * @author Prasanna Venkatesh KP
+			 */
+
+			// To get the Order now screen title.
+
+			CommonMethods.switchContext("FLUTTER");
+
+			FlutterElement locationTitle = find.byValueKey(locationLocators.LOCATION_SCREEN_TITLE_TEXT_VKL);
+			String locationTitleText = locationTitle.getText();
+
+			nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_002.addScreenCaptureFromBase64String(
+					takeScreenshot(driver), "Verified user navigated to the location list screen.");
+			nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_002.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_002 - Verified that user navigated to the location list screen and the title is : "
+							+ locationTitleText,
+					ExtentColor.CYAN));
+
+			/**
+			 * @Class_Name LocationListGuest
+			 * @Method_Name nextGenLocationListFlowWithCurbsideLaterConfiguredGuest
+			 * @Description Ensure that user navigated to dashboard screen while tapping the
+			 *              backicon in the ordernow screen.
+			 * @TestID nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+			 * @author Prasanna Venkatesh KP
+			 */
+
+			// To get back from the Order now screen to the dashboard by the tapping
+			// the back icon.
+
+			FlutterElement locationBackIcon = find.byValueKey(locationLocators.LOCATION_SCREEN_BACK_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(locationBackIcon);
+
+			Thread.sleep(6000);
+
+			nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003.addScreenCaptureFromBase64String(
+					takeScreenshot(driver), "Verified user navigated to the Dashboard screen.");
+			nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003.info(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that user navigated to the dashboard screen while tapping the backicon in LocationList screen ",
+					ExtentColor.CYAN));
+
+			Thread.sleep(6000);
+
+			// To tap the order now menu in the side drawer by searching in the side
+			// drawer menu list.
+
+			commonMethods.checkAndClickTheElement(dashboardSideDrawerButtonVk);
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			commonMethods.clickSideDrawerElementIos(driver, "LOCATIONS");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			commonMethods.checkAndClickTheElement(sideDrawerLocationButtonVk);
+
+//		
+			io.restassured.RestAssured.baseURI = "https://opendining.net/api/v1/merchant/" + merchantId
+					+ "/restaurants/" + storeCode + "?key=6d6bf06a4f653a54da8d88715a736a4ca6071ffb";
+			// Construct the query parameters
+			RequestSpecification requestingHttp = io.restassured.RestAssured.given();
+			// specify the method type (GET) and the parameters if any.
+			// In this case the request does not take any parameter
+
+			RequestSpecification parameterRequest = requestingHttp.queryParam("key",
+					"6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+			Response restaurantsResponse = parameterRequest.get("");
+
+			JSONObject storeResponse = new JSONObject(restaurantsResponse.body().asString());
+			if (storeResponse.has("name")) {
+
+				String laterOrder = storeResponse.optString("use_eta");
+
+//				String takeoutResponse = storeResponse.optString("takeout");
+//				String takeoutResponseLabelText = storeResponse.optString("takeout_label");
+
+				JSONObject curbsideObject = storeResponse.optJSONObject("curbside");
+				String curbsideResponse = curbsideObject.optString("en");
+				String curbsideResponseLabelText = curbsideObject.optString("label_text");
+
+				Restaurant_Id = storeResponse.optString("id");
+
+				System.out.println("Restaurant Id is : " + Restaurant_Id);
+
+				try {
+
+					Thread.sleep(11000);
+
+					commonMethods.scrollDownAndClick(desiredStoreName);
+
+					try {
+
+						CommonMethods.switchContext("FLUTTER");
+
+						FlutterElement storeInfoTitleVk = find.byValueKey(locationLocators.STOREINFO_SCREEN_TITLE_VKL);
+						String storeInfoScreenTitleText = storeInfoTitleVk.getText();
+
+						nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003.addScreenCaptureFromBase64String(
+								takeScreenshot(driver), "Verified that user navigated to the store info screen");
+
+						nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003.info(MarkupHelper.createLabel(
+								"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that user navigated to the StoreInfo screen : "
+										+ storeInfoScreenTitleText,
+								ExtentColor.CYAN));
+
+						FlutterElement storeInfoScreenOrderNowIconVk = find
+								.byValueKey(locationLocators.STOREINFO_SCREEN_ORDERNOWICON_VKL);
+						storeInfoScreenOrderNowIconVk.click();
+
+					} catch (Exception e) {
+
+						nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003.fail(MarkupHelper.createLabel(
+								"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that the user not navigated to the StoreInfo screen ",
+								ExtentColor.CYAN));
+
+					}
+
+					// To verify the Configured order type.
+
+					if (curbsideResponse.equalsIgnoreCase("true")) {
+
+						if (!curbsideResponseLabelText.isEmpty()) {
+
+							try {
+
+								CommonMethods.switchContext("NATIVE_APP");
+
+								Thread.sleep(6000);
+
+								WebElement curbsideText = driver
+										.findElement(By.xpath(orderNowLocators.ORDER_TYPE_POPUP_CURBSIDE_TEXT_XPATHL));
+
+								CommonMethods.switchContext("FLUTTER");
+
+								FlutterElement curbsideText1 = find.byValueKey(OrderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+
+								curbsideOrderTypeText = curbsideText1.getText();
+
+								boolean equalsIgnoreCase = curbsideResponseLabelText
+										.equalsIgnoreCase(curbsideOrderTypeText);
+
+								if (equalsIgnoreCase == true) {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									curbsideText.click();
+
+									nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+											.info(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that Desired store is displayed in the location list and displayed texts is "
+															+ curbsideOrderTypeText + " response text is : "
+															+ curbsideResponseLabelText + " matching.",
+													ExtentColor.CYAN));
+
+									// Text matches
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									Thread.sleep(6000);
+
+									curbsideText.click();
+
+									nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+											.fail(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that Desired store is displayed in the location list and displayed texts is "
+															+ curbsideOrderTypeText + " response text is : "
+															+ curbsideResponseLabelText + "  not matching.",
+													ExtentColor.CYAN));
+
+								}
+
+								if (laterOrder.equalsIgnoreCase("true")) {
+
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(5000);
+
+										WebElement laterLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_LATER_TEXT_XPATHL));
+
+										CommonMethods.switchContext("FLUTTER");
+
+										FlutterElement laterLabel1 = find
+												.byValueKey(OrderNowLocators.ORDER_LATER_TEXT_VKL);
+
+										laterOrderTimeText = laterLabel1.getText();
+
+										boolean laterLabelComparison = laterText.equalsIgnoreCase(laterOrderTimeText);
+
+										if (laterLabelComparison == true) {
+
+											laterLabel1.click();
+
+											nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that Alert appears when user taps the later button and the later actaul text :"
+																	+ laterText + "later config text : "
+																	+ laterOrderTimeText + "matching",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, asapOrderTimeText);
+
+										} else {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(6000);
+
+											// To fail that later label text is not matching
+
+											laterLabel.click();
+
+											nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that Alert appears when user taps the later button and the later actaul text :"
+																	+ laterText + "later config text : "
+																	+ laterOrderTimeText + " not matching",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, asapOrderTimeText);
+
+										}
+
+									} catch (Exception e) {
+
+										integratedMethods(deliveryOrderTypeText, asapOrderTimeText);
+
+									}
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									try {
+
+										Thread.sleep(6000);
+
+										WebElement laterLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_LATER_TEXT_XPATHL));
+
+										if (laterLabel.isDisplayed()) {
+											// To fail the test case.
+
+											nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that later is displayed in the screen.");
+											nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that later label is displayed in the screen where later is not configured in the App level",
+															ExtentColor.CYAN));
+										}
+
+									} catch (Exception e) {
+										// Asap working fine.
+
+										nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+												.info(MarkupHelper.createLabel(
+														"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that later label is not displayed in the screen where later is not configured in the App level",
+														ExtentColor.CYAN));
+									}
+
+								}
+
+							} catch (Exception E) {
+
+								if (laterOrder.equalsIgnoreCase("true")) {
+
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(5000);
+
+										WebElement laterLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_LATER_TEXT_XPATHL));
+
+										CommonMethods.switchContext("FLUTTER");
+
+										FlutterElement laterLabel1 = find.byValueKey("order_asap_type_items_later");
+
+										laterOrderTimeText = laterLabel1.getText();
+
+										boolean laterLabelComparison = laterText.equalsIgnoreCase(laterOrderTimeText);
+
+										if (laterLabelComparison == true) {
+
+											laterLabel1.click();
+
+											nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that Alert appears when user taps the later button and the later actaul text :"
+																	+ laterText + "later config text : "
+																	+ laterOrderTimeText + "matching",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, asapOrderTimeText);
+
+										} else {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(6000);
+
+											// To fail that later label text is not matching
+
+											laterLabel.click();
+
+											nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that Alert appears when user taps the later button and the later actaul text :"
+																	+ laterText + "later config text : "
+																	+ laterOrderTimeText + " not matching",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, asapOrderTimeText);
+
+										}
+
+									} catch (Exception e) {
+
+										integratedMethods(deliveryOrderTypeText, asapOrderTimeText);
+
+									}
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									try {
+
+										Thread.sleep(6000);
+
+										WebElement laterLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_LATER_TEXT_XPATHL));
+
+										if (laterLabel.isDisplayed()) {
+											// To fail the test case.
+
+											nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that later is displayed in the screen.");
+											nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that later label is displayed in the screen where later is not configured in the App level",
+															ExtentColor.CYAN));
+										}
+
+									} catch (Exception e) {
+										// Asap working fine.
+
+										nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+												.info(MarkupHelper.createLabel(
+														"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that later label is not displayed in the screen where later is not configured in the App level",
+														ExtentColor.CYAN));
+									}
+
+								}
+							}
+
+						} else {
+
+							try {
+
+								CommonMethods.switchContext("NATIVE_APP");
+
+								Thread.sleep(6000);
+
+								WebElement curbsideText = driver
+										.findElement(By.xpath(orderNowLocators.ORDER_TYPE_POPUP_CURBSIDE_TEXT_XPATHL));
+
+								CommonMethods.switchContext("FLUTTER");
+
+								FlutterElement curbsideText1 = find.byValueKey(OrderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+
+								curbsideOrderTypeText = curbsideText1.getText();
+
+								boolean equalsIgnoreCase = localConfigCurbsideText
+										.equalsIgnoreCase(curbsideOrderTypeText);
+
+								if (equalsIgnoreCase == true) {
+
+									curbsideText1.click();
+
+									nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+											.info(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that Desired store is displayed in the location list and displayed texts is "
+															+ curbsideOrderTypeText + " response text is : "
+															+ localConfigCurbsideText + " matching.",
+													ExtentColor.CYAN));
+
+									// Text matches
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									curbsideText.click();
+
+									nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+											.fail(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that Desired store is displayed in the location list and displayed texts is "
+															+ curbsideOrderTypeText + " response text is : "
+															+ localConfigCurbsideText + " not matching.",
+													ExtentColor.CYAN));
+
+								}
+								if (laterOrder.equalsIgnoreCase("true")) {
+
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(5000);
+
+										WebElement laterLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_LATER_TEXT_XPATHL));
+
+										CommonMethods.switchContext("FLUTTER");
+
+										FlutterElement laterLabel1 = find
+												.byValueKey(OrderNowLocators.ORDER_LATER_TEXT_VKL);
+
+										laterOrderTimeText = laterLabel1.getText();
+
+										boolean laterLabelComparison = laterText.equalsIgnoreCase(laterOrderTimeText);
+
+										if (laterLabelComparison == true) {
+
+											laterLabel1.click();
+
+											nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that Alert appears when user taps the later button and the later actaul text :"
+																	+ laterText + "later config text : "
+																	+ laterOrderTimeText + "matching",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, asapOrderTimeText);
+
+										} else {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(6000);
+
+											// To fail that later label text is not matching
+
+											laterLabel.click();
+
+											nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that Alert appears when user taps the later button and the later actaul text :"
+																	+ laterText + "later config text : "
+																	+ laterOrderTimeText + " not matching",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, asapOrderTimeText);
+
+										}
+
+									} catch (Exception e) {
+
+										integratedMethods(deliveryOrderTypeText, asapOrderTimeText);
+
+									}
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									try {
+
+										Thread.sleep(6000);
+
+										WebElement laterLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_LATER_TEXT_XPATHL));
+
+										if (laterLabel.isDisplayed()) {
+											// To fail the test case.
+
+											nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that later is displayed in the screen.");
+											nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that later label is displayed in the screen where later is not configured in the App level",
+															ExtentColor.CYAN));
+										}
+
+									} catch (Exception e) {
+										// Asap working fine.
+
+										nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+												.info(MarkupHelper.createLabel(
+														"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that later label is not displayed in the screen where later is not configured in the App level",
+														ExtentColor.CYAN));
+									}
+
+								}
+
+							} catch (Exception e) {
+
+								nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003
+										.fail(MarkupHelper.createLabel(
+												"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that takeout lable is not displayed in the screen where as takeout is configured in the back end ",
+												ExtentColor.CYAN));
+							}
+
+						}
+
+					} else {
+
+						// take out later is not configured.
+						nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003.info(MarkupHelper.createLabel(
+								"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that takeout lable is not displayed in the screen where as takeout is configured in the back end ",
+								ExtentColor.CYAN));
+
+					}
+
+				} catch (Exception e) {
+
+					nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003.fail(MarkupHelper.createLabel(
+							"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that desired store is not found in the screen.",
+							ExtentColor.CYAN));
+
+					System.out.println("Store Not found or store not listed");
+
+				}
+
+			}
+		} catch (Exception e) {
+
+			nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003.fail(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that ordernow is not displayed in the side drawer where as order now is configured in the App level",
+					ExtentColor.CYAN));
+		}
+
+	}
+
+	public static void ngaLocationListDeliveryAsapSideDrawerConfiguredGuest() throws Throwable {
+
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		// To initiate the test to be print
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Ganeshkumar").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bass = new BaseClass();
+		List<String> deliveryFlowConfiguration = bass.appConfiguration();
+
+		String merchantId = deliveryFlowConfiguration.get(8);
+		String storeCode = deliveryFlowConfiguration.get(13);
+
+		String localConfigDeliveryText = deliveryFlowConfiguration.get(21);
+
+		List<String> storeName = bass.odFlow();
+
+		String desiredStoreName = storeName.get(15);
+
+		Thread.sleep(6000);
+
+		/**
+		 * @Class_Name Location
+		 * @Method_Name nextGenOrderNowFlowWithLocationOffLoggedIn
+		 * @Description Ensure that ordernow is configured in the bottombar or side
+		 *              drawer.
+		 * @TestID nextGenOrderNowFlowWithDeliveryAsapConfigured_001
+		 * @author Ganeshkumarselvaraj & Lalith Kishore Ravi
+		 */
+
+		// Initiating the node to be print in the Extent report.
+
+		ExtentTest nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_001 = test
+				.createNode("nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_001");
+		ExtentTest nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_002 = test
+				.createNode("nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_002");
+		ExtentTest nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 = test
+				.createNode("nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_003");
+
+		// To get the dashboard title text
+
+		try {
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(6000);
+
+			FlutterElement dashboardSideDrawerButtonVk = find.byValueKey(sideDrawerLocators.SIDE_DRAWER_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(dashboardSideDrawerButtonVk);
+
+			// To tap the Order now menu in the side drawer by searching the menu.
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			commonMethods.clickSideDrawerElementIos(driver, "LOCATIONS");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			FlutterElement sideDrawerLocationButtonVk = find
+					.byValueKey(sideDrawerLocators.SIDEDRAWER_LOCATION_BUTTON_VKL);
+
+			nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_001.info(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_001 - Validated that Location button is present in side drawer ",
+					ExtentColor.CYAN));
+			nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_001.addScreenCaptureFromBase64String(
+					takeScreenshot(driver), "Verified that Location button is present in side drawer");
+
+			sideDrawerLocationButtonVk.click();
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(10000);
+
+			try {
+
+				WebElement dontAllowId = driver.findElement(
+						By.id("com.android.permissioncontroller:id/permission_deny_and_dont_ask_again_button"));
+
+				if (dontAllowId.isDisplayed()) {
+
+					dontAllowId.click();
+
+				}
+
+			}
+
+			catch (Exception e) {
+
+				System.out.println("Native Popup not appears");
+
+			}
+
+			/**
+			 * @Class_Name LocationListGuest
+			 * @Method_Name nextGenLocationListFlowWithDeliveryAsapConfiguredGuest
+			 * @Description Ensure that user navigated to location screen while tapping the
+			 *              order now button via sidedrawer or bottom bar.
+			 * @TestID nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_002
+			 * @author Prasanna Venkatesh KP & Lalith Kishore Ravi
+			 */
+
+			// To get the Order now screen title.
+
+			CommonMethods.switchContext("FLUTTER");
+
+			FlutterElement locationTitle = find.byValueKey(locationLocators.LOCATION_SCREEN_TITLE_TEXT_VKL);
+			String locationTitleText = locationTitle.getText();
+
+			nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_002.addScreenCaptureFromBase64String(
+					takeScreenshot(driver), "Verified user navigated to the location list screen.");
+			nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_002.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_002 - Verified that user navigated to the location list screen and the title is : "
+							+ locationTitleText,
+					ExtentColor.CYAN));
+
+			/**
+			 * @Class_Name LocationListGuest
+			 * @Method_Name nextGenLocationListFlowWithDeliveryAsapConfiguredGuest
+			 * @Description Ensure that user navigated to dashboard screen while tapping the
+			 *              backicon in the ordernow screen.
+			 * @TestID nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+			 * @author Prasanna Venkatesh KP & Lalith Kishore Ravi
+			 */
+
+			// To get back from the Order now screen to the dashboard by the tapping
+			// the back icon.
+
+//			FlutterElement locationBackIcon = find.byValueKey(locationLocators.LOCATION_SCREEN_BACK_BUTTON_VKL);
+//			commonMethods.checkAndClickTheElement(locationBackIcon);
+//
+//			Thread.sleep(6000);
+//
+//			nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003.addScreenCaptureFromBase64String(
+//					takeScreenshot(driver), "Verified user navigated to the Dashboard screen.");
+//			nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003.info(MarkupHelper.createLabel(
+//					"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that user navigated to the dashboard screen while tapping the backicon in LocationList screen ",
+//					ExtentColor.CYAN));
+//
+//			Thread.sleep(6000);
+//
+//			// To tap the order now menu in the side drawer by searching in the side
+//			// drawer menu list.
+//
+//			commonMethods.checkAndClickTheElement(dashboardSideDrawerButtonVk);
+//
+//			commonMethods.switchContext("NATIVE_APP");
+//
+//			commonMethods.clickSideDrawerElementIos(driver, "LOCATIONS");
+//
+//			commonMethods.switchContext("FLUTTER");
+//
+//			commonMethods.checkAndClickTheElement(sideDrawerLocationButtonVk);
+
+			io.restassured.RestAssured.baseURI = "https://opendining.net/api/v1/merchant/" + merchantId
+					+ "/restaurants/" + storeCode + "?key=6d6bf06a4f653a54da8d88715a736a4ca6071ffb";
+			// Construct the query parameters
+			RequestSpecification requestingHttp = io.restassured.RestAssured.given();
+			// specify the method type (GET) and the parameters if any.
+			// In this case the request does not take any parameter
+
+			RequestSpecification parameterRequest = requestingHttp.queryParam("key",
+					"6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+			Response restaurantsResponse = parameterRequest.get("");
+
+			JSONObject storeResponse = new JSONObject(restaurantsResponse.body().asString());
+			if (storeResponse.has("name")) {
+
+				String asapOrder = storeResponse.optString("advance_only");
+
+				String deliveryResponse = storeResponse.optString("delivery");
+				String deliveryResponseLabelText = storeResponse.optString("delivery_label");
+
+				List<String> odFlow = bass.odFlow();
+
+				String asapText = odFlow.get(16);
+
+				try {
+
+					commonMethods.scrollDownAndClick(desiredStoreName);
+
+					try {
+
+						CommonMethods.switchContext("FLUTTER");
+
+						FlutterElement storeInfoTitleVk = find.byValueKey(locationLocators.STOREINFO_SCREEN_TITLE_VKL);
+						String storeInfoScreenTitleText = storeInfoTitleVk.getText();
+
+						nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003.addScreenCaptureFromBase64String(
+								takeScreenshot(driver), "Verified that user navigated to the store info screen");
+
+						nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003.info(MarkupHelper.createLabel(
+								"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that user navigated to the StoreInfo screen : "
+										+ storeInfoScreenTitleText,
+								ExtentColor.CYAN));
+
+						FlutterElement storeInfoScreenOrderNowIconVk = find
+								.byValueKey(locationLocators.STOREINFO_SCREEN_ORDERNOWICON_VKL);
+						storeInfoScreenOrderNowIconVk.click();
+
+					} catch (Exception e) {
+
+						nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003.fail(MarkupHelper.createLabel(
+								"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that the user not navigated to the StoreInfo screen ",
+								ExtentColor.CYAN));
+
+					}
+
+					if (deliveryResponse.equalsIgnoreCase("true")) {
+
+						if (!deliveryResponseLabelText.isEmpty()) {
+
+							try {
+
+								CommonMethods.switchContext("NATIVE_APP");
+
+								Thread.sleep(6000);
+
+								WebElement deliveryText = driver
+										.findElement(By.xpath(orderNowLocators.ORDER_TYPE_POPUP_DELIVERY_TEXT_XPATHL));
+
+								CommonMethods.switchContext("FLUTTER");
+
+								FlutterElement deliveryText1 = find.byValueKey(OrderNowLocators.ORDERTYPE_DELIVERY_VKL);
+
+								deliveryOrderTypeText = deliveryText1.getText();
+								boolean equalsIgnoreCase = deliveryResponseLabelText
+										.equalsIgnoreCase(deliveryOrderTypeText);
+
+								if (equalsIgnoreCase == true) {
+
+									deliveryText1.click();
+
+									nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+											.info(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that Delivery order type is displayed in the order type popup and displayed texts is "
+															+ deliveryOrderTypeText + " response text is : "
+															+ deliveryResponseLabelText + " matching.",
+													ExtentColor.CYAN));
+
+									// Text matches
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									Thread.sleep(6000);
+
+									deliveryText.click();
+
+									nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+											.fail(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that Delivery order type is displayed in the order type popup and displayed texts is "
+															+ deliveryOrderTypeText + " response text is : "
+															+ deliveryResponseLabelText + "  not matching.",
+													ExtentColor.CYAN));
+
+								}
+
+								/////////////////////////////////////////////////////////////// ADDRESS SCRIPT
+								/////////////////////////////////////////////////////////////// ////////////////////////////
+
+								Thread.sleep(5000);
+
+								AddressGuest.addresss();
+
+								Thread.sleep(5000);
+
+								if (asapOrder.equalsIgnoreCase("false")) {
+
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(6000);
+
+										WebElement asapLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_LOGGEDIN_ASAP_TEXT_XPATHL));
+										System.err.println("asapLabel :" + asapLabel);
+
+										CommonMethods.switchContext("FLUTTER");
+
+										FlutterElement asapLabel1 = find
+												.byValueKey(OrderNowLocators.ORDER_ASAP_TEXT_VKL);
+
+										asapOrderTimeText = asapLabel1.getText();
+										System.err.println("asapLabel :" + asapOrderTimeText);
+
+										boolean asapLabelComparison = asapText.equalsIgnoreCase(asapOrderTimeText);
+
+										if (asapLabelComparison == true) {
+											Thread.sleep(5000);
+											asapLabel1.click();
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that Alert appears when user taps the ASAP button and the Asap actual text :"
+																	+ asapText + "Asap config text : "
+																	+ asapOrderTimeText + "matching",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, asapOrderTimeText);
+
+										} else {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(6000);
+
+											// To fail that ASAP label text is not matching
+
+											asapLabel.click();
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that Alert appears when user taps the ASAP button and the Asap actual text :"
+																	+ asapText + "Asap config text : "
+																	+ asapOrderTimeText + " not matching",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, asapOrderTimeText);
+
+										}
+
+									} catch (Exception e) {
+
+										try {
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(5000);
+
+											WebElement cancelButton = driver.findElement(
+													By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+											cancelButton.click();
+
+											System.out.println(
+													"ASAP is not displayed where as ASAP is configured on the back end ");
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that ASAP is not displayed where as ASAP is configured on the back end ",
+															ExtentColor.CYAN));
+
+										} catch (Exception e1) {
+
+											System.out.println(
+													" ASAP is only displayed where as ASAP is only configured on the back end ");
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that ASAP is only displayed where as ASAP is only configured on the back end  ",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, asapOrderTimeText);
+
+										}
+
+									}
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									try {
+
+										Thread.sleep(6000);
+
+										WebElement asapLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_LOGGEDIN_ASAP_TEXT_XPATHL));
+
+										if (asapLabel.isDisplayed()) {
+											// To fail the test case.
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that Asap is displayed in the screen.");
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that asap label is displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("FLUTTER");
+
+											FlutterElement closeIcon = find
+													.byValueKey(OrderNowLocators.ORDERTYPE_CLOSE_ICON_VKL);
+
+											closeIcon.click();
+
+											///////////// close icon when would you like your order //////////
+
+										}
+
+									} catch (Exception e) {
+
+										try {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											WebElement cancelButton = driver.findElement(
+													By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+											cancelButton.click();
+
+											System.out.println(
+													"ASAP is not displayed where as ASAP is not configured on the back end but later is configured");
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that later is only configured and asap label is not displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+										} catch (Exception e1) {
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that asap label is not displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+										}
+
+									}
+
+								}
+
+							} catch (Exception E) {
+
+								if (asapOrder.equalsIgnoreCase("false")) {
+
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(6000);
+
+										WebElement asapLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_LOGGEDIN_ASAP_TEXT_XPATHL));
+
+										CommonMethods.switchContext("FLUTTER");
+
+										FlutterElement asapLabel1 = find
+												.byValueKey(OrderNowLocators.ORDER_ASAP_TEXT_VKL);
+
+										asapOrderTimeText = asapLabel1.getText();
+
+										boolean asapLabelComparison = asapText.equalsIgnoreCase(asapOrderTimeText);
+
+										if (asapLabelComparison == true) {
+											Thread.sleep(5000);
+											asapLabel1.click();
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that Alert appears when user taps the ASAP button and the Asap actual text :"
+																	+ asapText + "Asap config text : "
+																	+ asapOrderTimeText + "matching",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, asapOrderTimeText);
+
+										} else {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(6000);
+
+											// To fail that ASAP label text is not matching
+
+											asapLabel.click();
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that Alert appears when user taps the ASAP button and the Asap actual text :"
+																	+ asapText + "Asap config text : "
+																	+ asapOrderTimeText + " not matching",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, asapOrderTimeText);
+
+										}
+
+									} catch (Exception e) {
+
+										try {
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(5000);
+
+											WebElement cancelButton = driver.findElement(
+													By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+											cancelButton.click();
+
+											System.out.println(
+													"ASAP is not displayed where as ASAP is configured on the back end ");
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that ASAP is not displayed where as ASAP is configured on the back end ",
+															ExtentColor.CYAN));
+
+										} catch (Exception e1) {
+
+											System.out.println(
+													" ASAP is only displayed where as ASAP is only configured on the back end ");
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that ASAP is only displayed where as ASAP is only configured on the back end  ",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, asapOrderTimeText);
+
+										}
+
+									}
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									try {
+
+										Thread.sleep(6000);
+
+										WebElement asapLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_LOGGEDIN_ASAP_TEXT_XPATHL));
+
+										if (asapLabel.isDisplayed()) {
+											// To fail the test case.
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that Asap is displayed in the screen.");
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that asap label is displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("FLUTTER");
+
+											FlutterElement closeIcon = find
+													.byValueKey(OrderNowLocators.ORDERTYPE_CLOSE_ICON_VKL);
+
+											closeIcon.click();
+
+											///////////// close icon when would you like your order //////////
+
+										}
+
+									} catch (Exception e) {
+
+										try {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											WebElement cancelButton = driver.findElement(
+													By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+											cancelButton.click();
+
+											System.out.println(
+													"ASAP is not displayed where as ASAP is not configured on the back end but later is configured");
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that later is only configured and asap label is not displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+										} catch (Exception e1) {
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that asap label is not displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+										}
+
+									}
+
+								}
+							}
+
+						} else {
+
+							try {
+
+								CommonMethods.switchContext("NATIVE_APP");
+
+								Thread.sleep(6000);
+
+								WebElement deliveryText = driver
+										.findElement(By.xpath(orderNowLocators.ORDER_TYPE_POPUP_DELIVERY_TEXT_XPATHL));
+
+								CommonMethods.switchContext("FLUTTER");
+
+								FlutterElement deliveryText1 = find.byValueKey(OrderNowLocators.ORDERTYPE_DELIVERY_VKL);
+
+								deliveryOrderTypeText = deliveryText1.getText();
+								boolean equalsIgnoreCase = localConfigDeliveryText
+										.equalsIgnoreCase(deliveryOrderTypeText);
+
+								if (equalsIgnoreCase == true) {
+
+									deliveryText1.click();
+
+									nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+											.info(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that Desired store is displayed in the location list and displayed texts is "
+															+ deliveryOrderTypeText + " response text is : "
+															+ localConfigDeliveryText + " matching.",
+													ExtentColor.CYAN));
+
+									// Text matches
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									deliveryText.click();
+
+									nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+											.fail(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that Desired store is displayed in the location list and displayed texts is "
+															+ deliveryOrderTypeText + " response text is : "
+															+ localConfigDeliveryText + " not matching.",
+													ExtentColor.CYAN));
+
+									// text mismatches
+
+								}
+								AddressGuest.addresss();
+
+								if (asapOrder.equalsIgnoreCase("false")) {
+									Thread.sleep(5000);
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(6000);
+
+										WebElement asapLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_LOGGEDIN_ASAP_TEXT_XPATHL));
+
+										CommonMethods.switchContext("FLUTTER");
+
+										FlutterElement asapLabel1 = find
+												.byValueKey(OrderNowLocators.ORDER_ASAP_TEXT_VKL);
+
+										asapOrderTimeText = asapLabel1.getText();
+
+										boolean asapLabelComparison = asapText.equalsIgnoreCase(asapOrderTimeText);
+
+										if (asapLabelComparison == true) {
+											Thread.sleep(5000);
+											asapLabel1.click();
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that Alert appears when user taps the ASAP button and the Asap actual text :"
+																	+ asapText + "Asap config text : "
+																	+ asapOrderTimeText + "matching",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, asapOrderTimeText);
+
+										} else {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(6000);
+
+											// To fail that ASAP label text is not matching
+
+											asapLabel.click();
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that Alert appears when user taps the ASAP button and the Asap actual text :"
+																	+ asapText + "Asap config text : "
+																	+ asapOrderTimeText + " not matching",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, asapOrderTimeText);
+
+										}
+
+									} catch (Exception e) {
+
+										try {
+
+											CommonMethods.switchContext("NATIVE_APP");
+											Thread.sleep(5000);
+
+											WebElement cancelButton = driver.findElement(
+													By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+											cancelButton.click();
+
+											System.out.println(
+													"ASAP is not displayed where as ASAP is configured on the back end ");
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that ASAP is not displayed where as ASAP is configured on the back end ",
+															ExtentColor.CYAN));
+
+										} catch (Exception e1) {
+
+											System.out.println(
+													" ASAP is only displayed where as ASAP is only configured on the back end ");
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that ASAP is only displayed where as ASAP is only configured on the back end  ",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, asapOrderTimeText);
+
+										}
+
+									}
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									try {
+
+										Thread.sleep(6000);
+
+										WebElement asapLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_LOGGEDIN_ASAP_TEXT_XPATHL));
+
+										if (asapLabel.isDisplayed()) {
+											// To fail the test case.
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that Asap is displayed in the screen.");
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that asap label is displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+											CommonMethods.switchContext("FLUTTER");
+
+											FlutterElement closeIcon = find
+													.byValueKey("available_order_type_close_button");
+
+											closeIcon.click();
+
+											///////////// close icon when would you like your order //////////
+
+										}
+
+									} catch (Exception e) {
+
+										try {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											WebElement cancelButton = driver.findElement(
+													By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+											cancelButton.click();
+
+											System.out.println(
+													"ASAP is not displayed where as ASAP is not configured on the back end but later is configured");
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that later is only configured and asap label is not displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+										} catch (Exception e1) {
+
+											nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that asap label is not displayed in the screen where asap is not configured in the back end",
+															ExtentColor.CYAN));
+
+										}
+
+									}
+
+								}
+
+							} catch (Exception e) {
+
+								nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003
+										.fail(MarkupHelper.createLabel(
+												"nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_003 - Verified that delivery lable is not displayed in the screen where as delivery is configured in the app level.",
+												ExtentColor.CYAN));
+							}
+
+						}
+
+					} else {
+
+						// take out asap is not configured.
+						nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003.info(MarkupHelper.createLabel(
+								"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that delivery lable is not displayed in the screen where as delivery is not configured in the app level.",
+								ExtentColor.CYAN));
+
+					}
+
+				} catch (Exception e) {
+
+					nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003.fail(MarkupHelper.createLabel(
+							"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that desired store is not found in the screen.",
+							ExtentColor.CYAN));
+
+					System.out.println("Store Not found or store not listed");
+
+				}
+			}
+
+		} catch (Exception e) {
+
+			nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003.fail(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_003 - Verified that Location List is not displayed in the side drawer where as Location List is configured in the App level",
+					ExtentColor.CYAN));
+
+		}
+
+	}
+
+	public static void ngaLocationListDeliveryLaterSideDrawerConfiguredGuest() throws Throwable {
+
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		// To initiate the test to be print
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Ganeshkumar").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bass = new BaseClass();
+		List<String> deliveryFlowConfiguration = bass.appConfiguration();
+
+		String merchantId = deliveryFlowConfiguration.get(8);
+		String storeCode = deliveryFlowConfiguration.get(13);
+
+		String localConfigDeliveryText = deliveryFlowConfiguration.get(21);
+
+		List<String> storeName = bass.odFlow();
+
+		String desiredStoreName = storeName.get(15);
+
+		Thread.sleep(6000);
+
+		/**
+		 * @Class_Name Location
+		 * @Method_Name nextGenOrderNowFlowWithLocationOffLoggedIn
+		 * @Description Ensure that ordernow is configured in the bottombar or side
+		 *              drawer.
+		 * @TestID nextGenOrderNowFlowWithDeliveryAsapConfigured_001
+		 * @author Ganeshkumarselvaraj & Lalith Kishore Ravi
+		 */
+
+		// Initiating the node to be print in the Extent report.
+
+		ExtentTest nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_001 = test
+				.createNode("nextGenLocationListFlowWithDeliveryLaterConfiguredGuest001");
+		ExtentTest nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_002 = test
+				.createNode("nextGenLocationListFlowWithDeliveryLaterConfiguredGuest002");
+		ExtentTest nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 = test
+				.createNode("nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003");
+
+		// To get the dashboard title text
+
+		FlutterElement dashboardTitleVk = find.byValueKey(dashBoardLocators.DASHBOARD_TITLE_VKL);
+
+		String dashboardTitleVkText = dashboardTitleVk.getText();
+
+		System.out.println(dashboardTitleVkText);
+
+		orderId = APIMethods.orderId();
+
+		try {
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(6000);
+
+			FlutterElement dashboardSideDrawerButtonVk = find.byValueKey(sideDrawerLocators.SIDE_DRAWER_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(dashboardSideDrawerButtonVk);
+
+			// To tap the Order now menu in the side drawer by searching the menu.
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			commonMethods.clickSideDrawerElementIos(driver, "LOCATIONS");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			FlutterElement sideDrawerLocationButtonVk = find
+					.byValueKey(sideDrawerLocators.SIDEDRAWER_LOCATION_BUTTON_VKL);
+
+			nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_001.info(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_001 - Validated that Location button is present in side drawer ",
+					ExtentColor.CYAN));
+			nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_001.addScreenCaptureFromBase64String(
+					takeScreenshot(driver), "Verified that Location button is present in side drawer");
+
+			sideDrawerLocationButtonVk.click();
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(10000);
+
+			try {
+
+				WebElement dontAllowId = driver.findElement(
+						By.id("com.android.permissioncontroller:id/permission_deny_and_dont_ask_again_button"));
+
+				if (dontAllowId.isDisplayed()) {
+
+					dontAllowId.click();
+
+				}
+
+			}
+
+			catch (Exception e) {
+
+				System.out.println("Native Popup not appears");
+
+			}
+
+			/**
+			 * @Class_Name LocationListGuest
+			 * @Method_Name nextGenLocationListFlowWithDeliveryLaterConfiguredGuest
+			 * @Description Ensure that user navigated to location screen while tapping the
+			 *              order now button via sidedrawer or bottom bar.
+			 * @TestID nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_002
+			 * @author Prasanna Venkatesh KP & Lalith Kishore Ravi
+			 */
+
+			// To get the Order now screen title.
+
+			CommonMethods.switchContext("FLUTTER");
+
+			FlutterElement locationTitle = find.byValueKey(locationLocators.LOCATION_SCREEN_TITLE_TEXT_VKL);
+			String locationTitleText = locationTitle.getText();
+
+			nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_002.addScreenCaptureFromBase64String(
+					takeScreenshot(driver), "Verified user navigated to the location list screen.");
+			nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_002.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_002 - Verified that user navigated to the location list screen and the title is : "
+							+ locationTitleText,
+					ExtentColor.CYAN));
+
+			/**
+			 * @Class_Name LocationListGuest
+			 * @Method_Name nextGenLocationListFlowWithDeliveryLaterConfiguredGuest
+			 * @Description Ensure that user navigated to dashboard screen while tapping the
+			 *              backicon in the ordernow screen.
+			 * @TestID nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+			 * @author Prasanna Venkatesh KP & Lalith Kishore Ravi
+			 */
+
+			// To get back from the Order now screen to the dashboard by the tapping
+			// the back icon.
+
+			FlutterElement locationBackIcon = find.byValueKey(locationLocators.LOCATION_SCREEN_BACK_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(locationBackIcon);
+
+			Thread.sleep(6000);
+
+			nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003.addScreenCaptureFromBase64String(
+					takeScreenshot(driver), "Verified user navigated to the Dashboard screen.");
+			nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003.info(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that user navigated to the dashboard screen while tapping the backicon in LocationList screen ",
+					ExtentColor.CYAN));
+
+			Thread.sleep(6000);
+
+			// To tap the order now menu in the side drawer by searching in the side
+			// drawer menu list.
+
+			commonMethods.checkAndClickTheElement(dashboardSideDrawerButtonVk);
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			commonMethods.clickSideDrawerElementIos(driver, "LOCATIONS");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			commonMethods.checkAndClickTheElement(sideDrawerLocationButtonVk);
+
+//		
+
+			io.restassured.RestAssured.baseURI = "https://opendining.net/api/v1/merchant/" + merchantId
+					+ "/restaurants/" + storeCode + "?key=6d6bf06a4f653a54da8d88715a736a4ca6071ffb";
+			// Construct the query parameters
+			RequestSpecification requestingHttp = io.restassured.RestAssured.given();
+			// specify the method type (GET) and the parameters if any.
+			// In this case the request does not take any parameter
+
+			RequestSpecification parameterRequest = requestingHttp.queryParam("key",
+					"6d6bf06a4f653a54da8d88715a736a4ca6071ffb");
+			Response restaurantsResponse = parameterRequest.get("");
+
+			JSONObject storeResponse = new JSONObject(restaurantsResponse.body().asString());
+			if (storeResponse.has("name")) {
+				String laterOrder = storeResponse.optString("use_eta");
+
+				String deliveryResponse = storeResponse.optString("delivery");
+				String deliveryResponseLabelText = storeResponse.optString("delivery_label");
+
+				Restaurant_Id = storeResponse.optString("id");
+
+				System.out.println("Restaurant Id is : " + Restaurant_Id);
+
+				List<String> odFlow = bass.odFlow();
+
+				String laterText = odFlow.get(17);
+
+				BaseClass bc = new BaseClass();
+
+				List<String> appConfiguration = bc.appConfiguration();
+
+				userName = appConfiguration.get(6);
+				passWord = appConfiguration.get(7);
+				merchantId = appConfiguration.get(8);
+				cardTemplateCode = appConfiguration.get(9);
+				storeGroupCode = appConfiguration.get(10);
+				clientId = appConfiguration.get(11);
+				integrationDetail = appConfiguration.get(12);
+				storeCode = appConfiguration.get(13);
+
+				DateApi = odFlow.get(18);
+				Date = odFlow.get(19);
+
+				String jsonString = "{\n" + "    \"fields\": {\n" + "        \"username\": \"" + userName + "\",\n"
+						+ "        \"password\": \"" + passWord + "\"\n" + "    },\n" + "    \"cardTemplateCode\": \""
+						+ cardTemplateCode + "\",\n"
+						+ "    \"scope\": \"user_read account_read account_write user_write\",\n"
+						+ "    \"merchantId\": \"" + merchantId + "\",\n"
+						+ "    \"grant_type\": \"http:\\/\\/paytronix.com\\/oauth\\/fieldset\",\n"
+						+ "    \"authentication\": \"anonymous\",\n"
+						+ "    \"access_token\": \"VDc_p1vU2AaPShcFTWcdX9BqRsaFf9upuMP7epvhWS\",\n"
+						+ "    \"client_id\": \"" + clientId + "\"\n" + "}";
+
+				RequestSpecification request = io.restassured.RestAssured.given();
+
+				request.contentType(ContentType.JSON);
+
+				request.baseUri("https://www.train.paytronix.com:1283/rest/23.8/oauth/requestGuestToken.json");
+
+				request.body(jsonString);
+				Response response = request.post();
+				ValidatableResponse validatableResponse = response.then();
+				validatableResponse.statusCode(200);
+				JSONObject jObj = new JSONObject(response.body().asString());
+				accessTokenGen = jObj.optString("access_token");
+				printedCardNumberResponse = jObj.optString("printedCardNumber");
+
+				try {
+
+					commonMethods.scrollDownAndClick(desiredStoreName);
+
+					try {
+
+						CommonMethods.switchContext("FLUTTER");
+
+						FlutterElement storeInfoTitleVk = find.byValueKey(locationLocators.STOREINFO_SCREEN_TITLE_VKL);
+						String storeInfoScreenTitleText = storeInfoTitleVk.getText();
+
+						nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003.addScreenCaptureFromBase64String(
+								takeScreenshot(driver), "Verified that user navigated to the store info screen");
+
+						nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003.info(MarkupHelper.createLabel(
+								"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that user navigated to the StoreInfo screen : "
+										+ storeInfoScreenTitleText,
+								ExtentColor.CYAN));
+
+						FlutterElement storeInfoScreenOrderNowIconVk = find
+								.byValueKey(locationLocators.STOREINFO_SCREEN_ORDERNOWICON_VKL);
+						storeInfoScreenOrderNowIconVk.click();
+
+					} catch (Exception e) {
+
+						nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003.fail(MarkupHelper.createLabel(
+								"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that the user not navigated to the StoreInfo screen ",
+								ExtentColor.CYAN));
+
+					}
+
+					// To verify the Configured order type.
+
+					if (deliveryResponse.equalsIgnoreCase("true")) {
+
+						if (!deliveryResponseLabelText.isEmpty()) {
+
+							try {
+
+								CommonMethods.switchContext("NATIVE_APP");
+
+								Thread.sleep(6000);
+
+								WebElement deliveryText = driver
+										.findElement(By.xpath(orderNowLocators.ORDER_TYPE_POPUP_DELIVERY_TEXT_XPATHL));
+
+								CommonMethods.switchContext("FLUTTER");
+
+								FlutterElement deliveryText1 = find.byValueKey(OrderNowLocators.ORDERTYPE_DELIVERY_VKL);
+
+								deliveryOrderTypeText = deliveryText1.getText();
+
+								boolean equalsIgnoreCase = deliveryResponseLabelText
+										.equalsIgnoreCase(deliveryOrderTypeText);
+
+								if (equalsIgnoreCase == true) {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									deliveryText.click();
+
+									nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+											.info(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that Desired store is displayed in the location list and displayed texts is "
+															+ deliveryOrderTypeText + " response text is : "
+															+ deliveryResponseLabelText + " matching.",
+													ExtentColor.CYAN));
+
+									// Text matches
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									Thread.sleep(6000);
+
+									deliveryText.click();
+
+									nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+											.fail(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that Desired store is displayed in the location list and displayed texts is "
+															+ deliveryOrderTypeText + " response text is : "
+															+ deliveryResponseLabelText + "  not matching.",
+													ExtentColor.CYAN));
+
+								}
+
+								/////////////////////////////////////////////////////////////// ADDRESS SCRIPT
+								/////////////////////////////////////////////////////// ////////
+								/////////////////////////////////////////////////////////////// ////////////////////////////
+
+								Thread.sleep(5000);
+
+								AddressGuest.addresss();
+
+								Thread.sleep(5000);
+
+								if (laterOrder.equalsIgnoreCase("true")) {
+
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(5000);
+
+										WebElement laterLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_LATER_TEXT_XPATHL));
+
+										CommonMethods.switchContext("FLUTTER");
+
+										FlutterElement laterLabel1 = find
+												.byValueKey(OrderNowLocators.ORDER_LATER_TEXT_VKL);
+
+										laterOrderTimeText = laterLabel1.getText();
+
+										boolean laterLabelComparison = laterText.equalsIgnoreCase(laterOrderTimeText);
+
+										if (laterLabelComparison == true) {
+
+											laterLabel1.click();
+
+											nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that Alert appears when user taps the later button and the later actaul text :"
+																	+ laterText + "later config text : "
+																	+ laterOrderTimeText + "matching",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, laterOrderTimeText);
+
+										} else {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(6000);
+
+											// To fail that later label text is not matching
+
+											laterLabel.click();
+
+											nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that Alert appears when user taps the later button and the later actaul text :"
+																	+ laterText + "later config text : "
+																	+ laterOrderTimeText + " not matching",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, laterOrderTimeText);
+
+										}
+
+									} catch (Exception e) {
+
+										integratedMethods(deliveryOrderTypeText, laterOrderTimeText);
+
+									}
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									try {
+
+										Thread.sleep(6000);
+
+										WebElement laterLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_LATER_TEXT_XPATHL));
+
+										if (laterLabel.isDisplayed()) {
+											// To fail the test case.
+
+											nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that later is displayed in the screen.");
+											nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that later label is displayed in the screen where later is not configured in the App level",
+															ExtentColor.CYAN));
+										}
+
+									} catch (Exception e) {
+										// Asap working fine.
+
+										nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+												.info(MarkupHelper.createLabel(
+														"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that later label is not displayed in the screen where later is not configured in the App level",
+														ExtentColor.CYAN));
+									}
+
+								}
+
+							} catch (Exception E) {
+
+								if (laterOrder.equalsIgnoreCase("true")) {
+
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(5000);
+
+										WebElement laterLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_LATER_TEXT_XPATHL));
+
+										CommonMethods.switchContext("FLUTTER");
+
+										FlutterElement laterLabel1 = find
+												.byValueKey(OrderNowLocators.ORDER_LATER_TEXT_VKL);
+
+										laterOrderTimeText = laterLabel1.getText();
+
+										boolean laterLabelComparison = laterText.equalsIgnoreCase(laterOrderTimeText);
+
+										if (laterLabelComparison == true) {
+
+											laterLabel1.click();
+
+											nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that Alert appears when user taps the later button and the later actaul text :"
+																	+ laterText + "later config text : "
+																	+ laterOrderTimeText + "matching",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, laterOrderTimeText);
+
+										} else {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(6000);
+
+											// To fail that later label text is not matching
+
+											laterLabel.click();
+
+											nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that Alert appears when user taps the later button and the later actaul text :"
+																	+ laterText + "later config text : "
+																	+ laterOrderTimeText + " not matching",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, laterOrderTimeText);
+
+										}
+
+									} catch (Exception e) {
+
+										integratedMethods(deliveryOrderTypeText, laterOrderTimeText);
+
+									}
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									try {
+
+										Thread.sleep(6000);
+
+										WebElement laterLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_LATER_TEXT_XPATHL));
+
+										if (laterLabel.isDisplayed()) {
+											// To fail the test case.
+
+											nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that later is displayed in the screen.");
+											nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that later label is displayed in the screen where later is not configured in the App level",
+															ExtentColor.CYAN));
+										}
+
+									} catch (Exception e) {
+										// Asap working fine.
+
+										nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+												.info(MarkupHelper.createLabel(
+														"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that later label is not displayed in the screen where later is not configured in the App level",
+														ExtentColor.CYAN));
+									}
+
+								}
+
+							}
+
+						} else {
+
+							try {
+
+								WebElement deliveryText = driver
+										.findElement(By.xpath(orderNowLocators.ORDER_TYPE_POPUP_DELIVERY_TEXT_XPATHL));
+
+								CommonMethods.switchContext("FLUTTER");
+
+								FlutterElement deliveryText1 = find.byValueKey(OrderNowLocators.ORDERTYPE_DELIVERY_VKL);
+
+								deliveryOrderTypeText = deliveryText1.getText();
+
+								boolean equalsIgnoreCase = localConfigDeliveryText
+										.equalsIgnoreCase(deliveryOrderTypeText);
+
+								if (equalsIgnoreCase == true) {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									Thread.sleep(5000);
+
+									deliveryText.click();
+
+									nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+											.info(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that Desired store is displayed in the location list and displayed texts is "
+															+ deliveryOrderTypeText + " response text is : "
+															+ localConfigDeliveryText + " matching.",
+													ExtentColor.CYAN));
+
+									// Text matches
+
+								} else {
+
+									CommonMethods.switchContext("NATIVE_APP");
+
+									deliveryText.click();
+
+									nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+											.fail(MarkupHelper.createLabel(
+													"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that Desired store is displayed in the location list and displayed texts is "
+															+ deliveryOrderTypeText + " response text is : "
+															+ localConfigDeliveryText + " not matching.",
+													ExtentColor.CYAN));
+								}
+								/////////////////////////////////////////////////////////////// ADDRESS SCRIPT
+								/////////////////////////////////////////////////////////////// ////////////////////////////
+								AddressGuest.addresss();
+
+								if (laterOrder.equalsIgnoreCase("true")) {
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(5000);
+
+										WebElement laterLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_LATER_TEXT_XPATHL));
+
+										CommonMethods.switchContext("FLUTTER");
+
+										FlutterElement laterLabel1 = find
+												.byValueKey(OrderNowLocators.ORDER_LATER_TEXT_VKL);
+
+										laterOrderTimeText = laterLabel1.getText();
+
+										boolean laterLabelComparison = laterText.equalsIgnoreCase(laterOrderTimeText);
+
+										if (laterLabelComparison == true) {
+
+											laterLabel1.click();
+
+											nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+													.info(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that Alert appears when user taps the later button and the later actaul text :"
+																	+ laterText + "later config text : "
+																	+ laterOrderTimeText + "matching",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, laterOrderTimeText);
+
+										} else {
+
+											CommonMethods.switchContext("NATIVE_APP");
+
+											Thread.sleep(6000);
+
+											// To fail that later label text is not matching
+
+											laterLabel.click();
+
+											nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that alert appears");
+
+											nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that Alert appears when user taps the later button and the later actaul text :"
+																	+ laterText + "later config text : "
+																	+ laterOrderTimeText + " not matching",
+															ExtentColor.CYAN));
+
+											integratedMethods(deliveryOrderTypeText, laterOrderTimeText);
+
+										}
+
+									} catch (Exception e) {
+
+										integratedMethods(deliveryOrderTypeText, laterOrderTimeText);
+
+									}
+
+								} else {
+
+									try {
+
+										CommonMethods.switchContext("NATIVE_APP");
+
+										Thread.sleep(6000);
+
+										WebElement laterLabel = driver.findElement(
+												By.xpath(OrderNowLocators.ORDER_NOW_GUEST_LATER_TEXT_XPATHL));
+
+										if (laterLabel.isDisplayed()) {
+											// To fail the test case.
+
+											nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+													.addScreenCaptureFromBase64String(takeScreenshot(driver),
+															"Verfied that later is displayed in the screen.");
+											nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+													.fail(MarkupHelper.createLabel(
+															"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that later label is displayed in the screen where later is not configured in the App level",
+															ExtentColor.CYAN));
+										}
+
+									} catch (Exception e) {
+										// Asap working fine.
+
+										nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+												.info(MarkupHelper.createLabel(
+														"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that later label is not displayed in the screen where later is not configured in the App level",
+														ExtentColor.CYAN));
+									}
+
+								}
+
+							} catch (Exception e) {
+
+								nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003
+										.fail(MarkupHelper.createLabel(
+												"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that delivery lable is not displayed in the screen where as delivery is configured in the back end ",
+												ExtentColor.CYAN));
+							}
+
+						}
+
+					} else {
+
+						// take out later is not configured.
+						nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003.info(MarkupHelper.createLabel(
+								"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that delivery lable is not displayed in the screen where as delivery is configured in the back end ",
+								ExtentColor.CYAN));
+
+					}
+
+				} catch (Exception e) {
+
+					nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003.fail(MarkupHelper.createLabel(
+							"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that desired store is not found in the screen.",
+							ExtentColor.CYAN));
+
+					System.out.println("Store Not found or store not listed");
+
+				}
+
+			}
+		} catch (Exception e) {
+
+			nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003.fail(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that ordernow is not displayed in the side drawer where as order now is configured in the App level",
+					ExtentColor.CYAN));
+		}
+
+	}
+
+	private static void integratedMethods(String orderType, String orderTime) throws Throwable {
+
+		boolean jkCafeRecommendedMenuEnabledorNot = commonMethods.jkCafeRecommendedMenuEnabledorNot();
+
+		orderId = APIMethods.orderId();
+
+		BaseClass baseClass = new BaseClass();
+
+		List<String> menuItem = baseClass.menuItem();
+
+		String string = menuItem.get(1);
+
+		int pos = Integer.parseInt(string);
+
+		String string1 = menuItem.get(2);
+
+		int position = Integer.parseInt(string1);
+
+		String strings = menuItem.get(3);
+
+		int pos1 = Integer.parseInt(strings);
+
+		String strings1 = menuItem.get(4);
+
+		int position1 = Integer.parseInt(strings1);
+
+		if (jkCafeRecommendedMenuEnabledorNot == true) {
+
+			pos1 = pos1 + 1;
+			pos = pos + 1;
+			position = position + 1;
+			position1 = position1 + 1;
+		}
+
+		List<String> deliveryOrderTypeWithOrderTime = APIMethods.deliveryOrderTypeWithOrderTime();
+
+		boolean deliveryAsap = deliveryOrderTypeWithOrderTime.contains("ASAP");
+
+		List<String> curbsideOrderTypeWithOrderTime = APIMethods.curbsideOrderTypeWithOrderTime();
+
+		boolean curbsideAsap = curbsideOrderTypeWithOrderTime.contains("ASAP");
+
+		List<String> takeoutOrderTypeWithOrderTime = APIMethods.takeoutOrderTypeWithOrderTime();
+
+		boolean takeoutAsap = takeoutOrderTypeWithOrderTime.contains("ASAP");
+
+		if (deliveryAsap == false) {
+
+			reOrder.laterCapacityManagement();
+
+		} else if (takeoutAsap == false || curbsideAsap == false) {
+
+			CapacityManagement.ngaCapacityManagement();
+		}
+
+		MenuApi.menuApi(pos, position, orderId);
+
+		double discountValue = Basket.ngaBasket(orderType, orderTime, orderId);
+
+//		Basket.deleteItem(orderId);
+
+		Thread.sleep(6000);
+
+		Checkout.ngaCheckout(orderId);
+
+		singlePayment.singlePaymentFlowLoggedIn(orderId, discountValue);
+
+		splitPayment.splitPaymentFlowLoggedIn(orderId, discountValue);
+
+		Thread.sleep(3000);
+	}
+
+}

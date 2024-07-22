@@ -1,0 +1,273 @@
+package com.features;
+
+import java.time.Duration;
+import java.util.HashMap;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.base.BaseClass;
+import com.base.CommonMethods;
+import com.locators.SignInLocators;
+
+import io.appium.java_client.ios.IOSTouchAction;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
+import io.github.ashwith.flutter.FlutterElement;
+import io.github.ashwith.flutter.FlutterFinder;
+
+public class Logout extends BaseClass {
+
+	static SignInLocators signInLocators = new SignInLocators();
+	static CommonMethods commonMethods = new CommonMethods();
+
+	public static void nextGenLogout() throws InterruptedException {
+
+		try {
+
+			String nameofCurrMethod = new Object() {
+			}.getClass().getEnclosingMethod().getName();
+
+			test = extent.createTest(nameofCurrMethod).assignAuthor(author).assignDevice(deviceName)
+					.assignCategory("SignInLogout");
+			test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+			FlutterFinder find = new FlutterFinder(driver);
+			
+			Thread.sleep(5000);
+			/**
+			 * @Class_Name SignIn
+			 * @Method_Name nexGenSignInLogout
+			 * @Description ensure that the side drawer icon on the dashboard and logout is
+			 *              present in the side drawer.
+			 * @return FlutterElement
+			 * @author GaneshKumarSelvaraj
+			 * @testCaseID nexGenLogout001
+			 **/
+			ExtentTest nexGenLogout001 = test.createNode("nexGenLogout001");
+
+			// To tap the side drawer in the dashboard screen.
+
+			FlutterElement sideDrawerClick = find.byValueKey(signInLocators.SIDE_DRAWER_BUTTON_CLICK_VKL);
+			Thread.sleep(5000);
+			commonMethods.checkAndClickTheElement(sideDrawerClick);
+
+			commonMethods.switchContext("NATIVE_APP");
+			Thread.sleep(3000);
+			commonMethods.clickSideDrawerElementIos(driver, "Logout");
+
+			commonMethods.switchContext("FLUTTER");
+
+			// To get the title of the logout screen
+			FlutterElement sideDrawerLogoutButtonVkl = find.byValueKey(signInLocators.SIDEDRAWER_LOGOUT_BUTTON_VKL);
+			commonMethods.toGetTheTextOfTheElement(sideDrawerLogoutButtonVkl);
+
+			// TO print the status in the report
+			nexGenLogout001.info(MarkupHelper.createLabel(
+					"nexGenLogout001 - Verified that Sidedrawer present in the dashboard and also logout is present in the side drawer.",
+					ExtentColor.CYAN));
+
+			/**
+			 * @Class_Name SignIn
+			 * @Method_Name nexGenSignInLogout
+			 * @Description Ensure that on tapping the logout alert should appears
+			 * @return FlutterElement
+			 * @author GaneshKumarSelvaraj
+			 * @testCaseID nexGenLogout002
+			 **/
+
+			ExtentTest nexGenLogout002 = test.createNode("nexGenLogout002");
+			// To get the title of the logout screen
+			FlutterElement sideDrawerLogoutButton = find.byValueKey(signInLocators.SIDEDRAWER_LOGOUT_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(sideDrawerLogoutButton);
+
+			// TO print the status in the report
+			nexGenLogout002.info(MarkupHelper.createLabel(
+					"nexGenLogout002 - Verified that popup is appearing when user taps the logout", ExtentColor.CYAN));
+			
+			Thread.sleep(5000);
+
+			nexGenLogout002.addScreenCaptureFromBase64String(takeScreenshot(driver),
+					"Verified popup appears with message and okay button.");
+
+			/**
+			 * @Class_Name SignIn
+			 * @Method_Name nexGenSignInLogout
+			 * @Description Ensure that popup appears with description test.
+			 * @return FlutterElement
+			 * @author GaneshKumarSelvaraj
+			 * @testCaseID nexGenLogout003
+			 **/
+			ExtentTest nexGenLogout003 = test.createNode("nexGenLogout003");
+			// TO print the status in the report
+			nexGenLogout003.info(MarkupHelper.createLabel(
+					"nexGenLogout003 - Verified that popup appears with description test.", ExtentColor.CYAN));
+
+			// To get the description text
+			FlutterElement sideDrawerLogoutDescriptionText = find
+					.byValueKey(signInLocators.SIDEDRAWER_LOGOUT_DESCRIPTION_TEXT_VKL);
+			commonMethods.toGetTheTextOfTheElement(sideDrawerLogoutDescriptionText);
+
+			/**
+			 * @Class_Name SignIn
+			 * @Method_Name nexGenSignInLogout
+			 * @Description Ensure that while tapping the No button Popup should disappears.
+			 * @return FlutterElement
+			 * @author GaneshKumarSelvaraj
+			 * @testCaseID nexGenLogout004
+			 **/
+			ExtentTest nexGenLogout004 = test.createNode("nexGenLogout004");
+			// TO print the status in the report
+			nexGenLogout004.info(MarkupHelper.createLabel(
+					"nexGenLogout004 - Verified that popup disappears when user taps the No button", ExtentColor.CYAN));
+
+			// To tap the no button in the popup.
+			FlutterElement sideDrawerLogoutNoButton = find.byValueKey(signInLocators.SIDEDRAWER_LOGOUT_NO_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(sideDrawerLogoutNoButton);
+
+			/**
+			 * @Class_Name SignIn
+			 * @Method_Name nexGenSignInLogout
+			 * @Description Ensure that while tapping yes button user able to logout from
+			 *              side drawer and navigate to landing screen
+			 * @return FlutterElement
+			 * @author GaneshKumarSelvaraj
+			 * @testCaseID nexGenLogout005
+			 **/
+			ExtentTest nexGenLogout005 = test.createNode("nexGenLogout005");
+			// TO print the status in the report
+			nexGenLogout005.info(MarkupHelper
+					.createLabel("nexGenLogout005 - Verified that user able to logout successfully", ExtentColor.CYAN));
+
+			FlutterElement sideDrawerMenuClick = find.byValueKey(signInLocators.SIDE_DRAWER_BUTTON_CLICK_VKL);
+			commonMethods.checkAndClickTheElement(sideDrawerMenuClick);
+			
+			commonMethods.switchContext("NATIVE_APP");
+			Thread.sleep(3000);
+			commonMethods.clickSideDrawerElementIos(driver, "Logout");
+
+			commonMethods.switchContext("FLUTTER");
+
+			FlutterElement sideDrawerLogout = find.byValueKey(signInLocators.SIDEDRAWER_LOGOUT_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(sideDrawerLogout);
+
+			// To click the yes button on the Logout popup
+			FlutterElement sideDrawerLogoutDescription = find
+					.byValueKey(signInLocators.SIDEDRAWER_LOGOUT_DESCRIPTION_TEXT_VKL);
+			commonMethods.toGetTheTextOfTheElement(sideDrawerLogoutDescription);
+
+			// TO click the yes button
+			FlutterElement sideDrawerLogoutOkButtonVkl = find
+					.byValueKey(signInLocators.SIDEDRAWER_LOGOUT_YES_BUTTON_VKL);
+			// TO click the button
+			commonMethods.checkAndClickTheElement(sideDrawerLogoutOkButtonVkl);			
+			Thread.sleep(6000);
+			
+			nexGenLogout005.addScreenCaptureFromBase64String(takeScreenshot(driver),"Verified that user successfully logged out.");
+		} catch (Exception e) {
+			e.printStackTrace();
+			String nameofCurrMethod = new Object() {
+			}.getClass().getEnclosingMethod().getName();
+			Throwable t = new Exception(e);
+			test = extent.createTest(nameofCurrMethod).assignAuthor(author).assignDevice(deviceName)
+					.assignCategory("SignIn");
+			test.fail(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.BLUE));
+			test.fail(t).addScreenCaptureFromBase64String(takeScreenshot(driver));
+		}
+
+	}
+
+	public void nextGenLogoutSmoke() throws InterruptedException {
+		try {
+			Thread.sleep(6000);
+			FlutterFinder find = new FlutterFinder(driver);
+			String nameofCurrMethod = new Object() {
+			}.getClass().getEnclosingMethod().getName();
+			test = extent.createTest("nextGenSignIn_Logout").assignAuthor("Ganeshkumarselvaraj")
+					.assignDevice(deviceName).assignCategory("Logout");
+			test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+			IOSTouchAction touch = new IOSTouchAction(driver);
+			// FlutterFinder find = new FlutterFinder(driver);
+			/**
+			 * @Class_Name SignIn
+			 * @Method_Name nexGenSignInLogoutSmoke
+			 * @Description ensure that the side drawer icon on the dashboard and logout is
+			 *              present in the side drawer.
+			 * @return FlutterElement
+			 * @author GaneshKumarSelvaraj
+			 * @testCaseID nexGenLogout001
+			 **/
+			
+			ExtentTest nexGenSignInLogoutSmoke_001 = test.createNode("nextGenSignInLogout_001");
+			FlutterElement sidedrawerButtonVkl1 = find.byValueKey(signInLocators.SIDE_DRAWER_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(sidedrawerButtonVkl1);
+			commonMethods.switchContext("NATIVE_APP");
+			Thread.sleep(3000);
+			commonMethods.clickSideDrawerElementIos(driver, "LOGOUT");
+			commonMethods.switchContext("FLUTTER");
+			// To get the title of the logout screen
+			FlutterElement sideDrawerLogoutButtonVkl = find.byValueKey(signInLocators.SIDEDRAWER_LOGOUT_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(sideDrawerLogoutButtonVkl);
+			nexGenSignInLogoutSmoke_001.addScreenCaptureFromBase64String(takeScreenshot(driver));
+			// TO print the status in the report
+			nexGenSignInLogoutSmoke_001.info(MarkupHelper
+					.createLabel("nextGenSignInLogout_001 - Verified sidedrawersuccessfully opened", ExtentColor.CYAN));
+			/**
+			 * @Class_Name SignIn
+			 * @Method_Name nexGenSignInLogout
+			 * @Description Ensure that while tapping the No button Popup should disappears.
+			 * @return FlutterElement
+			 * @author GaneshKumarSelvaraj
+			 * @testCaseID nexGenSignInLogoutSmoke_002
+			 **/
+			ExtentTest nexGenSignInLogoutSmoke_002 = test.createNode("nexGenLogout002");
+			// TO print the status in the report
+			nexGenSignInLogoutSmoke_002.info(MarkupHelper.createLabel(
+					"nexGenSignInLogoutSmoke_002 - Verified that popup disappears when user taps the No button", ExtentColor.CYAN));
+			// To tap the no button in the popup.
+			FlutterElement sideDrawerLogoutNoButton = find.byValueKey(signInLocators.SIDEDRAWER_LOGOUT_NO_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(sideDrawerLogoutNoButton);
+			Thread.sleep(4000);
+			/**
+			 * @Class_Name SignIn
+			 * @Method_Name nexGenSignInLogout
+			 * @Description Ensure that while tapping yes button user able to logout from
+			 *              side drawer and navigate to landing screen
+			 * @return FlutterElement
+			 * @author GaneshKumarSelvaraj
+			 * @testCaseID nexGenSignInLogoutSmoke_003
+			 **/
+			ExtentTest nexGenSignInLogoutSmoke_003 = test.createNode("nexGenSignInLogoutSmoke_003");
+			FlutterElement sidedrawerButton = find.byValueKey(signInLocators.SIDE_DRAWER_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(sidedrawerButton);
+			
+			commonMethods.switchContext("NATIVE_APP");
+			Thread.sleep(3000);
+			commonMethods.clickSideDrawerElementIos(driver, "LOGOUT");
+			commonMethods.switchContext("FLUTTER");
+			
+			
+			FlutterElement sideDrawerLogoutButtonVkl3 = find.byValueKey(signInLocators.SIDEDRAWER_LOGOUT_BUTTON_VKL);
+			commonMethods.checkAndClickTheElement(sideDrawerLogoutButtonVkl3);
+			// TO click the yes button
+			FlutterElement sideDrawerLogoutOkButtonVkl = find
+					.byValueKey(signInLocators.SIDEDRAWER_LOGOUT_YES_BUTTON_VKL);
+			// TO click the button
+			commonMethods.checkAndClickTheElement(sideDrawerLogoutOkButtonVkl);
+			// TO print the status in the report
+			nexGenSignInLogoutSmoke_003.info(MarkupHelper.createLabel(
+					"nexGenSignInLogoutSmoke_003 - Verified that user tapped yes button successfully",
+					ExtentColor.CYAN));
+		} catch (Exception e5) {
+			// TODO: handle exception
+			e5.printStackTrace();
+			String nameofCurrMethod = new Object() {
+			}.getClass().getEnclosingMethod().getName();
+			Throwable t = new Exception(e5);
+			test = extent.createTest(nameofCurrMethod).assignAuthor("Ganeshkumarselvaraj").assignDevice(deviceName)
+					.assignCategory("LogoutSmoke");
+			test.fail(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.BLUE));
+			test.fail(t).addScreenCaptureFromBase64String(takeScreenshot(driver));
+		}
+	}
+
+}

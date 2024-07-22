@@ -1,0 +1,18 @@
+package com.base;
+
+import android.util.Base64;
+import javax.crypto.Mac;
+import java.nio.charset.StandardCharsets;
+
+public class New {
+    public static void main(String[] args) {
+
+    }
+
+    public static Mac getObj(byte[] bytes) {
+        // Dummy method to represent your existing method to get Mac object
+        // Replace this with your actual implementation
+        return null;
+    }
+}
+

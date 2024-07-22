@@ -1,0 +1,30 @@
+//
+// Copyright 2012 Paytronix Systems, Inc.
+// All Rights Reserved
+// PAYTRONIX CONFIDENTIAL
+//
+
+package com.exceptions;
+
+import java.util.Date;
+
+public class PxAlreadyCheckedInException extends Exception {
+    private static final long serialVersionUID = -1104093444426340593L;
+
+    private String shortCardNumber;
+    private Date expiration;
+
+    public PxAlreadyCheckedInException(String message, String shortCardNumber, Date expiration) {
+        super(message);
+        this.shortCardNumber = shortCardNumber;
+        this.expiration = expiration;
+    }
+
+    public String getShortCardNumber() {
+        return shortCardNumber;
+    }
+
+    public Date getExpiration() {
+        return expiration;
+    }
+}

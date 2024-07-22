@@ -1,0 +1,168 @@
+    package com.features;
+
+import java.net.MalformedURLException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
+import org.testng.annotations.Test;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.base.BaseClass;
+import com.base.CommonMethods;
+import com.locators.DashBoardLocators;
+import com.locators.DraftModeLocators;
+import com.locators.MessageLocators;
+import com.locators.SideDrawerLocators;
+import com.locators.SignInLocators;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.ios.IOSTouchAction;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
+import io.github.ashwith.flutter.FlutterElement;
+import io.github.ashwith.flutter.FlutterFinder;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
+
+public class APITesting extends BaseClass {
+
+	public static StringBuilder preCheckInTextString;
+	public static StringBuilder postCheckInTextString;
+	public static StringBuilder actualWelcome;
+	public static StringBuilder barcodeHeaderString;
+	public static StringBuilder welcomeString;
+	public static StringBuilder welcomeDefault;
+	public static StringBuilder pointTrackHead;
+	public static StringBuilder actualSubHeader;
+	public static StringBuilder responseHeader;
+	public static StringBuilder actualHeader;
+	public static StringBuilder availableRewardsHeaderString;
+	public static StringBuilder availableRewardsViewAllString;
+
+	public static String componentList;
+	public static String accessTokenGen;
+	public static String firstnameResponse;
+	public static String lastnameResponse;
+	public static String salutationResponse;
+	public static String welcomeResponse;
+	public static String welcomeResponseDefault;
+	public static String usernameResponse;
+	public static String contentValue;
+	public static String availableHeader;
+	public static String availableViewall;
+	public static String pointTrackerHeader;
+	public static String pointTrackerHeaderAlt;
+	public static String pointTrackerSubHeader;
+	public static String cardTemplateCdn;
+	public static String tierCdn;
+	public static String cardTemplate;
+	public static String tier;
+	public static String activeDate;
+	public static String expiryDate;
+	public static String favoriteStore;
+	public static String storeGroup;
+	public static String finalPointValue;
+	public static String pointBalance1;
+	public static String availableRewardsHeader;
+	public static String availableRewardsViewAll;
+	public static String availableRewardsAltText;
+	public static String pullMessageResponse;
+	public static String pullMessageHeaderResponse;
+	public static String barcodeAlttextResponse;
+	public static String barcodeHeaderResponse;
+	public static String codeSourceResponse;
+	public static String codeTypeResponse;
+	public static String mobilephoneResponse;
+	public static String phoneNumberResponse;
+	public static String imageUrl1;
+	public static String imageAltText;
+	public static String remainingValue;
+	public static String dateResponse;
+	public static String messageDescriptionResponse;
+	public static String formattedDate;
+	public static String expirationTimeResponse;
+	public static String storeCodeResponse;
+	public static String corpShortCardNumberResponse;
+	public static String preCheckInAltTextResponse;
+	public static String preCheckInTextResponse;
+	public static String postCheckInTextResponse;
+	public static String codeTypeCheckInResponse;
+	public static String codeSourceCheckInResponse;
+	public static String checkInStoreNameResponse;
+	public static String checkInStoreCodeResponse;
+	public static String shortCardNumberResponse;
+	public static String storeNameResponse;
+	public static String corpExpirationTimeResponse;
+	public static String corpStoreCodeResponse;
+	public static String corpStoreNameResponse;
+	public static String pointTrackerRewardsBalance;
+
+	public static String userName;
+	public static String passWord;
+	public static String merchantId;
+	public static String cardTemplateCode;
+	public static String storeGroupCode;
+	public static String clientId;
+	public static String integrationDetail;
+	public static String storeCode;	
+	public static String primaryCardNumbersResponse;
+
+	@Test()
+
+	public void apiTesting() throws Exception {
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		BaseClass bc = new BaseClass();
+		List<String> appConfiguration = bc.appConfiguration();
+		 userName = appConfiguration.get(6);
+		 passWord = appConfiguration.get(7);
+		 merchantId = appConfiguration.get(8);
+		 cardTemplateCode = appConfiguration.get(9);
+		 storeGroupCode = appConfiguration.get(10);
+		 clientId = appConfiguration.get(11);
+		 integrationDetail = appConfiguration.get(12);
+		 storeCode = appConfiguration.get(13);
+		 pointTrackerRewardsBalance = appConfiguration.get(16);
+
+		// Here hitting the signIn API using user name and password to get the access
+		// token and printed card number of the testing Account.
+
+		String jsonString = "{\n" + "    \"fields\": {\n" + "        \"username\": \""+userName+"\",\n"
+				+ "        \"password\": \""+passWord+"\"\n" + "    },\n" + "    \"cardTemplateCode\":"+cardTemplateCode+",\n"
+				+ "    \"scope\": \"user_read account_read account_write user_write\",\n"
+				+ "    \"merchantId\": "+merchantId+",\n"
+				+ "    \"grant_type\": \"http:\\/\\/paytronix.com\\/oauth\\/fieldset\",\n"
+				+ "    \"authentication\": \"anonymous\",\n"
+				+ "    \"access_token\": \"VDc_p1vU2AaPShcFTWcdX9BqRsaFf9upuMP7epvhWS\",\n"
+				+ "    \"client_id\": \""+clientId+"\"\n" + "}";
+
+		RequestSpecification request = io.restassured.RestAssured.given();
+
+		request.contentType(ContentType.JSON);
+		request.baseUri("https://www.train.paytronix.com:1283/rest/23.8/oauth/requestGuestToken.json");
+		request.body(jsonString);
+		Response response = request.post();
+		ValidatableResponse validatableResponse = response.then();
+		validatableResponse.statusCode(200);
+		JSONObject jObj = new JSONObject(response.body().asString());
+		accessTokenGen = jObj.optString("access_token");
+		primaryCardNumbersResponse = jObj.optString("printedCardNumber");
+		System.out.println(validatableResponse.statusCode(200));
+
+	}}

@@ -1,0 +1,41 @@
+package com.features;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+
+public class Main {
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        // Base URL
+        String baseUrl = "https://www.train.paytronix.com:1283/rest/23.8/oauth/requestGuestToken.json";
+
+        // JSON data
+        String username = "ganeshkumar.s@hoffensoft.com";
+        String password = "qwertyuiop";
+        int cardTemplateCode = 0;
+        String scope = "user_read account_read account_write user_write";
+        int merchantId = 60019;
+        String grantType = "http://paytronix.com/oauth/fieldset";
+        String authentication = "anonymous";
+        String accessToken = "VDc_p1vU2AaPShcFTWcdX9BqRsaFf9upuMP7epvhWS";
+        String clientId = "iiSaLI1xX2BXoEv6IoCJdNF4yF_HEKtqxu9qsXZQCA";
+
+        // Construct URL with query parameters
+        String urlWithParams = String.format(
+            "%s?username=%s&password=%s&cardTemplateCode=%d&scope=%s&merchantId=%d&grant_type=%s&authentication=%s&access_token=%s&client_id=%s",
+            baseUrl,
+            URLEncoder.encode(username, StandardCharsets.UTF_8.toString()),
+            URLEncoder.encode(password, StandardCharsets.UTF_8.toString()),
+            cardTemplateCode,
+            URLEncoder.encode(scope, StandardCharsets.UTF_8.toString()),
+            merchantId,
+            URLEncoder.encode(grantType, StandardCharsets.UTF_8.toString()),
+            URLEncoder.encode(authentication, StandardCharsets.UTF_8.toString()),
+            URLEncoder.encode(accessToken, StandardCharsets.UTF_8.toString()),
+            URLEncoder.encode(clientId, StandardCharsets.UTF_8.toString())
+        );
+
+        // Print the constructed URL
+        System.out.println("Constructed URL: " + urlWithParams);
+    }
+}

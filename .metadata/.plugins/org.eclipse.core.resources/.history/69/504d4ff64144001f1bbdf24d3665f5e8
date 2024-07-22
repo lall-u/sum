@@ -1,0 +1,109 @@
+package com.features;
+
+import java.util.Scanner;
+
+import org.testng.annotations.Test;
+
+import com.base.BaseClass;
+
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.ss.usermodel.*;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+public class MerchantSelection extends BaseClass {
+
+	@Test
+	public static String merchantSelection() {
+
+		Scanner scanner = new Scanner(System.in);
+
+		String input;
+
+		do {
+			System.out.print("Enter the merchant id you want to execute : ");
+
+			input = scanner.nextLine();
+
+			System.out.print("You have entered the merchant id : " + input + ". Confirm? (yes/no): ");
+
+			String confirmation = scanner.nextLine().toLowerCase();
+
+			if (confirmation.equals("yes")) {
+
+				System.out.println("Executing script for the merchant id : " + input);
+
+				break;
+
+			} else if (confirmation.equals("no")) {
+
+				System.out.print("Do you want to edit the merchant id? (yes/no): ");
+
+				String editOption = scanner.nextLine().toLowerCase();
+
+				if (editOption.equals("yes")) {
+
+					continue;
+
+				} else if (editOption.equals("no")) {
+
+					System.out.println("It seems you don't want to execute the script now.");
+
+					break;
+
+				} else {
+
+					System.out.println("Invalid response. Please enter 'yes' or 'no'.");
+				}
+
+			} else {
+
+				System.out.println("Invalid response. Please enter 'yes' or 'no'.");
+			}
+
+		} while (true);
+
+		scanner.close();
+
+		return input;
+	}
+
+	public static void excelReader(String input) throws EncryptedDocumentException, IOException {
+
+		String filePath = "./ConfigurationFiles/ExternalDatas.xlsx"; // Replace with your file path
+		String sheetName = "Merchant_Config"; // Replace with your sheet name
+
+		// Load the Excel file
+		InputStream inp = new FileInputStream(filePath);
+		Workbook workbook = WorkbookFactory.create(inp);
+
+		// Get the sheet by name
+		Sheet sheet = workbook.getSheet(sheetName);
+
+		if (sheet == null) {
+			throw new IllegalArgumentException("Sheet '" + sheetName + "' does not exist in the workbook.");
+		} else {
+
+			System.out.println("sheet is available");
+		}
+		for (Row row : sheet) {
+			Cell cell = row.getCell(3);
+			if (cell != null && cell.getCellType() == CellType.STRING && cell.getStringCellValue().equals(input)) {
+				System.out.println("equals input");
+				Cell adjacentCell = row.getCell(2);
+				if (adjacentCell != null) {
+					System.out.println("Adjacent value found: " + adjacentCell.getStringCellValue());
+					break;
+				} else {
+
+				}
+			}
+		}
+
+		workbook.close();
+		inp.close();
+	}
+
+}

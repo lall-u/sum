@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;NeedSomething.java&apos; to &apos;AT_Android/src/test/java/com.features&apos;&#x0A;- Original project: &apos;AT_IOS&apos;&#x0A;- Destination element: &apos;AT_Android/src/test/java/com.features&apos;&#x0A;- Original element: &apos;com.features.NeedSomething.java&apos;" description="Copy compilation unit" destination="=AT_Android/src\/test\/java=/test=/true=/=/optional=/true=/=/maven.pomderived=/true=/&lt;com.features" element1="/src\/test\/java=/test=/true=/=/optional=/true=/=/maven.pomderived=/true=/&lt;com.features{NeedSomething.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1716529687423" units="1" version="1.0"/>
+</session>

@@ -1,0 +1,18 @@
+package com.features;
+
+import java.io.IOException;
+
+import org.apache.poi.EncryptedDocumentException;
+
+public class Launch {
+	
+	
+	private void launch() throws EncryptedDocumentException, IOException {
+		
+		String merchantSelection = MerchantSelection.merchantSelection();
+		
+		MerchantSelection.excelReader(merchantSelection);
+
+	}
+
+}

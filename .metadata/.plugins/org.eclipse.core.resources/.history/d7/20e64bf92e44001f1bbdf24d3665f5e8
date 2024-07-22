@@ -1,0 +1,302 @@
+package com.base;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Base64;
+import jakarta.mail.internet.NewsAddress;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+import org.testng.annotations.Test;
+
+import android.text.TextUtils;
+
+public class Hmac {
+
+	// HMAC Key config
+
+//	private static String getAPIVersionNumber(Context ctx) {
+//		String app_ver = "";
+//		try {
+//			app_ver = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionName;
+//			app_ver = app_ver.substring(0, app_ver.lastIndexOf("."));
+//		} catch (NameNotFoundException e) {
+//			Log.v("Paytronix-API Version", e.getMessage());
+//		}
+//		return app_ver;
+//	}
+//
+//	private static String getPxAppVersion(Context ctx) {
+//		String app_ver = "";
+//		try {
+//			app_ver = ctx.getPackageManager().getPackageInfo(ctx.getPackageName(), 0).versionName;
+//			// app_ver = app_ver.substring(0, app_ver.lastIndexOf("."));
+//		} catch (NameNotFoundException e) {
+//			Log.v("PX-App-Version", e.getMessage());
+//		}
+//		return app_ver;
+//	}
+//
+//	private static String getMyVersion(Context ctx) {
+//		// Added by Minesh [AND-60090] starts
+//		String myVersion = Build.VERSION.RELEASE;
+//		// End
+//		return myVersion;
+//	}
+//
+//	private static void dumpResponse(HttpResponse r) throws IOException {
+//		Log.d("responseCode", String.valueOf(r.getStatusLine().getStatusCode()));
+//		for (Header h : r.getAllHeaders()) {
+//			Log.d("Header", h.getName() + " = " + h.getValue());
+//		}
+//	}
+//
+//	private static Map<String, String> parseHeader(Header h) {
+//		Map<String, String> m = new HashMap<String, String>();
+//		if (h != null && h.getElements() != null) {
+//			for (HeaderElement he : h.getElements()) {
+//				m.put(he.getName(), he.getValue());
+//			}
+//		}
+//		return m;
+//	}
+//
+//	private static JSONObject execute(Context ctx, HttpUriRequest method)
+//			throws PxException, IOException, PxInvalidTokenException, PxInsufficientTokenScopeException {
+//		HttpClient httpclient = new DefaultHttpClient();
+//		String res = null;
+//
+//		try {
+//			HttpResponse r = httpclient.execute(method);
+//			dumpResponse(r);
+//			int code = r.getStatusLine().getStatusCode();
+//			if (code >= 400) {
+//				// See if there is a body
+//				HttpEntity e = r.getEntity();
+//				String s = EntityUtils.toString(e, HTTP.UTF_8);
+//				if (s == null || s.length() == 0) {
+//					s = new BasicResponseHandler().handleResponse(r);
+//				}
+//				res = s;
+//				if (code == 401) {
+//					Map<String, String> hdrMap = parseHeader(r.getFirstHeader("WWW-Authenticate"));
+//					if ("Paytronix REST".equals(hdrMap.get("Bearer realm"))) {
+//						String error = hdrMap.get("error");
+//						String msg = hdrMap.get("error_description");
+//						if ("invalid_token".equals(error)) {
+//							throw new PxInvalidTokenException(msg);
+//						} else if ("insufficient_scope".equals(error)) {
+//							throw new PxInsufficientTokenScopeException(msg, res);
+//						}
+//					}
+//				}
+//			} else {
+//				res = new BasicResponseHandler().handleResponse(r);
+//			}
+//
+//			Log.d("body", res);
+////	        if (bool_account_info) {
+////	            account_status = res;
+////	        }
+//		} catch (ClientProtocolException e) {
+//			throw new PxException(e.getMessage(), null);
+//		}
+//		if (res == null || res.length() == 0) {
+//			throw new PxException("No response", null);
+//		}
+//
+//		JSONObject jo = null;
+//		try {
+//			jo = new JSONObject(res);
+//		} catch (JSONException e) {
+//			throw new PxException(e.getMessage(), res);
+//		}
+//		return jo;
+//	}
+//
+//	private static JSONObject get(Context ctx, String url, Map<String, String> headers)
+//			throws IOException, PxException, PxInvalidTokenException, PxInsufficientTokenScopeException {
+//
+//		String sUserAgent = "User-Agent";
+//		String sPaytronixAPI = "PaytronixAPI-Android";
+//		String sAppversion = "PX-App-Version";
+//		String sOsVersion = "PX-OS-Version";
+//		String sAndroidLabel = "Android Version";
+//
+//		Log.d("get", url);
+//		HttpGet httpget = new HttpGet(url);
+//		if (headers != null) {
+//			for (Entry<String, String> entry : headers.entrySet()) {
+//				httpget.setHeader(entry.getKey(), entry.getValue());
+//			}
+//
+//		}
+//		// Added the Paytronix API specific User agent for All GET Request
+//		httpget.setHeader(sUserAgent, sPaytronixAPI + " " + getAPIVersionNumber(ctx) + " | " + sAppversion + " - "
+//				+ getPxAppVersion(ctx) + " | " + sOsVersion + " - " + sAndroidLabel + " " + getMyVersion(ctx));
+//		httpget.setHeader(sAppversion, getPxAppVersion(ctx));
+//		httpget.setHeader(sOsVersion, sAndroidLabel + " " + getMyVersion(ctx));
+//		addMore(ctx, httpget, url, "");
+//		/* Log.d("post headers",new Gson().toJson(httpget.getAllHeaders())); */
+//		return execute(ctx, httpget);
+//	}
+//
+//	@Test
+//	private static void addMore(Context ctx, Object object, String url, String responseBody) {
+////      if (Spec.sAddiction != null && Spec.sDivision != null) {
+//		try {
+//			/*
+//			 * String pos1 = new String(Spec.sAddiction, 0, Spec.sAddiction.length,
+//			 * StandardCharsets.UTF_8); String pos2 = new String(Spec.sDivision, 0,
+//			 * Spec.sDivision.length, StandardCharsets.UTF_8);
+//			 */
+////              if (!TextUtils.isEmpty(pos1) && !TextUtils.isEmpty(pos2)) {
+//			String[] toSend;
+//			if (TextUtils.isEmpty(responseBody)) {
+//				toSend = new String[] { url };
+////                      toSend = new String[]{pos1, pos2, url};
+//			} else {
+//				toSend = new String[] { url, responseBody };
+////                      toSend = new String[]{pos1, pos2, url, responseBody};
+//			}
+//			String value = getSecondField(toSend);
+//			System.out.println(value);
+//			if (null != value) {
+//				if (object instanceof HttpGet) {
+//					HttpGet httpGet = (HttpGet) object;
+//					httpGet.setHeader(FIRST_NAME, value);
+//				} else if (object instanceof HttpPost) {
+//					HttpPost httpPost = (HttpPost) object;
+//					httpPost.setHeader(FIRST_NAME, value);
+//				} else if (object instanceof HttpDelete) {
+//					HttpDelete httpDelete = (HttpDelete) object;
+//					httpDelete.setHeader(FIRST_NAME, value);
+//				}
+//			}
+////              }
+//		} catch (Exception e) {
+//			Log.e("Error", "setMore: ", e);
+//		}
+//	}
+
+	@Test
+	private static void newss() {
+		
+		String url = "https://api.train.paytronix.com/rest/14.15/guest/accountInformation.json?printedCardNumber=600014883463&access_token=Gc53OT27TezSZhyvStDQ0VGfauES4yt1FZwSKqthkF&merchantId=60019&client_id=iiSaLI1xX2BXoEv6IoCJdNF4yF_HEKtqxu9qsXZQCA&authentication=oauth";
+		
+		String[] toSend;
+
+		toSend = new String[] { url };
+
+		String value = getSecondField(toSend);
+
+		System.out.println("value:" + value);
+
+		
+	}
+
+    public static String getSecondField(String[] args) {
+        System.out.println("second field");
+        String secondaryField = "";
+        try {
+            System.out.println("second label");
+            if (args != null && (args.length == 1 || args.length == 2)) {
+                System.out.println(" args length : " + args.length);
+
+                System.out.println("second label121");
+                String pos3 = args[0];
+                String pos4 = "";
+                if (args.length == 2) {
+                    System.out.println("second label12asasas1");
+                    pos4 = args[1];
+                } else {
+                    System.out.println("second987666");
+                    if (pos3.indexOf('?') < 0) {
+                        System.out.println("second label12asas2213123as1");
+                        return "";
+                    }
+                }
+                long run = System.currentTimeMillis();
+                System.out.println("pos3 : " + pos3);
+                System.out.println("pos4 : " + pos4);
+
+                byte[] lastBytes = Base64.getDecoder().decode(
+                        "WS8Vno8WcL+2MiLmWXjTKKh0dzvcqFeaTwPmJnqqGgTwXCe7C6PLOq+V0dVqPjQo172bDhMqJNAhpcDmMWCS4Q==");
+                
+                System.out.println("bytes" + Arrays.toString(lastBytes));
+
+                Mac obj = getObj(lastBytes);
+
+                if (obj != null && pos3 != null && !pos3.isEmpty()) {
+                	
+                	System.out.println("ultis");
+                	
+                	System.out.println("run :"+run);
+                	
+                	System.out.println("pos3 : "+pos3);
+                	
+                    String ip = buildIp(run, pos3, pos4);
+                    
+                    if (ip != null && !ip.isEmpty()) {
+                    	
+                    	System.out.println("ulti");
+                        secondaryField = ultimateRes(obj, run, ip);
+                    }
+                }
+                pos3 = null;
+                pos4 = null;
+                obj = null;
+            }
+        } catch (Exception e) {
+            System.out.println("Error occurred: " + e.getMessage());
+            return "";
+        }
+
+        System.out.println("second field 1");
+        System.out.println("secondary field :" + secondaryField);
+        return secondaryField;
+    }
+
+	private static Mac getObj(byte[] basic) {
+		try {
+			Mac obj = Mac.getInstance(LAST_NAME);
+			SecretKeySpec secretKey = new SecretKeySpec(basic, LAST_NAME);
+			obj.init(secretKey);
+			return obj;
+		} catch (Exception e) {
+			return null;
+		}
+	}
+
+	private static String buildIp(long run, String pos3, String pos4) {
+		try {
+			StringBuilder sb = new StringBuilder();
+			sb.append(run);
+			sb.append(pos3.substring(pos3.lastIndexOf('/') + 1));
+			if (!TextUtils.isEmpty(pos4)) {
+				sb.append(pos4);
+			}
+			return sb.toString();
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			return "";
+		}
+	}
+
+	private static String ultimateRes(Mac obj, long run, String ip) throws AssertionError, IllegalStateException {
+	    try {
+	        String sb = String.valueOf(run) + ';' + Base64.getEncoder().encodeToString(obj.doFinal(ip.getBytes(StandardCharsets.UTF_8)));
+	        return Base64.getEncoder().encodeToString(sb.getBytes(StandardCharsets.UTF_8));
+	    } catch (Exception e) {
+	        return "";
+	    }
+	}
+
+	public static final String FIRST_NAME = new String(
+			new char[] { 88, 45, 80, 88, 45, 82, 101, 113, 117, 101, 115, 116, 45, 73, 68 });
+
+	public static final String LAST_NAME = new String(new char[] { 72, 109, 97, 99, 83, 72, 65, 50, 53, 54 });
+
+}

@@ -1,0 +1,11 @@
+package com.base;
+
+public class Snippet {
+	private static void dumpResponse(HttpResponse r) throws IOException {
+	    Log.d("responseCode", String.valueOf(r.getStatusLine().getStatusCode()));
+	    for (Header h : r.getAllHeaders()) {
+	        Log.d("Header", h.getName() + " = " + h.getValue());
+	    }
+	}
+}
+

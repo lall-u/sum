@@ -1,0 +1,61 @@
+package org.sample.Sample;
+
+import java.net.URL;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+/**
+ * Unit test for simple App.
+ */
+public class AppTest 
+    extends TestCase
+{
+    /**
+     * Create the test case
+     *
+     * @param testName name of the test case
+     */
+    public AppTest( String testName )
+    {
+    	
+    	IOSDriver<WebElement> driver;
+		DesiredCapabilities caps = new DesiredCapabilities();
+		caps.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone 13 pro max");
+		caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
+		caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "15.5");
+		caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Flutter");
+//		caps.setCapability(MobileCapabilityType.APP, "/Users/hoffensoft/Desktop/next_gen_app.ipa");
+		caps.setCapability("bundleId", "com.paytronix.nexgenfl");
+		caps.setCapability(MobileCapabilityType.UDID, "B534B9BD-7BAA-4A82-BC6F-6E121D15A470");
+		caps.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "300");
+		caps.setCapability(MobileCapabilityType.LOCALE, "en");
+		caps.setCapability(MobileCapabilityType.LANGUAGE, "en");
+
+		driver = new IOSDriver<WebElement>(new URL("http://0.0.0.0:4723/wd/hub"), caps);
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+    }
+
+    /**
+     * @return the suite of tests being tested
+     */
+    public static Test suite()
+    {
+        return new TestSuite( AppTest.class );
+    }
+
+    /**
+     * Rigourous Test :-)
+     */
+    public void testApp()
+    {
+        assertTrue( true );
+    }
+}

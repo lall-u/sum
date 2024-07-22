@@ -1,0 +1,15 @@
+//
+// Copyright 2012 Paytronix Systems, Inc.
+// All Rights Reserved
+// PAYTRONIX CONFIDENTIAL
+//
+
+package com.exceptions;
+
+public class PxInvalidTokenException extends Exception {
+    private static final long serialVersionUID = -3858933897016432281L;
+    
+    public PxInvalidTokenException(String message) {
+        super(message);
+    }
+}

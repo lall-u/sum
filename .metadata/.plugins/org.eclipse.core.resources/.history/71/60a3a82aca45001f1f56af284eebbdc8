@@ -1,0 +1,1412 @@
+package com.base;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import org.json.JSONObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.locators.CrossSellLocators;
+
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.ios.IOSDriver;
+
+import io.appium.java_client.ios.IOSTouchAction;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
+import io.github.ashwith.flutter.FlutterFinder;
+
+public class CommonMethods extends BaseClass {
+
+	static CrossSellLocators crossSellLocators = new CrossSellLocators();
+
+	public String toGetAState(String stateCodeSelected) {
+		// Initialize map to store state abbreviations
+		Map<String, String> stateCodeMap = new HashMap<>();
+
+		// Populate the map with state codes and their abbreviations
+		stateCodeMap.put("AL", "Alabama");
+		stateCodeMap.put("AK", "Alaska");
+		stateCodeMap.put("AB", "Alberta");
+		stateCodeMap.put("AS", "American Samoa");
+		stateCodeMap.put("AZ", "Arizona");
+		stateCodeMap.put("AR", "Arkansas");
+		stateCodeMap.put("AA", "Armed Forces Americas");
+		stateCodeMap.put("AE", "Armed Forces Europe");
+		stateCodeMap.put("AP", "Armed Forces Pacific");
+		stateCodeMap.put("BC", "British Columbia");
+		stateCodeMap.put("CA", "California");
+		stateCodeMap.put("CO", "Colorado");
+		stateCodeMap.put("CT", "Connecticut");
+		stateCodeMap.put("DE", "Delaware");
+		stateCodeMap.put("DC", "District of Columbia");
+		stateCodeMap.put("FM", "Federated States of Micronesia");
+		stateCodeMap.put("FL", "Florida");
+		stateCodeMap.put("GA", "Georgia");
+		stateCodeMap.put("GU", "Guam");
+		stateCodeMap.put("HI", "Hawaii");
+		stateCodeMap.put("ID", "Idaho");
+		stateCodeMap.put("IL", "Illinois");
+		stateCodeMap.put("IN", "Indiana");
+		stateCodeMap.put("IA", "Iowa");
+		stateCodeMap.put("KS", "Kansas");
+		stateCodeMap.put("KY", "Kentucky");
+		stateCodeMap.put("LA", "Louisiana");
+		stateCodeMap.put("ME", "Maine");
+		stateCodeMap.put("MB", "Manitoba");
+		stateCodeMap.put("MH", "Marshall Islands");
+		stateCodeMap.put("MD", "Maryland");
+		stateCodeMap.put("MA", "Massachusetts");
+		stateCodeMap.put("MI", "Michigan");
+		stateCodeMap.put("MN", "Minnesota");
+		stateCodeMap.put("MS", "Mississippi");
+		stateCodeMap.put("MO", "Missouri");
+		stateCodeMap.put("MT", "Montana");
+		stateCodeMap.put("NE", "Nebraska");
+		stateCodeMap.put("NV", "Nevada");
+		stateCodeMap.put("NB", "New Brunswick");
+		stateCodeMap.put("NH", "New Hampshire");
+		stateCodeMap.put("NJ", "New Jersey");
+		stateCodeMap.put("NM", "New Mexico");
+		stateCodeMap.put("NY", "New York");
+		stateCodeMap.put("NL", "Newfoundland and Labrador");
+		stateCodeMap.put("NC", "North Carolina");
+		stateCodeMap.put("ND", "North Dakota");
+		stateCodeMap.put("NT", "Northwest Territories");
+		stateCodeMap.put("MP", "Northern Mariana Islands");
+		stateCodeMap.put("NU", "Nunavut");
+		stateCodeMap.put("OH", "Ohio");
+		stateCodeMap.put("OK", "Oklahoma");
+		stateCodeMap.put("ON", "Ontario");
+		stateCodeMap.put("OR", "Oregon");
+		stateCodeMap.put("PW", "Palau");
+		stateCodeMap.put("PA", "Pennsylvania");
+		stateCodeMap.put("PE", "Prince Edward Island");
+		stateCodeMap.put("PR", "Puerto Rico");
+		stateCodeMap.put("QC", "Quebec");
+		stateCodeMap.put("RI", "Rhode Island");
+		stateCodeMap.put("SK", "Saskatchewan");
+		stateCodeMap.put("SC", "South Carolina");
+		stateCodeMap.put("SD", "South Dakota");
+		stateCodeMap.put("TN", "Tennessee");
+		stateCodeMap.put("TX", "Texas");
+		stateCodeMap.put("UT", "Utah");
+		stateCodeMap.put("VT", "Vermont");
+		stateCodeMap.put("VI", "Virgin Islands");
+		stateCodeMap.put("VA", "Virginia");
+		stateCodeMap.put("WA", "Washington");
+		stateCodeMap.put("WV", "West Virginia");
+		stateCodeMap.put("WI", "Wisconsin");
+		stateCodeMap.put("WY", "Wyoming");
+		stateCodeMap.put("YT", "Yukon");
+		// Add more state abbreviations as needed
+
+		// Example usage: Get abbreviation by state code
+		// Example state code
+		String abbreviation = stateCodeMap.get(stateCodeSelected);
+
+		// Output the abbreviation
+		if (abbreviation != null) {
+			System.out.println("Abbreviation for " + stateCodeSelected + ": " + abbreviation);
+		} else {
+			System.out.println("Abbreviation not found for state code: " + stateCodeSelected);
+		}
+
+		return abbreviation;
+
+	}
+
+	/********************************************************************************************************
+	 * Method Name : checkAndClickTheElement ; Description : To check whether the
+	 * element is present and click the element; Author : Ganeshkumarselvaraj ;
+	 * Return type : WebElement ; Parameters : Element ; Application: JK CAFE -
+	 * (60019);
+	 *********************************************************************************************************/
+	public void checkAndClickTheElement(WebElement element) {
+
+		try {
+			element.click();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Element not found or not Available");
+		}
+
+	}
+
+	/*******************************************************************************************************
+	 * Method Name : checkAndSendTheValue ; Description : To check whether the
+	 * element is present and send the value as a string; Author
+	 * :Ganeshkumarselvaraj ; Return type : WebElement ; Parameters : Element ;
+	 * Application: JK CAFE - (60019);
+	 *******************************************************************************************************/
+
+	public void checkAndSendTheValue(WebElement element, String ref) {
+
+		try {
+			element.sendKeys(ref);
+			System.out.println("Value successfully entered in the text field");
+
+		} catch (NoSuchElementException e) {
+			e.printStackTrace();
+			System.out.println("Element not found or not Available");
+		}
+
+	}
+
+	/******************************************************************************************************
+	 * Method Name : toGetTheTextOfTheElement ; Description : To get the text of the
+	 * element; Author : Ganeshkumarselvaraj ; Return type : WebElement ; Parameters
+	 * : Element ; Application: JK CAFE - (60019);
+	 *******************************************************************************************************/
+
+	public String toGetTheTextOfTheElement(WebElement element) {
+		String txt = element.getText();
+		System.out.println("TEXT IS : " + txt);
+		return txt;
+
+	}
+
+	/*****************************************************************************************************
+	 * Method Name : checkAndSendTheValue ; Description : To check whether the
+	 * Element is available and send the value as string; Author :
+	 * Ganeshkumarselvaraj ; Return type : WebElement,long ; Parameters : Element ,
+	 * ref ; Application: JK CAFE - (60019);
+	 *****************************************************************************************************/
+	public void checkAndSendTheValue(WebElement element, long ref) {
+		try {
+			String txt = String.valueOf(ref);
+			element.sendKeys(txt);
+			System.out.println("Value successfully entered in the text field");
+		} catch (NoSuchElementException e) {
+			e.printStackTrace();
+			System.out.println("Element not found or not Available");
+		}
+
+	}
+
+	/****************************************************************************************************
+	 * Method Name : checkTheInputFieldIsEmpty ; Description : To check whether the
+	 * text field id empty or not; Author : Ganeshkumarselvaraj ; Return type :
+	 * WebElement ; Parameters : Element ; Application: JK CAFE - (60019);
+	 *****************************************************************************************************/
+
+	public void checkTheInputFieldIsEmpty(WebElement element) {
+
+		try {
+			String txt = element.getText();
+			/** TO validate text entered or not in textbox **/
+			if (txt.endsWith(".com")) {
+				System.out.println("Email/Password text is entered ");
+			} else {
+				System.out.println("Email/Password is not entered ");
+			}
+
+		} catch (NoSuchElementException e) {
+			e.printStackTrace();
+			System.out.println("Element not found or not Available");
+		}
+
+	}
+
+	public void setSeekBarValue1(IOSDriver driver, WebElement seekBar, int desiredValue) {
+		int startX = seekBar.getLocation().getX();
+		int endX = startX + seekBar.getSize().getWidth();
+//		int yAxis = seekBar.getLocation().getY() + (seekBar.getSize().getHeight() / 2);
+		// Set the default range
+		int defaultStartValue = 0;
+		int defaultEndValue = 100;
+		// Calculate the percentage based on the desired value and default range
+		int desiredPercentage = (desiredValue - defaultStartValue) * 100 / (defaultEndValue - defaultStartValue);
+		// Calculate the desired position on the seek bar based on the percentage
+		int moveTo = startX + ((endX - startX) * desiredPercentage / 100);
+		Actions actions = new Actions(driver);
+		actions.clickAndHold(seekBar).moveByOffset(moveTo - startX, 0).release().build().perform();
+	}
+
+	public void setSliderValue(WebElement slider, int desiredValue) {
+		int minValue = 0;
+		int maxValue = 100;
+		double sliderPosition = (double) (desiredValue - minValue) / (maxValue - minValue);
+		((MobileElement) slider).setValue(String.valueOf(sliderPosition));
+	}
+
+	public void setAppLocationServices(String appBundleId) throws InterruptedException {
+		driver.activateApp("com.apple.Preferences");
+		Thread.sleep(5000);
+
+		IOSTouchAction touch = new IOSTouchAction(driver);
+		touch.press(PointOption.point(180, 750)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(2)))
+				.moveTo(PointOption.point(180, 350)).release().perform();
+		WebElement setting = driver.findElement(By.id("NGA JK Cafe"));
+		setting.click();
+
+		Thread.sleep(3000);
+		driver.findElement(By.id("Location")).click();
+		Thread.sleep(3000);
+		driver.findElement(By.id("Always")).click();
+		Thread.sleep(3000);
+		driver.activateApp(appBundleId);
+		// Add appropriate waits as necessary
+	}
+
+	public void toScrollUptoElement(String value) {
+		HashMap<String, Object> ScrollObject = new HashMap<String, Object>();
+		ScrollObject.put("direction", "down");
+		ScrollObject.put("value", value);
+		driver.executeScript("mobile:scroll", ScrollObject);
+	}
+
+	public void scrollToCenter(IOSDriver driver, WebElement element) {
+		// Get the element's location and size
+		org.openqa.selenium.Point elementLocation = element.getLocation();
+		org.openqa.selenium.Dimension elementSize = element.getSize();
+
+		// Get the screen dimensions
+		Dimension screenSize = driver.manage().window().getSize();
+
+		// Calculate the center of the screen
+		int centerX = screenSize.getWidth() / 2;
+		int centerY = screenSize.getHeight() / 2;
+
+		// Calculate the scroll amount
+		int scrollX = centerX - (elementLocation.getX() + elementSize.getWidth() / 2);
+		int scrollY = centerY - (elementLocation.getY() + elementSize.getHeight() / 2);
+
+		// Perform the scroll action
+		IOSTouchAction touchAction = new IOSTouchAction(driver);
+		touchAction.press(PointOption.point(centerX, centerY))
+				.moveTo(PointOption.point(centerX - scrollX, centerY - scrollY)).release().perform();
+	}
+
+	public void clickSideDrawerElementIos(AppiumDriver<WebElement> driver, String textToSearch) throws Exception {
+		boolean elementFound = false;
+		while (!elementFound) {
+			// Check if the logout element is available
+			List<WebElement> elements = driver.findElements(By.xpath(
+					"//XCUIElementTypeStaticText[contains(translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), '"
+							+ textToSearch.toLowerCase() + "')]"));
+			for (WebElement element : elements) {
+				if (element.isDisplayed() && element.isEnabled()) {
+					Thread.sleep(3000);
+					IOSTouchAction touchAction = new IOSTouchAction(driver);
+					touchAction.press(PointOption.point(150, 700))
+							.waitAction(WaitOptions.waitOptions(Duration.ofMillis(3500)))
+							.moveTo(PointOption.point(150, 550)).release().perform();
+					elementFound = true;
+					break;
+				}
+			}
+			if (!elementFound) {
+				IOSTouchAction touchAction = new IOSTouchAction(driver);
+				touchAction.press(PointOption.point(150, 700))
+						.waitAction(WaitOptions.waitOptions(Duration.ofMillis(3000)))
+						.moveTo(PointOption.point(150, 550)).release().perform();
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					Thread.currentThread().interrupt();
+				}
+			}
+		}
+	}
+
+	public void clickSideDrawerElement(AppiumDriver<WebElement> driver, String textToSearch) {
+		String lowerTextToSearch = textToSearch.toLowerCase(); // Convert search text to ignore case sensitive
+
+		while (true) {
+			// Check if any elements with text match the "lowerTextToSearch" are visible
+			List<WebElement> elements = driver.findElements(By.xpath(
+					"//android.view.View[contains(translate(@content-desc,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'"
+							+ lowerTextToSearch + "')]"));
+			if (elements.size() > 0) {
+				// Click on the first visible element
+				for (WebElement element : elements) {
+					if (element.isDisplayed()) {
+
+						System.out.println("Element is displayed");
+
+//						element.click();
+						return;
+					}
+				}
+
+				break;
+			} else {
+				// Scroll down the dropdown to look for more elements
+				TouchAction touchAction = new TouchAction(driver);
+				touchAction.press(PointOption.point(400, 2000))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(2))).moveTo(PointOption.point(400, 700))
+						.release().perform();
+			}
+		}
+	}
+
+	@Test
+	public String stringsReader(String param) {
+		try {
+			// Provide the path to your JSON file
+			String filePath = "./StringsConfigurationFile/en_US.json";
+
+			// Read the JSON file
+			String content = new String(Files.readAllBytes(Paths.get(filePath)));
+
+			// Parse the JSON content
+			JSONObject jsonObject = new JSONObject(content);
+
+//	        System.out.println("Parsed JSON: " + jsonObject.toString());
+
+			// Get the string value based on the JSON structure
+			String desiredValue = jsonObject.getString(param);
+
+			System.out.println("Desired Value: " + desiredValue);
+
+			// Return the desired value
+			return desiredValue;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			// Handle the exception and return an appropriate value or throw an exception if
+			// needed
+			return null; // or throw new RuntimeException("Error reading JSON file", e);
+		}
+	}
+
+	/********************************************************************************************************************
+	 * Method Name : appLaunch ; Description : To Launch the Application using the
+	 * capabilities ; Author : Ganeshkumarselvaraj ; Application: JK CAFE - (60019);
+	 *******************************************************************************************************************/
+
+	public static void switchContext(String context) {
+		Set<String> contexts = driver.getContextHandles();
+		for (String appContext : contexts) {
+			if (appContext.contains(context)) {
+				driver.context(appContext);
+				break;
+			}
+		}
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollOptionsGroupDownNonLowerCase
+	 * @Description Contains code to scroll to the desired element from the input using lowercase
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void scrollOptionsGroupDownNonLowerCase(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(3000);
+
+		By targetElementLocator = By
+				.xpath("//*[contains(translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+		boolean elementFound = false;
+		while (!elementFound) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator);
+
+				if (element.isDisplayed()) {
+					IOSTouchAction IOSTouchAction4 = new IOSTouchAction(driver);
+					IOSTouchAction4.press(PointOption.point(150, 650))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(150, 550)).release().perform();
+
+					try {
+						elementFound = true;
+
+					} catch (Exception clickException) {
+						IOSTouchAction IOSTouchAction = new IOSTouchAction(driver);
+						IOSTouchAction.press(PointOption.point(150, 650))
+								.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+								.moveTo(PointOption.point(150, 550)).release().perform();
+					}
+				} else {
+					IOSTouchAction IOSTouchAction = new IOSTouchAction(driver);
+					IOSTouchAction.press(PointOption.point(150, 650))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(150, 550)).release().perform();
+				}
+			} catch (NoSuchElementException e2) {
+				IOSTouchAction IOSTouchAction = new IOSTouchAction(driver);
+				IOSTouchAction.press(PointOption.point(150, 650))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3))).moveTo(PointOption.point(150, 550))
+						.release().perform();
+			}
+
+		}
+		if (!elementFound) {
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(1200);
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollOptionsGroupDownFeedback
+	 * @Description Contains code to scroll to the desired element from the input specifically in FEEDBACK screen
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void scrollOptionsGroupDownFeedback(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		By targetElementLocator3 = By
+				.xpath("//*[contains(translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+
+		int maxScrollAttempts3 = 5;
+
+		for (int j1 = 0; j1 <= maxScrollAttempts3; j1++) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator3);
+				if (element.isDisplayed()) {
+					IOSTouchAction IOSTouchAction4 = new IOSTouchAction(driver);
+					IOSTouchAction4.press(PointOption.point(300, 650))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(300, 550)).release().perform();
+					break;
+				}
+			} catch (Exception e2) {
+
+				IOSTouchAction IOSTouchAction4 = new IOSTouchAction(driver);
+				IOSTouchAction4.press(PointOption.point(300, 650))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3))).moveTo(PointOption.point(300, 550))
+						.release().perform();
+			}
+
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name elementFoundOrNotFeedback
+	 * @Description Contains code to check whether the element is displayed or not in the feedback screen
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean elementFoundOrNotFeedback(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		boolean displayed = false;
+
+		By targetElementLocator3 = By
+				.xpath("//*[contains(translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+
+		int maxScrollAttempts3 = 6;
+
+		for (int j1 = 0; j1 <= maxScrollAttempts3; j1++) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator3);
+
+				displayed = element.isDisplayed();
+
+				if (displayed == true) {
+
+					IOSTouchAction IOSTouchAction4 = new IOSTouchAction(driver);
+					IOSTouchAction4.press(PointOption.point(300, 650))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(300, 550)).release().perform();
+					break;
+				}
+			} catch (Exception e2) {
+
+				IOSTouchAction IOSTouchAction4 = new IOSTouchAction(driver);
+				IOSTouchAction4.press(PointOption.point(300, 650))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3))).moveTo(PointOption.point(300, 550))
+						.release().perform();
+			}
+
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+		return displayed;
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name jkCafeRecommendedMenuItemCount
+	 * @Description Contains code to get the count of recommended menu item count
+	 *              from the app settings file for the JK CAFE
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @return
+	 * @throws Exception
+	 */
+	public int jkCafeRecommendedMenuItemCount() {
+
+		try {
+			// Provide the path to your JSON file
+			String filePath = "./StringsConfigurationFile/app_settings.json";
+
+			// Read the JSON file
+			String content = new String(Files.readAllBytes(Paths.get(filePath)));
+
+			// Parse the JSON content
+			JSONObject jsonObject = new JSONObject(content);
+
+			// Get the string value based on the JSON structure
+
+			JSONObject optJSONObject = jsonObject.optJSONObject("jk");
+
+			JSONObject optJSONObject2 = optJSONObject.optJSONObject("od_settings");
+
+			JSONObject optJSONObject3 = optJSONObject2.optJSONObject("menu_settings");
+
+			String optString = optJSONObject3.optString("recommended_menu_item_count");
+
+			int recommendedMenuItemCount = Integer.parseInt(optString);
+
+			return recommendedMenuItemCount;
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+			return -1;
+			// Handle the exception and return an appropriate value or throw an exception if
+			// needed
+		}
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name jkCafeRecommendedMenuEnabledorNot
+	 * @Description Contains code to check whether the recommended for you is
+	 *              enabled or not from the app settings file for the JK CAFE
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean jkCafeRecommendedMenuEnabledorNot() {
+
+		try {
+			// Provide the path to your JSON file
+			String filePath = "./StringsConfigurationFile/app_settings.json";
+
+			// Read the JSON file
+			String content = new String(Files.readAllBytes(Paths.get(filePath)));
+
+			// Parse the JSON content
+			JSONObject jsonObject = new JSONObject(content);
+
+			// Get the string value based on the JSON structure
+
+			JSONObject optJSONObject = jsonObject.optJSONObject("jk");
+
+			JSONObject optJSONObject2 = optJSONObject.optJSONObject("od_settings");
+
+			JSONObject optJSONObject3 = optJSONObject2.optJSONObject("menu_settings");
+
+			boolean optString = optJSONObject3.optBoolean("is_menu_recommendation_enabled");
+
+			return optString;
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+			return false;
+			// Handle the exception and return an appropriate value or throw an exception if
+			// needed
+		}
+	}
+
+    public void crossSellPopUpBottomSheetClose() throws InterruptedException {
+    	
+        FlutterFinder find = new FlutterFinder(driver);
+        
+        CrossSellLocators crossSellLocators = new CrossSellLocators();
+        
+        String addToOrderText = stringsReader(crossSellLocators.CROSS_SELL_POPUP_ADD_TO_ORDER_TEXT);
+        
+        String itemAddedText = stringsReader(crossSellLocators.CROSS_SELL_POPUP_ITEM_ADDED_TEXT);
+        
+        boolean addToOrderTextBoolean = elementFoundOrNotPopUp(addToOrderText);
+        boolean itemAddedTextBoolean = elementFoundOrNotPopUp(itemAddedText);
+        
+        if(addToOrderTextBoolean==true) {
+            
+            find.byValueKey(crossSellLocators.CROSS_SELL_POPUP_CLOSE_ICON_VKL).click();
+        }
+        
+        else if(itemAddedTextBoolean==true) {
+            
+            find.byValueKey(crossSellLocators.CROSS_SELL_BOTTOMSHEET_CLOSE_ICON_VKL).click();
+        }
+        
+    }
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollOptionsGroupDown
+	 * @Description Contains code to scroll to the desired element from the input
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void scrollOptionsGroupDown(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(3000);
+
+		By targetElementLocator = By
+				.xpath("//*[contains(translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+		boolean elementFound = false;
+		while (!elementFound) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator);
+
+				if (element.isDisplayed()) {
+					IOSTouchAction IOSTouchAction4 = new IOSTouchAction(driver);
+					IOSTouchAction4.press(PointOption.point(150, 650))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(150, 550)).release().perform();
+
+					try {
+						elementFound = true;
+
+					} catch (Exception clickException) {
+						IOSTouchAction IOSTouchAction = new IOSTouchAction(driver);
+						IOSTouchAction.press(PointOption.point(150, 650))
+								.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+								.moveTo(PointOption.point(150, 550)).release().perform();
+					}
+				} else {
+					IOSTouchAction IOSTouchAction = new IOSTouchAction(driver);
+					IOSTouchAction.press(PointOption.point(150, 650))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(150, 550)).release().perform();
+				}
+			} catch (NoSuchElementException e2) {
+				IOSTouchAction IOSTouchAction = new IOSTouchAction(driver);
+				IOSTouchAction.press(PointOption.point(150, 650))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3))).moveTo(PointOption.point(150, 550))
+						.release().perform();
+			}
+
+		}
+		if (!elementFound) {
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(1200);
+
+	}
+	
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollDownAndClick
+	 * @Description Contains code to scroll to the desired element from the input and click it
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void scrollDownAndClick(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(3000);
+
+		By targetElementLocator = By
+				.xpath("//*[contains(translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+		boolean elementFound = false;
+		while (!elementFound) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator);
+
+				if (element.isDisplayed()) {
+					IOSTouchAction IOSTouchAction4 = new IOSTouchAction(driver);
+					IOSTouchAction4.press(PointOption.point(150, 650))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(150, 550)).release().perform();
+					
+					element.click();
+
+					try {
+						elementFound = true;
+
+					} catch (Exception clickException) {
+						IOSTouchAction IOSTouchAction = new IOSTouchAction(driver);
+						IOSTouchAction.press(PointOption.point(150, 650))
+								.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+								.moveTo(PointOption.point(150, 550)).release().perform();
+					}
+				} else {
+					IOSTouchAction IOSTouchAction = new IOSTouchAction(driver);
+					IOSTouchAction.press(PointOption.point(150, 650))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(150, 550)).release().perform();
+				}
+			} catch (NoSuchElementException e2) {
+				IOSTouchAction IOSTouchAction = new IOSTouchAction(driver);
+				IOSTouchAction.press(PointOption.point(150, 650))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3))).moveTo(PointOption.point(150, 550))
+						.release().perform();
+			}
+
+		}
+		if (!elementFound) {
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(1200);
+
+	}
+
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollUp
+	 * @Description Contains code to scrollup in the screen
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void scrollUp() throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(1000);
+
+		IOSTouchAction IOSTouchAction4 = new IOSTouchAction(driver);
+		IOSTouchAction4.press(PointOption.point(150, 550)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+				.moveTo(PointOption.point(150, 650)).release().perform();
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(1000);
+
+	}
+
+
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollUp
+	 * @Description Contains code to scrollup in the screen
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void scrollDownFeedback() throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(1000);
+
+		IOSTouchAction IOSTouchAction4 = new IOSTouchAction(driver);
+		IOSTouchAction4.press(PointOption.point(300, 650)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+				.moveTo(PointOption.point(300, 350)).release().perform();
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(1000);
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name elementFoundOrNot
+	 * @Description Contains code to scroll to the desired element from the input
+	 * @return boolean
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+
+	public boolean elementFoundOrNot(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		boolean displayed = false;
+
+		By targetElementLocator3 = By
+				.xpath("//*[contains(translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+
+		int maxScrollAttempts3 = 5;
+
+		for (int j1 = 0; j1 <= maxScrollAttempts3; j1++) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator3);
+
+				displayed = element.isDisplayed();
+
+				if (displayed == true) {
+					IOSTouchAction IOSTouchAction4 = new IOSTouchAction(driver);
+					IOSTouchAction4.press(PointOption.point(150, 650))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(150, 550)).release().perform();
+					break;
+				}
+			} catch (Exception e2) {
+
+				IOSTouchAction IOSTouchAction4 = new IOSTouchAction(driver);
+				IOSTouchAction4.press(PointOption.point(150, 650))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3))).moveTo(PointOption.point(150, 400))
+						.release().perform();
+			}
+
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+		return displayed;
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name elementFoundOrNotPopUp
+	 * @Description Contains code to scroll to the desired element from the input
+	 * @return boolean
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+
+	public boolean elementFoundOrNotPopUp(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		boolean displayed = false;
+
+		By targetElementLocator3 = By
+				.xpath("//*[contains(translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+
+		try {
+			WebElement element = driver.findElement(targetElementLocator3);
+
+			displayed = element.isDisplayed();
+
+			if (displayed == true) {
+
+				System.out.println(" The element : " + input + " is displayed");
+
+			}
+		} catch (Exception e) {
+
+			System.out.println("Element is not displayed");
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+		return displayed;
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name elementIsDisplayed
+	 * @Description Contains code to validate whether the element is displayed or not
+	 * @return boolean
+	 * @author Lalith Kishore Ravi
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean elementIsDisplayed(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(5000);
+
+		boolean displayed = false;
+
+		By targetElementLocator3 = By
+				.xpath("//*[contains(translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+
+		try {
+			WebElement element = driver.findElement(targetElementLocator3);
+
+			displayed = element.isDisplayed();
+
+			if (displayed == true) {
+
+				System.out.println("Element is displayed");
+
+			}
+		} catch (Exception e2) {
+
+			System.out.println("Element is not displayed");
+
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+		return displayed;
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollAndTap
+	 * @Description Contains code to scroll to the desired element from the input
+	 * @return boolean
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+
+	public boolean scrollAndTap(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		boolean displayed = false;
+
+		By targetElementLocator3 = By
+				.xpath("//*[contains(translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+
+		int maxScrollAttempts3 = 5;
+
+		for (int j1 = 0; j1 <= maxScrollAttempts3; j1++) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator3);
+
+				displayed = element.isDisplayed();
+
+				if (displayed == true) {
+					IOSTouchAction IOSTouchAction4 = new IOSTouchAction(driver);
+					IOSTouchAction4.press(PointOption.point(150, 650))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(150, 550)).release().perform();
+
+					element.click();
+					break;
+				}
+			} catch (Exception e2) {
+
+				IOSTouchAction IOSTouchAction4 = new IOSTouchAction(driver);
+				IOSTouchAction4.press(PointOption.point(150, 650))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3))).moveTo(PointOption.point(150, 400))
+						.release().perform();
+			}
+
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+		return displayed;
+
+	}
+	
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollUp
+	 * @Description Contains code to scrollup in the screen
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void scrollDown() throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(1000);
+
+		IOSTouchAction IOSTouchAction4 = new IOSTouchAction(driver);
+		IOSTouchAction4.press(PointOption.point(150, 650)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+				.moveTo(PointOption.point(150, 450)).release().perform();
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(1000);
+
+	}
+	
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name features
+	 * @Description Contains code to select the features which needs to run
+	 * @return boolean
+	 * @author Lalith Kishore Ravi
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean features(String input) {
+
+		try {
+			// Provide the path to your JSON file
+			String filePath = "./StringsConfigurationFile/app_settings.json";
+
+			// Read the JSON file
+			String content = new String(Files.readAllBytes(Paths.get(filePath)));
+
+			// Parse the JSON content
+			JSONObject jsonObject = new JSONObject(content);
+
+			// Get the string value based on the JSON structure
+
+			JSONObject optJSONObject = jsonObject.optJSONObject("jk");
+
+			JSONObject optJSONObject2 = optJSONObject.optJSONObject("features");
+
+			boolean optJSONObject3 = optJSONObject2.optBoolean(input);
+
+			return optJSONObject3;
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+			return false;
+			// Handle the exception and return an appropriate value or throw an exception if
+			// needed
+		}
+	}
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name assertMethod
+	 * @Description Contains code to validate using assert
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @return
+	 * @throws Exception
+	 */
+	public void assertMethod(String uiText, String apiText,String featureName, ExtentTest feature) throws InterruptedException {
+
+		try {
+			Assert.assertEquals(uiText, apiText,
+					" Validated that " + featureName + " " + uiText + " text in the UI is : " + uiText
+							+ " and from the string configuration file is : " + apiText + " are same ");
+
+			System.out.println(" Validated that the " + featureName + " " + uiText + " text in the UI is : " + uiText
+					+ " and from the string configuration file is : " + apiText + " are same ");
+
+			feature.info(MarkupHelper.createLabel(
+					" Validated that the " + featureName + " " + uiText + " text in the UI is : " + uiText
+							+ " and from the string configuration file is : " + apiText + " are same ",
+					ExtentColor.CYAN));
+			
+			feature.addScreenCaptureFromBase64String(takeScreenshot(driver),
+					" Validated that the " + featureName + " " + uiText + " text in the UI is : " + uiText
+							+ " and from the string configuration file is : " + apiText + " are same ");
+
+		} catch (AssertionError e) {
+
+			feature.log(Status.FAIL,
+					" Validated that the " + featureName + " " + uiText + " text in the UI is : " + uiText
+							+ " and from the string configuration file is : " + apiText + " are not same ");
+
+			Thread.sleep(1500);
+
+			feature.addScreenCaptureFromBase64String(takeScreenshot(driver),
+					" Validated that the " + featureName + " " + uiText + " text in the UI is : " + uiText
+							+ " and from the string configuration file is : " + apiText + " are not same ");
+		}
+	}
+	
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollOptionsGroupUpAndClick
+	 * @Description Contains code to scroll to the desired element from the input and click it
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public static void scrollOptionsGroupUpAndClick(String input) throws InterruptedException {
+
+		commonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(3000);
+
+		By targetElementLocator = By
+				.xpath("//*[contains(translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+		boolean elementFound = false;
+		while (!elementFound) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator);
+
+				if (element.isDisplayed()) {
+					IOSTouchAction IOSTouchAction4 = new IOSTouchAction(driver);
+					IOSTouchAction4.press(PointOption.point(150, 550))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(150, 650)).release().perform();
+
+					try {
+						elementFound = true;
+
+					} catch (Exception clickException) {
+						IOSTouchAction IOSTouchAction = new IOSTouchAction(driver);
+						IOSTouchAction.press(PointOption.point(150, 550))
+								.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+								.moveTo(PointOption.point(150, 650)).release().perform();
+					}
+				} else {
+					IOSTouchAction IOSTouchAction = new IOSTouchAction(driver);
+					IOSTouchAction.press(PointOption.point(150, 550))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(150, 650)).release().perform();
+				}
+			} catch (NoSuchElementException e2) {
+				IOSTouchAction IOSTouchAction = new IOSTouchAction(driver);
+				IOSTouchAction.press(PointOption.point(150, 550))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+						.moveTo(PointOption.point(150, 650)).release().perform();
+			}
+
+		}
+		if (!elementFound) {
+		}
+
+		commonMethods.switchContext("FLUTTER");
+
+		Thread.sleep(1200);
+
+	}
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollSize
+	 * @Description Contains code to scroll to the size option group element from the input and click it
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public static void scrollSize() throws InterruptedException {
+
+		commonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		By targetElementLocator3 = By.xpath(
+				"//*[contains(translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'size'" + ")]");
+
+		int maxScrollAttempts3 = 5;
+
+		for (int j1 = 0; j1 <= maxScrollAttempts3; j1++) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator3);
+				if (element.isDisplayed()) {
+					IOSTouchAction IOSTouchAction4 = new IOSTouchAction(driver);
+					IOSTouchAction4.press(PointOption.point(150, 550))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(150, 650)).release().perform();
+
+					break;
+				}
+			} catch (Exception e2) {
+
+				IOSTouchAction IOSTouchAction4 = new IOSTouchAction(driver);
+				IOSTouchAction4.press(PointOption.point(150, 450))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+						.moveTo(PointOption.point(150, 650)).release().perform();
+				System.out.println(" Store not found in the : " + j1
+						+ " : scroll attempt made in the UI in the given maximum scroll attempts of : "
+						+ maxScrollAttempts3);
+			}
+
+		}
+
+		commonMethods.switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+	}
+	
+	public boolean locationListStoreSelection(String desiredStoreName) {
+
+		boolean elementFound = false;
+		try {
+			switchContext("NATIVE_APP");
+
+			Thread.sleep(3000);
+
+			// XPath to locate the state element by its name
+			By targetElementLocator = By
+					.xpath("//*[contains(translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+							+ "'" + desiredStoreName + "'" + ")]");
+			// Variable to track whether the element is found
+
+			// Loop to attempt finding the element and scrolling
+			while (!elementFound) {
+				try {
+					// Try to find the element
+					WebElement element = driver.findElement(targetElementLocator);
+
+					// Check if the element is displayed
+					if (element.isDisplayed()) {
+						// Element found and displayed, try to click
+						try {
+							element.click();
+							System.out.println("Successfully clicked the state in the dropdown");
+							elementFound = true; // Set the flag to true to exit the loop
+
+						} catch (Exception clickException) {
+							// Handle issues with clicking, e.g., element not clickable
+							System.out.println("Issue with clicking the state. Scrolling again and retrying...");
+							IOSTouchAction IOSTouchAction = new IOSTouchAction(driver);
+							IOSTouchAction.press(PointOption.point(150, 650))
+									.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+									.moveTo(PointOption.point(150, 550)).release().perform();
+						}
+					} else {
+						// Element not displayed, perform scroll action
+						System.out.println("Element not displayed. Scrolling again...");
+						IOSTouchAction IOSTouchAction = new IOSTouchAction(driver);
+						IOSTouchAction.press(PointOption.point(150, 650))
+								.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+								.moveTo(PointOption.point(150, 550)).release().perform();
+					}
+				} catch (NoSuchElementException e) {
+					// Element not found, perform scroll action
+					System.out.println("Element not found. Scrolling again...");
+					IOSTouchAction IOSTouchAction = new IOSTouchAction(driver);
+					IOSTouchAction.press(PointOption.point(150, 650))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(150, 550)).release().perform();
+				}
+
+			}
+
+		} catch (Exception e) {
+
+		}
+
+		return elementFound;
+
+	}
+
+	public void assertvalidation(String elementName, String actualValue, String expectedValue, ExtentTest test) {
+		try {
+			Assert.assertEquals(actualValue, expectedValue);
+			test.info(MarkupHelper.createLabel("Validated the " + elementName
+					+ " in the screen and the values are similar. The expected title value is " + expectedValue + ". "
+					+ "The actual value is " + actualValue, ExtentColor.CYAN));
+
+		} catch (Throwable e) {
+			test.log(Status.FAIL,
+					"Validated the " + elementName
+							+ " in the screen and the values are not similar. The expected title value is "
+							+ expectedValue + ". " + "The actual value is " + actualValue);
+		}
+	}
+	
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name elementFoundOrNotDontAllowNativePopUp
+	 * @Description Contains code to check whether the element is displayed or not in the native location popup
+	 *              in the popup
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean elementFoundOrNotDontAllowNativePopUp() throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(30000);
+
+		boolean displayed = false;
+
+		By targetElementLocator3 = By.id("com.android.permissioncontroller:id/permission_message");
+
+		try {
+
+			Thread.sleep(2000);
+
+			WebElement element = driver.findElement(targetElementLocator3);
+
+			displayed = element.isDisplayed();
+
+			if (displayed == true) {
+				
+				String text = element.getText();
+
+				System.out.println(" The native pop-up : " + text + " is displayed");
+				
+				WebElement dontAllowButton = driver.findElement(By.id("com.android.permissioncontroller:id/permission_deny_and_dont_ask_again_button"));
+				
+				dontAllowButton.click();
+
+			}
+
+		} catch (Exception e2) {
+
+			System.out.println(" The element is not displayed");
+
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(3000);
+
+		return displayed;
+
+	}
+	
+	public void swipeleft(IOSDriver<WebElement> driver, WebElement imagecomponent) {
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		Map<String, Object> param = new HashMap<>();
+		param.put("direction", "left");
+		param.put("element", imagecomponent);
+		js.executeScript("mobile:swipe", param);
+
+	}
+
+}

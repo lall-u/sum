@@ -1,0 +1,17 @@
+package com.paytronix.client.android.api.exception;
+
+public class PxEmailRegistrationException extends Exception
+{
+    private String response;
+
+    public PxEmailRegistrationException(String response)
+    {
+        super();
+        this.response = response;
+    }
+
+    public String getResponse()
+    {
+        return response;
+    }
+}

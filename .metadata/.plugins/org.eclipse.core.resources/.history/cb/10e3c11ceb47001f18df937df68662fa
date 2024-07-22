@@ -1,0 +1,2190 @@
+package com.features;
+
+import static io.restassured.RestAssured.given;
+
+import java.net.URL;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.base.BaseClass;
+import com.base.CommonMethods;
+import com.locators.DashBoardLocators;
+import com.locators.EgiftcardLocators;
+import com.locators.LocationLocators;
+import com.locators.MenuScreenLocators;
+import com.locators.MyAccountLocators;
+import com.locators.OrderDetailsScreenLocators;
+import com.locators.OrderNowLocators;
+import com.locators.ReferAFriendLocators;
+import com.locators.RewardYourselfLocators;
+import com.locators.SubscriptionLocators;
+
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
+import io.github.ashwith.flutter.FlutterElement;
+import io.github.ashwith.flutter.FlutterFinder;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+
+public class ImageComponent extends Dashboard {
+
+	OrderDetailsScreenLocators orderDetailsScreenLocator = new OrderDetailsScreenLocators();
+	LocationLocators locationLocator = new LocationLocators();
+	MenuScreenLocators menuScreenLocator = new MenuScreenLocators();
+	RewardYourselfLocators reward = new RewardYourselfLocators();
+	CommonMethods commonMethods = new CommonMethods();
+	OrderNowLocators orderNowLocators = new OrderNowLocators();
+	SubscriptionLocators subscription = new SubscriptionLocators();
+	ReferAFriendLocators referaFriendLocators = new ReferAFriendLocators();
+	MyAccountLocators myAccountLocators = new MyAccountLocators();
+	EgiftcardLocators eGiftCardLocators = new EgiftcardLocators();
+
+	static Boolean menuItemAvailable = false;
+	static String StoreCodeFromAPI;
+	DashBoardLocators dashBoardLocators = new DashBoardLocators();
+	String laterText = commonMethods
+			.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_LATER_STRING);
+	String asapText = commonMethods
+			.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_ASAP_STRING);
+	String restaurantClosedString = commonMethods
+			.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_RESTAURANT_CLOSED_STRING);
+	String restaurantNotAcceptingString = commonMethods
+			.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_RESTAURANT_NOT_ACCEPTING_BUTTON_STRING);
+	String finalTakeoutLabel;
+	String finalCurbsideLabel;
+	String finalDeliveryLabel;
+	Boolean isTakeoutDisplayed;
+	Boolean isDeliveryDisplayed;
+	Boolean isCurbsideDisplayed;
+	String chooseTime;
+	String menuName;
+	Boolean menuItemAvailable_inNearByStore = false;
+	String merchantID;
+	String linkType;
+	public static int walletCode;
+	public static int walletCdn;
+	public static JSONArray perksCdn;
+	public static String cardTemplateCdn;
+	public static String tierCdn;
+	public static JSONArray perks;
+	public static String cardTemplate;
+	public static String tier;
+	public static String activeDate;
+	public static String expiryDate;
+	public static String favoriteStore;
+	public static String storeGroup;
+	public static String imageUrl1;
+	public static String imageAltText;
+	public static Response cdnResponse;
+	public static String altriaProgramType;
+	static JSONObject arrObject1;
+	static WebElement imagecomponent;
+	static List<String> allImageAltText = new ArrayList<String>();
+	static List<String> menuList = new ArrayList<String>();
+	FlutterFinder find;
+	ExtentTest nextGenImageComponent001;
+
+	public void navigateToDashboard() {
+
+		commonMethods.switchContext("FLUTTER");
+
+		// compare sub menu screen title
+		comparetext("sub menu screen title", menuScreenLocator.SUB_MENU_SCREEN_TITLE_VK, menuName, "assertvalidation");
+
+		// sub menu back icon navigation
+		FlutterElement subMenu_backIcon = find.byValueKey(menuScreenLocator.SUB_MENU_SCREEN_BACK_ICON_VK);
+		subMenu_backIcon.click();
+
+		// location screen back icon navigation
+		FlutterElement locations_backIcon = find.byValueKey(locationLocator.LOCATION_SCREEN_BACK_BUTTON_VKL);
+		locations_backIcon.click();
+
+	}
+
+	public void navigateBack() throws InterruptedException {
+
+		commonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(30000);
+
+		WebElement findElement = driver.findElement(By.xpath(dashBoardLocators.DASHBOARD_HOME_BUTTON_XPATH_IOS));
+		findElement.click();
+
+		commonMethods.switchContext("FLUTTER");
+
+	}
+
+	public void alertOkay() throws InterruptedException {
+
+		commonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(5000);
+
+		WebElement findElement = driver.findElement(By.xpath(dashBoardLocators.DASHBOARD_ALERT_OKAY_BUTTON_XPATH_IOS));
+		findElement.click();
+
+		commonMethods.switchContext("FLUTTER");
+
+	}
+
+	public void selectTimeForOrderAgain() throws Exception {
+
+		commonMethods.switchContext("FLUTTER");
+
+		Boolean asapConfig = commonMethods.elementIsDisplayed(asapText);
+		Boolean laterConfig = commonMethods.elementIsDisplayed(laterText);
+		if (asapConfig == true && laterConfig == true) {
+
+			if (chooseTime.toLowerCase().equals("asap")) {
+				FlutterElement asapOrderButtonVk = find.byValueKey(orderNowLocators.ORDER_ASAP_TEXT_VKL);
+				asapOrderButtonVk.click();
+			} else if (chooseTime.toLowerCase().equals("later")) {
+
+				FlutterElement laterOrderButtonVk = find.byValueKey(orderNowLocators.ORDER_LATER_TEXT_VKL);
+				laterOrderButtonVk.click();
+			}
+
+		} else if (asapConfig == false) {
+			CapacityManagement.ngaCapacityManagement();
+		} else if (asapConfig == true) {
+
+		}
+	}
+
+	public void chooseOrderType(String i) throws Exception {
+
+		commonMethods.switchContext("FLUTTER");
+		if (i.equals("1")) {
+			FlutterElement multiOrderTypeselectTakeout = find.byValueKey(orderNowLocators.ORDERTYPE_TAKEOUT_VKL);
+			multiOrderTypeselectTakeout.click();
+			selectTimeForOrderAgain();
+		} else if (i.equals("2")) {
+			FlutterElement multiOrderTypeselectDelivery = find.byValueKey(orderNowLocators.ORDERTYPE_DELIVERY_VKL);
+			multiOrderTypeselectDelivery.click();
+			Thread.sleep(5000);
+
+			FlutterElement addAddressScreen_BackIcon = find.byValueKey(locationLocator.ADD_NEW_ADDRESS_BACK_ICON_VK);
+			addAddressScreen_BackIcon.click();
+		} else if (i.equals("3")) {
+			FlutterElement multiOrderTypeselectCurbside = find.byValueKey(orderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+			multiOrderTypeselectCurbside.click();
+			selectTimeForOrderAgain();
+		}
+	}
+
+	public void comparevalue(String elementName, String actualValue, String expectedValue, String typeofValidation) {
+
+		commonMethods.switchContext("FLUTTER");
+
+		String actualValueOfElement = "";
+		String expectedValueOfElement = "";
+		try {
+			actualValueOfElement = find.byValueKey(actualValue).getText();
+			expectedValueOfElement = expectedValue;
+			if (typeofValidation.toLowerCase().equalsIgnoreCase("assertvalidation")) {
+				assertvalidation(elementName, actualValueOfElement, expectedValueOfElement);
+
+			} else if (typeofValidation.toLowerCase().equalsIgnoreCase("navigationvalidation")) {
+				validationOfNavigation(elementName, actualValueOfElement, expectedValueOfElement);
+			}
+		} catch (Throwable e) {
+			System.out.println("invalid data for the element: " + elementName + ". The error is " + e);
+		}
+
+	}
+
+	public void comparetext(String elementName, String actualValue, String expectedValue, String typeofValidation) {
+
+		commonMethods.switchContext("FLUTTER");
+
+		String actualValueOfElement = "";
+		String expectedValueOfElement = "";
+		try {
+			actualValueOfElement = find.byValueKey(actualValue).getText();
+			expectedValueOfElement = commonMethods.stringsReader(expectedValue);
+			if (typeofValidation.toLowerCase().equalsIgnoreCase("assertvalidation")) {
+				assertvalidation(elementName, actualValueOfElement, expectedValueOfElement);
+
+			} else if (typeofValidation.toLowerCase().equalsIgnoreCase("navigationvalidation")) {
+				validationOfNavigation(elementName, actualValueOfElement, expectedValueOfElement);
+			}
+		} catch (Throwable e) {
+			System.out.println("invalid data for the element: " + elementName + ". The error is " + e);
+		}
+
+	}
+
+	public void assertvalidation(String elementName, String actualValue, String expectedValue) {
+
+		commonMethods.switchContext("FLUTTER");
+		try {
+			Assert.assertEquals(actualValue, expectedValue);
+			nextGenImageComponent001.info(MarkupHelper.createLabel("Validated the " + elementName
+					+ " in the screen and the values are similar. The expected title value is " + expectedValue + ". "
+					+ "The actual value is " + actualValue, ExtentColor.CYAN));
+
+		} catch (Throwable e) {
+			nextGenImageComponent001.log(Status.FAIL,
+					"Validated the " + elementName
+							+ " in the screen and the values are not similar. The expected title value is "
+							+ expectedValue + ". " + "The actual value is " + actualValue);
+		}
+	}
+
+	public void validationOfNavigation(String screenName, String actualValue, String expectedValue) {
+
+		commonMethods.switchContext("FLUTTER");
+		try {
+			Assert.assertEquals(actualValue, expectedValue);
+			nextGenImageComponent001.info(MarkupHelper.createLabel(
+					"Validated the title and the values are similar. The app is navigated to the " + screenName,
+					ExtentColor.CYAN));
+
+		} catch (Throwable e) {
+			nextGenImageComponent001.log(Status.FAIL,
+					"Validated the title and the values are not similar. The app is not navigated to the "
+							+ screenName);
+		}
+	}
+
+	public void imageComponentclickable(JSONObject arrObject1) throws Exception {
+
+		find = new FlutterFinder(driver);
+
+		nextGenImageComponent001 = test.createNode("nextGenImageComponent001");
+		nextGenImageComponent001.addScreenCaptureFromBase64String(takeScreenshot(driver),
+				"Verified that the Image component is displayed");
+		nextGenImageComponent001.info(MarkupHelper.createLabel(
+				"nextGenImageComponent001 - Verified that the image component is displayed for logged user only",
+				ExtentColor.CYAN));
+
+		if (arrObject1.has("content")) {
+			JSONArray arrayObject = arrObject1.optJSONArray("content");
+			for (int k = 0; k < arrayObject.length(); k++) {
+				JSONObject arrObjectimage = arrayObject.optJSONObject(k);
+
+				JSONObject jsonObjectImage = arrObjectimage.optJSONObject("image");
+				imageUrl1 = jsonObjectImage.optString("url");
+				tierCdn = arrObjectimage.optString("tier");
+				perksCdn = arrObjectimage.optJSONArray("perk");
+				cardTemplateCdn = arrObjectimage.optString("card_template");
+				expiryDate = arrObjectimage.optString("expiration_date");
+				activeDate = arrObjectimage.optString("active_date");
+				storeGroup = arrObjectimage.optString("store_group");
+				imageAltText = arrObjectimage.optString("alt_text");
+				System.out.println(tierCdn + perksCdn + cardTemplateCdn + imageAltText);
+				JSONObject jsonObjectlinkimage = arrObjectimage.optJSONObject("imageLink");
+				String linkType = jsonObjectlinkimage.optString("linkType");
+
+				allImageAltText.add(imageAltText);
+				Thread.sleep(5000);
+
+				System.out.println("ImageList Length : " + allImageAltText.size());
+				for (int v = 0; v < allImageAltText.size(); v++) {
+					if (allImageAltText.size() > 7) {
+						break;
+					}
+					String alttext = allImageAltText.get(v);
+					System.out.println(k);
+					commonMethods.switchContext("NATIVE_APP");
+					System.out.println(alttext);
+					Thread.sleep(5000);
+					imagecomponent = driver.findElement(By.xpath("//*[@name=" + "'" + alttext + "'" + "]"));
+					if (k > 0) {
+						if (v < k) {
+							if (imagecomponent.isDisplayed()) {
+								System.out.println("Image is displayed ");
+								commonMethods.swipeleft(driver, imagecomponent);
+							} else {
+								continue;
+							}
+						}
+					}
+
+				}
+
+				if (linkType.equals("0")) {
+					// do nothing
+				} else if (linkType.equals("1")) {// if the link type is 1, then it should be navigated
+													// to the
+					// corresponding screen
+					String screenName = jsonObjectlinkimage.optString("appScreen").toUpperCase();
+					System.out.println("Screen Name is " + screenName);
+					switch (screenName) {
+					case "SUBSCRIPTIONS":
+
+						commonMethods.switchContext("NATIVE_APP");
+						Thread.sleep(10000);
+						imagecomponent.click();
+						commonMethods.switchContext("FLUTTER");
+						comparetext("subscription Title", subscription.SUBSCRIPTION_DETAILS_TITLE_VKL,
+								subscription.SUBSCRIPTION_DETAILS_TITLE_TEXT, "navigationvalidation");
+						Thread.sleep(10000);
+						navigateBack();
+						break;
+
+					case "REFER":
+
+						commonMethods.switchContext("NATIVE_APP");
+						Thread.sleep(10000);
+						imagecomponent.click();
+						commonMethods.switchContext("FLUTTER");
+						comparetext("Refer a friend title", referaFriendLocators.REFERAFRIEND_TITLE_VKL,
+								referaFriendLocators.REFERAFRIEND_TITLE_TEXT_STRING, "navigationvalidation");
+						Thread.sleep(10000);
+						navigateBack();
+						break;
+
+					case "ACCOUNT":
+
+						commonMethods.switchContext("NATIVE_APP");
+						Thread.sleep(10000);
+						imagecomponent.click();
+						commonMethods.switchContext("FLUTTER");
+						comparetext("My Account title", myAccountLocators.MYACCOUNT_TITLE_VKL,
+								myAccountLocators.MYACCOUNT_TITLE_STRING, "navigationvalidation");
+						Thread.sleep(10000);
+						navigateBack();
+						break;
+
+					case "EGIFT":
+
+						commonMethods.switchContext("NATIVE_APP");
+						Thread.sleep(10000);
+						imagecomponent.click();
+						commonMethods.switchContext("FLUTTER");
+						comparetext("EGift card title", eGiftCardLocators.EGIFTCARD_HEADER_TEXT,
+								eGiftCardLocators.EGIFTCARD_HEADERTEXT_VKL, "navigationvalidation");
+						Thread.sleep(10000);
+						navigateBack();
+						break;
+
+					case "ORDER":
+
+						commonMethods.switchContext("NATIVE_APP");
+						Thread.sleep(10000);
+						imagecomponent.click();
+						commonMethods.switchContext("FLUTTER");
+
+						Thread.sleep(30000);
+						try {
+							WebElement dontAllowId = driver.findElement(By.id(locationLocator.LOCATIONSCREEN_DENY_ID));
+							if (dontAllowId.isDisplayed()) {
+								dontAllowId.click();
+							}
+						} catch (Exception e) {
+							System.out.println("Native Popup not aappears");
+						}
+
+						commonMethods.switchContext("FLUTTER");
+
+						comparetext("Order Now title", locationLocator.LOCATION_SCREEN_TITLE_TEXT_VKL,
+								locationLocator.LOCATION_SCREEN_TITLE_TEXT_VKL, "navigationvalidation");
+
+						Thread.sleep(15000);
+
+						FlutterElement orderBackIcon = find.byValueKey(locationLocator.LOCATION_SCREEN_BACK_BUTTON_VKL);
+						orderBackIcon.click();
+						break;
+
+					case "REDEEM":
+
+						commonMethods.switchContext("NATIVE_APP");
+						Thread.sleep(5000);
+						imagecomponent.click();
+
+						Thread.sleep(30000);
+						alertOkay();
+						commonMethods.switchContext("FLUTTER");
+						Thread.sleep(15000);
+
+						comparetext("Reward yourself title", reward.REWARDYOURSELF_TITLE_VKL,
+								reward.REWARDYOURSELF_TITLE_VKL, "navigationvalidation");
+
+						FlutterElement rewardBack = find.byValueKey(reward.REWARDYOURSELF_BACK_ARROW_ICON);
+						rewardBack.click();
+						break;
+
+					case "LOCATIONS":
+
+						commonMethods.switchContext("NATIVE_APP");
+						Thread.sleep(5000);
+						imagecomponent.click();
+
+						try {
+							Thread.sleep(30000);
+							WebElement dontAllowId = driver.findElement(By.id(locationLocator.LOCATIONSCREEN_DENY_ID));
+							if (dontAllowId.isDisplayed()) {
+								dontAllowId.click();
+							}
+						} catch (Exception e) {
+							System.out.println("Native Popup not aappears");
+						}
+
+						commonMethods.switchContext("FLUTTER");
+
+						Thread.sleep(15000);
+
+						comparetext("Location screen title", locationLocator.LOCATION_SCREEN_TITLE_TEXT_VKL,
+								locationLocator.LOCATION_SCREEN_TITLE_TEXT_VKL, "navigationvalidation");
+
+						FlutterElement locationBack = find.byValueKey(locationLocator.LOCATION_SCREEN_BACK_BUTTON_VKL);
+						locationBack.click();
+
+					default:
+						break;
+					}
+
+				} else if (linkType.equals("2")) {
+
+					// if link type is 2, then it should be navigated to the menuscreen
+//									 String whichItem = jsonObjectlinkimage.optString("isMenuId");
+					String menuID = jsonObjectlinkimage.optString("menuOrCategoryId");
+
+					commonMethods.switchContext("NATIVE_APP");
+
+					Thread.sleep(10000);
+					imagecomponent.click();
+
+					Thread.sleep(30000);
+					try {
+						WebElement dontAllowId = driver.findElement(By.id(locationLocator.LOCATIONSCREEN_DENY_ID));
+						if (dontAllowId.isDisplayed()) {
+							dontAllowId.click();
+							nextGenImageComponent001.addScreenCaptureFromBase64String(takeScreenshot(driver),
+									"Native popup appears");
+
+						}
+					} catch (Exception e) {
+						System.out.println("Native Popup not appears");
+					}
+
+					commonMethods.switchContext("FLUTTER");
+
+					boolean locationdisabledpopup = true;
+					if (locationdisabledpopup) {
+
+						// handle popup
+
+						BaseClass bc = new BaseClass();
+						List<String> appConfiguration = bc.appConfiguration();
+
+						String email = appConfiguration.get(6);
+						String password = appConfiguration.get(7);
+						String cardTemplatecode = appConfiguration.get(9);
+						merchantID = appConfiguration.get(8);
+
+						Response accesstokenresponse = APIMethods.generateAccessToken(email, password, cardTemplatecode,
+								merchantID);
+						JSONObject jo1 = new JSONObject(accesstokenresponse.asString());
+						String accesstoken = jo1.optString("access_token");
+						String username = jo1.optString("username");
+						String printedcardnumber = jo1.optString("printedCardNumber");
+						String authorizationgrantvaluefromresponse = APIMethods.generateAuthorizationGrant(accesstoken,
+								username);
+
+						// orders API
+						Response orderdetails = given().queryParam("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb")
+								.queryParam("access_token", authorizationgrantvaluefromresponse)
+								.queryParam("merchant_id", merchantID)
+								.queryParam("printed_card_number", printedcardnumber).queryParam("provider", "px")
+								.when().get("https://opendining.net/api/v1/account/orders");
+
+						int statusCode = orderdetails.statusCode();
+						System.out.println(orderdetails.asPrettyString());
+						System.out.println("The status code for the order details API is: " + statusCode);
+
+						if (statusCode == 200) {
+
+							JSONArray orderlist = new JSONArray(orderdetails.asString());
+							JSONObject jo = orderlist.getJSONObject(0);
+							StoreCodeFromAPI = jo.optString("px_store_code");
+							System.out.println("STORE CODE IS : " + StoreCodeFromAPI);
+
+							// menu api
+							Response responseMenu = given()
+									.queryParam("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb")
+									.queryParam("include_combo", "true").when()
+									.get("https://opendining.net/api/v1/merchant/" + merchantID + "/restaurants/"
+											+ StoreCodeFromAPI + "/menu/tier");
+
+							int menuStatusCode = responseMenu.getStatusCode();
+							if (menuStatusCode == 200) {
+
+								JSONObject jObjectMenu = new JSONObject(responseMenu.body().asString());
+								JSONArray optJSONArrayMenu = jObjectMenu.optJSONArray("menu");
+
+								if (optJSONArrayMenu != null) {
+
+									for (int p = 0; p < optJSONArrayMenu.length(); p++) {
+
+										JSONObject menuItem = optJSONArrayMenu.getJSONObject(p);
+
+										JSONArray subMenuArray = menuItem.optJSONArray("items");
+
+										if (subMenuArray != null) {
+											for (int m = 0; m < subMenuArray.length(); m++) {
+												JSONObject subMenuItem = subMenuArray.getJSONObject(m);
+												String menuItemId = subMenuItem.optString("id");
+
+												System.out.println(menuID + "  " + menuItemId + menuItemAvailable);
+
+												if (menuID.equals(menuItemId)) {
+
+													menuItemAvailable = true;
+													menuName = subMenuItem.optString("name");
+
+												}
+
+											}
+										}
+
+									}
+								}
+
+							}
+
+						}
+						System.out.println("ID MATCHES : " + menuItemAvailable);
+
+						if (menuItemAvailable) {
+
+							// validate ordertype, time and navigate to the item
+							// quantity screen
+							Response restaurant = given().queryParam("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb")
+									.when().get("https://opendining.net/api/v1/merchant/" + merchantID + "/restaurants/"
+											+ StoreCodeFromAPI + "");
+
+							int restaurantStatusCode = restaurant.getStatusCode();
+							if (restaurantStatusCode == 200) {
+								JSONObject resjo = new JSONObject(restaurant.body().asString());
+								System.out.println(resjo);
+								Boolean isCurbsideAvailable = resjo.optJSONObject("curbside").optBoolean("en");
+								Boolean isDeliveryAvailable = resjo.optBoolean("delivery");
+								Boolean isTakeoutAvailable = resjo.optBoolean("takeout");
+								Boolean isHideTakout = resjo.optJSONObject("curbside").optBoolean("hide_takeout");
+								String takeOutLabel = resjo.optString("takeout_label");
+								System.out.println("takeoutlabel: " + takeOutLabel);
+								String curbsideLabel = resjo.optJSONObject("curbside").optString("label_text");
+								System.out.println("curbsidetlabel: " + curbsideLabel);
+								String deliveryLabel = resjo.optString("delivery_label");
+								System.out.println("deliverylabel: " + deliveryLabel);
+								Boolean isRestaurantAvailable = resjo.optBoolean("accepting_orders");
+								System.out.println("Accepting Orders : " + isRestaurantAvailable);
+
+								if (isRestaurantAvailable) {
+
+									Thread.sleep(8000);
+
+									if (commonMethods.elementIsDisplayed(restaurantClosedString)) {
+										// the restaurant is not accepting orders
+
+										String restaurantClosedString = commonMethods.stringsReader(
+												dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_RESTAURANT_NOT_ACCEPTING_BUTTON_STRING);
+
+										boolean restaurantClosedStringBoolean = commonMethods
+												.elementFoundOrNotPopUp(restaurantClosedString);
+
+										if (restaurantClosedStringBoolean) {
+
+											FlutterElement errorAlertDescription = find.byValueKey(
+													dashBoardLocators.IMAGE_COMPONENT_STORE_NOT_ACCEPTING_ALERT_DESCRIPTION_VKL);
+											String errorAlertDescriptionDisplayed = errorAlertDescription.getText();
+
+											commonMethods.assertvalidation("Error Alert Text validation",
+													restaurantClosedString, errorAlertDescriptionDisplayed,
+													nextGenImageComponent001);
+											nextGenImageComponent001.addScreenCaptureFromBase64String(
+													takeScreenshot(driver),
+													"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+															+ menuName);
+
+											alertOkay();
+										}
+
+									}
+
+									else {
+
+										Boolean isMenuItemTitleDisplayed = commonMethods.elementIsDisplayed(menuName);
+
+										if (isMenuItemTitleDisplayed) {
+
+											nextGenImageComponent001.info(MarkupHelper.createLabel(
+													"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+															+ menuName,
+													ExtentColor.CYAN));
+											nextGenImageComponent001.addScreenCaptureFromBase64String(
+													takeScreenshot(driver),
+													"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+															+ menuName);
+
+											navigateToDashboard();
+										}
+
+										else {
+
+											if (isTakeoutAvailable && isHideTakout == false) {
+
+												finalTakeoutLabel = takeOutLabel.isEmpty() || takeOutLabel == null
+														? commonMethods.stringsReader(
+																orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_TAKEOUT_ORDERTYPE_TEXT)
+														: takeOutLabel;
+												System.out.println(finalTakeoutLabel);
+
+												if (isDeliveryAvailable && isCurbsideAvailable) {
+													finalCurbsideLabel = curbsideLabel.isEmpty()
+															|| curbsideLabel == null
+																	? commonMethods.stringsReader(
+																			orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_CURBSIDE_ORDERTYPE_TEXT)
+																	: curbsideLabel;
+
+													System.out.println(finalCurbsideLabel);
+
+													finalDeliveryLabel = deliveryLabel.isEmpty()
+															|| deliveryLabel == null
+																	? commonMethods.stringsReader(
+																			orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_DELIVERY_ORDERTYPE_TEXT)
+																	: deliveryLabel;
+
+													System.out.println(finalDeliveryLabel);
+
+													comparevalue("takeout text", orderNowLocators.ORDERTYPE_TAKEOUT_VKL,
+															finalTakeoutLabel, "assertvalidation");
+													comparevalue("delivery text",
+															orderNowLocators.ORDERTYPE_DELIVERY_VKL, finalDeliveryLabel,
+															"assertvalidation");
+													comparevalue("curbside text",
+															orderNowLocators.ORDERTYPE_CURBSIDE_VKL, finalCurbsideLabel,
+															"assertvalidation");
+
+													// need to choose the value from the g sheet
+
+													BaseClass base = new BaseClass();
+													List<String> details = base.appConfiguration();
+													String orderType = details.get(60);
+													chooseTime = details.get(61);
+
+//																	chooseOrderType(orderType);
+
+													if (orderType.equals("1")) {
+														commonMethods.switchContext("FLUTTER");
+														Thread.sleep(5000);
+														FlutterElement multiOrderTypeselectTakeout = find
+																.byValueKey(orderNowLocators.ORDERTYPE_TAKEOUT_VKL);
+														multiOrderTypeselectTakeout.click();
+														selectTimeForOrderAgain();
+
+														Boolean isMenuItemTitleDisplayed1 = commonMethods
+																.elementIsDisplayed(menuName);
+
+														if (isMenuItemTitleDisplayed1) {
+
+															nextGenImageComponent001.info(MarkupHelper.createLabel(
+																	"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																			+ menuName,
+																	ExtentColor.CYAN));
+															nextGenImageComponent001.addScreenCaptureFromBase64String(
+																	takeScreenshot(driver),
+																	"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																			+ menuName);
+
+														}
+														// choose from later popup
+													} else if (orderType.equals("2")) {
+														commonMethods.switchContext("FLUTTER");
+
+														FlutterElement multiOrderTypeselectDelivery = find
+																.byValueKey(orderNowLocators.ORDERTYPE_DELIVERY_VKL);
+														multiOrderTypeselectDelivery.click();
+														Thread.sleep(5000);
+
+														FlutterElement addAddressScreen_BackIcon = find.byValueKey(
+																locationLocator.ADD_NEW_ADDRESS_BACK_ICON_VK);
+														addAddressScreen_BackIcon.click();
+
+													} else if (orderType.equals("3")) {
+														commonMethods.switchContext("FLUTTER");
+														FlutterElement multiOrderTypeselectCurbside = find
+																.byValueKey(orderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+														multiOrderTypeselectCurbside.click();
+														selectTimeForOrderAgain();
+														Boolean isMenuItemTitleDisplayed1 = commonMethods
+																.elementIsDisplayed(menuName);
+
+														if (isMenuItemTitleDisplayed1) {
+
+															nextGenImageComponent001.info(MarkupHelper.createLabel(
+																	"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																			+ menuName,
+																	ExtentColor.CYAN));
+															nextGenImageComponent001.addScreenCaptureFromBase64String(
+																	takeScreenshot(driver),
+																	"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																			+ menuName);
+
+														}
+													} else {
+														selectTimeForOrderAgain();
+														Boolean isMenuItemTitleDisplayed1 = commonMethods
+																.elementIsDisplayed(menuName);
+
+														if (isMenuItemTitleDisplayed1) {
+
+															nextGenImageComponent001.info(MarkupHelper.createLabel(
+																	"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																			+ menuName,
+																	ExtentColor.CYAN));
+															nextGenImageComponent001.addScreenCaptureFromBase64String(
+																	takeScreenshot(driver),
+																	"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																			+ menuName);
+
+														}
+													}
+													navigateToDashboard();
+												}
+
+												else if (isDeliveryAvailable) {
+
+													finalDeliveryLabel = deliveryLabel.isEmpty()
+															|| deliveryLabel == null
+																	? commonMethods.stringsReader(
+																			orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_DELIVERY_ORDERTYPE_TEXT)
+																	: deliveryLabel;
+
+													comparevalue("delivery text",
+															orderNowLocators.ORDERTYPE_DELIVERY_VKL, finalDeliveryLabel,
+															"assertvalidation");
+
+													BaseClass base = new BaseClass();
+													List<String> details = base.appConfiguration();
+
+													chooseTime = details.get(61);
+
+													commonMethods.switchContext("FLUTTER");
+
+													FlutterElement multiOrderTypeselectDelivery = find
+															.byValueKey(orderNowLocators.ORDERTYPE_DELIVERY_VKL);
+													multiOrderTypeselectDelivery.click();
+
+													Thread.sleep(5000);
+
+													FlutterElement addAddressScreen_BackIcon = find
+															.byValueKey(locationLocator.ADD_NEW_ADDRESS_BACK_ICON_VK);
+													addAddressScreen_BackIcon.click();
+												}
+
+												else if (isCurbsideAvailable) {
+
+													finalCurbsideLabel = curbsideLabel.isEmpty()
+															|| curbsideLabel == null
+																	? commonMethods.stringsReader(
+																			orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_CURBSIDE_ORDERTYPE_TEXT)
+																	: curbsideLabel;
+
+													comparevalue("takeout text", orderNowLocators.ORDERTYPE_TAKEOUT_VKL,
+															finalTakeoutLabel, "assertvalidation");
+													comparevalue("curbside text",
+															orderNowLocators.ORDERTYPE_CURBSIDE_VKL, finalCurbsideLabel,
+															"assertvalidation");
+
+													// need to choose the value from the g sheet
+
+													commonMethods.switchContext("FLUTTER");
+													FlutterElement multiOrderTypeselectCurbside = find
+															.byValueKey(orderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+													multiOrderTypeselectCurbside.click();
+													selectTimeForOrderAgain();
+
+													Boolean isMenuItemTitleDisplayed1 = commonMethods
+															.elementIsDisplayed(menuName);
+
+													if (isMenuItemTitleDisplayed1) {
+
+														nextGenImageComponent001.info(MarkupHelper.createLabel(
+																"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																		+ menuName,
+																ExtentColor.CYAN));
+														nextGenImageComponent001.addScreenCaptureFromBase64String(
+																takeScreenshot(driver),
+																"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																		+ menuName);
+
+													}
+													navigateToDashboard();
+
+												}
+
+											}
+
+											else if (isTakeoutAvailable && isHideTakout) {
+
+												if (isDeliveryAvailable && isCurbsideAvailable) {
+
+													finalCurbsideLabel = curbsideLabel.isEmpty()
+															|| curbsideLabel == null
+																	? commonMethods.stringsReader(
+																			orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_CURBSIDE_ORDERTYPE_TEXT)
+																	: curbsideLabel;
+
+													finalDeliveryLabel = deliveryLabel.isEmpty()
+															|| deliveryLabel == null
+																	? commonMethods.stringsReader(
+																			orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_DELIVERY_ORDERTYPE_TEXT)
+																	: deliveryLabel;
+
+													comparevalue("delivery text",
+															orderNowLocators.ORDERTYPE_DELIVERY_VKL, finalDeliveryLabel,
+															"assertvalidation");
+													comparevalue("curbside text",
+															orderNowLocators.ORDERTYPE_CURBSIDE_VKL, finalCurbsideLabel,
+															"assertvalidation");
+
+													BaseClass base = new BaseClass();
+													List<String> details = base.appConfiguration();
+													chooseTime = details.get(61);
+
+													commonMethods.switchContext("FLUTTER");
+													FlutterElement multiOrderTypeselectCurbside = find
+															.byValueKey(orderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+													Thread.sleep(5000);
+													multiOrderTypeselectCurbside.click();
+													selectTimeForOrderAgain();
+													Boolean isMenuItemTitleDisplayed1 = commonMethods
+															.elementIsDisplayed(menuName);
+
+													if (isMenuItemTitleDisplayed1) {
+
+														nextGenImageComponent001.info(MarkupHelper.createLabel(
+																"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																		+ menuName,
+																ExtentColor.CYAN));
+														nextGenImageComponent001.addScreenCaptureFromBase64String(
+																takeScreenshot(driver),
+																"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																		+ menuName);
+
+													}
+													Thread.sleep(5000);
+													navigateToDashboard();
+												}
+
+												else if (isDeliveryAvailable) {
+
+													BaseClass base = new BaseClass();
+													List<String> details = base.appConfiguration();
+
+													chooseTime = details.get(61);
+
+													commonMethods.switchContext("FLUTTER");
+
+													FlutterElement multiOrderTypeselectDelivery = find
+															.byValueKey(orderNowLocators.ORDERTYPE_DELIVERY_VKL);
+													multiOrderTypeselectDelivery.click();
+													Thread.sleep(5000);
+													FlutterElement addAddressScreen_BackIcon = find
+															.byValueKey(locationLocator.ADD_NEW_ADDRESS_BACK_ICON_VK);
+													addAddressScreen_BackIcon.click();
+												}
+
+												else if (isCurbsideAvailable) {
+
+													BaseClass base = new BaseClass();
+													List<String> details = base.appConfiguration();
+													chooseTime = details.get(61);
+
+													commonMethods.switchContext("FLUTTER");
+													FlutterElement multiOrderTypeselectCurbside = find
+															.byValueKey(orderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+													Thread.sleep(5000);
+
+													multiOrderTypeselectCurbside.click();
+													selectTimeForOrderAgain();
+													Boolean isMenuItemTitleDisplayed1 = commonMethods
+															.elementIsDisplayed(menuName);
+
+													if (isMenuItemTitleDisplayed1) {
+
+														nextGenImageComponent001.info(MarkupHelper.createLabel(
+																"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																		+ menuName,
+																ExtentColor.CYAN));
+														nextGenImageComponent001.addScreenCaptureFromBase64String(
+																takeScreenshot(driver),
+																"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																		+ menuName);
+
+													}
+													navigateToDashboard();
+												} else {
+
+													selectTimeForOrderAgain();
+													Boolean isMenuItemTitleDisplayed1 = commonMethods
+															.elementIsDisplayed(menuName);
+
+													if (isMenuItemTitleDisplayed1) {
+
+														nextGenImageComponent001.info(MarkupHelper.createLabel(
+																"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																		+ menuName,
+																ExtentColor.CYAN));
+														nextGenImageComponent001.addScreenCaptureFromBase64String(
+																takeScreenshot(driver),
+																"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																		+ menuName);
+
+													}
+													navigateToDashboard();
+
+												}
+
+											}
+										}
+									}
+
+								} else {
+									// the restaurant is not accepting orders
+
+									String restaurantClosedString = commonMethods.stringsReader(
+											dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_RESTAURANT_NOT_ACCEPTING_BUTTON_STRING);
+
+									boolean restaurantClosedStringBoolean = commonMethods
+											.elementFoundOrNotPopUp(restaurantClosedString);
+
+									if (restaurantClosedStringBoolean) {
+
+										FlutterElement errorAlertDescription = find.byValueKey(
+												dashBoardLocators.IMAGE_COMPONENT_STORE_NOT_ACCEPTING_ALERT_DESCRIPTION_VKL);
+										String errorAlertDescriptionDisplayed = errorAlertDescription.getText();
+
+										commonMethods.assertvalidation("Error Alert Text validation",
+												restaurantClosedString, errorAlertDescriptionDisplayed,
+												nextGenImageComponent001);
+										nextGenImageComponent001.addScreenCaptureFromBase64String(
+												takeScreenshot(driver), "Error Alert Text appears");
+
+										alertOkay();
+									}
+
+								}
+							}
+
+						} else {
+
+							// Respective menu-Id is not available in the Recent ordered Store.
+
+							commonMethods.switchContext("FLUTTER");
+
+							String menuIdNotMatchAlert = commonMethods
+									.stringsReader(orderDetailsScreenLocator.ORDER_DETAILS_WE_ARE_SORRY);
+
+							commonMethods.switchContext("NATIVE_APP");
+
+							WebElement alertDescription = driver.findElement(By.xpath(
+									orderDetailsScreenLocator.ORDER_DETAILS_WE_ARE_SORRY_DESCRIPTION_TEXT_XPATH));
+
+							if (alertDescription.isDisplayed()) {
+
+								String alertDescriptionDisplayed = alertDescription.getAttribute("value");
+
+								commonMethods.assertvalidation("Error Alert Text validation", menuIdNotMatchAlert,
+										alertDescriptionDisplayed, nextGenImageComponent001);
+
+							}
+
+							commonMethods.switchContext("FLUTTER");
+
+							Thread.sleep(3000);
+
+							FlutterElement popupYes = find
+									.byValueKey(orderDetailsScreenLocator.ORDER_DETAILS_WE_ARE_SORRY_YES_VKL);
+							popupYes.click();
+
+							comparetext("Location list screen title", locationLocator.LOCATION_SCREEN_TITLE_TEXT_VKL,
+									locationLocator.LOCATION_SCREEN_TITLE_TEXT_VKL, "navigationvalidation");
+							FlutterElement Location_backIcon = find
+									.byValueKey(locationLocator.LOCATION_SCREEN_BACK_BUTTON_VKL);
+							Location_backIcon.click();
+
+						}
+
+					} else {
+
+						// API call
+						// select restaurant API
+
+						Response selectRestaurant = given()
+								.queryParam("key", "ce1b6c4a546509ef17557094078169c25aa7b54e")
+								.queryParam("app_id", "5f3d94f937ab46182b7b23d9")
+								.queryParam("lat", "10.931802015940198").queryParam("lon", "76.97900192450068").when()
+								.get("https://opendining.net/api/v1/search/restaurants");
+
+						int statuscode = selectRestaurant.statusCode();
+						System.out.println("The status code for the order details API is: " + statuscode);
+
+						if (statuscode == 200) {
+
+							JSONArray orderlist = new JSONArray(selectRestaurant.asString());
+							JSONObject jo = orderlist.getJSONObject(0);
+							StoreCodeFromAPI = jo.optString("px_store_code");
+
+							Response responseMenu = given()
+									.queryParam("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb")
+									.queryParam("include_combo", "true").when()
+									.get("https://opendining.net/api/v1/merchant/" + merchantID + "/restaurants/"
+											+ StoreCodeFromAPI + "/menu/tier");
+
+							int menuStatusCode = responseMenu.getStatusCode();
+							if (menuStatusCode == 200) {
+
+								JSONObject jObjectMenu = new JSONObject(responseMenu.body().asString());
+								JSONArray optJSONArrayMenu = jObjectMenu.optJSONArray("menu");
+
+								if (optJSONArrayMenu != null) {
+
+									for (int p = 0; p < optJSONArrayMenu.length(); p++) {
+										JSONObject menuItem = optJSONArrayMenu.getJSONObject(p);
+
+										JSONArray subMenuArray = menuItem.optJSONArray("items");
+
+										if (subMenuArray != null) {
+											for (int m = 0; m < subMenuArray.length(); m++) {
+												JSONObject subMenuItem = subMenuArray.getJSONObject(m);
+												String menuItemId = subMenuItem.optString("id");
+
+												if (menuID.equals(menuItemId)) {
+
+													menuItemAvailable_inNearByStore = true;
+													menuName = subMenuItem.optString("name");
+												}
+
+											}
+										}
+									}
+								}
+								if (menuItemAvailable_inNearByStore) {
+
+									// validate ordertype, time and navigate to the item
+									// quantity screen
+									Response restaurant = given()
+											.queryParam("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb").when()
+											.get("https://opendining.net/api/v1/merchant/" + merchantID
+													+ "/restaurants/" + StoreCodeFromAPI + "");
+
+									int restaurantStatusCode = restaurant.getStatusCode();
+									if (restaurantStatusCode == 200) {
+										JSONObject resjo = new JSONObject(restaurant.body().asString());
+										System.out.println(resjo);
+										Boolean isCurbsideAvailable = resjo.optJSONObject("curbside").optBoolean("en");
+										Boolean isDeliveryAvailable = resjo.optBoolean("delivery");
+										Boolean isTakeoutAvailable = resjo.optBoolean("takeout");
+										Boolean isHideTakout = resjo.optJSONObject("curbside")
+												.optBoolean("hide_takeout");
+										String takeOutLabel = resjo.optString("takeout_label");
+										System.out.println("takeoutlabel: " + takeOutLabel);
+										String curbsideLabel = resjo.optJSONObject("curbside").optString("label_text");
+										System.out.println("curbsidetlabel: " + curbsideLabel);
+										String deliveryLabel = resjo.optString("delivery_label");
+										System.out.println("deliverylabel: " + deliveryLabel);
+										Boolean isRestaurantAvailable = resjo.optBoolean("accepting_orders");
+
+										if (isRestaurantAvailable) {
+
+											if (commonMethods.elementIsDisplayed(restaurantClosedString)) {
+												// the restaurant is not accepting orders
+
+												String restaurantClosedString = commonMethods.stringsReader(
+														dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_RESTAURANT_NOT_ACCEPTING_BUTTON_STRING);
+
+												boolean restaurantClosedStringBoolean = commonMethods
+														.elementFoundOrNotPopUp(restaurantClosedString);
+
+												if (restaurantClosedStringBoolean) {
+
+													FlutterElement errorAlertDescription = find.byValueKey(
+															dashBoardLocators.IMAGE_COMPONENT_STORE_NOT_ACCEPTING_ALERT_DESCRIPTION_VKL);
+													String errorAlertDescriptionDisplayed = errorAlertDescription
+															.getText();
+
+													commonMethods.assertvalidation("Error Alert Text validation",
+															restaurantClosedString, errorAlertDescriptionDisplayed,
+															nextGenImageComponent001);
+													nextGenImageComponent001.addScreenCaptureFromBase64String(
+															takeScreenshot(driver), "Error Alert Text appears");
+
+													alertOkay();
+												}
+
+											}
+
+											else {
+
+												Boolean isMenuItemTitleDisplayed = commonMethods
+														.elementIsDisplayed(menuName);
+
+												if (isMenuItemTitleDisplayed) {
+													Boolean isMenuItemTitleDisplayed1 = commonMethods
+															.elementIsDisplayed(menuName);
+
+													if (isMenuItemTitleDisplayed1) {
+
+														nextGenImageComponent001.info(MarkupHelper.createLabel(
+																"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																		+ menuName,
+																ExtentColor.CYAN));
+														nextGenImageComponent001.addScreenCaptureFromBase64String(
+																takeScreenshot(driver),
+																"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																		+ menuName);
+
+													}
+
+													navigateToDashboard();
+												}
+
+												else {
+
+													if (isTakeoutAvailable && isHideTakout == false) {
+
+														finalTakeoutLabel = takeOutLabel.isEmpty()
+																|| takeOutLabel == null
+																		? commonMethods.stringsReader(
+																				orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_TAKEOUT_ORDERTYPE_TEXT)
+																		: takeOutLabel;
+
+														if (isDeliveryAvailable && isCurbsideAvailable) {
+															finalCurbsideLabel = curbsideLabel.isEmpty()
+																	|| curbsideLabel == null
+																			? commonMethods.stringsReader(
+																					orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_CURBSIDE_ORDERTYPE_TEXT)
+																			: curbsideLabel;
+
+															finalDeliveryLabel = deliveryLabel.isEmpty()
+																	|| deliveryLabel == null
+																			? commonMethods.stringsReader(
+																					orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_DELIVERY_ORDERTYPE_TEXT)
+																			: deliveryLabel;
+
+															comparevalue("takeout text",
+																	orderNowLocators.ORDERTYPE_TAKEOUT_VKL,
+																	finalTakeoutLabel, "assertvalidation");
+															comparevalue("delivery text",
+																	orderNowLocators.ORDERTYPE_DELIVERY_VKL,
+																	finalDeliveryLabel, "assertvalidation");
+															comparevalue("curbside text",
+																	orderNowLocators.ORDERTYPE_CURBSIDE_VKL,
+																	finalCurbsideLabel, "assertvalidation");
+
+															// need to choose the value from the g sheet
+
+															BaseClass base = new BaseClass();
+															List<String> details = base.appConfiguration();
+															String orderType = details.get(60);
+															chooseTime = details.get(61);
+
+															if (orderType.equals("1")) {
+																commonMethods.switchContext("FLUTTER");
+																Thread.sleep(5000);
+																FlutterElement multiOrderTypeselectTakeout = find
+																		.byValueKey(
+																				orderNowLocators.ORDERTYPE_TAKEOUT_VKL);
+																multiOrderTypeselectTakeout.click();
+																selectTimeForOrderAgain();
+
+																Boolean isMenuItemTitleDisplayed1 = commonMethods
+																		.elementIsDisplayed(menuName);
+
+																if (isMenuItemTitleDisplayed1) {
+
+																	nextGenImageComponent001
+																			.info(MarkupHelper.createLabel(
+																					"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																							+ menuName,
+																					ExtentColor.CYAN));
+																	nextGenImageComponent001
+																			.addScreenCaptureFromBase64String(
+																					takeScreenshot(driver),
+																					"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																							+ menuName);
+
+																}
+
+																// choose from later popup
+															} else if (orderType.equals("2")) {
+																commonMethods.switchContext("FLUTTER");
+
+																FlutterElement multiOrderTypeselectDelivery = find
+																		.byValueKey(
+																				orderNowLocators.ORDERTYPE_DELIVERY_VKL);
+																multiOrderTypeselectDelivery.click();
+																Thread.sleep(5000);
+
+																FlutterElement addAddressScreen_BackIcon = find
+																		.byValueKey(
+																				locationLocator.ADD_NEW_ADDRESS_BACK_ICON_VK);
+																addAddressScreen_BackIcon.click();
+
+															} else if (orderType.equals("3")) {
+
+																commonMethods.switchContext("FLUTTER");
+																FlutterElement multiOrderTypeselectCurbside = find
+																		.byValueKey(
+																				orderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+																multiOrderTypeselectCurbside.click();
+																selectTimeForOrderAgain();
+																Boolean isMenuItemTitleDisplayed1 = commonMethods
+																		.elementIsDisplayed(menuName);
+
+																if (isMenuItemTitleDisplayed1) {
+
+																	nextGenImageComponent001
+																			.info(MarkupHelper.createLabel(
+																					"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																							+ menuName,
+																					ExtentColor.CYAN));
+																	nextGenImageComponent001
+																			.addScreenCaptureFromBase64String(
+																					takeScreenshot(driver),
+																					"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																							+ menuName);
+
+																}
+
+															} else {
+																selectTimeForOrderAgain();
+																Boolean isMenuItemTitleDisplayed1 = commonMethods
+																		.elementIsDisplayed(menuName);
+
+																if (isMenuItemTitleDisplayed1) {
+
+																	nextGenImageComponent001
+																			.info(MarkupHelper.createLabel(
+																					"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																							+ menuName,
+																					ExtentColor.CYAN));
+																	nextGenImageComponent001
+																			.addScreenCaptureFromBase64String(
+																					takeScreenshot(driver),
+																					"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																							+ menuName);
+
+																}
+
+															}
+															navigateToDashboard();
+														}
+
+														else if (isDeliveryAvailable) {
+
+															finalDeliveryLabel = deliveryLabel.isEmpty()
+																	|| deliveryLabel == null
+																			? commonMethods.stringsReader(
+																					orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_DELIVERY_ORDERTYPE_TEXT)
+																			: deliveryLabel;
+
+															comparevalue("takeout text",
+																	orderNowLocators.ORDERTYPE_TAKEOUT_VKL,
+																	finalTakeoutLabel, "assertvalidation");
+															comparevalue("delivery text",
+																	orderNowLocators.ORDERTYPE_DELIVERY_VKL,
+																	finalDeliveryLabel, "assertvalidation");
+															// need to choose the value from the g sheet
+
+															BaseClass base = new BaseClass();
+															List<String> details = base.appConfiguration();
+															chooseTime = details.get(61);
+
+															commonMethods.switchContext("FLUTTER");
+
+															FlutterElement multiOrderTypeselectDelivery = find
+																	.byValueKey(
+																			orderNowLocators.ORDERTYPE_DELIVERY_VKL);
+															multiOrderTypeselectDelivery.click();
+															Thread.sleep(5000);
+
+															FlutterElement addAddressScreen_BackIcon = find.byValueKey(
+																	locationLocator.ADD_NEW_ADDRESS_BACK_ICON_VK);
+															addAddressScreen_BackIcon.click();
+														}
+
+														else if (isCurbsideAvailable) {
+
+															finalCurbsideLabel = curbsideLabel.isEmpty()
+																	|| curbsideLabel == null
+																			? commonMethods.stringsReader(
+																					orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_CURBSIDE_ORDERTYPE_TEXT)
+																			: curbsideLabel;
+
+															comparevalue("takeout text",
+																	orderNowLocators.ORDERTYPE_TAKEOUT_VKL,
+																	finalTakeoutLabel, "assertvalidation");
+															comparevalue("curbside text",
+																	orderNowLocators.ORDERTYPE_CURBSIDE_VKL,
+																	finalCurbsideLabel, "assertvalidation");
+
+															// need to choose the value from the g sheet
+
+															BaseClass base = new BaseClass();
+															List<String> details = base.appConfiguration();
+															chooseTime = details.get(61);
+
+															commonMethods.switchContext("FLUTTER");
+															FlutterElement multiOrderTypeselectCurbside = find
+																	.byValueKey(
+																			orderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+															multiOrderTypeselectCurbside.click();
+															selectTimeForOrderAgain();
+
+															Boolean isMenuItemTitleDisplayed1 = commonMethods
+																	.elementIsDisplayed(menuName);
+
+															if (isMenuItemTitleDisplayed1) {
+
+																nextGenImageComponent001.info(MarkupHelper.createLabel(
+																		"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																				+ menuName,
+																		ExtentColor.CYAN));
+																nextGenImageComponent001
+																		.addScreenCaptureFromBase64String(
+																				takeScreenshot(driver),
+																				"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																						+ menuName);
+
+															}
+
+															navigateToDashboard();
+														}
+
+														else {
+
+															selectTimeForOrderAgain();
+
+															Boolean isMenuItemTitleDisplayed1 = commonMethods
+																	.elementIsDisplayed(menuName);
+
+															if (isMenuItemTitleDisplayed1) {
+
+																nextGenImageComponent001.info(MarkupHelper.createLabel(
+																		"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																				+ menuName,
+																		ExtentColor.CYAN));
+																nextGenImageComponent001
+																		.addScreenCaptureFromBase64String(
+																				takeScreenshot(driver),
+																				"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																						+ menuName);
+
+															}
+
+															navigateToDashboard();
+														}
+													}
+
+													else if (isTakeoutAvailable && isHideTakout) {
+
+														if (isDeliveryAvailable && isCurbsideAvailable) {
+
+															finalCurbsideLabel = curbsideLabel.isEmpty()
+																	|| curbsideLabel == null
+																			? commonMethods.stringsReader(
+																					orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_CURBSIDE_ORDERTYPE_TEXT)
+																			: curbsideLabel;
+
+															finalDeliveryLabel = deliveryLabel.isEmpty()
+																	|| deliveryLabel == null
+																			? commonMethods.stringsReader(
+																					orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_DELIVERY_ORDERTYPE_TEXT)
+																			: deliveryLabel;
+
+															comparevalue("delivery text",
+																	orderNowLocators.ORDERTYPE_DELIVERY_VKL,
+																	finalDeliveryLabel, "assertvalidation");
+															comparevalue("curbside text",
+																	orderNowLocators.ORDERTYPE_CURBSIDE_VKL,
+																	finalCurbsideLabel, "assertvalidation");
+
+															BaseClass base = new BaseClass();
+															List<String> details = base.appConfiguration();
+															chooseTime = details.get(61);
+
+															commonMethods.switchContext("FLUTTER");
+															FlutterElement multiOrderTypeselectCurbside = find
+																	.byValueKey(
+																			orderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+															Thread.sleep(5000);
+															multiOrderTypeselectCurbside.click();
+															selectTimeForOrderAgain();
+
+															Boolean isMenuItemTitleDisplayed1 = commonMethods
+																	.elementIsDisplayed(menuName);
+
+															if (isMenuItemTitleDisplayed1) {
+
+																nextGenImageComponent001.info(MarkupHelper.createLabel(
+																		"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																				+ menuName,
+																		ExtentColor.CYAN));
+																nextGenImageComponent001
+																		.addScreenCaptureFromBase64String(
+																				takeScreenshot(driver),
+																				"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																						+ menuName);
+
+															}
+
+															Thread.sleep(5000);
+															navigateToDashboard();
+														}
+
+														else if (isDeliveryAvailable) {
+
+															BaseClass base = new BaseClass();
+															List<String> details = base.appConfiguration();
+
+															chooseTime = details.get(61);
+
+															commonMethods.switchContext("FLUTTER");
+
+															FlutterElement multiOrderTypeselectDelivery = find
+																	.byValueKey(
+																			orderNowLocators.ORDERTYPE_DELIVERY_VKL);
+															multiOrderTypeselectDelivery.click();
+															Thread.sleep(5000);
+															FlutterElement addAddressScreen_BackIcon = find.byValueKey(
+																	locationLocator.ADD_NEW_ADDRESS_BACK_ICON_VK);
+															addAddressScreen_BackIcon.click();
+														}
+
+														else if (isCurbsideAvailable) {
+
+															BaseClass base = new BaseClass();
+															List<String> details = base.appConfiguration();
+															chooseTime = details.get(61);
+
+															commonMethods.switchContext("FLUTTER");
+															FlutterElement multiOrderTypeselectCurbside = find
+																	.byValueKey(
+																			orderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+															Thread.sleep(5000);
+
+															multiOrderTypeselectCurbside.click();
+															selectTimeForOrderAgain();
+
+															Boolean isMenuItemTitleDisplayed1 = commonMethods
+																	.elementIsDisplayed(menuName);
+
+															if (isMenuItemTitleDisplayed1) {
+
+																nextGenImageComponent001.info(MarkupHelper.createLabel(
+																		"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																				+ menuName,
+																		ExtentColor.CYAN));
+																nextGenImageComponent001
+																		.addScreenCaptureFromBase64String(
+																				takeScreenshot(driver),
+																				"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																						+ menuName);
+
+															}
+
+															navigateToDashboard();
+														} else {
+
+															selectTimeForOrderAgain();
+
+															Boolean isMenuItemTitleDisplayed1 = commonMethods
+																	.elementIsDisplayed(menuName);
+
+															if (isMenuItemTitleDisplayed1) {
+
+																nextGenImageComponent001.info(MarkupHelper.createLabel(
+																		"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																				+ menuName,
+																		ExtentColor.CYAN));
+																nextGenImageComponent001
+																		.addScreenCaptureFromBase64String(
+																				takeScreenshot(driver),
+																				"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																						+ menuName);
+
+															}
+
+															navigateToDashboard();
+
+														}
+
+													}
+												}
+											}
+
+										} else {
+											// the restaurant is not accepting orders
+
+											String restaurantClosedString = commonMethods.stringsReader(
+													dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_RESTAURANT_NOT_ACCEPTING_BUTTON_STRING);
+
+											boolean restaurantClosedStringBoolean = commonMethods
+													.elementFoundOrNotPopUp(restaurantClosedString);
+
+											if (restaurantClosedStringBoolean) {
+
+												FlutterElement errorAlertDescription = find.byValueKey(
+														dashBoardLocators.IMAGE_COMPONENT_STORE_NOT_ACCEPTING_ALERT_DESCRIPTION_VKL);
+												String errorAlertDescriptionDisplayed = errorAlertDescription.getText();
+
+												commonMethods.assertvalidation("Error Alert Text validation",
+														restaurantClosedString, errorAlertDescriptionDisplayed,
+														nextGenImageComponent001);
+												nextGenImageComponent001.addScreenCaptureFromBase64String(
+														takeScreenshot(driver), "Error Alert Text appears");
+
+												alertOkay();
+											}
+
+										}
+									}
+
+								} else {
+
+									// handle popup
+
+									BaseClass bc = new BaseClass();
+									List<String> appConfiguration = bc.appConfiguration();
+
+									String email = appConfiguration.get(6);
+									String password = appConfiguration.get(7);
+									String cardTemplatecode = appConfiguration.get(9);
+									merchantID = appConfiguration.get(8);
+
+									Response accesstokenresponse = APIMethods.generateAccessToken(email, password,
+											cardTemplatecode, merchantID);
+									JSONObject jo1 = new JSONObject(accesstokenresponse.asString());
+									String accesstoken = jo1.optString("access_token");
+									String username = jo1.optString("username");
+									String printedcardnumber = jo1.optString("printedCardNumber");
+									String authorizationgrantvaluefromresponse = APIMethods
+											.generateAuthorizationGrant(accesstoken, username);
+
+									// orders API
+									Response orderdetails = given()
+											.queryParam("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb")
+											.queryParam("access_token", authorizationgrantvaluefromresponse)
+											.queryParam("merchant_id", merchantID)
+											.queryParam("printed_card_number", printedcardnumber)
+											.queryParam("provider", "px").when()
+											.get("https://opendining.net/api/v1/account/orders");
+
+									int statuscode1 = orderdetails.statusCode();
+									System.out.println(orderdetails.asPrettyString());
+									System.out.println("The status code for the order details API is: " + statuscode1);
+
+									if (statuscode1 == 200) {
+
+										JSONArray orderlist1 = new JSONArray(orderdetails.asString());
+										JSONObject jo2 = orderlist1.getJSONObject(0);
+										StoreCodeFromAPI = jo2.optString("px_store_code");
+										System.out.println("STORE CODE IS : " + StoreCodeFromAPI);
+
+										// menu api
+										Response responseMenu1 = given()
+												.queryParam("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb")
+												.queryParam("include_combo", "true").when()
+												.get("https://opendining.net/api/v1/merchant/" + merchantID
+														+ "/restaurants/" + StoreCodeFromAPI + "/menu/tier");
+
+										int menuStatusCode1 = responseMenu1.getStatusCode();
+										if (menuStatusCode1 == 200) {
+
+											JSONObject jObjectMenu1 = new JSONObject(responseMenu1.body().asString());
+											JSONArray optJSONArrayMenu1 = jObjectMenu1.optJSONArray("menu");
+
+											if (optJSONArrayMenu1 != null) {
+
+												for (int p = 0; p < optJSONArrayMenu1.length(); p++) {
+
+													JSONObject menuItem = optJSONArrayMenu1.getJSONObject(p);
+
+													JSONArray subMenuArray = menuItem.optJSONArray("items");
+
+													if (subMenuArray != null) {
+														for (int m = 0; m < subMenuArray.length(); m++) {
+															JSONObject subMenuItem = subMenuArray.getJSONObject(m);
+															String menuItemId = subMenuItem.optString("id");
+
+															System.out.println(
+																	menuID + "  " + menuItemId + menuItemAvailable);
+
+															if (menuID.equals(menuItemId)) {
+
+																menuItemAvailable = true;
+																menuName = subMenuItem.optString("name");
+
+															}
+
+														}
+													}
+
+												}
+											}
+
+										}
+
+									}
+									System.out.println("ID MATCHES : " + menuItemAvailable);
+
+									if (menuItemAvailable) {
+
+										// validate ordertype, time and navigate to the item
+										// quantity screen
+										Response restaurant = given()
+												.queryParam("key", "6d6bf06a4f653a54da8d88715a736a4ca6071ffb").when()
+												.get("https://opendining.net/api/v1/merchant/" + merchantID
+														+ "/restaurants/" + StoreCodeFromAPI + "");
+
+										int restaurantStatusCode = restaurant.getStatusCode();
+										if (restaurantStatusCode == 200) {
+											JSONObject resjo = new JSONObject(restaurant.body().asString());
+											System.out.println(resjo);
+											Boolean isCurbsideAvailable = resjo.optJSONObject("curbside")
+													.optBoolean("en");
+											Boolean isDeliveryAvailable = resjo.optBoolean("delivery");
+											Boolean isTakeoutAvailable = resjo.optBoolean("takeout");
+											Boolean isHideTakout = resjo.optJSONObject("curbside")
+													.optBoolean("hide_takeout");
+											String takeOutLabel = resjo.optString("takeout_label");
+											System.out.println("takeoutlabel: " + takeOutLabel);
+											String curbsideLabel = resjo.optJSONObject("curbside")
+													.optString("label_text");
+											System.out.println("curbsidetlabel: " + curbsideLabel);
+											String deliveryLabel = resjo.optString("delivery_label");
+											System.out.println("deliverylabel: " + deliveryLabel);
+											Boolean isRestaurantAvailable = resjo.optBoolean("accepting_orders");
+											System.out.println("Accepting Orders : " + isRestaurantAvailable);
+
+											if (isRestaurantAvailable) {
+
+												if (commonMethods.elementIsDisplayed(restaurantClosedString)) {
+													// the restaurant is not accepting orders
+
+													String restaurantClosedString = commonMethods.stringsReader(
+															dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_RESTAURANT_NOT_ACCEPTING_BUTTON_STRING);
+
+													boolean restaurantClosedStringBoolean = commonMethods
+															.elementFoundOrNotPopUp(restaurantClosedString);
+
+													if (restaurantClosedStringBoolean) {
+
+														FlutterElement errorAlertDescription = find.byValueKey(
+																dashBoardLocators.IMAGE_COMPONENT_STORE_NOT_ACCEPTING_ALERT_DESCRIPTION_VKL);
+														String errorAlertDescriptionDisplayed = errorAlertDescription
+																.getText();
+
+														commonMethods.assertvalidation("Error Alert Text validation",
+																restaurantClosedString, errorAlertDescriptionDisplayed,
+																nextGenImageComponent001);
+														nextGenImageComponent001.addScreenCaptureFromBase64String(
+																takeScreenshot(driver), "Error Alert Text appears");
+
+														alertOkay();
+													}
+
+												}
+
+												else {
+
+													Boolean isMenuItemTitleDisplayed = commonMethods
+															.elementIsDisplayed(menuName);
+
+													if (isMenuItemTitleDisplayed) {
+														Boolean isMenuItemTitleDisplayed1 = commonMethods
+																.elementIsDisplayed(menuName);
+
+														if (isMenuItemTitleDisplayed1) {
+
+															nextGenImageComponent001.info(MarkupHelper.createLabel(
+																	"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																			+ menuName,
+																	ExtentColor.CYAN));
+															nextGenImageComponent001.addScreenCaptureFromBase64String(
+																	takeScreenshot(driver),
+																	"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																			+ menuName);
+
+														}
+														navigateToDashboard();
+													}
+
+													else {
+
+														if (isTakeoutAvailable && isHideTakout == false) {
+
+															finalTakeoutLabel = takeOutLabel.isEmpty()
+																	|| takeOutLabel == null
+																			? commonMethods.stringsReader(
+																					orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_TAKEOUT_ORDERTYPE_TEXT)
+																			: takeOutLabel;
+															System.out.println(finalTakeoutLabel);
+
+															if (isDeliveryAvailable && isCurbsideAvailable) {
+																finalCurbsideLabel = curbsideLabel.isEmpty()
+																		|| curbsideLabel == null
+																				? commonMethods.stringsReader(
+																						orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_CURBSIDE_ORDERTYPE_TEXT)
+																				: curbsideLabel;
+
+																System.out.println(finalCurbsideLabel);
+
+																finalDeliveryLabel = deliveryLabel.isEmpty()
+																		|| deliveryLabel == null
+																				? commonMethods.stringsReader(
+																						orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_DELIVERY_ORDERTYPE_TEXT)
+																				: deliveryLabel;
+
+																System.out.println(finalDeliveryLabel);
+
+																comparevalue("takeout text",
+																		orderNowLocators.ORDERTYPE_TAKEOUT_VKL,
+																		finalTakeoutLabel, "assertvalidation");
+																comparevalue("delivery text",
+																		orderNowLocators.ORDERTYPE_DELIVERY_VKL,
+																		finalDeliveryLabel, "assertvalidation");
+																comparevalue("curbside text",
+																		orderNowLocators.ORDERTYPE_CURBSIDE_VKL,
+																		finalCurbsideLabel, "assertvalidation");
+
+																// need to choose the value from the g
+																// sheet
+
+																BaseClass base = new BaseClass();
+																List<String> details = base.appConfiguration();
+																String orderType = details.get(60);
+																chooseTime = details.get(61);
+
+//																				chooseOrderType(orderType);
+
+																if (orderType.equals("1")) {
+																	commonMethods.switchContext("FLUTTER");
+																	Thread.sleep(5000);
+																	FlutterElement multiOrderTypeselectTakeout = find
+																			.byValueKey(
+																					orderNowLocators.ORDERTYPE_TAKEOUT_VKL);
+																	multiOrderTypeselectTakeout.click();
+																	selectTimeForOrderAgain();
+																	Boolean isMenuItemTitleDisplayed1 = commonMethods
+																			.elementIsDisplayed(menuName);
+
+																	if (isMenuItemTitleDisplayed1) {
+
+																		nextGenImageComponent001
+																				.info(MarkupHelper.createLabel(
+																						"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																								+ menuName,
+																						ExtentColor.CYAN));
+																		nextGenImageComponent001
+																				.addScreenCaptureFromBase64String(
+																						takeScreenshot(driver),
+																						"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																								+ menuName);
+
+																	}
+																	// choose from later popup
+																} else if (orderType.equals("2")) {
+																	commonMethods.switchContext("FLUTTER");
+
+																	FlutterElement multiOrderTypeselectDelivery = find
+																			.byValueKey(
+																					orderNowLocators.ORDERTYPE_DELIVERY_VKL);
+																	multiOrderTypeselectDelivery.click();
+
+																	Thread.sleep(5000);
+
+																	FlutterElement addAddressScreen_BackIcon = find
+																			.byValueKey(
+																					locationLocator.ADD_NEW_ADDRESS_BACK_ICON_VK);
+																	addAddressScreen_BackIcon.click();
+
+																} else if (orderType.equals("3")) {
+																	commonMethods.switchContext("FLUTTER");
+																	FlutterElement multiOrderTypeselectCurbside = find
+																			.byValueKey(
+																					orderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+																	multiOrderTypeselectCurbside.click();
+																	selectTimeForOrderAgain();
+																	Boolean isMenuItemTitleDisplayed1 = commonMethods
+																			.elementIsDisplayed(menuName);
+
+																	if (isMenuItemTitleDisplayed1) {
+
+																		nextGenImageComponent001
+																				.info(MarkupHelper.createLabel(
+																						"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																								+ menuName,
+																						ExtentColor.CYAN));
+																		nextGenImageComponent001
+																				.addScreenCaptureFromBase64String(
+																						takeScreenshot(driver),
+																						"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																								+ menuName);
+
+																	}
+																} else {
+																	selectTimeForOrderAgain();
+																	Boolean isMenuItemTitleDisplayed1 = commonMethods
+																			.elementIsDisplayed(menuName);
+
+																	if (isMenuItemTitleDisplayed1) {
+
+																		nextGenImageComponent001
+																				.info(MarkupHelper.createLabel(
+																						"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																								+ menuName,
+																						ExtentColor.CYAN));
+																		nextGenImageComponent001
+																				.addScreenCaptureFromBase64String(
+																						takeScreenshot(driver),
+																						"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																								+ menuName);
+
+																	}
+																}
+																navigateToDashboard();
+															}
+
+															else if (isDeliveryAvailable) {
+
+																finalDeliveryLabel = deliveryLabel.isEmpty()
+																		|| deliveryLabel == null
+																				? commonMethods.stringsReader(
+																						orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_DELIVERY_ORDERTYPE_TEXT)
+																				: deliveryLabel;
+
+																comparevalue("delivery text",
+																		orderNowLocators.ORDERTYPE_DELIVERY_VKL,
+																		finalDeliveryLabel, "assertvalidation");
+																// need to choose the value from the g
+																// sheet
+
+																BaseClass base = new BaseClass();
+																List<String> details = base.appConfiguration();
+
+																chooseTime = details.get(61);
+
+																commonMethods.switchContext("FLUTTER");
+
+																FlutterElement multiOrderTypeselectDelivery = find
+																		.byValueKey(
+																				orderNowLocators.ORDERTYPE_DELIVERY_VKL);
+																multiOrderTypeselectDelivery.click();
+
+																Thread.sleep(5000);
+
+																FlutterElement addAddressScreen_BackIcon = find
+																		.byValueKey(
+																				locationLocator.ADD_NEW_ADDRESS_BACK_ICON_VK);
+																addAddressScreen_BackIcon.click();
+															}
+
+															else if (isCurbsideAvailable) {
+
+																finalCurbsideLabel = curbsideLabel.isEmpty()
+																		|| curbsideLabel == null
+																				? commonMethods.stringsReader(
+																						orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_CURBSIDE_ORDERTYPE_TEXT)
+																				: curbsideLabel;
+
+																comparevalue("curbside text",
+																		orderNowLocators.ORDERTYPE_CURBSIDE_VKL,
+																		finalCurbsideLabel, "assertvalidation");
+
+																commonMethods.switchContext("FLUTTER");
+																FlutterElement multiOrderTypeselectCurbside = find
+																		.byValueKey(
+																				orderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+																multiOrderTypeselectCurbside.click();
+																selectTimeForOrderAgain();
+
+																Boolean isMenuItemTitleDisplayed1 = commonMethods
+																		.elementIsDisplayed(menuName);
+
+																if (isMenuItemTitleDisplayed1) {
+
+																	nextGenImageComponent001
+																			.info(MarkupHelper.createLabel(
+																					"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																							+ menuName,
+																					ExtentColor.CYAN));
+																	nextGenImageComponent001
+																			.addScreenCaptureFromBase64String(
+																					takeScreenshot(driver),
+																					"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																							+ menuName);
+
+																}
+																navigateToDashboard();
+
+															} else {
+
+																selectTimeForOrderAgain();
+
+																Boolean isMenuItemTitleDisplayed1 = commonMethods
+																		.elementIsDisplayed(menuName);
+
+																if (isMenuItemTitleDisplayed1) {
+
+																	nextGenImageComponent001
+																			.info(MarkupHelper.createLabel(
+																					"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																							+ menuName,
+																					ExtentColor.CYAN));
+																	nextGenImageComponent001
+																			.addScreenCaptureFromBase64String(
+																					takeScreenshot(driver),
+																					"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																							+ menuName);
+
+																}
+																navigateToDashboard();
+
+															}
+
+														}
+
+														else if (isTakeoutAvailable && isHideTakout) {
+
+															if (isDeliveryAvailable && isCurbsideAvailable) {
+
+																finalCurbsideLabel = curbsideLabel.isEmpty()
+																		|| curbsideLabel == null
+																				? commonMethods.stringsReader(
+																						orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_CURBSIDE_ORDERTYPE_TEXT)
+																				: curbsideLabel;
+
+																finalDeliveryLabel = deliveryLabel.isEmpty()
+																		|| deliveryLabel == null
+																				? commonMethods.stringsReader(
+																						orderDetailsScreenLocator.ORDER_DETAILS_SCREEN_DELIVERY_ORDERTYPE_TEXT)
+																				: deliveryLabel;
+
+																comparevalue("takeout text",
+																		orderNowLocators.ORDERTYPE_TAKEOUT_VKL,
+																		finalTakeoutLabel, "assertvalidation");
+																comparevalue("delivery text",
+																		orderNowLocators.ORDERTYPE_DELIVERY_VKL,
+																		finalDeliveryLabel, "assertvalidation");
+																comparevalue("curbside text",
+																		orderNowLocators.ORDERTYPE_CURBSIDE_VKL,
+																		finalCurbsideLabel, "assertvalidation");
+
+																BaseClass base = new BaseClass();
+																List<String> details = base.appConfiguration();
+																chooseTime = details.get(61);
+
+																commonMethods.switchContext("FLUTTER");
+																FlutterElement multiOrderTypeselectCurbside = find
+																		.byValueKey(
+																				orderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+																Thread.sleep(5000);
+																multiOrderTypeselectCurbside.click();
+																selectTimeForOrderAgain();
+
+																Boolean isMenuItemTitleDisplayed1 = commonMethods
+																		.elementIsDisplayed(menuName);
+
+																if (isMenuItemTitleDisplayed1) {
+
+																	nextGenImageComponent001
+																			.info(MarkupHelper.createLabel(
+																					"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																							+ menuName,
+																					ExtentColor.CYAN));
+																	nextGenImageComponent001
+																			.addScreenCaptureFromBase64String(
+																					takeScreenshot(driver),
+																					"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																							+ menuName);
+
+																}
+																Thread.sleep(5000);
+																navigateToDashboard();
+															}
+
+															else if (isDeliveryAvailable) {
+
+																BaseClass base = new BaseClass();
+																List<String> details = base.appConfiguration();
+
+																chooseTime = details.get(61);
+
+																commonMethods.switchContext("FLUTTER");
+
+																FlutterElement multiOrderTypeselectDelivery = find
+																		.byValueKey(
+																				orderNowLocators.ORDERTYPE_DELIVERY_VKL);
+																multiOrderTypeselectDelivery.click();
+
+																Thread.sleep(5000);
+
+																FlutterElement addAddressScreen_BackIcon = find
+																		.byValueKey(
+																				locationLocator.ADD_NEW_ADDRESS_BACK_ICON_VK);
+																addAddressScreen_BackIcon.click();
+															}
+
+															else if (isCurbsideAvailable) {
+
+																BaseClass base = new BaseClass();
+																List<String> details = base.appConfiguration();
+																chooseTime = details.get(61);
+																selectTimeForOrderAgain();
+																Boolean isMenuItemTitleDisplayed1 = commonMethods
+																		.elementIsDisplayed(menuName);
+
+																if (isMenuItemTitleDisplayed1) {
+
+																	nextGenImageComponent001
+																			.info(MarkupHelper.createLabel(
+																					"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																							+ menuName,
+																					ExtentColor.CYAN));
+																	nextGenImageComponent001
+																			.addScreenCaptureFromBase64String(
+																					takeScreenshot(driver),
+																					"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																							+ menuName);
+
+																}
+																navigateToDashboard();
+															} else {
+
+																selectTimeForOrderAgain();
+																Boolean isMenuItemTitleDisplayed1 = commonMethods
+																		.elementIsDisplayed(menuName);
+
+																if (isMenuItemTitleDisplayed1) {
+
+																	nextGenImageComponent001
+																			.info(MarkupHelper.createLabel(
+																					"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																							+ menuName,
+																					ExtentColor.CYAN));
+																	nextGenImageComponent001
+																			.addScreenCaptureFromBase64String(
+																					takeScreenshot(driver),
+																					"Validated the user navigated to respective Menu Item or Category screen and Title is : "
+																							+ menuName);
+
+																}
+																navigateToDashboard();
+
+															}
+
+														}
+													}
+												}
+
+											} else {
+												// the restaurant is not accepting orders
+
+												String restaurantClosedString = commonMethods.stringsReader(
+														dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_RESTAURANT_NOT_ACCEPTING_BUTTON_STRING);
+
+												boolean restaurantClosedStringBoolean = commonMethods
+														.elementFoundOrNotPopUp(restaurantClosedString);
+
+												if (restaurantClosedStringBoolean) {
+
+													FlutterElement errorAlertDescription = find.byValueKey(
+															dashBoardLocators.IMAGE_COMPONENT_STORE_NOT_ACCEPTING_ALERT_DESCRIPTION_VKL);
+													String errorAlertDescriptionDisplayed = errorAlertDescription
+															.getText();
+
+													commonMethods.assertvalidation("Error Alert Text validation",
+															restaurantClosedString, errorAlertDescriptionDisplayed,
+															nextGenImageComponent001);
+													nextGenImageComponent001.addScreenCaptureFromBase64String(
+															takeScreenshot(driver), "Error Alert Text appears");
+
+													alertOkay();
+												}
+
+											}
+										}
+
+									} else {
+
+										// Respective menu-Id is not available in the Recent ordered
+										// Store.
+
+										commonMethods.switchContext("FLUTTER");
+
+										String menuIdNotMatchAlert = commonMethods
+												.stringsReader(orderDetailsScreenLocator.ORDER_DETAILS_WE_ARE_SORRY);
+
+										commonMethods.switchContext("NATIVE_APP");
+
+										WebElement alertDescription = driver.findElement(By.xpath(
+												orderDetailsScreenLocator.ORDER_DETAILS_WE_ARE_SORRY_DESCRIPTION_TEXT_XPATH));
+
+										if (alertDescription.isDisplayed()) {
+
+											String alertDescriptionDisplayed = alertDescription.getAttribute("value");
+
+											commonMethods.assertvalidation("Error Alert Text validation",
+													menuIdNotMatchAlert, alertDescriptionDisplayed,
+													nextGenImageComponent001);
+
+										}
+
+										commonMethods.switchContext("FLUTTER");
+
+										Thread.sleep(3000);
+
+										FlutterElement popupYes = find.byValueKey(
+												orderDetailsScreenLocator.ORDER_DETAILS_WE_ARE_SORRY_YES_VKL);
+										popupYes.click();
+
+										comparetext("Location list screen title",
+												locationLocator.LOCATION_SCREEN_TITLE_TEXT_VKL,
+												locationLocator.LOCATION_SCREEN_TITLE_TEXT_VKL, "navigationvalidation");
+										FlutterElement Location_backIcon = find
+												.byValueKey(locationLocator.LOCATION_SCREEN_BACK_BUTTON_VKL);
+										Location_backIcon.click();
+
+									}
+
+								}
+
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+		}
+	}
+
+}

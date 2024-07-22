@@ -1,0 +1,3278 @@
+package com.base;
+
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.security.GeneralSecurityException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
+import java.util.List;
+import java.util.Properties;
+
+import com.excel.ExcelUtilities;
+import com.features.MerchantSelection;
+
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.Test;
+import com.aventstack.extentreports.ExtentReports;
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.reporter.ExtentSparkReporter;
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
+import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.googleapis.javanet.GoogleNetHttpTransport;
+import com.google.api.client.http.FileContent;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.gson.GsonFactory;
+import com.google.api.client.util.store.FileDataStoreFactory;
+import com.google.api.services.drive.Drive;
+import com.google.api.services.drive.DriveScopes;
+import com.google.api.services.sheets.v4.Sheets;
+import com.google.api.services.sheets.v4.SheetsScopes;
+import com.google.api.services.sheets.v4.model.ValueRange;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
+import jakarta.mail.Authenticator;
+import jakarta.mail.Message;
+import jakarta.mail.MessagingException;
+import jakarta.mail.PasswordAuthentication;
+import jakarta.mail.Session;
+import jakarta.mail.Transport;
+import jakarta.mail.internet.AddressException;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
+
+/**
+ * @Class_Name BaseTest
+ * @Description Contains screenshot methods, reports generation, email,
+ *              uploading report to drive & all the google sheets input data
+ *              retrieving codes are written.
+ * @author : Lalith Kishore Ravi
+ */
+public class BaseClass {
+
+	/** Instantiated the driver in order to utilise it in the required classes */
+	public static AndroidDriver<WebElement> driver;
+	/** Used to print author name in the extent report */
+	public static String author = "Lalith Kishore Ravi";
+	/** Used to print device name in the extent report */
+	public static String deviceName = "Pixel 6";
+	/** Declaring globally to use it in the required method */
+	public static String dateName;
+	/** Instantiating ExtentReports globally to use it in the required class */
+	public static ExtentReports extent;
+	/** Instantiating ExtentTest globally to use it in the required class */
+	public static ExtentTest test;
+
+	private static String body;
+
+	private static String text;
+
+	private static String subject;
+
+	private String date = new SimpleDateFormat("dd_MM_yyyy_hh-mm-ss_aa_").format(new Date());
+	private String merchantID;
+	private String basePackage;
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name takeScreenshot
+	 * @Description Contains code to take screenshot as BASE64 and the screenshot
+	 *              will be shown as a thumbnail in the report
+	 * @return String
+	 * @author : Lalith Kishore Ravi
+	 * 
+	 * @throws IOException
+	 */
+	public static String takeScreenshot(AndroidDriver<WebElement> driver2) {
+		String base64Screenshot = ((TakesScreenshot) driver2).getScreenshotAs(OutputType.BASE64);
+		return base64Screenshot;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name extentReport
+	 * @Description Contains code to generate the extent report
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	@BeforeSuite
+	public static void extentReport() throws Exception {
+
+		String[] largeText = {
+
+				"  _____  _____   ______    _____       _______    _____    ______     ______     _____    ____    _____   ",
+				" |_   _||  ___| | _____|  |_   _|     |  _____|  |_   _| |  ____  |  |  ___  |  |_   _| |  ___|  |  __  | ",
+				"   | |  | |___  | |____     | |       | |_____     | |   | |    | |  | |___| |    | |   | |___   | |  | | ",
+				"   | |  | |___| |____  |    | |       |_____  |    | |   | |____| |  | ______|    | |   | |___|  | |  | | ",
+				"   | |  | |___   ____| |    | |        _____| |    | |   | |____| |  | |  | |     | |   | |___   | |__| | ",
+				"   | |  |_____| |______|    | |       |_______|    | |   | |    | |  | |  | |     | |   | ____|  |_____ | " };
+
+		for (String line : largeText) {
+			System.out.println(line);
+		}
+
+		System.out.println("\u001B[31m\u001B[1m\u001B[5mTest Started\u001B[0m");
+
+		String path = "./ConfigurationFiles/ExternalDatas.xlsx";
+		String sheetName = "ExtentReport";
+
+		ExcelUtilities.setExcelFile(path, sheetName);
+
+		String automationTesterNameiOS = ExcelUtilities.getCellData(1, 3);
+		String environmentNameiOS = ExcelUtilities.getCellData(2, 3);
+		String projectNameiOS = ExcelUtilities.getCellData(3, 3);
+		String merchantIdNameiOS = ExcelUtilities.getCellData(4, 3);
+
+		String automationTesterNameAndroid = ExcelUtilities.getCellData(5, 3);
+		String environmentNameAndroid = ExcelUtilities.getCellData(6, 3);
+		String projectNameAndroid = ExcelUtilities.getCellData(7, 3);
+		String applicationNameAndroid = ExcelUtilities.getCellData(8, 3);
+
+		dateName = new SimpleDateFormat("dd_MM_yyyy_hh-mm_aa_").format(new Date());
+		extent = new ExtentReports();
+		String pathAll = "./Reports/_Overall_Report.html";
+		ExtentSparkReporter spark = new ExtentSparkReporter(pathAll);
+		String pathFailed = "./Reports/_Failed_Report.html";
+		ExtentSparkReporter sparkFail = new ExtentSparkReporter(pathFailed).filter().statusFilter()
+				.as(new Status[] { Status.FAIL }).apply();
+		spark.loadXMLConfig(new File("./ConfigurationFiles/spark-config.xml"));
+		extent.attachReporter(spark, sparkFail);
+		extent.setSystemInfo("Automation Tester", automationTesterNameAndroid);
+		extent.setSystemInfo("Environment", environmentNameAndroid);
+		extent.setSystemInfo("Project", projectNameAndroid);
+		extent.setSystemInfo("Application", applicationNameAndroid);
+
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name tearDown
+	 * @Description Contains code @AfterSuite to flush and automatically open the
+	 *              report in the browser once generated
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 */
+//	@AfterSuite
+//	public void tearDown() throws IOException {
+//		extent.flush();
+////		Desktop.getDesktop().browse(new File("./Reports/_Overall_Report.html").toURI());
+////		Desktop.getDesktop().browse(new File("./Reports/_Failed_Report.html").toURI());   
+//	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Description Contains code to upload the reports to Google drive and send
+	 *              that link as email to the given recipients using Google Drives
+	 *              API
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 */
+
+	/* class to demonstrate use of Drive files list API */
+
+	/**
+	 * Application name.
+	 */
+	private static final String APPLICATION_NAME_DRIVE = "Drive Mail";
+	/**
+	 * Global instance of the JSON factory.
+	 */
+	private static final JsonFactory JSON_FACTORY_DRIVE = GsonFactory.getDefaultInstance();
+	/**
+	 * Directory to store authorisation tokens for this application.
+	 */
+	private static final String TOKENS_DIRECTORY_PATH_DRIVE = "tokens_drive";
+	/**
+	 * Global instance of the scopes required by this quickstart. If modifying these
+	 * scopes, delete your previously saved tokens/ folder.
+	 */
+
+	private static final List<String> SCOPES_DRIVE = Collections.singletonList(DriveScopes.DRIVE);
+	private static final String CREDENTIALS_FILE_PATH_DRIVE = "./ConfigurationFiles/client_secret_drive.json";
+
+	/**
+	 * Creates an authorised Credential object
+	 * 
+	 * @Class_Name BaseTest
+	 * @Method_Name getCredentialsDrive
+	 * @Description Contains code to get the credentials from the
+	 *              client_secret_drive.json file and authorise it
+	 * @return An authorised Credential object
+	 * @throws IOException If the credentials.json file cannot be found
+	 * @param HTTP_TRANSPORT The network HTTP Transport
+	 * @author Lalith Kishore Ravi ;
+	 */
+	private static Credential getCredentialsDrive(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
+		// Load client secrets.
+		InputStream in = new FileInputStream(CREDENTIALS_FILE_PATH_DRIVE);
+		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY_DRIVE, new InputStreamReader(in));
+
+		// Build flow and trigger user authorization request.
+		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY_DRIVE,
+				clientSecrets, SCOPES_DRIVE)
+				.setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH_DRIVE)))
+				.setAccessType("offline").build();
+		LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+		Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+		// returns an authorized Credential object.
+		return credential;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name sendingMail
+	 * @Description Contains code to upload the send the report to the recipients
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 */
+	@AfterSuite
+	public void googleDrive() throws Exception {
+		extent.flush();
+		String path = "./ConfigurationFiles/ExternalDatas.xlsx";
+		String sheetName = "GoogleDrive";
+		ExcelUtilities.setExcelFile(path, sheetName);
+		String recipient1 = ExcelUtilities.getCellData(1, 3);
+		String recipient2 = ExcelUtilities.getCellData(2, 3);
+		String recipient3 = ExcelUtilities.getCellData(3, 3);
+		String recipient4 = ExcelUtilities.getCellData(4, 3);
+		String recipient5 = ExcelUtilities.getCellData(5, 3);
+		String recipient6 = ExcelUtilities.getCellData(6, 3);
+		String recipient7 = ExcelUtilities.getCellData(7, 3);
+		String recipient8 = ExcelUtilities.getCellData(8, 3);
+		String recipient9 = ExcelUtilities.getCellData(9, 3);
+//		String recipientCC1 = ExcelUtilities.getCellData(10, 3);
+//		String recipientCC2 = ExcelUtilities.getCellData(11, 3);
+//		String recipientCC3 = ExcelUtilities.getCellData(12, 3);
+//		String recipientCC4 = ExcelUtilities.getCellData(13, 3);
+//		String recipientCC5 = ExcelUtilities.getCellData(14, 3);
+		String recipientBcc1 = ExcelUtilities.getCellData(15, 3);
+		String recipientBcc2 = ExcelUtilities.getCellData(16, 3);
+		String recipientBcc3 = ExcelUtilities.getCellData(17, 3);
+		String recipientBcc4 = ExcelUtilities.getCellData(18, 3);
+		String recipientBcc5 = ExcelUtilities.getCellData(19, 3);
+		String merchantId = ExcelUtilities.getNumericCellData(20, 3);
+		String basePackageName = ExcelUtilities.getCellData(21, 3);
+		merchantID = merchantId;
+		basePackage = basePackageName;
+
+		List<String> perimeterX = perimeterX();
+		String perimeterXConfig = perimeterX.get(0);
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		Drive service = new Drive.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsDrive(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME_DRIVE).build();
+		// Upload Overall report file on drive.
+		com.google.api.services.drive.model.File fileMetadataOverall = new com.google.api.services.drive.model.File();
+		// Set the name for the uploaded file in the drive
+		fileMetadataOverall.setName(merchantID + "_Overall_Report_" + date + "_" + basePackage + ".html");
+		// File's content.
+		java.io.File filePathOverall = new java.io.File("./Reports/_Overall_Report.html");
+		// Specify media type and file-path for Overall report file.
+		FileContent mediaContentOverall = new FileContent("application/Reports", filePathOverall);
+		try {
+			// Uploading the Overall media content in the google drive using the given
+			// details
+			com.google.api.services.drive.model.File fileOverall = service.files()
+					.create(fileMetadataOverall, mediaContentOverall).setFields("id").execute();
+			// Printing the File id of the uploaded media content
+			System.out.println("File ID: " + fileOverall.getId());
+			// Get the File id using getId method
+			String fileIdOverall = fileOverall.getId();
+			// Converting the file as Google drive link file using file Id
+			String fileUrlOverall = "https://drive.google.com/file/d/" + fileIdOverall;
+			// Printing the Google drive link of the uploaded media content
+			System.out.println("File URL: " + fileUrlOverall);
+			// Upload Failed report file on drive.
+			com.google.api.services.drive.model.File fileMetadataFailed = new com.google.api.services.drive.model.File();
+			// Set the name for the uploaded file in the drive
+			fileMetadataFailed.setName(merchantID + "_Failed_Report_" + date + "_" + basePackage + ".html");
+			// File's content.
+			java.io.File filePathFailed = new java.io.File("./Reports/_Failed_Report.html");
+			// Specify media type and file-path for file.
+			FileContent mediaContentFailed = new FileContent("application/Reports", filePathFailed);
+			// Uploading the failed media content in the google drive using the given
+			// details
+			com.google.api.services.drive.model.File fileFailed = service.files()
+					.create(fileMetadataFailed, mediaContentFailed).setFields("id").execute();
+			// Printing the File id of the uploaded media content
+			System.out.println("File ID: " + fileFailed.getId());
+			// Get the File id using getId method
+			String fileIdFailed = fileFailed.getId();
+			// Converting the file as Google drive link file using file Id
+			String fileUrlFailed = "https://drive.google.com/file/d/" + fileIdFailed;
+			// Printing the Google drive link of the uploaded media content
+			System.out.println("File URL: " + fileUrlFailed);
+			// Provide the recipients e-mail address inside the String[]
+			String[] recipients = { recipient1, recipient2, recipient3, recipient4, recipient5, recipient6, recipient7,
+					recipient8, recipient9 };
+//	    String[] recipientsCC = { recipientCC1,recipientCC2,recipientCC3,recipientCC4,recipientCC5 };
+			String[] recipientsBCC = { recipientBcc1, recipientBcc2, recipientBcc3, recipientBcc4, recipientBcc5 };
+
+			if (perimeterXConfig.equalsIgnoreCase("yes")) {
+
+				text = " Hello, Good day! \n" + "\n "
+						+ " Since, Perimeter X the bot detection feature has been enabled in the test build we were not able to handle the captcha when it shows up in the app. So the test execution didn't happened. If you want to test the rest of the features please disable the perimeter X feature and try again. "
+						+ "\n" + "\n" + "Thanks,\n " + " Hoffensoft QA Team ";
+				subject = " Unable to execute the test scripts, It seems like !! Perimeter X - Bot detection !! has been enabled ";
+			}
+
+			else {
+
+				// Provide the body for the e-mail to be sent
+				body = " Please find the link to the Overall report below: " + fileUrlOverall + " \n "
+						+ "Please find the link to the Failed report below: " + fileUrlFailed;
+				text = " Hello, Good day! \n" + "\n"
+						+ " Test Execution for the Phase -3 Sprint-4 feature category groups, pizza customisation and modifiers scripts have been developed.Executing by integrating those features, facing a looping issue on Category groups so we still working on that issue.   \n"
+						+ "\n" + body + "\n" + "\n" + "Thanks,\n " + " Hoffensoft QA Team ";
+				subject = " Automation execution Reports on : " + date;
+
+			}
+			// Setting the system properties
+			Properties props = new Properties();
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.socketFactory.port", "465");
+			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.port", "465");
+			// Used to create a session by authenticating User name and Password
+			Session session = Session.getDefaultInstance(props, new Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication("lalithkishore.r@hoffensoft.com", "Appa1996@");
+				}
+			});
+			Message message = new MimeMessage(session);
+			try {
+				InternetAddress[] toAddress = new InternetAddress[recipients.length];
+				// To get the array of recipients
+				for (int i = 0; i < recipients.length; i++) {
+					toAddress[i] = new InternetAddress(recipients[i]);
+				}
+				// Set To: header field of the header.
+				for (int i = 0; i < toAddress.length; i++) {
+					message.addRecipient(Message.RecipientType.TO, toAddress[i]);
+				}
+//	       InternetAddress[] ccAddress = new InternetAddress[recipientsCC.length];
+//	      
+//	        // To get the array of recipientsCC
+//	        for( int i = 0; i < recipientsCC.length; i++ ) {
+//	        ccAddress[i] = new InternetAddress(recipientsCC[i]);
+//	      }
+
+//	        // Set cc: header field of the header.
+//	       for( int i = 0; i < ccAddress.length; i++) {
+//	        message.addRecipient(Message.RecipientType.CC, ccAddress[i]);
+//	      }
+				InternetAddress[] bccAddress = new InternetAddress[recipientsBCC.length];
+				// To get the array of recipientsBCC
+				for (int i = 0; i < recipientsBCC.length; i++) {
+					bccAddress[i] = new InternetAddress(recipientsBCC[i]);
+				}
+				// Set bcc: header field of the header.
+				for (int i = 0; i < bccAddress.length; i++) {
+					message.addRecipient(Message.RecipientType.BCC, bccAddress[i]);
+				}
+				message.setSubject(subject);
+				message.setText(text);
+				message.setSentDate(new Date());
+				Transport.send(message, message.getAllRecipients());
+				System.out.println("Mail has been sent to the given recipients");
+
+				String[] largeText = {
+
+						"  _____  _____   ______    _____           ____   ______   _____     ____   _____    ",
+						" |_   _||  ___| | _____|  |_   _|        |  ___| |  __  | |  __  | |  ___| |  __  |  ",
+						"   | |  | |___  | |____     | |          | |___  | |  | | | |  | | | |___  | |  | |  ",
+						"   | |  | |___| |____  |    | |          | |___| | |  | | | |  | | | |___| | |  | |  ",
+						"   | |  | |___   ____| |    | |          | |___  | |  | | | |__| | | |___  | |__| |  ",
+						"   | |  |_____| |______|    | |          | ____| | |  | | |_____ | | ____| |_____ |  " };
+
+				for (String line : largeText) {
+					System.out.println(line);
+				}
+			} catch (MessagingException e) {
+				throw new RuntimeException(e);
+			}
+		} finally {
+		}
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Description Contains code to get the values from the google spreadsheets
+	 *              using Google sheets API
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 */
+
+	private static final String APPLICATION_NAME = "Demos";
+	// Gson is a Java library that can be used to convert Java objects into their
+	// JSON representation
+	private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+	private static final String TOKENS_DIRECTORY_PATH = "tokens_Gsheets";
+	/**
+	 * Global instance of the scopes required by this quick start. If modifying
+	 * these scopes, delete your previously saved tokens/ folder.
+	 */
+	private static final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY);
+	// Set the path for the client_secret.json file
+	private static final String CREDENTIALS_FILE_PATH = "./ConfigurationFiles/client_secret.json";
+
+	/**
+	 * Creates an authorised Credential object
+	 * 
+	 * @Class_Name BaseTest
+	 * @Method_Name getCredentialsSheets
+	 * @Description Contains code to get the credentials from the
+	 *              client_secret_drive.json file and authorise it
+	 * @return An authorised Credential object
+	 * @throws IOException If the credentials.json file cannot be found
+	 * @param HTTP_TRANSPORT The network HTTP Transport
+	 * @author Lalith Kishore Ravi ;
+	 */
+	private static Credential getCredentialsSheets(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
+		// Load client secrets.
+		// Which locates the client_secret.json file which contains the credentials
+		// downloaded from the google console from our project there
+		InputStream in = new FileInputStream(CREDENTIALS_FILE_PATH);
+		// OAuth 2.0 client secrets JSON model as specified in client_secrets.json file
+		// format which loads client_secret.json file
+		GoogleClientSecrets clientSecrets = GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+		// Build flow and trigger user authorisation request.
+		// Thread-safe Google OAuth 2.0 authorisation code flow that manages and
+		// persists end-user credentials.
+		// This is designed to simplify the flow in which an end-user authorises the
+		// application to access their protected data, and then the application has
+		// access to their data based on an access token and a refresh token to refresh
+		// that access token when it expires.
+		// AccessType is set "offline" for the installed applications.
+		GoogleAuthorizationCodeFlow flow = new GoogleAuthorizationCodeFlow.Builder(HTTP_TRANSPORT, JSON_FACTORY,
+				clientSecrets, SCOPES)
+				.setDataStoreFactory(new FileDataStoreFactory(new java.io.File(TOKENS_DIRECTORY_PATH)))
+				.setAccessType("offline").build();
+		// OAuth 2.0 verification code receiver that runs a Jetty server on a free port,
+		// waiting for a redirect with the verification code.
+		LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
+
+		return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
+	}
+
+	@Test
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name signUpPositiveData
+	 * @Description Contains code to get the data from Spreadsheets for Positive
+	 *              SignUpData
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> signUpPositiveData() throws GeneralSecurityException, IOException {
+		
+		String spreadSheetId = MerchantSelection.spreadSheetId;
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "SignUp!E1:E";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name signUpNegativeData
+	 * @Description Contains code to get the data from Spreadsheets for Negative
+	 *              SignUpData
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	@Test
+	public List<String> signUpNegativeData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "SignUp!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name signInPositiveData
+	 * @Description Contains code to get the data from Spreadsheets for Positive
+	 *              SignInData
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	@Test
+	public List<String> signInPositiveData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "SignIn!E1:E";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name signInNegativeData
+	 * @Description Contains code to get the data from Spreadsheets for Negative
+	 *              SignInData
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	@Test
+	public List<String> signInNegativeData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "SignIn!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name forgotPasswordPositiveData
+	 * @Description Contains code to get the data from Spreadsheets for Positive
+	 *              forgot Password data
+	 * @return List<String>
+	 * @author Lalith Kishore Raviå
+	 */
+	@Test
+	public List<String> forgotPasswordNegativeData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Forgot Password!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name forgotPasswordNegativeData
+	 * @Description Contains code to get the data from Spreadsheets for Negative
+	 *              forgot Password data
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	@Test
+	public List<String> forgotPasswordPositiveData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Forgot Password!E1:E";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	@Test
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name editAccount
+	 * @Description Contains code to get the data from Spreadsheets for edit account
+	 *              data
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> editAccount() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "SignUp!F1:F";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name configuration
+	 * @Description Contains code to get the data from Spreadsheets for
+	 *              Configuration and the configuration as 'Yes' or 'No' mentioned
+	 *              in the spreadsheet will be stored in this variable
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> configuration() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1ZSWXz42bNM7RtVq49pm03jzmvgW-UkFdjYCzsfaN6CI";
+		// Have to mention the range of the data we are going to use
+		final String range = "Android-Config1!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name configuration
+	 * @Description Contains code to get the data from Spreadsheets for
+	 *              Configuration and the class names mentioned in the spreadsheet
+	 *              will be stored in this Class
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> classes() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1ZSWXz42bNM7RtVq49pm03jzmvgW-UkFdjYCzsfaN6CI";
+		// Have to mention the range of the data we are going to use
+		final String range = "Android-Config1!E1:E";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name methods
+	 * @Description Contains code to get the data from Spreadsheets for
+	 *              Configuration and the method names mentioned in the spreadsheet
+	 *              will be stored in this method
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> methods() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1ZSWXz42bNM7RtVq49pm03jzmvgW-UkFdjYCzsfaN6CI";
+		// Have to mention the range of the data we are going to use
+		final String range = "Android-Config1!B1:B";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name securityPostiveData
+	 * @Description Contains code to get the data from Spreadsheets for positive
+	 *              data for the password and confirm password field
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	@Test
+	public List<String> securityPostiveData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Security!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name securityUpdatedData
+	 * @Description Contains code to get the data from Spreadsheets for updated data
+	 *              for the password and confirm password field
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	@Test
+	public List<String> securityUpdatedData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Security!E1:E";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name App Configuration
+	 * @Description Contains code to get the data from Spreadsheets for updated data
+	 *              for the password and confirm password field
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	@Test
+	public List<String> appConfiguration() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "App Configuration!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name bottomBarFeatures
+	 * @Description Contains code to get the data from Spreadsheets for sanity
+	 *              dashboard components.
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> bottomBarFeatures() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "BottomBar!B1:B";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name bottomBarConfiguration
+	 * @Description Contains code to get the data from Spreadsheets for sanity
+	 *              dashboard components.
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+
+	public List<String> bottomBarConfiguration() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "BottomBar!C1:C";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name rewardyourselfShippingDetails
+	 * @Description Contains code to get the data from Spreadsheets for sanity
+	 *              dashboard components.
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	@Test
+	public List<String> rewardyourselfShippingDetails() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "RewardYourself!C1:C";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name dashboardDatas
+	 * @Description Contains code to get the data from Spreadsheets for sanity
+	 *              dashboard components.
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	@Test
+	public List<String> dashboardDatas() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Dashboard!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name forgotCardCodeNegativeDatas
+	 * @Description Contains code to get the data from Spreadsheets for AppRating
+	 *              data for To mail address
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+
+	public List<String> forgotCardCodeNegativeDatas() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Forgot card code!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name forgotCardCodePostiveDatas
+	 * @Description Contains code to get the data from Spreadsheets for AppRating
+	 *              data for To mail address
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+
+	public List<String> forgotCardCodePostiveDatas() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Forgot card code!E1:E";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name AppRatingDatas
+	 * @Description Contains code to get the data from Spreadsheets for AppRating
+	 *              data for To mail address
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+
+	public List<String> AppRatingDatas() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "App Rating!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name perimeterX
+	 * @Description Contains code to get the data from Spreadsheets for updated data
+	 *              for the password and confirm password field
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	@Test
+	public List<String> perimeterX() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "PerimeterX!D2:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name odFlow
+	 * @Description Contains code to get the data from Spreadsheets for updated data
+	 *              for the password and confirm password field
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	@Test
+	public List<String> odFlow() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "ODFlow!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name referAFriend
+	 * @Description Contains code to get the data from Spreadsheets for updated data
+	 *              for the password and confirm password field
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	@Test
+	public List<String> referAFriend() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "ReferAFriend!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name transferValueData
+	 * @Description Contains code to get the data from Spreadsheets for updated data
+	 *              for the password and confirm password field
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	@Test
+	public List<String> transferValueData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "TransferValue!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name cardSttingsFlowConfiguration
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> cardSttingsFlowConfiguration() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Card Settings!H1:H";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name cardSettingsNegativeData
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> cardSettingsNegativeData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Card Settings!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name cardSettingsPositiveData
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> cardSettingsPositiveData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Card Settings!E1:E";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name cardSettingsUpdatedData
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> cardSettingsUpdatedData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Card Settings!F1:F";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name rechargeFlowConfiguration
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> rechargeFlowConfiguration() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Recharge!F1:F";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name rechargeNegativeData
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> rechargeNegativeData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Recharge!C1:C";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name rechargePositiveData
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> rechargePositiveData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Recharge!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name editAccountFlowConfiguration
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> editAccountFlowConfiguration() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Message!C1:C";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name egiftCardFlowConfiguration
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> egiftCardFlowConfiguration() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "E-Gift Card!H1:H";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name egiftCardNegativeData
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> egiftCardNegativeData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "E-Gift Card!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name egiftCardPositiveData
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> egiftCardPositiveData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "E-Gift Card!E1:E";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name egiftCardUpdatedData
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> egiftCardUpdatedData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "E-Gift Card!F1:F";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name forgotCardCodeFlowConfiguration
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> forgotCardCodeFlowConfiguration() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Forgot card code!G1:G";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name messageFlowConfiguration
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> messageFlowConfiguration() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Message!C1:C";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name myAccountFlowConfiguration
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> myAccountFlowConfiguration() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "My Account!C1:C";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name notificationSettingsFlowConfiguration
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> notificationSettingsFlowConfiguration() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Notification Settings!C1:C";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name securityFlowConfiguration
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> securityFlowConfiguration() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Security!G1:G";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name needSomethingData
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> needSomethingData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "NeedSomething!D2:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name securityFlowConfiguration
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> changeLocationConfiguration() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "ChangeLocation!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name securityFlowConfiguration
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> basketConfiguration() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Basket!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	public List<String> zipLineConfiguration() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Zipline!C1:C";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won’t return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name giftcardPCNDatas
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> giftcardPCNDatas() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "GiftCard!B1:B";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name giftcardRegCodeDatas
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> giftcardRegCodeDatas() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "GiftCard!C1:C";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name paymentScreenData
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> paymentScreenData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "PaymentScreen!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	public List<String> contactInfo_NegativeData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "ContactInfo!C1:C";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	public List<String> contactInfo_PositiveData() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "ContactInfo!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	public List<String> subscriptionLoginConfiguration() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Subscription!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	public List<String> subscriptionConfiguration() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Subscription!C1:C";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name actionsFlow
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> actionsFlow() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "ActionsFlow!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name actionsFlow
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> menuItem() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "Menu!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseTest
+	 * @Method_Name actionsFlow
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> ngaHsStoreAddress() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "ODFlow!E1:E5";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	/**
+	 * @Class_Name BaseClass
+	 * @Method_Name orderHistoryConfiguration
+	 * @Description Contains code to get the data from Spreadsheets
+	 * @return List<String>
+	 * @author Lalith Kishore Ravi
+	 */
+	public List<String> orderHistoryConfiguration() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "OrderHistory&OrderDetails!D1:D";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+	public List<String> orderHistoryCredentials() throws GeneralSecurityException, IOException {
+		// Build a new authorised API client service.
+		final NetHttpTransport HTTP_TRANSPORT = GoogleNetHttpTransport.newTrustedTransport();
+		// Have to mention the Google spreadsheetId here
+		final String spreadsheetId = "1g06Lzsx1bis8of_pctowrwqXnqDdGW1du1iynF_4jY8";
+		// Have to mention the range of the data we are going to use
+		final String range = "OrderHistory&OrderDetails!E1:E";
+		// Sheets class used to read and write the google spreadsheets data using
+		// Builder method where all the inputs are mentioned inside the parenthesis
+		Sheets service = new Sheets.Builder(HTTP_TRANSPORT, JSON_FACTORY, getCredentialsSheets(HTTP_TRANSPORT))
+				.setApplicationName(APPLICATION_NAME).build();
+		// Sends the data request to the server and returns the parsed metadata
+		// response.
+		ValueRange response = service.spreadsheets().values().get(spreadsheetId, range).execute();
+		// Returns the given range value in the respective spreadsheet as a return type
+		// as List<List<Object>>
+		List<List<Object>> values = response.getValues();
+		// Declaring List<String> to add the values and get the values using the index
+		List<String> test = new ArrayList<>();
+		// If the values are null it won't return anything
+		if (values == null || values.isEmpty()) {
+			System.out.println("No data found.");
+		} else {
+			// Using for each to store List<List<Object>> in row variable of List
+			for (List<?> row : values) {
+				// Storing the values as List<Object>
+				List<Object> object = Arrays.asList(row.get(0));
+				// Storing the List<Object> as Object using for each loop
+				for (Object o : object) {
+					// Converting the object to String
+					String valueOf = String.valueOf(o);
+					// Storing the value as a String in the above declared List<String> in order to
+					// utilise this value using the index
+					test.add(String.valueOf(valueOf));
+				}
+			}
+		}
+		// Returning the test variable in order to use this method as a List<String> to
+		// use it in the other method using the index value
+		return test;
+	}
+
+}

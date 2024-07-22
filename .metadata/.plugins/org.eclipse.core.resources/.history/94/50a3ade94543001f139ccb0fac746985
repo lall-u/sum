@@ -1,0 +1,2096 @@
+package com.features;
+
+import java.io.IOException;
+import java.net.URL;
+import java.security.GeneralSecurityException;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.annotations.Test;
+
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.base.BaseClass;
+import com.base.CommonMethods;
+import com.locators.BasketLocators;
+import com.locators.ContactAndPhoneNumberLocators;
+import com.locators.CurbsideLocators;
+import com.locators.DashBoardLocators;
+import com.locators.MenuScreenLocators;
+import com.locators.NeedSomethingLocators;
+import com.locators.OrderNowLocators;
+import com.locators.ReOrderLocators;
+
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.remote.MobileCapabilityType;
+import io.github.ashwith.flutter.FlutterElement;
+import io.github.ashwith.flutter.FlutterFinder;
+
+public class Checkout extends BaseClass {
+
+	public static String takeoutOrderTypeText;
+
+	public static String curbsideOrderTypeText;
+
+	public static String deliveryOrderTypeText;
+
+	public static String asapOrderTimeText;
+
+	public static String laterOrderTimeText;
+
+	public static String storeCode;
+
+	public static Address address = new Address();
+
+	public static BasketLocators basketLocators = new BasketLocators();
+
+	public static CommonMethods commonMethods = new CommonMethods();
+
+	public static ReOrderLocators reOrderLocators = new ReOrderLocators();
+
+	public static NeedSomethingLocators needSomethingLocators = new NeedSomethingLocators();
+
+	static DashBoardLocators dashBoardLocators = new DashBoardLocators();
+
+	static MenuScreenLocators menuScreenLocators = new MenuScreenLocators();
+
+	static OrderNowLocators orderNowLocators = new OrderNowLocators();
+
+	public static CurbsideLocators curbsideLocators = new CurbsideLocators();
+
+	public static ContactAndPhoneNumberLocators contactAndPhoneNumberLocators = new ContactAndPhoneNumberLocators();
+
+	@Test
+
+	public static void ngaCheckout(String OrderId) throws Throwable {
+
+		String needSomethingHeaderText = commonMethods
+				.stringsReader(needSomethingLocators.NEED_SOMETHING_TITLE_TEXT_STRING);
+
+		String contactInfoTitleText = commonMethods
+				.stringsReader(contactAndPhoneNumberLocators.GUEST_CONTACTINFOTITLETEXTFIELD);
+
+		String phoneNumberScreenTitleText = commonMethods
+				.stringsReader(contactAndPhoneNumberLocators.PHONENUMBERSCREENTITLE);
+
+		String curbsideScreenTitleText = commonMethods.stringsReader(curbsideLocators.CURBSIDE_LABEL_TEXT);
+
+		String basketCheckoutMultiOrderTypeDexcriptionText = commonMethods
+				.stringsReader(basketLocators.BASKET_CHECKOUT_MULTI_ORDER_TYPE_DESCRIPTION_TEXT);
+
+		String basketCheckoutSingleOrderTypeDexcriptionText = commonMethods
+				.stringsReader(basketLocators.BASKET_CHECKOUT_SINGLE_ORDER_TYPE_DESCRIPTION_TEXT);
+
+		String basketCheckoutMinimumTakeoutOrderText = commonMethods
+				.stringsReader(basketLocators.BASKET_CHECKOUT_MINIMUM_TAKEOUT_ORDER_TEXT);
+
+		String basketCheckoutMinimumDeliveryOrderText = commonMethods
+				.stringsReader(basketLocators.BASKET_CHECKOUT_MINIMUM_DELIVERY_ORDER_TEXT);
+
+		String basketCheckoutAsapLaterErrorText = commonMethods
+				.stringsReader(basketLocators.BASKET_CHECKOUT_ASAP_LATER_ERROR_TEXT);
+
+		String basketCheckoutAsapClosedErrorText = commonMethods
+				.stringsReader(basketLocators.BASKET_CHECKOUT_ASAP_CLOSED_ERROR_TEXT);
+
+		String restaurantClosedString = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_RESTAURANT_CLOSED_STRING);
+
+		String reorderOneOrMoreNotAvailDescriptionString = commonMethods
+				.stringsReader(dashBoardLocators.OD_RE_ORDER_ONE_OR_MORE_ITEMS_NOT_AVAILABLE_DESCRIPTION_STRING);
+
+		String restaurantNotAcceptingString = commonMethods.stringsReader(
+				dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_RESTAURANT_NOT_ACCEPTING_BUTTON_STRING);
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Prasanna Venkatesh kp").assignDevice(deviceName)
+				.assignCategory("checkout");
+
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		ExtentTest nextGenCheckout = test.createNode("NextGenCheckout");
+
+		DesiredCapabilities cap = new DesiredCapabilities();
+		cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Samsung");
+		cap.setCapability("platformName", "Android");
+		cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, "12");
+		cap.setCapability(MobileCapabilityType.UDID, "emulator-5554");
+		cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Flutter");
+		cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 10000);
+		cap.setCapability("appPackage", "com.paytronix.nexgenfl");
+		cap.setCapability("appActivity", "com.paytronix.nexgenfl.MainActivity");
+
+		driver = new AndroidDriver<WebElement>(new URL("http://0.0.0.0:4723/wd/hub"), cap);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		FlutterElement basketCheckoutButtonVkl = find.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+		basketCheckoutButtonVkl.click();
+
+		boolean needSomethingHeaderTextString = commonMethods.elementFoundOrNotPopUp(needSomethingHeaderText);
+
+		boolean contactInfoTitleTextString = commonMethods.elementFoundOrNotPopUp(contactInfoTitleText);
+
+		boolean phoneNumberScreenTitleTextString = commonMethods.elementFoundOrNotPopUp(phoneNumberScreenTitleText);
+
+		boolean curbsideScreenTitleTextString = commonMethods.elementFoundOrNotPopUp(curbsideScreenTitleText);
+
+		if (needSomethingHeaderTextString || contactInfoTitleTextString || phoneNumberScreenTitleTextString
+				|| curbsideScreenTitleTextString == true) {
+
+			System.out.println("Verified that the app navigated to the next screen from basket screen");
+
+			nextGenCheckout.info(MarkupHelper.createLabel(
+					" Validated that the pp navigated to the next screen from basket screen ", ExtentColor.CYAN));
+
+		} else {
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(5000);
+
+			boolean basketCheckoutMultiOrderTypeDexcriptionTextString = commonMethods
+					.elementFoundOrNotPopUp("alternative");
+
+			boolean basketCheckoutSingleOrderTypeDexcriptionTextString = commonMethods.elementFoundOrNotPopUp("switch");
+
+			boolean basketCheckoutMinimumTakeoutOrderTextString = commonMethods.elementFoundOrNotPopUp("at least");
+
+			boolean basketCheckoutAsapLaterErrorTextString = commonMethods
+					.elementFoundOrNotPopUp(basketCheckoutAsapLaterErrorText);
+
+			boolean basketCheckoutAsapClosedErrorTextString = commonMethods
+					.elementFoundOrNotPopUp(basketCheckoutAsapClosedErrorText);
+
+			boolean restaurantClosedTextString = commonMethods.elementFoundOrNotPopUp(restaurantClosedString);
+
+			boolean restaurantNotAcceptingTextString = commonMethods
+					.elementFoundOrNotPopUp(restaurantNotAcceptingString);
+
+			if (restaurantClosedTextString || basketCheckoutAsapClosedErrorTextString
+					|| basketCheckoutAsapLaterErrorTextString || basketCheckoutMinimumTakeoutOrderTextString
+					|| basketCheckoutSingleOrderTypeDexcriptionTextString
+					|| basketCheckoutMultiOrderTypeDexcriptionTextString || restaurantNotAcceptingTextString == true) {
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(3000);
+
+				FlutterElement basketCheckOutAlertDescription = find
+						.byValueKey("basket_checkout_alert_description_text");
+
+				String basketCheckOutAlertDescriptionText = basketCheckOutAlertDescription.getText();
+
+				System.out.println("popup appears");
+
+				System.err.println(basketCheckOutAlertDescriptionText);
+
+				if (basketCheckOutAlertDescriptionText.equalsIgnoreCase(restaurantNotAcceptingString)) {
+
+					System.out.println("Restaurant is not accepting orders is displayed");
+
+					nextGenCheckout.info(MarkupHelper.createLabel(
+							" Validated that the restaurant is not accepting orders is displayed ", ExtentColor.CYAN));
+
+					restaurantNotAcceptingOrders();
+
+				} else if (basketCheckOutAlertDescriptionText.equalsIgnoreCase(restaurantClosedString)) {
+
+					System.out.println("Restaurant is closed is displayed");
+
+					nextGenCheckout.info(MarkupHelper
+							.createLabel(" Validated that the restaurant is closed is displayed ", ExtentColor.CYAN));
+
+					restaurantIsClosed();
+
+				} else if (basketCheckOutAlertDescriptionText.toLowerCase().contains("switch")) {
+
+					System.out.println("Switched the order popup is displayed");
+
+					nextGenCheckout.info(MarkupHelper.createLabel(
+							" Validated that the switched the order popup is displayed ", ExtentColor.CYAN));
+
+					switchedOrder();
+
+				} else if (basketCheckOutAlertDescriptionText.toLowerCase().contains("alternative")) {
+
+					System.out.println("Alternative orderType popup is displayed");
+
+					nextGenCheckout.info(MarkupHelper.createLabel(
+							" Validated that the alternative orderType popup is displayed ", ExtentColor.CYAN));
+
+					changeToAlternateOrderType();
+
+				} else if (basketCheckOutAlertDescriptionText.toLowerCase().contains("at least")) {
+
+					System.out.println("At least order type is displayed");
+
+					nextGenCheckout.info(MarkupHelper
+							.createLabel(" Validated that the at least order type is displayed ", ExtentColor.CYAN));
+
+					minimumItem();
+
+				} else if (basketCheckOutAlertDescriptionText.equalsIgnoreCase(basketCheckoutAsapLaterErrorText)) {
+
+					System.out.println(" Please select a time for your order ");
+
+					nextGenCheckout.info(MarkupHelper.createLabel(
+							" Validated that the a please select a time for your order  ", ExtentColor.CYAN));
+
+					later();
+
+				}
+
+			}
+
+		}
+
+	}
+
+	/**
+	 * @Class_Name Checkout
+	 * @Method_Name restaurantNotAcceptingOrders
+	 * @Description Contains code to execute the restaurantNotAcceptingOrders pop-up
+	 * @return void
+	 * @author Prasanna Venkatesh Palanisamy
+	 * @return
+	 * @throws Exception
+	 */
+
+	private static void restaurantNotAcceptingOrders() throws InterruptedException {
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		String popUpOkButton = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_OK_BUTTON_STRING);
+
+		String restaurantNotAcceptingString = commonMethods.stringsReader(
+				dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_RESTAURANT_NOT_ACCEPTING_BUTTON_STRING);
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("prasanna venkatesh kp").assignDevice(deviceName)
+				.assignCategory("checkout");
+
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		ExtentTest nextGenCheckout = test.createNode("NextGenCheckout");
+
+		CommonMethods.switchContext("FLUTTER");
+
+		FlutterElement popUpDescriptionRestaurantNotAcceptingOrdersVk = find
+				.byValueKey(basketLocators.BASKET_CHECKOUT_ALERT_DESCRIPTION_POPUP_TEXTVKL);
+
+		String popUpDescriptionRestaurantNotAcceptingOrdersTextVk = popUpDescriptionRestaurantNotAcceptingOrdersVk
+				.getText();
+
+		System.out.println(" The restaurant is not accepting orders with the text in the UI is : "
+				+ popUpDescriptionRestaurantNotAcceptingOrdersTextVk);
+
+		nextGenCheckout
+				.info(MarkupHelper.createLabel(" The restaurant is not accepting orders with the text in the UI is : "
+						+ popUpDescriptionRestaurantNotAcceptingOrdersTextVk, ExtentColor.CYAN));
+
+		commonMethods.assertMethod(popUpDescriptionRestaurantNotAcceptingOrdersTextVk, restaurantNotAcceptingString,
+				" restaurant not accepting orders ", nextGenCheckout);
+
+		FlutterElement popUpOkButtonVk = find
+				.byValueKey(basketLocators.BASKET_CHECKOUT_ALERT_DESCRIPTION_POPUP_OK_BUTTONVKL);
+
+		String popUpOkButtonTextVk = popUpOkButtonVk.getText();
+
+		commonMethods.assertMethod(popUpOkButtonTextVk, popUpOkButton, " restaurant is not accepting orders Ok button ",
+				nextGenCheckout);
+
+		popUpOkButtonVk.click();
+
+		FlutterElement basketHomeIconVkl = find.byValueKey(basketLocators.BASKET_HOME_ICON_VK);
+
+		basketHomeIconVkl.click();
+
+	}
+
+	/**
+	 * @Class_Name Checkout
+	 * @Method_Name restaurantIsClosed
+	 * @Description Contains code to execute the restaurantIsClosed pop-up
+	 * @return void
+	 * @author Prasanna Venkatesh Palanisamy
+	 * @return
+	 * @throws Exception
+	 */
+	private static void restaurantIsClosed() throws InterruptedException {
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		String popUpOkButton = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_OK_BUTTON_STRING);
+
+		String restaurantClosedString = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_RESTAURANT_CLOSED_STRING);
+
+		commonMethods.stringsReader(reOrderLocators.REORDER_TITLE_TEXT_STRING);
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+				.assignCategory("Checkout");
+
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		ExtentTest nextGenCheckout = test.createNode("NextGenCheckout");
+
+		CommonMethods.switchContext("FLUTTER");
+
+		FlutterElement popUpDescriptionRestaurantClosedVk = find
+				.byValueKey(basketLocators.BASKET_CHECKOUT_ALERT_DESCRIPTION_POPUP_TEXTVKL);
+
+		String popUpDescriptionRestaurantClosedTextVk = popUpDescriptionRestaurantClosedVk.getText();
+
+		System.out.println(
+				" The restaurant is closed with the text in the UI is : " + popUpDescriptionRestaurantClosedTextVk);
+
+		nextGenCheckout.info(MarkupHelper.createLabel(
+				" The restaurant is closed with the text in the UI is : " + popUpDescriptionRestaurantClosedTextVk,
+				ExtentColor.CYAN));
+
+		commonMethods.assertMethod(popUpDescriptionRestaurantClosedTextVk, restaurantClosedString,
+				" restaurant is closed text ", nextGenCheckout);
+
+		FlutterElement popUpOkButtonVk = find
+				.byValueKey(basketLocators.BASKET_CHECKOUT_ALERT_DESCRIPTION_POPUP_OK_BUTTONVKL);
+
+		String popUpOkButtonTextVk = popUpOkButtonVk.getText();
+
+		commonMethods.assertMethod(popUpOkButtonTextVk, popUpOkButton, " restaurant is closed Ok button ",
+				nextGenCheckout);
+
+		popUpOkButtonVk.click();
+
+		FlutterElement basketHomeIconVkl = find.byValueKey(basketLocators.BASKET_HOME_ICON_VK);
+
+		basketHomeIconVkl.click();
+
+	}
+
+	/**
+	 * @Class_Name Checkout
+	 * @Method_Name switchedOrder
+	 * @Description Contains code to execute the switchOrder pop-up
+	 * @return void
+	 * @author prasanna venkatesh
+	 * @return
+	 * @throws Exception
+	 */
+	private static void switchedOrder() throws InterruptedException {
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		String basketHeaderTitleText = commonMethods.stringsReader(basketLocators.BASKET_HEADER_TITLE);
+
+		String orderSwitchedToString = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_SWITCHED_TO_STRING);
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+				.assignCategory("Checkout");
+
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		ExtentTest nextGenCheckout = test.createNode("NextGenCheckout");
+
+		CommonMethods.switchContext("FLUTTER");
+
+		FlutterElement popUpDescriptionSwitchedVk = find
+				.byValueKey(basketLocators.BASKET_CHECKOUT_ALERT_DESCRIPTION_POPUP_TEXTVKL);
+
+		String popUpDescriptionSwitchedTextVk = popUpDescriptionSwitchedVk.getText();
+
+		System.out.println(
+				" The placed order type is not available & it's switched to other type with the text in the UI is : "
+						+ popUpDescriptionSwitchedTextVk);
+
+		nextGenCheckout.info(MarkupHelper.createLabel(
+				" The placed order type is not available & it's switched to other type with the text in the UI is : "
+						+ popUpDescriptionSwitchedTextVk,
+				ExtentColor.CYAN));
+
+		commonMethods.assertMethod(popUpDescriptionSwitchedTextVk, orderSwitchedToString, " Order switched to ",
+				nextGenCheckout);
+
+		FlutterElement popUpOkButtonVk = find
+				.byValueKey(basketLocators.BASKET_CHECKOUT_ALERT_DESCRIPTION_POPUP_OK_BUTTONVKL);
+
+		popUpOkButtonVk.click();
+
+		boolean basketHeaderTitleTextBoolean = commonMethods.elementFoundOrNot(basketHeaderTitleText);
+
+		if (basketHeaderTitleTextBoolean == true) {
+
+			FlutterElement basketHeaderVk = find.byValueKey(basketLocators.BASKET_HEADER_TITLE);
+
+			String basketHeaderTextVk = basketHeaderVk.getText();
+
+			commonMethods.assertMethod(basketHeaderTextVk, basketHeaderTitleText,
+					" after tapping the continue button in one or more item not available pop up it has been navigated to basket screen ",
+					nextGenCheckout);
+
+		}
+
+	}
+
+	/**
+	 * @Class_Name Checkout
+	 * @Method_Name changeToAlternateOrderType
+	 * @Description Contains code to execute the changeToAlternateOrderType pop-up
+	 * @return void
+	 * @author prasanna venkatesh
+	 * @return
+	 * @throws Throwable
+	 * @throws Exception
+	 */
+	private static void changeToAlternateOrderType() throws Throwable {
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+				.assignCategory("Checkout");
+
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		String asapText = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_ASAP_STRING);
+		String laterText = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_LATER_STRING);
+
+		ExtentTest nextGenCheckout = test.createNode("NextGenCheckout");
+
+		BaseClass bc = new BaseClass();
+
+		List<String> selectedFlow = bc.configuration();
+
+		String nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest = selectedFlow.get(9);
+
+		String nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest = selectedFlow.get(10);
+
+		String nextGenOrderNowFlowWithCurbsideAsapConfiguredGuest = selectedFlow.get(11);
+
+		String nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest = selectedFlow.get(12);
+
+		String nextGenOrderNowFlowWithDeliveryAsapConfiguredGuest = selectedFlow.get(13);
+
+		String nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest = selectedFlow.get(14);
+
+		String nextGenLocationListFlowWithTakeoutAsapConfiguredGuest = selectedFlow.get(15);
+
+		String nextGenLocationListFlowWithTakeoutLaterConfiguredGuest = selectedFlow.get(16);
+
+		String nextGenLocationListFlowWithCurbsideAsapConfiguredGuest = selectedFlow.get(17);
+
+		String nextGenLocationListFlowWithCurbsideLaterConfiguredGuest = selectedFlow.get(18);
+
+		String nextGenLocationListFlowWithDeliveryAsapConfiguredGuest = selectedFlow.get(19);
+
+		String nextGenLocationListFlowWithDeliveryLaterConfiguredGuest = selectedFlow.get(20);
+
+		String nextGenOrderNowFlowWithTakeoutAsapConfigured = selectedFlow.get(64);
+
+		String nextGenOrderNowFlowWithTakeoutLaterConfigured = selectedFlow.get(65);
+
+		String nextGenOrderNowFlowWithCurbsideAsapConfigured = selectedFlow.get(66);
+
+		String nextGenOrderNowFlowWithCurbsideLaterConfigured = selectedFlow.get(67);
+
+		String nextGenOrderNowFlowWithDeliveryAsapConfigured = selectedFlow.get(68);
+
+		String nextGenOrderNowFlowWithDeliveryLaterConfigured = selectedFlow.get(69);
+
+		String nextGenOrderNowFlowWithTakeoutAsapMapViewConfigured = selectedFlow.get(70);
+
+		String nextGenOrderNowFlowWithTakeoutLaterMapViewConfigured = selectedFlow.get(71);
+
+		String nextGenOrderNowFlowWithCurbsideAsapMapViewConfigured = selectedFlow.get(72);
+
+		String nextGenOrderNowFlowWithCurbsideLaterMapViewConfigured = selectedFlow.get(73);
+
+		String nextGenOrderNowFlowWithDeliveryAsapMapViewConfigured = selectedFlow.get(74);
+
+		String nextGenOrderNowFlowWithDeliveryLaterMapViewConfigured = selectedFlow.get(75);
+
+		String nextGenOrderNowFlowWithTakeoutAsapStoreMapViewConfigured = selectedFlow.get(76);
+
+		String nextGenOrderNowFlowWithTakeoutLaterStoreMapViewConfigured = selectedFlow.get(77);
+
+		String nextGenOrderNowFlowWithCurbsideAsapStoreMapViewConfigured = selectedFlow.get(78);
+
+		String nextGenOrderNowFlowWithCurbsideLaterStoreMapViewConfigured = selectedFlow.get(79);
+
+		String nextGenOrderNowFlowWithDeliveryAsapStoreMapViewConfigured = selectedFlow.get(80);
+
+		String nextGenOrderNowFlowWithDeliveryLaterStoreMapViewConfigured = selectedFlow.get(81);
+
+		String nextGenLocationListFlowWithTakeoutAsapConfigured = selectedFlow.get(82);
+
+		String nextGenLocationListFlowWithTakeoutLaterConfigured = selectedFlow.get(83);
+
+		String nextGenLocationListFlowWithCurbsideAsapConfigured = selectedFlow.get(84);
+
+		String nextGenLocationListFlowWithCurbsideLaterConfigured = selectedFlow.get(85);
+
+		String nextGenLocationListFlowWithDeliveryAsapConfigured = selectedFlow.get(86);
+
+		String nextGenLocationListFlowWithDeliveryLaterConfigured = selectedFlow.get(87);
+
+		String nextGenLocationListFlowWithTakeoutAsapMapViewConfigured = selectedFlow.get(88);
+
+		String nextGenLocationListFlowWithTakeoutLaterMapViewConfigured = selectedFlow.get(89);
+
+		String nextGenLocationListFlowWithCurbsideAsapMapViewConfigured = selectedFlow.get(90);
+
+		String nextGenLocationListFlowWithCurbsideLaterMapViewConfigured = selectedFlow.get(91);
+
+		String nextGenLocationListFlowWithDeliveryAsapMapViewConfigured = selectedFlow.get(92);
+
+		String nextGenLocationListFlowWithDeliveryLaterMapViewConfigured = selectedFlow.get(93);
+
+		String nextGenLocationListFlowWithTakeoutAsapStoreMapViewConfigured = selectedFlow.get(94);
+
+		String nextGenLocationListFlowWithTakeoutLaterStoreMapViewConfigured = selectedFlow.get(95);
+
+		String nextGenLocationListFlowWithCurbsideAsapStoreMapViewConfigured = selectedFlow.get(96);
+
+		String nextGenLocationListFlowWithCurbsideLaterStoreMapViewConfigured = selectedFlow.get(97);
+
+		String nextGenLocationListFlowWithDeliveryAsapStoreMapViewConfigured = selectedFlow.get(98);
+
+		String nextGenLocationListFlowWithDeliveryLaterStoreMapViewConfigured = selectedFlow.get(99);
+
+		List<String> addNewAddress = bc.odFlow();
+
+		List<String> ngaHsStoreAddress = bc.ngaHsStoreAddress();
+
+		String pxLabAddress = addNewAddress.get(5);
+
+		addNewAddress.get(5);
+
+		addNewAddress.get(6);
+
+		addNewAddress.get(7);
+
+		addNewAddress.get(8);
+
+		String ngaHsAddress = ngaHsStoreAddress.get(1);
+
+		ngaHsStoreAddress.get(1);
+
+		ngaHsStoreAddress.get(2);
+
+		ngaHsStoreAddress.get(3);
+
+		ngaHsStoreAddress.get(4);
+
+		if (nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithTakeoutAsapConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithTakeoutAsapMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithTakeoutAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithTakeoutAsapConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithTakeoutAsapConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithTakeoutAsapMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithTakeoutAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+			String takeOutConfig = APIMethods.takeOutConfig();
+
+			String curbsideConfig = APIMethods.curbsideConfig();
+
+			String hideTakeOutConfig = APIMethods.hideTakeOutConfig();
+
+			String deliveryConfig = APIMethods.deliveryConfig();
+
+			Thread.sleep(3000);
+
+			if (takeOutConfig == "true") {
+
+				if (hideTakeOutConfig == "true" && curbsideConfig == "true") {
+
+					System.out.println(" Verified curbside ordertype is displayed ");
+
+					nextGenCheckout.info(
+							MarkupHelper.createLabel(" Verified curbside ordertype is displayed ", ExtentColor.CYAN));
+
+					FlutterElement curbsideOrderTypeButtonVk = find.byValueKey(OrderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+
+					curbsideOrderTypeText = curbsideOrderTypeButtonVk.getText();
+
+					curbsideOrderTypeButtonVk.click();
+
+					FlutterElement orderTypePopupApplyButtonVkl = find
+							.byValueKey(basketLocators.ORDER_TYPE_POPUP_APPLY_BUTTON_VKL);
+
+					orderTypePopupApplyButtonVkl.click();
+
+					boolean asapConfig = commonMethods.elementFoundOrNot(asapText);
+
+					if (asapConfig == false && APIMethods.takeOutConfig() == "true") {
+
+						System.out.println("Verified asap is displayed so user can proceed with asap order time");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified asap is displayed so user can proceed with asap order time",
+								ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+					}
+
+					else if (asapConfig == false && APIMethods.takeOutConfig() == "false") {
+
+						System.out.println(" Verified that the asap is diabled and later is only configured ");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								" Verified that the asap is diabled and later is only configured ", ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+						Thread.sleep(5000);
+
+						later();
+
+					}
+				}
+
+			}
+
+			else if (takeOutConfig == "false") {
+
+				if (deliveryConfig == "true") {
+
+					if (storeCode.equals("PXLAB")) {
+
+						boolean pxLabAddressFoundOrNot = commonMethods.elementFoundOrNot(pxLabAddress);
+
+						if (pxLabAddressFoundOrNot == true) {
+
+							commonMethods.scrollAndTap(pxLabAddress);
+						}
+
+						else {
+
+							// add new address test script
+
+							Address.addresss();
+
+						}
+
+						boolean asapConfig = commonMethods.elementFoundOrNot(asapText);
+
+						if (asapConfig == false && APIMethods.deliveryConfig() == "true") {
+
+							System.out.println("Verified asap is displayed so user can proceed with asap order time");
+
+							nextGenCheckout.info(MarkupHelper.createLabel(
+									"Verified asap is displayed so user can proceed with asap order time",
+									ExtentColor.CYAN));
+
+							FlutterElement basketCheckoutButtonVkl = find
+									.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+							basketCheckoutButtonVkl.click();
+
+						}
+
+						else if (asapConfig == false && APIMethods.deliveryConfig() == "false") {
+
+							System.out.println("Verified that the asap is diabled and later is only configured");
+
+							nextGenCheckout.info(MarkupHelper.createLabel(
+									"Verified that the asap is diabled and later is only configured",
+									ExtentColor.CYAN));
+
+							FlutterElement basketCheckoutButtonVkl = find
+									.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+							basketCheckoutButtonVkl.click();
+
+							Thread.sleep(5000);
+
+							later();
+
+						}
+
+					}
+
+					else if (storeCode.equals("NGAHS01")) {
+
+						boolean ngaHsAddressFoundOrNot = commonMethods.elementFoundOrNot(ngaHsAddress);
+
+						if (ngaHsAddressFoundOrNot == true) {
+
+							commonMethods.scrollAndTap(ngaHsAddress);
+						}
+
+						else {
+
+							// add new address test script
+
+							Address.addresss();
+
+						}
+
+						boolean asapConfig = commonMethods.elementFoundOrNot(asapText);
+
+						if (asapConfig == false && APIMethods.deliveryConfig() == "true") {
+
+							System.out.println("Verified asap is displayed so user can proceed with asap order time");
+
+							nextGenCheckout.info(MarkupHelper.createLabel(
+									"Verified asap is displayed so user can proceed with asap order time",
+									ExtentColor.CYAN));
+
+							FlutterElement basketCheckoutButtonVkl = find
+									.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+							basketCheckoutButtonVkl.click();
+
+						}
+
+						else if (asapConfig == false && APIMethods.deliveryConfig() == "false") {
+
+							System.out.println("Verified that the asap is diabled and later is only configured");
+
+							nextGenCheckout.info(MarkupHelper.createLabel(
+									"Verified that the asap is diabled and later is only configured",
+									ExtentColor.CYAN));
+
+							FlutterElement basketCheckoutButtonVkl = find
+									.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+							basketCheckoutButtonVkl.click();
+
+							Thread.sleep(5000);
+
+							later();
+
+						}
+
+					}
+
+				} else {
+
+					System.out.println(" No order type is available to order at this time ");
+
+					nextGenCheckout.info(MarkupHelper.createLabel(" No order type is available to order at this time ",
+							ExtentColor.CYAN));
+
+				}
+
+			}
+
+		}
+
+		else if (nextGenOrderNowFlowWithCurbsideAsapConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithCurbsideAsapConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithCurbsideAsapMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithCurbsideAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithCurbsideAsapConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithCurbsideAsapConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithCurbsideAsapMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithCurbsideAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+			String takeOutConfig = APIMethods.takeOutConfig();
+
+			String curbsideConfig = APIMethods.curbsideConfig();
+
+			String hideTakeOutConfig = APIMethods.hideTakeOutConfig();
+
+			String deliveryConfig = APIMethods.deliveryConfig();
+
+			Thread.sleep(3000);
+
+			if (takeOutConfig == "true") {
+
+				if (hideTakeOutConfig == "false" && curbsideConfig == "false") {
+
+					System.out.println("Verified takeout ordertype is displayed");
+
+					FlutterElement takeoutOrderTypeButtonVk = find.byValueKey(OrderNowLocators.ORDERTYPE_TAKEOUT_VKL);
+
+					takeoutOrderTypeText = takeoutOrderTypeButtonVk.getText();
+
+					takeoutOrderTypeButtonVk.click();
+
+					FlutterElement orderTypePopupApplyButtonVkl = find
+							.byValueKey(basketLocators.ORDER_TYPE_POPUP_APPLY_BUTTON_VKL);
+
+					orderTypePopupApplyButtonVkl.click();
+
+					boolean asapConfig = commonMethods.elementFoundOrNot(asapText);
+
+					if (asapConfig == false && APIMethods.takeOutConfig() == "true") {
+
+						System.out.println("Verified asap is displayed so user can proceed with asap order time");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified asap is displayed so user can proceed with asap order time",
+								ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+					}
+
+					else if (asapConfig == false && APIMethods.takeOutConfig() == "false") {
+
+						System.out.println("Verified that the asap is diabled and later is only configured");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified that the asap is diabled and later is only configured", ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+						Thread.sleep(5000);
+
+						later();
+
+					}
+				}
+
+				else if (hideTakeOutConfig == "true" && curbsideConfig == "true") {
+
+					FlutterElement curbSideOrderTypeButtonVk = find.byValueKey(OrderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+
+					curbSideOrderTypeButtonVk.click();
+
+					boolean asapConfig = commonMethods.elementFoundOrNot(asapText);
+
+					if (asapConfig == false && APIMethods.takeOutConfig() == "true") {
+
+						System.out.println("Verified asap is displayed so user can proceed with asap order time");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified that the asap is diabled and later is only configured", ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+					}
+
+					else if (asapConfig == false && APIMethods.takeOutConfig() == "false") {
+
+						System.out.println("Verified that the asap is diabled and later is only configured");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified that the asap is diabled and later is only configured", ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+						Thread.sleep(5000);
+
+						later();
+
+					}
+				}
+			}
+
+			else if (takeOutConfig == "false") {
+
+				if (deliveryConfig == "true") {
+
+					if (storeCode.equals("PXLAB")) {
+
+						boolean pxLabAddressFoundOrNot = commonMethods.elementFoundOrNot(pxLabAddress);
+
+						if (pxLabAddressFoundOrNot == true) {
+
+							commonMethods.scrollAndTap(pxLabAddress);
+						}
+
+						else {
+
+							// add new address test script
+
+							Address.addresss();
+
+						}
+
+						boolean asapConfig = commonMethods.elementFoundOrNot(asapText);
+
+						if (asapConfig == false && APIMethods.deliveryConfig() == "true") {
+
+							System.out.println("Verified asap is displayed so user can proceed with asap order time");
+
+							nextGenCheckout.info(MarkupHelper.createLabel(
+									"Verified asap is displayed so user can proceed with asap order time",
+									ExtentColor.CYAN));
+
+							FlutterElement basketCheckoutButtonVkl = find
+									.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+							basketCheckoutButtonVkl.click();
+
+						}
+
+						else if (asapConfig == false && APIMethods.deliveryConfig() == "false") {
+
+							System.out.println("Verified that the asap is diabled and later is only configured");
+
+							nextGenCheckout.info(MarkupHelper.createLabel(
+									"Verified that the asap is diabled and later is only configured",
+									ExtentColor.CYAN));
+
+							FlutterElement basketCheckoutButtonVkl = find
+									.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+							basketCheckoutButtonVkl.click();
+
+							Thread.sleep(5000);
+
+							later();
+
+						}
+
+					}
+
+					else if (storeCode.equals("NGAHS01")) {
+
+						boolean ngaHsAddressFoundOrNot = commonMethods.elementFoundOrNot(ngaHsAddress);
+
+						if (ngaHsAddressFoundOrNot == true) {
+
+							commonMethods.scrollAndTap(ngaHsAddress);
+						}
+
+						else {
+
+							// add new address test script
+
+							Address.addresss();
+
+						}
+
+						boolean asapConfig = commonMethods.elementFoundOrNot(asapText);
+
+						if (asapConfig == false && APIMethods.deliveryConfig() == "true") {
+
+							System.out.println("Verified asap is displayed so user can proceed with asap order time");
+
+							nextGenCheckout.info(MarkupHelper.createLabel(
+									"Verified asap is displayed so user can proceed with asap order time",
+									ExtentColor.CYAN));
+
+							FlutterElement basketCheckoutButtonVkl = find
+									.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+							basketCheckoutButtonVkl.click();
+
+						}
+
+						else if (asapConfig == false && APIMethods.deliveryConfig() == "false") {
+
+							System.out.println("Verified that the asap is diabled and later is only configured");
+
+							nextGenCheckout.info(MarkupHelper.createLabel(
+									"Verified that the asap is diabled and later is only configured",
+									ExtentColor.CYAN));
+
+							FlutterElement basketCheckoutButtonVkl = find
+									.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+							basketCheckoutButtonVkl.click();
+
+							Thread.sleep(5000);
+
+							later();
+
+						}
+
+					}
+
+				} else {
+
+					System.out.println(" No order type is available to order at this time ");
+
+					nextGenCheckout.info(MarkupHelper.createLabel(" No order type is available to order at this time ",
+							ExtentColor.CYAN));
+
+				}
+
+			}
+
+		}
+
+		else if (nextGenOrderNowFlowWithDeliveryAsapConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithDeliveryAsapConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithDeliveryAsapMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithDeliveryAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithDeliveryAsapConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithDeliveryAsapConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithDeliveryAsapMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithDeliveryAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+			String takeOutConfig = APIMethods.takeOutConfig();
+
+			String curbsideConfig = APIMethods.curbsideConfig();
+
+			String hideTakeOutConfig = APIMethods.hideTakeOutConfig();
+			Thread.sleep(3000);
+
+			if (takeOutConfig == "true") {
+
+				if (hideTakeOutConfig == "false" && curbsideConfig == "true") {
+
+					System.out.println("Verified takeout ordertype is displayed");
+
+					nextGenCheckout.info(
+							MarkupHelper.createLabel("Verified takeout ordertype is displayed", ExtentColor.CYAN));
+
+					FlutterElement takeoutOrderTypeButtonVk = find.byValueKey(OrderNowLocators.ORDERTYPE_TAKEOUT_VKL);
+
+					takeoutOrderTypeText = takeoutOrderTypeButtonVk.getText();
+
+					takeoutOrderTypeButtonVk.click();
+
+					FlutterElement orderTypePopupApplyButtonVkl = find
+							.byValueKey(basketLocators.ORDER_TYPE_POPUP_APPLY_BUTTON_VKL);
+
+					orderTypePopupApplyButtonVkl.click();
+
+					boolean asapConfig = commonMethods.elementFoundOrNot(asapText);
+
+					if (asapConfig == false && APIMethods.takeOutConfig() == "true") {
+
+						System.out.println("Verified asap is displayed so user can proceed with asap order time");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified asap is displayed so user can proceed with asap order time",
+								ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+					}
+
+					else if (asapConfig == false && APIMethods.takeOutConfig() == "false") {
+
+						System.out.println("Verified that the asap is diabled and later is only configured");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified that the asap is diabled and later is only configured", ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+						Thread.sleep(5000);
+
+						later();
+
+					}
+				}
+
+				else if (hideTakeOutConfig == "true" && curbsideConfig == "true") {
+
+					FlutterElement curbSideOrderTypeButtonVk = find.byValueKey(OrderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+
+					curbSideOrderTypeButtonVk.click();
+
+					boolean asapConfig = commonMethods.elementFoundOrNot(asapText);
+
+					if (asapConfig == false && APIMethods.takeOutConfig() == "true") {
+
+						System.out.println("Verified asap is displayed so user can proceed with asap order time");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified asap is displayed so user can proceed with asap order time",
+								ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+					}
+
+					else if (asapConfig == false && APIMethods.takeOutConfig() == "false") {
+
+						System.out.println("Verified that the asap is diabled and later is only configured");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified that the asap is diabled and later is only configured", ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+						Thread.sleep(5000);
+
+						later();
+
+					}
+				}
+			}
+
+		}
+
+		else if (nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithTakeoutLaterConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithTakeoutLaterMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithTakeoutLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithTakeoutLaterConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithTakeoutLaterConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithTakeoutLaterMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithTakeoutLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+			String takeOutConfig = APIMethods.takeOutConfig();
+
+			String curbsideConfig = APIMethods.curbsideConfig();
+
+			String hideTakeOutConfig = APIMethods.hideTakeOutConfig();
+
+			String deliveryConfig = APIMethods.deliveryConfig();
+
+			Thread.sleep(3000);
+
+			if (takeOutConfig == "true") {
+
+				if (hideTakeOutConfig == "true" && curbsideConfig == "true") {
+
+					System.out.println("Verified curbside ordertype is displayed");
+
+					nextGenCheckout.info(
+							MarkupHelper.createLabel("Verified curbside ordertype is displayed", ExtentColor.CYAN));
+
+					FlutterElement curbsideOrderTypeButtonVk = find.byValueKey(OrderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+
+					curbsideOrderTypeText = curbsideOrderTypeButtonVk.getText();
+
+					curbsideOrderTypeButtonVk.click();
+
+					FlutterElement orderTypePopupApplyButtonVkl = find
+							.byValueKey(basketLocators.ORDER_TYPE_POPUP_APPLY_BUTTON_VKL);
+
+					orderTypePopupApplyButtonVkl.click();
+
+					boolean laterConfig = commonMethods.elementFoundOrNot(laterText);
+
+					if (laterConfig == true && APIMethods.takeOutConfig() == "true") {
+
+						System.out.println("Verified asap is displayed so user can proceed with asap order time");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified asap is displayed so user can proceed with asap order time",
+								ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+					}
+
+					else if (laterConfig == false && APIMethods.takeOutConfig() == "false") {
+
+						System.out.println("Verified that the later is diabled and asap is only configured");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified that the later is diabled and asap is only configured", ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+						Thread.sleep(5000);
+
+						later();
+
+					}
+
+				}
+
+			}
+
+			else if (takeOutConfig == "false") {
+
+				if (deliveryConfig == "true") {
+
+					if (storeCode.equals("PXLAB")) {
+
+						boolean pxLabAddressFoundOrNot = commonMethods.elementFoundOrNot(pxLabAddress);
+
+						if (pxLabAddressFoundOrNot == true) {
+
+							commonMethods.scrollAndTap(pxLabAddress);
+						}
+
+						else {
+
+							// add new address test script
+
+							Address.addresss();
+
+						}
+
+						boolean laterConfig = commonMethods.elementFoundOrNot(laterText);
+
+						if (laterConfig == true && APIMethods.takeOutConfig() == "true") {
+
+							System.out.println("Verified asap is displayed so user can proceed with asap order time");
+
+							nextGenCheckout.info(MarkupHelper.createLabel(
+									"Verified asap is displayed so user can proceed with asap order time",
+									ExtentColor.CYAN));
+
+							FlutterElement basketCheckoutButtonVkl = find
+									.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+							basketCheckoutButtonVkl.click();
+
+						}
+
+						else if (laterConfig == false && APIMethods.takeOutConfig() == "false") {
+
+							System.out.println("Verified that the later is diabled and asap is only configured");
+
+							nextGenCheckout.info(MarkupHelper.createLabel(
+									"Verified that the later is diabled and asap is only configured",
+									ExtentColor.CYAN));
+
+							FlutterElement basketCheckoutButtonVkl = find
+									.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+							basketCheckoutButtonVkl.click();
+
+							Thread.sleep(5000);
+
+							later();
+
+						}
+					}
+
+					else if (storeCode.equals("NGAHS01")) {
+
+						boolean ngaHsAddressFoundOrNot = commonMethods.elementFoundOrNot(ngaHsAddress);
+
+						if (ngaHsAddressFoundOrNot == true) {
+
+							commonMethods.scrollAndTap(ngaHsAddress);
+						}
+
+						else {
+
+							// add new address test script
+
+							Address.addresss();
+
+						}
+
+						boolean laterConfig = commonMethods.elementFoundOrNot(laterText);
+
+						if (laterConfig == true && APIMethods.takeOutConfig() == "true") {
+
+							System.out.println("Verified asap is displayed so user can proceed with asap order time");
+
+							nextGenCheckout.info(MarkupHelper.createLabel(
+									"Verified asap is displayed so user can proceed with asap order time",
+									ExtentColor.CYAN));
+
+							FlutterElement basketCheckoutButtonVkl = find
+									.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+							basketCheckoutButtonVkl.click();
+
+						}
+
+						else if (laterConfig == false && APIMethods.takeOutConfig() == "false") {
+
+							System.out.println("Verified that the later is diabled and asap is only configured");
+
+							nextGenCheckout.info(MarkupHelper.createLabel(
+									"Verified that the later is diabled and asap is only configured",
+									ExtentColor.CYAN));
+
+							FlutterElement basketCheckoutButtonVkl = find
+									.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+							basketCheckoutButtonVkl.click();
+
+							Thread.sleep(5000);
+
+							later();
+
+						}
+					}
+
+				} else {
+
+					System.out.println(" No order type is available to order at this time ");
+
+					nextGenCheckout.info(MarkupHelper.createLabel(" No order type is available to order at this time ",
+							ExtentColor.CYAN));
+
+				}
+
+			}
+
+		} else if (nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithCurbsideLaterConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithCurbsideLaterMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithCurbsideLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithCurbsideLaterConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithCurbsideLaterConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithCurbsideLaterMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithCurbsideLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+			String takeOutConfig = APIMethods.takeOutConfig();
+
+			String curbsideConfig = APIMethods.curbsideConfig();
+
+			String hideTakeOutConfig = APIMethods.hideTakeOutConfig();
+
+			String deliveryConfig = APIMethods.deliveryConfig();
+
+			if (takeOutConfig == "true") {
+
+				if (hideTakeOutConfig == "false" && curbsideConfig == "false") {
+
+					System.out.println("Verified takeout ordertype is displayed");
+
+					nextGenCheckout.info(
+							MarkupHelper.createLabel("Verified takeout ordertype is displayed", ExtentColor.CYAN));
+
+					FlutterElement takeoutOrderTypeButtonVk = find.byValueKey(OrderNowLocators.ORDERTYPE_TAKEOUT_VKL);
+
+					takeoutOrderTypeText = takeoutOrderTypeButtonVk.getText();
+
+					takeoutOrderTypeButtonVk.click();
+
+					find.byValueKey("od_type_apply_button").click();
+
+					boolean laterConfig = commonMethods.elementFoundOrNot(laterText);
+
+					if (laterConfig == true && APIMethods.takeOutConfig() == "true") {
+
+						System.out.println("Verified asap is displayed so user can proceed with asap order time");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified asap is displayed so user can proceed with asap order time",
+								ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+					}
+
+					else if (laterConfig == false && APIMethods.takeOutConfig() == "false") {
+
+						System.out.println("Verified that the later is diabled and asap is only configured");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified that the later is diabled and asap is only configured", ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+						Thread.sleep(5000);
+
+						later();
+
+					}
+				} else if (hideTakeOutConfig == "true" && curbsideConfig == "true") {
+
+					FlutterElement curbSideOrderTypeButtonVk = find.byValueKey(OrderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+
+					curbSideOrderTypeButtonVk.click();
+
+					boolean laterConfig = commonMethods.elementFoundOrNot(laterText);
+
+					if (laterConfig == true && APIMethods.takeOutConfig() == "true") {
+
+						System.out.println("Verified asap is displayed so user can proceed with asap order time");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified asap is displayed so user can proceed with asap order time",
+								ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+					}
+
+					else if (laterConfig == false && APIMethods.takeOutConfig() == "false") {
+
+						System.out.println("Verified that the later is diabled and asap is only configured");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified that the later is diabled and asap is only configured", ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+						Thread.sleep(5000);
+
+						later();
+
+					}
+				}
+			}
+
+			else if (takeOutConfig == "false") {
+
+				if (deliveryConfig == "true") {
+
+					if (storeCode.equals("PXLAB")) {
+
+						boolean pxLabAddressFoundOrNot = commonMethods.elementFoundOrNot(pxLabAddress);
+
+						if (pxLabAddressFoundOrNot == true) {
+
+							commonMethods.scrollAndTap(pxLabAddress);
+						}
+
+						else {
+
+							// add new address test script
+
+							Address.addresss();
+
+						}
+
+						boolean laterConfig = commonMethods.elementFoundOrNot(laterText);
+
+						if (laterConfig == true && APIMethods.deliveryConfig() == "true") {
+
+							System.out.println("Verified asap is displayed so user can proceed with asap order time");
+
+							nextGenCheckout.info(MarkupHelper.createLabel(
+									"Verified asap is displayed so user can proceed with asap order time",
+									ExtentColor.CYAN));
+
+							FlutterElement basketCheckoutButtonVkl = find
+									.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+							basketCheckoutButtonVkl.click();
+
+						}
+
+						else if (laterConfig == false && APIMethods.deliveryConfig() == "false") {
+
+							System.out.println("Verified that the later is diabled and asap is only configured");
+
+							nextGenCheckout.info(MarkupHelper.createLabel(
+									"Verified that the later is diabled and asap is only configured",
+									ExtentColor.CYAN));
+
+							FlutterElement basketCheckoutButtonVkl = find
+									.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+							basketCheckoutButtonVkl.click();
+
+							Thread.sleep(5000);
+
+							later();
+
+						}
+
+					}
+
+					else if (storeCode.equals("NGAHS01")) {
+
+						boolean ngaHsAddressFoundOrNot = commonMethods.elementFoundOrNot(ngaHsAddress);
+
+						if (ngaHsAddressFoundOrNot == true) {
+
+							commonMethods.scrollAndTap(ngaHsAddress);
+						}
+
+						else {
+
+							// add new address test script
+
+							Address.addresss();
+
+						}
+
+						boolean laterConfig = commonMethods.elementFoundOrNot(laterText);
+
+						if (laterConfig == true && APIMethods.deliveryConfig() == "true") {
+
+							System.out.println("Verified asap is displayed so user can proceed with asap order time");
+
+							nextGenCheckout.info(MarkupHelper.createLabel(
+									"Verified asap is displayed so user can proceed with asap order time",
+									ExtentColor.CYAN));
+
+							FlutterElement basketCheckoutButtonVkl = find
+									.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+							basketCheckoutButtonVkl.click();
+
+						}
+
+						else if (laterConfig == false && APIMethods.deliveryConfig() == "false") {
+
+							System.out.println("Verified that the later is diabled and asap is only configured");
+
+							nextGenCheckout.info(MarkupHelper.createLabel(
+									"Verified that the later is diabled and asap is only configured",
+									ExtentColor.CYAN));
+
+							FlutterElement basketCheckoutButtonVkl = find
+									.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+							basketCheckoutButtonVkl.click();
+
+							Thread.sleep(5000);
+
+							later();
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+
+		else if (nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithDeliveryLaterConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithDeliveryLaterMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenOrderNowFlowWithDeliveryLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithDeliveryLaterConfiguredGuest.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithDeliveryLaterConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithDeliveryLaterMapViewConfigured.equalsIgnoreCase("Yes")
+				|| nextGenLocationListFlowWithDeliveryLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+			String takeOutConfig = APIMethods.takeOutConfig();
+
+			String curbsideConfig = APIMethods.curbsideConfig();
+
+			String hideTakeOutConfig = APIMethods.hideTakeOutConfig();
+
+			Thread.sleep(3000);
+
+			if (takeOutConfig == "true") {
+
+				if (hideTakeOutConfig == "false" && curbsideConfig == "true") {
+
+					System.out.println("Verified takeout ordertype is displayed");
+
+					nextGenCheckout.info(
+							MarkupHelper.createLabel("Verified takeout ordertype is displayed", ExtentColor.CYAN));
+
+					FlutterElement takeoutOrderTypeButtonVk = find.byValueKey(OrderNowLocators.ORDERTYPE_TAKEOUT_VKL);
+
+					takeoutOrderTypeText = takeoutOrderTypeButtonVk.getText();
+
+					takeoutOrderTypeButtonVk.click();
+
+					FlutterElement orderTypePopupApplyButtonVkl = find
+							.byValueKey(basketLocators.ORDER_TYPE_POPUP_APPLY_BUTTON_VKL);
+
+					orderTypePopupApplyButtonVkl.click();
+
+					boolean laterConfig = commonMethods.elementFoundOrNot(laterText);
+
+					if (laterConfig == true && APIMethods.takeOutConfig() == "true") {
+
+						System.out.println("Verified asap is displayed so user can proceed with asap order time");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified asap is displayed so user can proceed with asap order time",
+								ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+					}
+
+					else if (laterConfig == false && APIMethods.takeOutConfig() == "false") {
+
+						System.out.println("Verified that the later is diabled and asap is only configured");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified that the later is diabled and asap is only configured", ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+						Thread.sleep(5000);
+
+						later();
+
+					}
+				}
+
+				else if (hideTakeOutConfig == "true" && curbsideConfig == "true") {
+
+					FlutterElement curbSideOrderTypeButtonVk = find.byValueKey(OrderNowLocators.ORDERTYPE_CURBSIDE_VKL);
+
+					curbSideOrderTypeButtonVk.click();
+
+					boolean laterConfig = commonMethods.elementFoundOrNot(laterText);
+
+					if (laterConfig == true && APIMethods.takeOutConfig() == "true") {
+
+						System.out.println("Verified asap is displayed so user can proceed with asap order time");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified asap is displayed so user can proceed with asap order time",
+								ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+					}
+
+					else if (laterConfig == false && APIMethods.takeOutConfig() == "false") {
+
+						System.out.println("Verified that the later is diabled and asap is only configured");
+
+						nextGenCheckout.info(MarkupHelper.createLabel(
+								"Verified that the later is diabled and asap is only configured", ExtentColor.CYAN));
+
+						FlutterElement basketCheckoutButtonVkl = find
+								.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+						basketCheckoutButtonVkl.click();
+
+						Thread.sleep(5000);
+
+						later();
+
+					}
+				}
+			}
+
+		}
+
+	}
+
+	/**
+	 * @Class_Name Checkout
+	 * @Method_Name later
+	 * @Description Contains code to execute if later order time if appears in the
+	 *              screen
+	 * @return void
+	 * @author prasanna venkatesh
+	 * @throws Exception
+	 */
+	public static void later() throws Throwable {
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+				.assignCategory("Re-Order");
+
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		ExtentTest nextGenCheckout = test.createNode("NextGenCheckout");
+
+		String laterDescriptionNotAvailText = commonMethods
+				.stringsReader(dashBoardLocators.OD_RE_ORDER_ASAP_LATER_TEXT_STRING);
+
+		String laterDescriptionNotAvailText1 = commonMethods
+				.stringsReader(dashBoardLocators.OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_LATER_DATE_UNAVAILABLE_STRING);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		LocalDate currentDate = LocalDate.now();
+
+		LocalDate nextDate = currentDate.plusDays(1);
+
+		int nextDayOfMonth = nextDate.getDayOfMonth();
+
+		String todayDayName = nextDate.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+
+		System.err.println("todayDayName " + todayDayName);
+
+		System.err.println(" nextDate " + nextDate);
+
+		boolean laterDescriptionNotAvailTextboolean = commonMethods.elementFoundOrNot(laterDescriptionNotAvailText);
+
+		if (!laterDescriptionNotAvailTextboolean == true) {
+
+			System.out.println(" select the time for the later order ");
+
+			commonMethods.elementFoundOrNot("time");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(2000);
+
+			FlutterElement capacityManagementTimeDropdownVk = find
+					.byValueKey(OrderNowLocators.CAPACITY_MANAGEMENT_DROPDOWN_VKL);
+
+			capacityManagementTimeDropdownVk.click();
+
+			FlutterElement capacityManagementTime2Vk = find.byValueKey(OrderNowLocators.CAPACITY_MANAGEMENT_TIME_2);
+
+			capacityManagementTime2Vk.click();
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(2000);
+
+			WebElement laterTimeSelection = driver.findElement(By.xpath(OrderNowLocators.APPLY_BUTTON_XAPTHL));
+
+			laterTimeSelection.click();
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(2000);
+
+		}
+
+		else {
+
+			System.out.println(" Change date time & popup ");
+
+			CommonMethods.switchContext("FLUTTER");
+
+			Thread.sleep(2000);
+
+			find.byValueKey(OrderNowLocators.CHANGE_DATE_TIME_POPUP_BUTTON_VKL).click();
+
+			CommonMethods.switchContext("NATIVE_APP");
+
+			Thread.sleep(2000);
+
+			driver.findElement(By.xpath("//*[contains(@content-desc,'" + nextDayOfMonth + ", " + todayDayName + "')]"))
+					.click();
+
+			WebElement laterDateselectionOk = driver.findElement(By.xpath(OrderNowLocators.OK_BUTTON_XPATHL));
+
+			laterDateselectionOk.click();
+
+			boolean laterDescriptionNotAvailTextboolean1 = commonMethods
+					.elementFoundOrNot(laterDescriptionNotAvailText1);
+
+			if (!laterDescriptionNotAvailTextboolean1 == true) {
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(2000);
+
+				find.byValueKey(OrderNowLocators.CHANGE_DATE_TIME_POPUP_BUTTON_VKL).click();
+
+				String day1 = day();
+
+				int datee1 = date();
+
+				CommonMethods.switchContext("NATIVE_APP");
+
+				Thread.sleep(2000);
+
+				driver.findElement(By.xpath("//*[contains(@content-desc,'" + datee1 + ", " + day1 + "')]")).click();
+
+				WebElement laterDateselection1Ok = driver.findElement(By.xpath(OrderNowLocators.OK_BUTTON_XPATHL));
+
+				laterDateselection1Ok.click();
+
+				boolean laterDescriptionNotAvailTextboolean2 = commonMethods
+						.elementFoundOrNot(laterDescriptionNotAvailText1);
+
+				if (!laterDescriptionNotAvailTextboolean2 == true) {
+
+					System.out.println(" As we have checked the next two days from today's date : " + currentDate
+							+ " and for that later order is not available and hence terminating the Re-order execution");
+
+					nextGenCheckout.log(Status.FAIL, " As we have checked the next two days from today's date : "
+							+ currentDate
+							+ " and for that later order is not available and hence terminating the Re-order execution");
+
+					Thread.sleep(1500);
+
+					nextGenCheckout.addScreenCaptureFromBase64String(takeScreenshot(driver),
+							" As we have checked the next two days from today's date : " + currentDate
+									+ " and for that later order is not available and hence terminating the Re-order execution");
+
+					CommonMethods.switchContext("NATIVE_APP");
+
+					Thread.sleep(2000);
+
+					WebElement laterTimeSelection = driver
+							.findElement(By.xpath(OrderNowLocators.ORDER_NOW_CANCEL_TEXT_XPATHL));
+
+					laterTimeSelection.click();
+
+				} else {
+
+					System.out.println(" select the time for the later order ");
+
+					commonMethods.elementFoundOrNot("time");
+
+					CommonMethods.switchContext("FLUTTER");
+
+					Thread.sleep(2000);
+
+					FlutterElement capacityManagementTimeDropdownVk = find
+							.byValueKey(OrderNowLocators.CAPACITY_MANAGEMENT_DROPDOWN_VKL);
+
+					capacityManagementTimeDropdownVk.click();
+
+					FlutterElement capacityManagementTime2Vk = find
+							.byValueKey(OrderNowLocators.CAPACITY_MANAGEMENT_TIME_2);
+
+					capacityManagementTime2Vk.click();
+
+					CommonMethods.switchContext("NATIVE_APP");
+
+					Thread.sleep(2000);
+
+					WebElement laterTimeSelection = driver.findElement(By.xpath(OrderNowLocators.APPLY_BUTTON_XAPTHL));
+
+					laterTimeSelection.click();
+
+					CommonMethods.switchContext("FLUTTER");
+
+					Thread.sleep(2000);
+
+				}
+
+			} else {
+
+				System.out.println(" select the time for the later order ");
+
+				commonMethods.elementFoundOrNot("time");
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(2000);
+
+				FlutterElement capacityManagementTimeDropdownVk = find
+						.byValueKey(OrderNowLocators.CAPACITY_MANAGEMENT_DROPDOWN_VKL);
+
+				capacityManagementTimeDropdownVk.click();
+
+				FlutterElement capacityManagementTime2Vk = find.byValueKey(OrderNowLocators.CAPACITY_MANAGEMENT_TIME_2);
+
+				capacityManagementTime2Vk.click();
+
+				CommonMethods.switchContext("NATIVE_APP");
+
+				Thread.sleep(2000);
+
+				WebElement laterTimeSelection = driver.findElement(By.xpath(OrderNowLocators.APPLY_BUTTON_XAPTHL));
+
+				laterTimeSelection.click();
+
+				CommonMethods.switchContext("FLUTTER");
+
+				Thread.sleep(2000);
+
+			}
+
+		}
+
+	}
+
+	/**
+	 * @Class_Name Checkout
+	 * @Method_Name date
+	 * @Description Contains code to get the date
+	 * @return void
+	 * @author prasanna venkatesh
+	 * @return
+	 * @throws Exception
+	 */
+	@Test
+	private static int date() {
+
+		LocalDate currentDate = LocalDate.now();
+
+		LocalDate dayAfterNext = currentDate.plusDays(2);
+
+		int day = dayAfterNext.getDayOfMonth();
+
+		System.out.println(day);
+
+		return day;
+
+	}
+
+	/**
+	 * @Class_Name Checkout
+	 * @Method_Name day
+	 * @Description Contains code to get the day
+	 * @return void
+	 * @author prasanna venkatesh
+	 * @return
+	 * @throws Exception
+	 */
+	@Test
+	private static String day() {
+
+		LocalDate today = LocalDate.now();
+
+		LocalDate dayAfterTomorrow = today.plusDays(2);
+		String tomorrowDayName = dayAfterTomorrow.getDayOfWeek().getDisplayName(TextStyle.FULL, Locale.ENGLISH);
+		System.out.println("The day after tomorrow is: " + tomorrowDayName);
+
+		return tomorrowDayName;
+
+	}
+
+	/**
+	 * @Class_Name Checkout
+	 * @Method_Name minimumItem
+	 * @Description Contains code to get the day
+	 * @return void
+	 * @author prasanna venkatesh
+	 * @return
+	 * @throws Throwable
+	 * @throws Exception
+	 */
+
+	public static void minimumItem() throws Throwable {
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Lalith Kishore Ravi").assignDevice(deviceName)
+				.assignCategory("Re-Order");
+
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		ExtentTest nextGenCheckout = test.createNode("NextGenCheckout");
+
+		String needSomethingHeaderText = commonMethods
+				.stringsReader(needSomethingLocators.NEED_SOMETHING_TITLE_TEXT_STRING);
+
+		String contactInfoTitleText = commonMethods
+				.stringsReader(contactAndPhoneNumberLocators.GUEST_CONTACTINFOTITLETEXTFIELD);
+
+		String phoneNumberScreenTitleText = commonMethods
+				.stringsReader(contactAndPhoneNumberLocators.PHONENUMBERSCREENTITLE);
+
+		String curbsideScreenTitleText = commonMethods.stringsReader(curbsideLocators.CURBSIDE_LABEL_TEXT);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		CommonMethods.switchContext("FLUTTER");
+
+		FlutterElement popUpDescriptionMinimumItemVk = find
+				.byValueKey(basketLocators.BASKET_CHECKOUT_ALERT_DESCRIPTION_POPUP_TEXTVKL);
+
+		String popUpDescriptionMinimumItemTextVk = popUpDescriptionMinimumItemVk.getText();
+
+		System.out.println(" The Minimum Item popup is displayed with the text in the UI is : "
+				+ popUpDescriptionMinimumItemTextVk);
+
+		nextGenCheckout
+				.info(MarkupHelper.createLabel(" The Minimum Item popup is displayed with the text in the UI is : "
+						+ popUpDescriptionMinimumItemTextVk, ExtentColor.CYAN));
+
+		FlutterElement popUpOkButtonVk = find
+				.byValueKey(basketLocators.BASKET_CHECKOUT_ALERT_DESCRIPTION_POPUP_OK_BUTTONVKL);
+
+		popUpOkButtonVk.click();
+
+		System.out.println(
+				"Verified that the app get navigated to the basket screen when user tap the ok button on the alert popup");
+
+		FlutterElement editButtonVkl = find.byValueKey("basket_edit_icon_item_0");
+
+		editButtonVkl.click();
+
+		FlutterElement basketEditDeleteItemYesButtonVkl = find.byValueKey(basketLocators.BASKET_ITEM_DELETE_YES_VK);
+
+		basketEditDeleteItemYesButtonVkl.click();
+
+		FlutterElement itemQuantityScreenIncrementIconVk = find
+				.byValueKey(menuScreenLocators.ITEM_QUANTITY_SCREEN_INCREMENT_ICON_VK);
+
+		for (int i = 0; i < 11; i++) {
+
+			itemQuantityScreenIncrementIconVk.click();
+
+		}
+
+		FlutterElement updateBasketButtonVkl = find
+				.byValueKey(menuScreenLocators.ITEM_QUANTITY_UPDATE_BASKET_BUTTON_VK);
+
+		updateBasketButtonVkl.click();
+
+		FlutterElement checkoutButtonVkl = find.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL);
+
+		checkoutButtonVkl.click();
+
+		boolean needSomethingHeaderTextString = commonMethods.elementFoundOrNotPopUp(needSomethingHeaderText);
+
+		boolean contactInfoTitleTextString = commonMethods.elementFoundOrNotPopUp(contactInfoTitleText);
+
+		boolean phoneNumberScreenTitleTextString = commonMethods.elementFoundOrNotPopUp(phoneNumberScreenTitleText);
+
+		boolean curbsideScreenTitleTextString = commonMethods.elementFoundOrNotPopUp(curbsideScreenTitleText);
+
+		if (needSomethingHeaderTextString || contactInfoTitleTextString || phoneNumberScreenTitleTextString
+				|| curbsideScreenTitleTextString == true) {
+
+			System.out.println("Verified that the app navigated to the next screen from basket screen");
+
+			nextGenCheckout.info(MarkupHelper.createLabel(
+					"Verified that the app navigated to the next screen from basket screen", ExtentColor.CYAN));
+
+		} else {
+
+		}
+
+	}
+
+}

@@ -1,0 +1,60 @@
+package com.locators;
+
+public class OrderNowLocators {
+
+	public final String ORDER_TYPE_POPUP_DELIVERY_TEXT_XPATHL = "//*[contains(@name,'very')]";
+	public final String ORDER_TYPE_POPUP_TAKEEOUT_TEXT_XPATHL = "//*[contains(@name,'out')]";
+	public final String ORDER_TYPE_POPUP_CURBSIDE_TEXT_XPATHL = "//*[contains(@name,'side')]";
+
+	public static final String LOCATION_LIST_GUEST_ASAP_TEXT_XPATHL = "//*[contains(@name,'ASAP')]";
+	public static final String LOCATION_LIST_GUEST_LATER_TEXT_XPATHL = "//*[contains(@name,'later')]";
+	public static final String LOCATION_LIST_LOGGEDIN_ASAP_TEXT_XPATHL = "//*[contains(@name,'ASAP')]";
+	public static final String LOCATION_LIST_LOGGEDIN_LATER_TEXT_XPATHL = "//*[contains(@name,'later')]";
+	public static final String APPLY_BUTTON_XAPTHL = "//*[contains(@name,'apply')]";
+	public static final String OK_BUTTON_XPATHL = "//*[contains(@name,'OK')]";
+
+	public static final String ORDER_NOW_GUEST_ASAP_TEXT_XPATHL = "//*[contains(@name,'ASAP')]";
+	public static final String ORDER_NOW_GUEST_LATER_TEXT_XPATHL = "//*[contains(@name,'later')]";
+	public static final String ORDER_NOW_LOGGEDIN_ASAP_TEXT_XPATHL = "//*[contains(@name,'ASAP')]";
+	public static final String ORDER_NOW_LOGGEDIN_LATER_TEXT_XPATHL = "//*[contains(@name,'later')]";
+	public static final String ORDER_NOW_CANCEL_TEXT_XPATHL = "//*[contains(@name,'CANCEL')]";
+
+	public static final String GUEST_LANDING_ORDERNOW_BUTTON_XPATHL = "//*[contains(@name,'Order Now')]";
+	public static final String LOGGEDIN_BOTTOMBAR_ORDERNOW_XPATHL = "//*[contains(@name,'order now')]";
+	public static final String LOGGEDIN_BOTTOMBAR_LOCATIONLIST_XPATHL = "//XCUIElementTypeImage[contains(translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'location')] | //XCUIElementTypeStaticText[contains(translate(@name, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'location')]";
+
+	public static final String ORDERTYPE_TAKEOUT_VKL = "order_type_items_takeout";
+	public static final String ORDERTYPE_DELIVERY_VKL = "order_type_items_delivery";
+	public static final String ORDERTYPE_CURBSIDE_VKL = "order_type_items_curbside";
+	public static final String ORDERTYPE_CLOSE_ICON_VKL = "available_order_type_close_button";
+	public static final String ORDERTYPE_ASAP_ICON_VKL = "available_order_asap_type_close_button";
+
+	public static final String LOCATION_LIST_ALERT_DESCRIPTION_VKL = "create_order_error_alert_content_text";
+	public static final String LOCATION_LIST_ALERT_OKAY_BUTTON_VKL = "create_order_error_alert_okay_button";
+	
+	
+	public static final String ORDER_ASAP_TEXT_VKL = "order_asap_type_items_asap";
+	public static final String ORDER_LATER_TEXT_VKL = "order_asap_type_items_later";
+
+	public static final String DATE_PICKER_DESCRIPTION_TEXT_VKL = "date_picker_description_text";
+	public static final String DATE_PICKER_EDIT_FIELD_XPATH = "//*[@name='Switch to input']";
+	public static final String DATE_TEXT_FIELD_XPATH = "//*[contains(@name,'Enter')]";
+	public static final String TIME_HEADER_TEXT_VKL = "order_type_time_title";
+	public static final String CAPACITY_MANAGEMENT_DROPDOWN_VKL = "capacity_management_time_dropdown";
+	public static final String CHANGE_DATE_TIME_POPUP_DESCRIPTION_TEXT_VKL = "unavailable_time_description_text";
+	public static final String CHANGE_DATE_TIME_POPUP_BUTTON_VKL = "unavailable_time_change_date_time_button";
+	public static final String CAPACITY_MANAGEMENT_NOT_AVAILABLE_DESCRIPTION_VKL = "capacity_management_not_available_content";
+	public static final String CAPACITY_MANAGEMENT_NOT_AVAILABLE_OK_BUTTON_VKL = "capacity_management_not_available_ok_button";
+	public static final String CAPACITY_MANAGEMENT_TIME_0 = "capacity_management_time_0";
+	public static final String CAPACITY_MANAGEMENT_TIME_1 = "capacity_management_time_1";
+	public static final String CAPACITY_MANAGEMENT_TIME_2 = "capacity_management_time_2";
+	public static final String ORDERTYPE_POPUP_XPATH = "//*[contains(@content-desc,'ORDER TYPE')]";
+	public static final String ORDERTIME_POPUP_XPATH = "//*[contains(@content-desc,'When would you like your order')]";
+	public static final String BOTTOM_BAR_HOME = "bottombar_dashboard";
+
+	////// String Text ///
+
+	public static final String LOCAL_CONFIGURATION_CURBSIDE_TEXT = "od_curbside";
+	public static final String LOCAL_CONFIGURATION_LATER_TEXT = "od_later";
+	public static final String LOCAL_CONFIGURATION_ASAP_TEXT = "od_asap";
+}

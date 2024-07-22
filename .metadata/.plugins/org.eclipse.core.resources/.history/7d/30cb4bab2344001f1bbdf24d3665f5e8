@@ -1,0 +1,28 @@
+package com.base;
+
+import android.util.Base64;
+import javax.crypto.Mac;
+import java.nio.charset.StandardCharsets;
+
+public class New {
+    public static void main(String[] args) {
+        byte[] lastBytes = Base64.decode("tE9yM++nNXfzUoJLnvn56QYu6yM78NjBHLg/ouh22Wx/" +
+                                          "I+7g1RiCIvarE5DLI4xV58KSSY+X/3pVxU7ncTBcdQ==", 
+                                          Base64.DEFAULT | Base64.NO_WRAP);
+        
+        // Assuming getObj(byte[]) method exists and returns a Mac object
+        Mac obj = getObj(lastBytes);
+
+        // Convert byte[] to String
+        String lastBytesString = new String(lastBytes, StandardCharsets.UTF_8);
+
+        System.out.println("Byte array as String: " + lastBytesString);
+    }
+
+    public static Mac getObj(byte[] bytes) {
+        // Dummy method to represent your existing method to get Mac object
+        // Replace this with your actual implementation
+        return null;
+    }
+}
+

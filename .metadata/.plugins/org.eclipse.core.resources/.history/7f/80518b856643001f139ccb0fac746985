@@ -1,0 +1,2374 @@
+package com.features;
+
+import java.io.IOException;
+
+import java.security.GeneralSecurityException;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.base.BaseClass;
+import com.base.CommonMethods;
+import com.locators.ActionsFlowLocators;
+import com.locators.AppLaunchAndLandingScreenLocators;
+import com.locators.AppRatingLocators;
+import com.locators.BasketLocators;
+import com.locators.BottomBarNavigationLocator;
+import com.locators.ContactAndPhoneNumberLocators;
+import com.locators.DashBoardLocators;
+import com.locators.LocationLocators;
+import com.locators.MyAccountLocators;
+import com.locators.NeedSomethingLocators;
+import com.locators.OLOLocators;
+import com.locators.OrderNowLocators;
+import com.locators.SideDrawerLocators;
+import com.locators.SignInLocators;
+import com.locators.TransactionHistoryLocators;
+
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
+import io.github.ashwith.flutter.FlutterElement;
+import io.github.ashwith.flutter.FlutterFinder;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+
+/**
+ * @Class_Name ActionsFlow
+ * @Description Contains code to execute ACTIONS in order placed screen
+ * @return void
+ * @author Lalith Kishore Ravi
+ * @throws Exception
+ */
+public class ActionsFlow extends BaseClass {
+
+	ActionsFlowLocators actionsFlowLocators = new ActionsFlowLocators();
+
+	CommonMethods commonMethods = new CommonMethods();
+	static SignInLocators signInLocator = new SignInLocators();
+	static LocationLocators locationLocators = new LocationLocators();
+	static DashBoardLocators dashBoardLocators = new DashBoardLocators();
+	static SideDrawerLocators sideDrawerLocators = new SideDrawerLocators();
+	static OrderNowLocators orderNowLocators = new OrderNowLocators();
+	static BottomBarNavigationLocator bottomBarNavigationLocators = new BottomBarNavigationLocator();
+
+	static AppRatingLocators appRating = new AppRatingLocators();
+	static SignInLocators signInLocators = new SignInLocators();
+	static AppLaunchAndLandingScreenLocators appLaunchAndLandingScreenLocators = new AppLaunchAndLandingScreenLocators();
+	static MyAccountLocators myAccountLocators = new MyAccountLocators();
+	public static String isLocationEnabled = "true";
+	static TransactionHistoryLocators transactionHistoryLocators = new TransactionHistoryLocators();
+	static OLOLocators oloLocators = new OLOLocators();
+	static BasketLocators basketLocators = new BasketLocators();
+	static NeedSomethingLocators needSomethingLocators = new NeedSomethingLocators();
+
+	final static ArrayList<JSONObject> jList = new ArrayList<>();
+
+	public static String componentList;
+	public static String accessTokenGen;
+	public static String printedCardNumberResponse;
+	public static String firstnameResponse;
+	public static String lastnameResponse;
+	public static String salutationResponse;
+	public static String welcomeResponse;
+	public static String welcomeResponseDefault;
+	public static String usernameResponse;
+	public static StringBuilder welcomeString;
+	public static StringBuilder welcomeDefault;
+	public static StringBuilder pointTrackHead;
+	public static StringBuilder actualSubHeader;
+	public static StringBuilder responseHeader;
+	public static StringBuilder actualHeader;
+	public static String availableHeader;
+	public static String availableViewall;
+	public static StringBuilder actualWelcome;
+	public static String pointTrackerHeader;
+	public static String pointTrackerSubHeader;
+	public static int walletMaximum;
+	public static String pointBalance1;
+	public static String finalPointValue;
+	public static JSONArray resultArray;
+	public static String pullMessageResponse;
+	public static String pullMessageHeaderResponse;
+	public static String barcodeAlttextResponse;
+	public static String barcodeHeaderResponse;
+	public static String scannableLoyaltyCardHeaderText;
+	public static String mobilephoneResponse;
+	public static String codeSourceResponse;
+	public static String primaryCardNumbersResponse;
+	public static String phoneNumberResponse;
+	public static StringBuilder barcodeHeaderString;
+	public static String pointTrackerHeaderAltResponse;
+	public static String codeTypeResponse;
+	public static String dateResponse;
+	public static String messageDescriptionResponse;
+	public static String formattedDate;
+	public static String expirationTimeResponse;
+	public static String shortCardNumberResponse;
+	public static String storeCodeResponse;
+	public static String storeNameResponse;
+	public static String corpExpirationTimeResponse;
+	public static String corpShortCardNumberResponse;
+	public static String corpStoreCodeResponse;
+	public static String corpStoreNameResponse;
+	public static String contentValue;
+
+	public static int walletCode;
+	public static int walletCdn;
+	public static JSONArray perksCdn;
+	public static String cardTemplateCdn;
+	public static String tierCdn;
+	public static JSONArray perks;
+	public static String cardTemplate;
+	public static String tier;
+	public static String activeDate;
+	public static String expiryDate;
+	public static String favoriteStore;
+	public static String storeGroup;
+	public static String imageUrl1;
+	public static String imageAltText;
+	public static Response cdnResponse;
+
+	static String canDeliverResponse;
+	static String locatedResponse;
+	static String canDeliverResponse1;
+	static String locatedResponse1;
+
+	static int savedAddressLength;
+	static int savedAddressLengthUpdated;
+
+	static String favStoreCode;
+	static String favStoreName;
+	static String optStringFavEmpty;
+
+	public static WebElement imagecomponent;
+
+	public static String preCheckInAltTextResponse;
+	public static String preCheckInTextResponse;
+	public static String postCheckInTextResponse;
+	public static String codeTypeCheckInResponse;
+	public static String codeSourceCheckInResponse;
+	public static StringBuilder preCheckInTextString;
+	public static StringBuilder postCheckInTextString;
+	public static String checkInStoreNameResponse;
+	public static String checkInStoreCodeResponse;
+	public static String availableRewardsHeader;
+	public static String availableRewardsViewAll;
+	public static String availableRewardsAltText;
+	public static StringBuilder availableRewardsViewAllString;
+	public static StringBuilder availableRewardsHeaderString;
+
+	public static String storeShortCode;
+	public static String userName;
+	public static String passWord;
+	public static String merchantId;
+	public static String cardTemplateCode;
+	public static String storeGroupCode;
+	public static String clientId;
+	public static String integrationDetail;
+	static String storeCode;
+	static String authorizationGrant;
+	static String merchantid;
+	static String key = "6d6bf06a4f653a54da8d88715a736a4ca6071ffb";
+	static String provider = "px";
+	static String recentlyOrderedName;
+
+	static String authentication = "oauth";
+
+	static String[] welcomeConfig = { "{salutation}", "{firstName}", "{lastName}", "{username}" };
+
+	static String thirdPartyIntegration = "lJI1mRVajw4FmFrNqOxEqFU_3QpH2HwpBSdpnt1m97";
+
+	static String response_type = "code";
+
+	static String scope = "user_read user_write account_read account_write";
+
+	static String corpStoreCode;
+
+	static String authentication1 = "anonymous";
+
+	static String integrationDetail1 = "os=iOS%7Cosversion=16.6%7Cdevice=iPhone%7CmerchantId=60019%7Cintegrator=Paytronix%7Cversion=REST:14.15%20-%20API:23.21.20231010%20-%20APP:2023101001";
+
+	static String Restaurant_Id;
+	static String get0;
+
+	static String get1;
+
+	static String get2;
+
+	static int size;
+
+	static String date;
+
+	static String substring;
+
+	static String DateApi;
+
+	static String Date;
+
+	static String orderId;
+
+	String takeoutOrderTypeText;
+	String curbsideOrderTypeText;
+	String deliveryOrderTypeText;
+
+	static String asapOrderTimeText;
+	static String laterOrderTimeText;
+
+	static int pos1;
+
+	static int pos;
+
+	static int position;
+
+	static int position1;
+
+	static APIMethods apiMethods = new APIMethods();
+	
+	ContactAndPhoneNumberLocators contactAndPhoneNumberLocators = new ContactAndPhoneNumberLocators();  
+	/**
+	 * @Class_Name ActionsFlow
+	 * @Method_Name storeInfoPayment
+	 * @Description Contains code to execute STORE INFO scripts in actions of order placed screen for all payments method in a single loop
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void storeInfoPayment() throws Exception {
+
+		boolean jkCafeRecommendedMenuEnabledorNot = commonMethods.jkCafeRecommendedMenuEnabledorNot();
+
+		BaseClass bass = new BaseClass();
+
+		List<String> menuItem = bass.menuItem();
+
+		String string = menuItem.get(1);
+
+		pos = Integer.parseInt(string);
+
+		String string1 = menuItem.get(2);
+
+		position = Integer.parseInt(string1);
+
+		String strings = menuItem.get(3);
+
+		pos1 = Integer.parseInt(strings);
+
+		String strings1 = menuItem.get(4);
+
+		position1 = Integer.parseInt(strings1);
+
+		Thread.sleep(6000);
+
+		if (jkCafeRecommendedMenuEnabledorNot == true) {
+
+			pos1 = pos1 + 1;
+			pos = pos + 1;
+			position = position + 1;
+			position1 = position1 + 1;
+		}
+		
+		commonMethods.scrollDown();
+
+		String storeInfoButtonTextString = commonMethods
+				.stringsReader(actionsFlowLocators.ACTIONS_FLOW_STORE_INFO_BUTTON_TEXT_STRING);
+
+		boolean storeInfoButtonTextStringBoolean = commonMethods.elementFoundOrNot("Store");
+
+		ExtentTest actionsFlowStoreInfo = test.createNode("ActionsFlowStoreInfo");
+
+		if (storeInfoButtonTextStringBoolean == true) {
+
+			String nameofCurrMethod = new Object() {
+			}.getClass().getEnclosingMethod().getName();
+
+			test = extent.createTest(nameofCurrMethod).assignAuthor(author).assignDevice(deviceName)
+					.assignCategory("ActionsFlow-StoreInfo");
+
+			BaseClass bc = new BaseClass();
+
+			List<String> selectedFlow = bc.configuration();
+
+			String nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest = selectedFlow.get(9);
+
+			String nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest = selectedFlow.get(10);
+
+			String nextGenOrderNowFlowWithCurbsideAsapConfiguredGuest = selectedFlow.get(11);
+
+			String nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest = selectedFlow.get(12);
+
+			String nextGenOrderNowFlowWithDeliveryAsapConfiguredGuest = selectedFlow.get(13);
+
+			String nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest = selectedFlow.get(14);
+
+			String nextGenLocationListFlowWithTakeoutAsapConfiguredGuest = selectedFlow.get(15);
+
+			String nextGenLocationListFlowWithTakeoutLaterConfiguredGuest = selectedFlow.get(16);
+
+			String nextGenLocationListFlowWithCurbsideAsapConfiguredGuest = selectedFlow.get(17);
+
+			String nextGenLocationListFlowWithCurbsideLaterConfiguredGuest = selectedFlow.get(18);
+
+			String nextGenLocationListFlowWithDeliveryAsapConfiguredGuest = selectedFlow.get(19);
+
+			String nextGenLocationListFlowWithDeliveryLaterConfiguredGuest = selectedFlow.get(20);
+
+			String nextGenOrderNowFlowWithTakeoutAsapConfigured = selectedFlow.get(64);
+
+			String nextGenOrderNowFlowWithTakeoutLaterConfigured = selectedFlow.get(65);
+
+			String nextGenOrderNowFlowWithCurbsideAsapConfigured = selectedFlow.get(66);
+
+			String nextGenOrderNowFlowWithCurbsideLaterConfigured = selectedFlow.get(67);
+
+			String nextGenOrderNowFlowWithDeliveryAsapConfigured = selectedFlow.get(68);
+
+			String nextGenOrderNowFlowWithDeliveryLaterConfigured = selectedFlow.get(69);
+
+			String nextGenOrderNowFlowWithTakeoutAsapMapViewConfigured = selectedFlow.get(70);
+
+			String nextGenOrderNowFlowWithTakeoutLaterMapViewConfigured = selectedFlow.get(71);
+
+			String nextGenOrderNowFlowWithCurbsideAsapMapViewConfigured = selectedFlow.get(72);
+
+			String nextGenOrderNowFlowWithCurbsideLaterMapViewConfigured = selectedFlow.get(73);
+
+			String nextGenOrderNowFlowWithDeliveryAsapMapViewConfigured = selectedFlow.get(74);
+
+			String nextGenOrderNowFlowWithDeliveryLaterMapViewConfigured = selectedFlow.get(75);
+
+			String nextGenOrderNowFlowWithTakeoutAsapStoreMapViewConfigured = selectedFlow.get(76);
+
+			String nextGenOrderNowFlowWithTakeoutLaterStoreMapViewConfigured = selectedFlow.get(77);
+
+			String nextGenOrderNowFlowWithCurbsideAsapStoreMapViewConfigured = selectedFlow.get(78);
+
+			String nextGenOrderNowFlowWithCurbsideLaterStoreMapViewConfigured = selectedFlow.get(79);
+
+			String nextGenOrderNowFlowWithDeliveryAsapStoreMapViewConfigured = selectedFlow.get(80);
+
+			String nextGenOrderNowFlowWithDeliveryLaterStoreMapViewConfigured = selectedFlow.get(81);
+
+			String nextGenLocationListFlowWithTakeoutAsapConfigured = selectedFlow.get(82);
+
+			String nextGenLocationListFlowWithTakeoutLaterConfigured = selectedFlow.get(83);
+
+			String nextGenLocationListFlowWithCurbsideAsapConfigured = selectedFlow.get(84);
+
+			String nextGenLocationListFlowWithCurbsideLaterConfigured = selectedFlow.get(85);
+
+			String nextGenLocationListFlowWithDeliveryAsapConfigured = selectedFlow.get(86);
+
+			String nextGenLocationListFlowWithDeliveryLaterConfigured = selectedFlow.get(87);
+
+			String nextGenLocationListFlowWithTakeoutAsapMapViewConfigured = selectedFlow.get(88);
+
+			String nextGenLocationListFlowWithTakeoutLaterMapViewConfigured = selectedFlow.get(89);
+
+			String nextGenLocationListFlowWithCurbsideAsapMapViewConfigured = selectedFlow.get(90);
+
+			String nextGenLocationListFlowWithCurbsideLaterMapViewConfigured = selectedFlow.get(91);
+
+			String nextGenLocationListFlowWithDeliveryAsapMapViewConfigured = selectedFlow.get(92);
+
+			String nextGenLocationListFlowWithDeliveryLaterMapViewConfigured = selectedFlow.get(93);
+
+			String nextGenLocationListFlowWithTakeoutAsapStoreMapViewConfigured = selectedFlow.get(94);
+
+			String nextGenLocationListFlowWithTakeoutLaterStoreMapViewConfigured = selectedFlow.get(95);
+
+			String nextGenLocationListFlowWithCurbsideAsapStoreMapViewConfigured = selectedFlow.get(96);
+
+			String nextGenLocationListFlowWithCurbsideLaterStoreMapViewConfigured = selectedFlow.get(97);
+
+			String nextGenLocationListFlowWithDeliveryAsapStoreMapViewConfigured = selectedFlow.get(98);
+
+			String nextGenLocationListFlowWithDeliveryLaterStoreMapViewConfigured = selectedFlow.get(99);
+
+			FlutterFinder find = new FlutterFinder(driver);
+
+			ExtentTest actionsFlowStoreInfoTakeoutAsap = test.createNode("ActionsFlowStoreInfoTakeoutAsap");
+
+			ExtentTest actionsFlowStoreInfoTakeoutLater = test.createNode("ActionsFlowStoreInfoTakeoutLater");
+
+			ExtentTest actionsFlowStoreInfoCurbsideAsap = test.createNode("ActionsFlowStoreInfoCurbsideAsap");
+
+			ExtentTest actionsFlowStoreInfoCurbsideLater = test.createNode("ActionsFlowStoreInfoCurbsideLater");
+
+			ExtentTest actionsFlowStoreInfoDeliveryAsap = test.createNode("ActionsFlowStoreInfoDeliveryAsap");
+
+			ExtentTest actionsFlowStoreInfoDeliveryLater = test.createNode("ActionsFlowStoreInfoDeliveryLater");
+
+			String orderPlacedTitleTextString = commonMethods
+					.stringsReader(actionsFlowLocators.ORDER_PLACED_SCREEN_TITLE_TEXT_STRING);
+
+			String storeInfoScreenTitleTextString = commonMethods
+					.stringsReader(actionsFlowLocators.STORE_INFO_TITLE_TEXT_STRING);
+
+			commonMethods.scrollOptionsGroupDownNonLowerCase("Store");
+
+			FlutterElement actionsFlowStoreInfoButtonVk = find
+					.byValueKey(actionsFlowLocators.ACTIONS_FLOW_STORE_INFO_BUTTON_VK);
+
+//		String actionsFlowStoreInfoButtonTextVk = actionsFlowStoreInfoButtonVk.getText();
+//
+//		try {
+//
+//			Assert.assertEquals(actionsFlowStoreInfoButtonTextVk, storeInfoButtonTextString,
+//					" Validated that the Store info text in the order placed screen from the UI is : "
+//							+ actionsFlowStoreInfoButtonTextVk + " and from the string configuration file is : "
+//							+ storeInfoButtonTextString + " are same ");
+//
+//			System.out.println(" Validated that the Store info text in the order placed screen from the UI is : "
+//					+ actionsFlowStoreInfoButtonTextVk + " and from the string configuration file is : "
+//					+ storeInfoButtonTextString + " are same ");
+//
+//			actionsFlowStoreInfo.info(MarkupHelper
+//					.createLabel(" Validated that the Store info text in the order placed screen from the UI is : "
+//							+ actionsFlowStoreInfoButtonTextVk + " and from the string configuration file is : "
+//							+ storeInfoButtonTextString + " are same ", ExtentColor.CYAN));
+//
+//		} catch (AssertionError e) {
+//
+//			actionsFlowStoreInfo.log(Status.FAIL,
+//					" Validated that the Store info text in the order placed screen from the UI is : "
+//							+ actionsFlowStoreInfoButtonTextVk + " and from the string configuration file is : "
+//							+ storeInfoButtonTextString + " are not same ");
+//		}
+
+			actionsFlowStoreInfoButtonVk.click();
+
+			FlutterElement storeInfoTitleVk = find.byValueKey(actionsFlowLocators.STORE_INFO_TITLE_TEXT_VK);
+
+			String storeInfoTitleTextVk = storeInfoTitleVk.getText();
+
+			try {
+
+				Assert.assertEquals(storeInfoTitleTextVk, storeInfoScreenTitleTextString,
+						" Validated that after tapping the : " + storeInfoButtonTextString
+								+ " in the order placed screen it navigated to STORE INFO screen from the UI is : "
+								+ storeInfoTitleTextVk + " and from the string configuration file is : "
+								+ storeInfoScreenTitleTextString + " are same ");
+
+				System.out.println(" Validated that after tapping the : " + storeInfoButtonTextString
+						+ " in the order placed screen it navigated to STORE INFO screen from the UI is : "
+						+ storeInfoTitleTextVk + " and from the string configuration file is : "
+						+ storeInfoScreenTitleTextString + " are same ");
+
+				actionsFlowStoreInfo.info(
+						MarkupHelper.createLabel(" Validated that after tapping the : " + storeInfoButtonTextString
+								+ " in the order placed screen it navigated to STORE INFO screen from the UI is : "
+								+ storeInfoTitleTextVk + " and from the string configuration file is : "
+								+ storeInfoScreenTitleTextString + " are same ", ExtentColor.CYAN));
+
+			} catch (AssertionError e) {
+
+				actionsFlowStoreInfo.log(Status.FAIL,
+						" Validated that after tapping the : " + storeInfoButtonTextString
+								+ " in the order placed screen it navigated to STORE INFO screen from the UI is : "
+								+ storeInfoTitleTextVk + " and from the string configuration file is : "
+								+ storeInfoScreenTitleTextString + " are not same ");
+			}
+
+			FlutterElement storeInfoBackIconVk = find.byValueKey(actionsFlowLocators.STORE_INFO_BACK_ICON_VK);
+
+			storeInfoBackIconVk.click();
+
+			FlutterElement orderPlacedScreenTitleVk = find.byValueKey(actionsFlowLocators.ORDER_PLACED_SCREEN_TITLE_VK);
+
+			String orderPlacedScreenTitleTextVk = orderPlacedScreenTitleVk.getText();
+
+			try {
+
+				Assert.assertEquals(orderPlacedScreenTitleTextVk, orderPlacedTitleTextString,
+						" Validated that after tapping the back arrow in the store info screen it navigated to : "
+								+ orderPlacedTitleTextString + " screen from the UI is : "
+								+ orderPlacedScreenTitleTextVk + " and from the string configuration file is : "
+								+ orderPlacedTitleTextString + " are same ");
+
+				System.out.println(
+						" Validated that after tapping the back arrow in the store info screen it navigated to : "
+								+ orderPlacedTitleTextString + " screen from the UI is : "
+								+ orderPlacedScreenTitleTextVk + " and from the string configuration file is : "
+								+ orderPlacedTitleTextString + " are same ");
+
+				actionsFlowStoreInfo.info(MarkupHelper.createLabel(
+						" Validated that after tapping the back arrow in the store info screen it navigated to : "
+								+ orderPlacedTitleTextString + " screen from the UI is : "
+								+ orderPlacedScreenTitleTextVk + " and from the string configuration file is : "
+								+ orderPlacedTitleTextString + " are same ",
+						ExtentColor.CYAN));
+
+			} catch (AssertionError e) {
+
+				actionsFlowStoreInfo.log(Status.FAIL,
+						" Validated that after tapping the back arrow in the store info screen it navigated to : "
+								+ orderPlacedTitleTextString + " screen from the UI is : "
+								+ orderPlacedScreenTitleTextVk + " and from the string configuration file is : "
+								+ orderPlacedTitleTextString + " are not same ");
+			}
+
+			actionsFlowStoreInfoButtonVk.click();
+
+			FlutterElement storeInfoTitle1Vk = find.byValueKey(actionsFlowLocators.STORE_INFO_TITLE_TEXT_VK);
+
+			String storeInfoTitleText1Vk = storeInfoTitle1Vk.getText();
+
+			try {
+
+				Assert.assertEquals(storeInfoTitleText1Vk, storeInfoScreenTitleTextString,
+						" Validated that after tapping the : " + storeInfoButtonTextString
+								+ " in the order placed screen it navigated to STORE INFO screen from the UI is : "
+								+ storeInfoTitleText1Vk + " and from the string configuration file is : "
+								+ storeInfoScreenTitleTextString + " are same ");
+
+				System.out.println(" Validated that after tapping the : " + storeInfoButtonTextString
+						+ " in the order placed screen it navigated to STORE INFO screen from the UI is : "
+						+ storeInfoTitleText1Vk + " and from the string configuration file is : "
+						+ storeInfoScreenTitleTextString + " are same ");
+
+				actionsFlowStoreInfo.info(
+						MarkupHelper.createLabel(" Validated that after tapping the : " + storeInfoButtonTextString
+								+ " in the order placed screen it navigated to STORE INFO screen from the UI is : "
+								+ storeInfoTitleText1Vk + " and from the string configuration file is : "
+								+ storeInfoScreenTitleTextString + " are same ", ExtentColor.CYAN));
+
+			} catch (AssertionError e) {
+
+				actionsFlowStoreInfo.log(Status.FAIL,
+						" Validated that after tapping the : " + storeInfoButtonTextString
+								+ " in the order placed screen it navigated to STORE INFO screen from the UI is : "
+								+ storeInfoTitleTextVk + " and from the string configuration file is : "
+								+ storeInfoScreenTitleTextString + " are not same ");
+			}
+
+			if (nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest.equalsIgnoreCase("Yes")
+					|| nextGenOrderNowFlowWithTakeoutAsapConfigured.equalsIgnoreCase("Yes")
+					|| nextGenOrderNowFlowWithTakeoutAsapMapViewConfigured.equalsIgnoreCase("Yes")
+					|| nextGenOrderNowFlowWithTakeoutAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithTakeoutAsapConfiguredGuest.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithTakeoutAsapConfigured.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithTakeoutAsapMapViewConfigured.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithTakeoutAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+				System.out.println("takeout asap");
+
+				FlutterElement storeInfoOrderNowButtonVk = find
+						.byValueKey(locationLocators.STOREINFO_SCREEN_ORDERNOWTEXT_VKL);
+
+				String storeInfoOrderNowButtonTextVk = storeInfoOrderNowButtonVk.getText();
+
+				storeInfoOrderNowButtonVk.click();
+
+				FlutterElement takeoutOrderTypeButtonVk = find.byValueKey(orderNowLocators.ORDERTYPE_TAKEOUT_VKL);
+
+				takeoutOrderTypeText = takeoutOrderTypeButtonVk.getText();
+
+				// validation to be done
+
+				takeoutOrderTypeButtonVk.click();
+
+				FlutterElement asapOrderButtonVk = find.byValueKey(orderNowLocators.ORDER_ASAP_TEXT_VKL);
+
+				asapOrderTimeText = asapOrderButtonVk.getText();
+
+				// validation to be done
+
+				asapOrderButtonVk.click();
+
+				String orderIdNew = APIMethods.orderId();
+				
+				System.out.println("order id new : "+orderIdNew);
+				
+				System.out.println(" take out order type text : "+takeoutOrderTypeText);
+				
+				System.out.println(" asap time order type text : "+asapOrderTimeText);
+
+				MenuApi.menuApi(takeoutOrderTypeText, asapOrderTimeText, 1, 2, orderIdNew);
+				
+				find.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL).click();
+
+				NeedSomething.needSomething();
+				
+			}
+
+			else if (nextGenOrderNowFlowWithCurbsideAsapConfiguredGuest.equalsIgnoreCase("Yes")
+					|| nextGenOrderNowFlowWithCurbsideAsapConfigured.equalsIgnoreCase("Yes")
+					|| nextGenOrderNowFlowWithCurbsideAsapMapViewConfigured.equalsIgnoreCase("Yes")
+					|| nextGenOrderNowFlowWithCurbsideAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithCurbsideAsapConfiguredGuest.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithCurbsideAsapConfigured.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithCurbsideAsapMapViewConfigured.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithCurbsideAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+			}
+
+			else if (nextGenOrderNowFlowWithDeliveryAsapConfiguredGuest.equalsIgnoreCase("Yes")
+					|| nextGenOrderNowFlowWithDeliveryAsapConfigured.equalsIgnoreCase("Yes")
+					|| nextGenOrderNowFlowWithDeliveryAsapMapViewConfigured.equalsIgnoreCase("Yes")
+					|| nextGenOrderNowFlowWithDeliveryAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithDeliveryAsapConfiguredGuest.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithDeliveryAsapConfigured.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithDeliveryAsapMapViewConfigured.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithDeliveryAsapStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+			}
+
+			else if (nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest.equalsIgnoreCase("Yes")
+					|| nextGenOrderNowFlowWithTakeoutLaterConfigured.equalsIgnoreCase("Yes")
+					|| nextGenOrderNowFlowWithTakeoutLaterMapViewConfigured.equalsIgnoreCase("Yes")
+					|| nextGenOrderNowFlowWithTakeoutLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithTakeoutLaterConfiguredGuest.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithTakeoutLaterConfigured.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithTakeoutLaterMapViewConfigured.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithTakeoutLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+				System.out.println("takeout later");
+
+				FlutterElement storeInfoOrderNowButtonVk = find
+						.byValueKey(locationLocators.STOREINFO_SCREEN_ORDERNOWTEXT_VKL);
+
+				String storeInfoOrderNowButtonTextVk = storeInfoOrderNowButtonVk.getText();
+
+				storeInfoOrderNowButtonVk.click();
+
+				FlutterElement takeoutOrderTypeButtonVk = find.byValueKey(orderNowLocators.ORDERTYPE_TAKEOUT_VKL);
+
+				takeoutOrderTypeText = takeoutOrderTypeButtonVk.getText();
+
+				// validation to be done
+
+				takeoutOrderTypeButtonVk.click();
+
+				FlutterElement laterOrderButtonVk = find.byValueKey(orderNowLocators.ORDER_LATER_TEXT_VKL);
+
+				laterOrderTimeText = laterOrderButtonVk.getText();
+
+				// validation to be done
+
+				laterOrderButtonVk.click();
+
+				String orderIdNew = APIMethods.orderId();
+
+				MenuStoreInfo.menuStoreInfo(takeoutOrderTypeText, laterOrderTimeText, 1, 2, orderIdNew);
+
+				find.byValueKey(basketLocators.BASKET_SCREEN_CHECKOUT_BUTTON_VKL).click();
+
+				NeedSomething.needSomething();
+				
+			} else if (nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest.equalsIgnoreCase("Yes")
+					|| nextGenOrderNowFlowWithCurbsideLaterConfigured.equalsIgnoreCase("Yes")
+					|| nextGenOrderNowFlowWithCurbsideLaterMapViewConfigured.equalsIgnoreCase("Yes")
+					|| nextGenOrderNowFlowWithCurbsideLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithCurbsideLaterConfiguredGuest.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithCurbsideLaterConfigured.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithCurbsideLaterMapViewConfigured.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithCurbsideLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+			}
+
+			else if (nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest.equalsIgnoreCase("Yes")
+					|| nextGenOrderNowFlowWithDeliveryLaterConfigured.equalsIgnoreCase("Yes")
+					|| nextGenOrderNowFlowWithDeliveryLaterMapViewConfigured.equalsIgnoreCase("Yes")
+					|| nextGenOrderNowFlowWithDeliveryLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithDeliveryLaterConfiguredGuest.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithDeliveryLaterConfigured.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithDeliveryLaterMapViewConfigured.equalsIgnoreCase("Yes")
+					|| nextGenLocationListFlowWithDeliveryLaterStoreMapViewConfigured.equalsIgnoreCase("Yes")) {
+
+			}
+
+		} else {
+
+			actionsFlowStoreInfo.info(MarkupHelper.createLabel(
+					"actionsFlowStoreInfo - Verified that " + storeInfoButtonTextString
+							+ " is not displayed in the UI of actions flow where it is not configured in the back end.",
+					ExtentColor.CYAN));
+
+			System.out.println("actionsFlowStoreInfo - Verified that " + storeInfoButtonTextString
+					+ " is not displayed in the UI of actions flow where it is not configured in the back end.");
+		}
+
+	}
+	/**
+	 * @Class_Name ActionsFlow
+	 * @Method_Name storeInfo
+	 * @Description Contains code to execute STORE INFO scripts in actions of order placed screen
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void storeInfo() throws Exception {
+		
+		commonMethods.scrollDown();
+
+		String storeInfoButtonTextString = commonMethods
+				.stringsReader(actionsFlowLocators.ACTIONS_FLOW_STORE_INFO_BUTTON_TEXT_STRING);
+
+		boolean storeInfoButtonTextStringBoolean = commonMethods.elementFoundOrNot("Store");
+
+		ExtentTest actionsFlowStoreInfo = test.createNode("ActionsFlowStoreInfo");
+
+		if (storeInfoButtonTextStringBoolean == true) {
+
+			String nameofCurrMethod = new Object() {
+			}.getClass().getEnclosingMethod().getName();
+
+			test = extent.createTest(nameofCurrMethod).assignAuthor(author).assignDevice(deviceName)
+					.assignCategory("ActionsFlow-StoreInfo");
+
+			FlutterFinder find = new FlutterFinder(driver);
+
+			String orderPlacedTitleTextString = commonMethods
+					.stringsReader(actionsFlowLocators.ORDER_PLACED_SCREEN_TITLE_TEXT_STRING);
+
+			String storeInfoScreenTitleTextString = commonMethods
+					.stringsReader(actionsFlowLocators.STORE_INFO_TITLE_TEXT_STRING);
+
+			commonMethods.scrollOptionsGroupDownNonLowerCase("Store");
+
+			FlutterElement actionsFlowStoreInfoButtonVk = find
+					.byValueKey(actionsFlowLocators.ACTIONS_FLOW_STORE_INFO_BUTTON_VK);
+
+//			String actionsFlowStoreInfoButtonTextVk = actionsFlowStoreInfoButtonVk.getText();
+//
+//			try {
+//
+//				Assert.assertEquals(actionsFlowStoreInfoButtonTextVk, storeInfoButtonTextString,
+//						" Validated that the Store info text in the order placed screen from the UI is : "
+//								+ actionsFlowStoreInfoButtonTextVk + " and from the string configuration file is : "
+//								+ storeInfoButtonTextString + " are same ");
+//
+//				System.out.println(" Validated that the Store info text in the order placed screen from the UI is : "
+//						+ actionsFlowStoreInfoButtonTextVk + " and from the string configuration file is : "
+//						+ storeInfoButtonTextString + " are same ");
+//
+//				actionsFlowStoreInfo.info(MarkupHelper
+//						.createLabel(" Validated that the Store info text in the order placed screen from the UI is : "
+//								+ actionsFlowStoreInfoButtonTextVk + " and from the string configuration file is : "
+//								+ storeInfoButtonTextString + " are same ", ExtentColor.CYAN));
+//
+//			} catch (AssertionError e) {
+//
+//				actionsFlowStoreInfo.log(Status.FAIL,
+//						" Validated that the Store info text in the order placed screen from the UI is : "
+//								+ actionsFlowStoreInfoButtonTextVk + " and from the string configuration file is : "
+//								+ storeInfoButtonTextString + " are not same ");
+//			}
+
+			actionsFlowStoreInfoButtonVk.click();
+
+			FlutterElement storeInfoTitleVk = find.byValueKey(actionsFlowLocators.STORE_INFO_TITLE_TEXT_VK);
+
+			String storeInfoTitleTextVk = storeInfoTitleVk.getText();
+
+			try {
+
+				Assert.assertEquals(storeInfoTitleTextVk, storeInfoScreenTitleTextString,
+						" Validated that after tapping the : " + storeInfoButtonTextString
+								+ " in the order placed screen it navigated to STORE INFO screen from the UI is : "
+								+ storeInfoTitleTextVk + " and from the string configuration file is : "
+								+ storeInfoScreenTitleTextString + " are same ");
+
+				System.out.println(" Validated that after tapping the : " + storeInfoButtonTextString
+						+ " in the order placed screen it navigated to STORE INFO screen from the UI is : "
+						+ storeInfoTitleTextVk + " and from the string configuration file is : "
+						+ storeInfoScreenTitleTextString + " are same ");
+
+				actionsFlowStoreInfo.info(
+						MarkupHelper.createLabel(" Validated that after tapping the : " + storeInfoButtonTextString
+								+ " in the order placed screen it navigated to STORE INFO screen from the UI is : "
+								+ storeInfoTitleTextVk + " and from the string configuration file is : "
+								+ storeInfoScreenTitleTextString + " are same ", ExtentColor.CYAN));
+
+			} catch (AssertionError e) {
+
+				actionsFlowStoreInfo.log(Status.FAIL,
+						" Validated that after tapping the : " + storeInfoButtonTextString
+								+ " in the order placed screen it navigated to STORE INFO screen from the UI is : "
+								+ storeInfoTitleTextVk + " and from the string configuration file is : "
+								+ storeInfoScreenTitleTextString + " are not same ");
+			}
+
+			FlutterElement storeInfoBackIconVk = find.byValueKey(actionsFlowLocators.STORE_INFO_BACK_ICON_VK);
+
+			storeInfoBackIconVk.click();
+
+			FlutterElement orderPlacedScreenTitleVk = find.byValueKey(actionsFlowLocators.ORDER_PLACED_SCREEN_TITLE_VK);
+
+			String orderPlacedScreenTitleTextVk = orderPlacedScreenTitleVk.getText();
+
+			try {
+
+				Assert.assertEquals(orderPlacedScreenTitleTextVk, orderPlacedTitleTextString,
+						" Validated that after tapping the back arrow in the store info screen it navigated to : "
+								+ orderPlacedTitleTextString + " screen from the UI is : "
+								+ orderPlacedScreenTitleTextVk + " and from the string configuration file is : "
+								+ orderPlacedTitleTextString + " are same ");
+
+				System.out.println(
+						" Validated that after tapping the back arrow in the store info screen it navigated to : "
+								+ orderPlacedTitleTextString + " screen from the UI is : "
+								+ orderPlacedScreenTitleTextVk + " and from the string configuration file is : "
+								+ orderPlacedTitleTextString + " are same ");
+
+				actionsFlowStoreInfo.info(MarkupHelper.createLabel(
+						" Validated that after tapping the back arrow in the store info screen it navigated to : "
+								+ orderPlacedTitleTextString + " screen from the UI is : "
+								+ orderPlacedScreenTitleTextVk + " and from the string configuration file is : "
+								+ orderPlacedTitleTextString + " are same ",
+						ExtentColor.CYAN));
+
+			} catch (AssertionError e) {
+
+				actionsFlowStoreInfo.log(Status.FAIL,
+						" Validated that after tapping the back arrow in the store info screen it navigated to : "
+								+ orderPlacedTitleTextString + " screen from the UI is : "
+								+ orderPlacedScreenTitleTextVk + " and from the string configuration file is : "
+								+ orderPlacedTitleTextString + " are not same ");
+			}
+			
+			actionsFlowStoreInfoButtonVk.click();
+
+			FlutterElement storeInfoTitle1Vk = find.byValueKey(actionsFlowLocators.STORE_INFO_TITLE_TEXT_VK);
+
+			String storeInfoTitleText1Vk = storeInfoTitle1Vk.getText();
+
+			try {
+
+				Assert.assertEquals(storeInfoTitleText1Vk, storeInfoScreenTitleTextString,
+						" Validated that after tapping the : " + storeInfoButtonTextString
+								+ " in the order placed screen it navigated to STORE INFO screen from the UI is : "
+								+ storeInfoTitleText1Vk + " and from the string configuration file is : "
+								+ storeInfoScreenTitleTextString + " are same ");
+
+				System.out.println(" Validated that after tapping the : " + storeInfoButtonTextString
+						+ " in the order placed screen it navigated to STORE INFO screen from the UI is : "
+						+ storeInfoTitleText1Vk + " and from the string configuration file is : "
+						+ storeInfoScreenTitleTextString + " are same ");
+
+				actionsFlowStoreInfo.info(
+						MarkupHelper.createLabel(" Validated that after tapping the : " + storeInfoButtonTextString
+								+ " in the order placed screen it navigated to STORE INFO screen from the UI is : "
+								+ storeInfoTitleText1Vk + " and from the string configuration file is : "
+								+ storeInfoScreenTitleTextString + " are same ", ExtentColor.CYAN));
+
+			} catch (AssertionError e) {
+
+				actionsFlowStoreInfo.log(Status.FAIL,
+						" Validated that after tapping the : " + storeInfoButtonTextString
+								+ " in the order placed screen it navigated to STORE INFO screen from the UI is : "
+								+ storeInfoTitleTextVk + " and from the string configuration file is : "
+								+ storeInfoScreenTitleTextString + " are not same ");
+			}
+
+		} else {
+
+			actionsFlowStoreInfo.info(MarkupHelper.createLabel(
+					"actionsFlowStoreInfo - Verified that " + storeInfoButtonTextString
+							+ " is not displayed in the UI of actions flow where it is not configured in the back end.",
+					ExtentColor.CYAN));
+
+			System.out.println("actionsFlowStoreInfo - Verified that " + storeInfoButtonTextString
+					+ " is not displayed in the UI of actions flow where it is not configured in the back end.");
+		}
+
+	}
+	/**
+	 * @Class_Name ActionsFlow
+	 * @Method_Name eMailReceipt
+	 * @Description Contains code to execute eMailReceipt scripts in actions of order placed screen
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void eMailReceipt() throws InterruptedException, GeneralSecurityException, IOException {
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor(author).assignDevice(deviceName)
+				.assignCategory("ActionsFlow-EmailReceipt");
+
+		ExtentTest actionsFlowEmailReceipt = test.createNode("ActionsFlowEmailReceipt");
+		
+		commonMethods.scrollDown();
+
+		String emailReceiptButtonTextString = commonMethods
+				.stringsReader(actionsFlowLocators.ACTIONS_FLOW_EMAIL_RECEIPT_TEXT_STRING);
+
+		boolean emailReceiptTextStringBoolean = commonMethods.elementFoundOrNot("email");
+
+		if (emailReceiptTextStringBoolean == true) {
+
+			FlutterFinder find = new FlutterFinder(driver);
+
+			BaseClass baseClass = new BaseClass();
+
+			List<String> actionsFlow = baseClass.actionsFlow();
+
+			String invalidEmailReceipteMailId = actionsFlow.get(1);
+
+			String validEmailReceipteMailId = actionsFlow.get(2);
+
+			String emailReceiptPopUpTitleTextString = commonMethods
+					.stringsReader(actionsFlowLocators.ACTIONS_FLOW_EMAIL_RECEIPT_POPUP_TITLE_STRING);
+
+			String emailReceiptPopUpCancelButtonTextString = commonMethods
+					.stringsReader(actionsFlowLocators.ACTIONS_FLOW_EMAIL_RECEIPT_POPUP_CANCEL_BUTTON_STRING);
+
+			String emailReceiptPopUpSendButtonTextString = commonMethods
+					.stringsReader(actionsFlowLocators.ACTIONS_FLOW_EMAIL_RECEIPT_POPUP_SEND_BUTTON_STRING);
+
+			String emailReceiptSentSuccessfullynTextString = commonMethods
+					.stringsReader(actionsFlowLocators.ACTIONS_FLOW_EMAIL_SENT_SUCCESSFULLY_TEXT_STRING);
+
+			String orderPlacedTitleTextString = commonMethods
+					.stringsReader(actionsFlowLocators.ORDER_PLACED_SCREEN_TITLE_TEXT_STRING);
+
+			commonMethods.scrollOptionsGroupDownNonLowerCase("email");
+
+			FlutterElement actionsFlowEmailReceiptButtonVk = find
+					.byValueKey(actionsFlowLocators.ACTIONS_FLOW_EMAIL_RECEIPT_BUTTON_VKL);
+
+//			String actionsFlowEmailReceiptButtonTextVk = actionsFlowEmailReceiptButtonVk.getText();
+//
+//			try {
+//
+//				Assert.assertEquals(actionsFlowEmailReceiptButtonTextVk, emailReceiptButtonTextString,
+//						" Validated that the Email Receipt text in the order placed screen from the UI is : "
+//								+ actionsFlowEmailReceiptButtonTextVk + " and from the string configuration file is : "
+//								+ emailReceiptButtonTextString + " are same ");
+//
+//				System.out.println(" Validated that the Email Receipt text in the order placed screen from the UI is : "
+//						+ actionsFlowEmailReceiptButtonTextVk + " and from the string configuration file is : "
+//						+ emailReceiptButtonTextString + " are same ");
+//
+//				actionsFlowEmailReceipt.info(MarkupHelper.createLabel(
+//						" Validated that the Email Receipt text in the order placed screen from the UI is : "
+//								+ actionsFlowEmailReceiptButtonTextVk + " and from the string configuration file is : "
+//								+ emailReceiptButtonTextString + " are same ",
+//						ExtentColor.CYAN));
+//
+//			} catch (AssertionError e) {
+//				actionsFlowEmailReceipt.log(Status.FAIL,
+//						" Validated that the Email Receipt text in the order placed screen from the UI is : "
+//								+ actionsFlowEmailReceiptButtonTextVk + " and from the string configuration file is : "
+//								+ emailReceiptButtonTextString + " are not same ");
+//			}
+
+			actionsFlowEmailReceiptButtonVk.click();
+
+			FlutterElement actionsFlowEmailReceiptPopUpTitleVk = find
+					.byValueKey(actionsFlowLocators.ACTIONS_FLOW_EMAIL_RECEIPT_POPUP_TITLE_VKL);
+
+			String actionsFlowEmailReceiptPopUpTitleTextVk = actionsFlowEmailReceiptPopUpTitleVk.getText();
+
+			try {
+
+				Assert.assertEquals(actionsFlowEmailReceiptPopUpTitleTextVk, emailReceiptPopUpTitleTextString,
+						" Validated that the Email Receipt Popup title text from the UI is : "
+								+ actionsFlowEmailReceiptPopUpTitleTextVk
+								+ " and from the string configuration file is : " + emailReceiptPopUpTitleTextString
+								+ " are same ");
+
+				System.out.println(" Validated that the Email Receipt Popup title text from the UI is : "
+						+ actionsFlowEmailReceiptPopUpTitleTextVk + " and from the string configuration file is : "
+						+ emailReceiptPopUpTitleTextString + " are same ");
+
+				actionsFlowEmailReceipt.info(
+						MarkupHelper.createLabel(" Validated that the Email Receipt Popup title text from the UI is : "
+								+ actionsFlowEmailReceiptPopUpTitleTextVk
+								+ " and from the string configuration file is : " + emailReceiptPopUpTitleTextString
+								+ " are same ", ExtentColor.CYAN));
+
+			} catch (AssertionError e) {
+				actionsFlowEmailReceipt.log(Status.FAIL,
+						" Validated that the Email Receipt Popup title text from the UI is : "
+								+ actionsFlowEmailReceiptPopUpTitleTextVk
+								+ " and from the string configuration file is : " + emailReceiptPopUpTitleTextString
+								+ " are not same ");
+			}
+
+			FlutterElement actionsFlowEmailReceiptPopUpCancelButtonVk = find
+					.byValueKey(actionsFlowLocators.ACTIONS_FLOW_EMAIL_RECEIPT_POPUP_CANCEL_BUTTON_VKL);
+
+			String actionsFlowEmailReceiptPopUpCancelButtonTextVk = actionsFlowEmailReceiptPopUpCancelButtonVk
+					.getText();
+
+			try {
+
+				Assert.assertEquals(actionsFlowEmailReceiptPopUpCancelButtonTextVk,
+						emailReceiptPopUpCancelButtonTextString,
+						" Validated that the Email Receipt Popup cancel button text from the UI is : "
+								+ actionsFlowEmailReceiptPopUpCancelButtonTextVk
+								+ " and from the string configuration file is : "
+								+ emailReceiptPopUpCancelButtonTextString + " are same ");
+
+				System.out.println(" Validated that the Email Receipt Popup cancel button text from the UI is : "
+						+ actionsFlowEmailReceiptPopUpCancelButtonTextVk
+						+ " and from the string configuration file is : " + emailReceiptPopUpCancelButtonTextString
+						+ " are same ");
+
+				actionsFlowEmailReceipt.info(MarkupHelper
+						.createLabel(" Validated that the Email Receipt Popup cancel button text from the UI is : "
+								+ actionsFlowEmailReceiptPopUpCancelButtonTextVk
+								+ " and from the string configuration file is : "
+								+ emailReceiptPopUpCancelButtonTextString + " are same ", ExtentColor.CYAN));
+
+			} catch (AssertionError e) {
+				actionsFlowEmailReceipt.log(Status.FAIL,
+						" Validated that the Email Receipt Popup cancel button text from the UI is : "
+								+ actionsFlowEmailReceiptPopUpCancelButtonTextVk
+								+ " and from the string configuration file is : "
+								+ emailReceiptPopUpCancelButtonTextString + " are not same ");
+			}
+
+			// Tapping the cancel button
+
+			actionsFlowEmailReceiptPopUpCancelButtonVk.click();
+
+			FlutterElement orderPlacedScreenTitleVk = find.byValueKey(actionsFlowLocators.ORDER_PLACED_SCREEN_TITLE_VK);
+
+			String orderPlacedScreenTitleTextVk = orderPlacedScreenTitleVk.getText();
+
+			try {
+
+				Assert.assertEquals(orderPlacedScreenTitleTextVk, orderPlacedTitleTextString,
+						" Validated that after tapping the cancel button in the Email Receipt Popup from the UI it navigated to order placed screen with the title text is : "
+								+ orderPlacedScreenTitleTextVk + " and from the string configuration file is : "
+								+ orderPlacedTitleTextString + " are same ");
+
+				System.out.println(
+						" Validated that after tapping the cancel button in the Email Receipt Popup from the UI it navigated to order placed screen with the title text is : "
+								+ orderPlacedScreenTitleTextVk + " and from the string configuration file is : "
+								+ orderPlacedTitleTextString + " are same ");
+
+				actionsFlowEmailReceipt.info(MarkupHelper.createLabel(
+						" Validated that after tapping the cancel button in the Email Receipt Popup from the UI it navigated to order placed screen with the title text is : "
+								+ orderPlacedScreenTitleTextVk + " and from the string configuration file is : "
+								+ orderPlacedTitleTextString + " are same ",
+						ExtentColor.CYAN));
+
+			} catch (AssertionError e) {
+				actionsFlowEmailReceipt.log(Status.FAIL,
+						" Validated that after tapping the cancel button in the Email Receipt Popup from the UI it navigated to order placed screen with the title text is : "
+								+ orderPlacedScreenTitleTextVk + " and from the string configuration file is : "
+								+ orderPlacedTitleTextString + " are not same ");
+
+			}
+
+			// Again tapping the E-mail receipt button in the Actions flow of order placed
+			// screen
+
+			commonMethods.scrollOptionsGroupDownNonLowerCase("email");
+
+			actionsFlowEmailReceiptButtonVk.click();
+
+			FlutterElement actionsFlowEmailReceiptPopUpTitle1Vk = find
+					.byValueKey(actionsFlowLocators.ACTIONS_FLOW_EMAIL_RECEIPT_POPUP_TITLE_VKL);
+
+			String actionsFlowEmailReceiptPopUpTitleText1Vk = actionsFlowEmailReceiptPopUpTitle1Vk.getText();
+
+			try {
+
+				Assert.assertEquals(actionsFlowEmailReceiptPopUpTitleText1Vk, emailReceiptPopUpTitleTextString,
+						" Validated that again tapping the Email receipt button in the order placed screen from it the Email Receipt Popup title text from the UI is : "
+								+ actionsFlowEmailReceiptPopUpTitleText1Vk
+								+ " and from the string configuration file is : " + emailReceiptPopUpTitleTextString
+								+ " are same ");
+
+				System.out.println(" Validated that the Email Receipt Popup title text from the UI is : "
+						+ actionsFlowEmailReceiptPopUpTitleText1Vk + " and from the string configuration file is : "
+						+ emailReceiptPopUpTitleTextString + " are same ");
+
+				actionsFlowEmailReceipt.info(
+						MarkupHelper.createLabel(" Validated that the Email Receipt Popup title text from the UI is : "
+								+ actionsFlowEmailReceiptPopUpTitleText1Vk
+								+ " and from the string configuration file is : " + emailReceiptPopUpTitleTextString
+								+ " are same ", ExtentColor.CYAN));
+
+			} catch (AssertionError e) {
+				actionsFlowEmailReceipt.log(Status.FAIL,
+						" Validated that the Email Receipt Popup title text from the UI is : "
+								+ actionsFlowEmailReceiptPopUpTitleText1Vk
+								+ " and from the string configuration file is : " + emailReceiptPopUpTitleTextString
+								+ " are not same ");
+			}
+
+			FlutterElement actionsFlowEmailReceiptPopUpTextFieldVk = find
+					.byValueKey(actionsFlowLocators.ACTIONS_FLOW_EMAIL_RECEIPT_POPUP_TEXT_FIELD_VKL);
+
+			String actionsFlowEmailReceiptPopUpTextFieldAvailableEnteredTextVk = actionsFlowEmailReceiptPopUpTextFieldVk
+					.getText();
+
+			System.out.println(" Validated that the Email Receipt Popup text field text present from the UI is : "
+					+ actionsFlowEmailReceiptPopUpTextFieldAvailableEnteredTextVk);
+
+			actionsFlowEmailReceipt.info(MarkupHelper
+					.createLabel(" Validated that the Email Receipt Popup text field text present from the UI is : "
+							+ actionsFlowEmailReceiptPopUpTextFieldAvailableEnteredTextVk, ExtentColor.CYAN));
+
+			// Clearing the text and entering the new valid email id
+
+			actionsFlowEmailReceiptPopUpTextFieldVk.clear();
+
+			FlutterElement actionsFlowEmailReceiptPopUpTextField1Vk = find
+					.byValueKey(actionsFlowLocators.ACTIONS_FLOW_EMAIL_RECEIPT_POPUP_TEXT_FIELD_VKL);
+
+			actionsFlowEmailReceiptPopUpTextField1Vk.sendKeys(validEmailReceipteMailId);
+
+			String actionsFlowEmailReceiptPopUpTextFieldEnteredTextVk = actionsFlowEmailReceiptPopUpTextField1Vk
+					.getText();
+
+			try {
+
+				Assert.assertEquals(actionsFlowEmailReceiptPopUpTextFieldEnteredTextVk, validEmailReceipteMailId,
+						" Validated that after entering the valid e-mail : " + validEmailReceipteMailId
+								+ " and after retrieving the text from the UI is : "
+								+ actionsFlowEmailReceiptPopUpTextFieldEnteredTextVk
+								+ " and from the external input data sheet is : " + validEmailReceipteMailId
+								+ " are same ");
+
+				System.out.println(" Validated that after entering the valid e-mail : " + validEmailReceipteMailId
+						+ " and after retrieving the text from the UI is : "
+						+ actionsFlowEmailReceiptPopUpTextFieldEnteredTextVk
+						+ " and from the external input data sheet is : " + validEmailReceipteMailId + " are same ");
+
+				actionsFlowEmailReceipt
+						.info(MarkupHelper.createLabel(" Validated that after entering the valid e-mail : "
+								+ validEmailReceipteMailId + " and after retrieving the text from the UI is : "
+								+ actionsFlowEmailReceiptPopUpTextFieldEnteredTextVk
+								+ " and from the external input data sheet is : " + validEmailReceipteMailId
+								+ " are same ", ExtentColor.CYAN));
+
+			} catch (AssertionError e) {
+
+				actionsFlowEmailReceipt.log(Status.FAIL,
+						" Validated that after entering the valid e-mail : " + validEmailReceipteMailId
+								+ " and after retrieving the text from the UI is : "
+								+ actionsFlowEmailReceiptPopUpTextFieldEnteredTextVk
+								+ " and from the external input data sheet is : " + validEmailReceipteMailId
+								+ " are not same ");
+
+				System.out.println(" Validated that after entering the valid e-mail : " + validEmailReceipteMailId
+						+ " and after retrieving the text from the UI is : "
+						+ actionsFlowEmailReceiptPopUpTextFieldEnteredTextVk
+						+ " and from the external input data sheet is : " + validEmailReceipteMailId
+						+ " are not same ");
+			}
+
+			FlutterElement actionsFlowEmailReceiptPopupSendButtonVk = find
+					.byValueKey(actionsFlowLocators.ACTIONS_FLOW_EMAIL_RECEIPT_POPUP_SEND_BUTTON_VKL);
+
+			String actionsFlowEmailReceiptPopupSendButtonTextVk = actionsFlowEmailReceiptPopupSendButtonVk.getText();
+
+			Assert.assertEquals(actionsFlowEmailReceiptPopupSendButtonTextVk, emailReceiptPopUpSendButtonTextString,
+					" Validated that the " + emailReceiptPopUpSendButtonTextString + " button in the UI is: "
+							+ actionsFlowEmailReceiptPopupSendButtonTextVk
+							+ " and from the string configuration file is : " + emailReceiptPopUpSendButtonTextString
+							+ " are same ");
+
+			System.out.println(" Validated that the " + emailReceiptPopUpSendButtonTextString + " button in the UI is: "
+					+ actionsFlowEmailReceiptPopupSendButtonTextVk + " and from the string configuration file is : "
+					+ emailReceiptPopUpSendButtonTextString + " are same ");
+
+			actionsFlowEmailReceipt.info(MarkupHelper.createLabel(" Validated that the "
+					+ emailReceiptPopUpSendButtonTextString + " button in the UI is: "
+					+ actionsFlowEmailReceiptPopupSendButtonTextVk + " and from the string configuration file is : "
+					+ emailReceiptPopUpSendButtonTextString + " are same ", ExtentColor.CYAN));
+
+			actionsFlowEmailReceiptPopupSendButtonVk.click();
+
+			FlutterElement actionsFlowEmailSentSuccessfullyPopupVk = find
+					.byValueKey(actionsFlowLocators.ACTIONS_FLOW_EMAIL_SENT_SUCCESSFULLY_POPUP_TEXT_VKL);
+
+			String actionsFlowEmailSentSuccessfullyPopupTextVk = actionsFlowEmailSentSuccessfullyPopupVk.getText();
+
+			Assert.assertEquals(actionsFlowEmailSentSuccessfullyPopupTextVk, emailReceiptSentSuccessfullynTextString,
+					" Validated that after tapping the " + emailReceiptPopUpSendButtonTextString
+							+ " in the email receipt popup it has been navigated to email sent successfully popup with the title in the UI is : "
+							+ actionsFlowEmailSentSuccessfullyPopupTextVk
+							+ " and from the string configuration file is : " + emailReceiptSentSuccessfullynTextString
+							+ " are same ");
+
+			System.out.println(" Validated that the " + emailReceiptPopUpSendButtonTextString + " button in the UI is: "
+					+ actionsFlowEmailReceiptPopupSendButtonTextVk + " and from the string configuration file is : "
+					+ emailReceiptPopUpSendButtonTextString + " are same ");
+
+			actionsFlowEmailReceipt.log(Status.FAIL,
+					" Validated that the " + emailReceiptPopUpSendButtonTextString + " button in the UI is: "
+							+ actionsFlowEmailReceiptPopupSendButtonTextVk
+							+ " and from the string configuration file is : " + emailReceiptPopUpSendButtonTextString
+							+ " are same ");
+
+			FlutterElement actionsFlowEmailSentSuccessfullyPopupOkButtonVk = find
+					.byValueKey(actionsFlowLocators.ACTIONS_FLOW_EMAIL_SENT_SUCCESSFULLY_POPUP_OK_BUTTON_VKL);
+
+			actionsFlowEmailSentSuccessfullyPopupOkButtonVk.click();
+
+			FlutterElement orderPlacedScreenTitle1Vk = find
+					.byValueKey(actionsFlowLocators.ORDER_PLACED_SCREEN_TITLE_VK);
+
+			String orderPlacedScreenTitleText1Vk = orderPlacedScreenTitle1Vk.getText();
+
+			try {
+
+				Assert.assertEquals(orderPlacedScreenTitleText1Vk, orderPlacedTitleTextString,
+						" Validated that after entering the valid e-mail : " + validEmailReceipteMailId
+								+ " and tapping the SEND button in popup of the UI it navigated to the order placed screen with the title in the UI is : "
+								+ orderPlacedScreenTitleText1Vk + " and from the string configuration file is : "
+								+ orderPlacedTitleTextString + " are same ");
+
+				System.out.println(" Validated that after entering the valid e-mail : " + validEmailReceipteMailId
+						+ " and tapping the SEND button in popup of the UI it navigated to the order placed screen with the title in the UI is : "
+						+ orderPlacedScreenTitleText1Vk + " and from the string configuration file is : "
+						+ orderPlacedTitleTextString + " are same ");
+
+				actionsFlowEmailReceipt.info(MarkupHelper
+						.createLabel(" Validated that after entering the valid e-mail : " + validEmailReceipteMailId
+								+ " and tapping the SEND button in popup of the UI it navigated to the order placed screen with the title in the UI is : "
+								+ orderPlacedScreenTitleText1Vk + " and from the string configuration file is : "
+								+ orderPlacedTitleTextString + " are same ", ExtentColor.CYAN));
+
+			} catch (AssertionError e) {
+				actionsFlowEmailReceipt.log(Status.FAIL, " Validated that after entering the valid e-mail : "
+						+ validEmailReceipteMailId
+						+ " and tapping the SEND button in popup of the UI it navigated to the order placed screen with the title in the UI is : "
+						+ orderPlacedScreenTitleText1Vk + " and from the string configuration file is : "
+						+ orderPlacedTitleTextString + " are not same ");
+			}
+
+		} else {
+
+			System.out.println("actionsFlowStoreInfoEmailReceipt - Verified that " + emailReceiptButtonTextString
+					+ " is not displayed in the UI of actions flow where it is not configured in the back end.");
+
+			actionsFlowEmailReceipt.info(MarkupHelper.createLabel(
+					"actionsFlowStoreInfoEmailReceipt - Verified that " + emailReceiptButtonTextString
+							+ " is not displayed in the UI of actions flow where it is not configured in the back end.",
+					ExtentColor.CYAN));
+		}
+
+	}
+	/**
+	 * @Class_Name ActionsFlow
+	 * @Method_Name feedback
+	 * @Description Contains code to execute feedback scripts in actions of order placed screen
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void feedback() throws InterruptedException, GeneralSecurityException, IOException {
+
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor(author).assignDevice(deviceName)
+				.assignCategory("ActionsFlow-Feedback");
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		ExtentTest actionsFlowFeedback = test.createNode("ActionsFlowFeedback");
+		
+		commonMethods.scrollDown();
+
+		String feedbackButtonTextString = commonMethods
+				.stringsReader(actionsFlowLocators.ACTIONS_FLOW_FEEDBACK_TEXT_STRING);
+
+		Thread.sleep(10000);
+
+		boolean feedbackTextStringBoolean = commonMethods.elementFoundOrNotFeedback("feedback");
+
+		if (feedbackTextStringBoolean == true) {
+
+			BaseClass baseClass = new BaseClass();
+
+			List<String> actionsFlow = baseClass.actionsFlow();
+
+			String star1CommentHowWasTheFood = actionsFlow.get(3);
+
+			String star2CommentHowWasTheFood = actionsFlow.get(4);
+
+			String star1CommentHowWasTheService = actionsFlow.get(5);
+
+			String star2CommentHowWasTheService = actionsFlow.get(6);
+
+			String star1CommentRestaurantGoodValueForMoney = actionsFlow.get(7);
+
+			String star2CommentRestaurantGoodValueForMoney = actionsFlow.get(8);
+
+			String star1CommentOrderFromRestaurantAgain = actionsFlow.get(9);
+
+			String star2CommentOrderFromRestaurantAgain = actionsFlow.get(10);
+
+			String additionalComments = actionsFlow.get(11);
+
+			String feedbackScreenTitleTextString = commonMethods
+					.stringsReader(actionsFlowLocators.FEEDBACK_SCREEN_TITLE_TEXT_STRING);
+
+			String feedbackScreenDescriptionTextString = commonMethods
+					.stringsReader(actionsFlowLocators.FEEDBACK_SCREEN_DESCRIPTION_TEXT_STRING);
+
+			String orderPlacedTitleTextString = commonMethods
+					.stringsReader(actionsFlowLocators.ORDER_PLACED_SCREEN_TITLE_TEXT_STRING);
+
+			String feedbackScreenHowWasTheFoodTextString = commonMethods
+					.stringsReader(actionsFlowLocators.FEEDBACK_SCREEN_HOW_WAS_THE_FOOD_TEXT_STRING);
+
+			String feedbackScreenHowWasTheServiceYouReceivedTextString = commonMethods
+					.stringsReader(actionsFlowLocators.FEEDBACK_SCREEN_HOW_WAS_THE_SERVICE_YOU_RECEIVED_TEXT_STRING);
+
+			String feedbackScreenRestaurantGoodValueForMoneyTextString = commonMethods
+					.stringsReader(actionsFlowLocators.FEEDBACK_SCREEN_RESTAURANT_GOOD_VALUE_FOR_MONEY_TEXT_STRING);
+
+			String feedbackScreenRecommendTheRestaurantToOtherTextString = commonMethods
+					.stringsReader(actionsFlowLocators.FEEDBACK_SCREEN_RECOMMEND_THE_RESTAURANT_TO_OTHER_TEXT_STRING);
+
+			String feedbackScreenOrderFromRestaurantAgainTextString = commonMethods
+					.stringsReader(actionsFlowLocators.FEEDBACK_SCREEN_ORDER_FROM_RESTAURANT_AGAIN_TEXT_STRING);
+
+			String feedbackScreenwhyTextString = commonMethods
+					.stringsReader(actionsFlowLocators.FEEDBACK_SCREEN_WHY_TEXT_STRING);
+
+			String feedbackScreenAdditionalCommentsTextString = commonMethods
+					.stringsReader(actionsFlowLocators.FEEDBACK_SCREEN_ADDITIONAL_COMMENTS_TEXT_STRING);
+
+			String feedbackScreenSubmitButtonTextString = commonMethods
+					.stringsReader(actionsFlowLocators.FEEDBACK_SCREEN_SUBMIT_BUTTON_TEXT_STRING);
+
+			Thread.sleep(10000);
+
+			commonMethods.scrollOptionsGroupDownFeedback("Feedback");
+
+			System.out.println("feedback1");
+
+			FlutterElement actionsFlowFeedbackButtonVk = find
+					.byValueKey(actionsFlowLocators.ACTIONS_FLOW_FEEDBACK_BUTTON_VK);
+
+//			String actionsFlowFeedbackButtonTextVk = actionsFlowFeedbackButtonVk.getText();
+//			
+//			System.out.println("feedback2");
+//
+//			try {
+//
+//				Assert.assertEquals(actionsFlowFeedbackButtonTextVk, feedbackButtonTextString,
+//						" Validated that the feedback text in the order placed screen from the UI is : "
+//								+ actionsFlowFeedbackButtonTextVk + " and from the string configuration file is : "
+//								+ feedbackButtonTextString + " are same ");
+//
+//				System.out.println(" Validated that the feedback text in the order placed screen from the UI is : "
+//						+ actionsFlowFeedbackButtonTextVk + " and from the string configuration file is : "
+//						+ feedbackButtonTextString + " are same ");
+//
+//				actionsFlowFeedback.info(MarkupHelper
+//						.createLabel(" Validated that the feedback text in the order placed screen from the UI is : "
+//								+ actionsFlowFeedbackButtonTextVk + " and from the string configuration file is : "
+//								+ feedbackButtonTextString + " are same ", ExtentColor.CYAN));
+//
+//			} catch (AssertionError e) {
+//
+//				actionsFlowFeedback.log(Status.FAIL,
+//						" Validated that the feedback text in the order placed screen from the UI is : "
+//								+ actionsFlowFeedbackButtonTextVk + " and from the string configuration file is : "
+//								+ feedbackButtonTextString + " are not same ");
+//			}
+
+			actionsFlowFeedbackButtonVk.click();
+
+			FlutterElement feedbackScreenTitleVk = find.byValueKey(actionsFlowLocators.FEEDBACK_SCREEN_TITLE_VK);
+
+			String feedbackScreenTitleTextVk = feedbackScreenTitleVk.getText();
+
+			try {
+
+				Assert.assertEquals(feedbackScreenTitleTextVk, feedbackScreenTitleTextString,
+						" Validated that the after tapping the feedback button in the order placed screen it navigated to feedback screen with the title from the UI is : "
+								+ feedbackScreenTitleTextVk + " and from the string configuration file is : "
+								+ feedbackScreenTitleTextString + " are same ");
+
+				System.out.println(
+						" Validated that the after tapping the feedback button in the order placed screen it navigated to feedback screen with the title from the UI is : "
+								+ feedbackScreenTitleTextVk + " and from the string configuration file is : "
+								+ feedbackScreenTitleTextString + " are same ");
+
+				actionsFlowFeedback.info(MarkupHelper.createLabel(
+						" Validated that the after tapping the feedback button in the order placed screen it navigated to feedback screen with the title from the UI is : "
+								+ feedbackScreenTitleTextVk + " and from the string configuration file is : "
+								+ feedbackScreenTitleTextString + " are same ",
+						ExtentColor.CYAN));
+
+			} catch (AssertionError e) {
+
+				actionsFlowFeedback.log(Status.FAIL,
+						" Validated that the after tapping the feedback button in the order placed screen it navigated to feedback screen with the title from the UI is : "
+								+ feedbackScreenTitleTextVk + " and from the string configuration file is : "
+								+ feedbackScreenTitleTextString + " are not same ");
+			}
+
+			FlutterElement feedbackBackArrowVk = find.byValueKey(actionsFlowLocators.FEEDBACK_SCREEN_BACK_ARROW_VK);
+
+			feedbackBackArrowVk.click();
+
+			FlutterElement orderPlacedScreenTitleVk = find.byValueKey(actionsFlowLocators.ORDER_PLACED_SCREEN_TITLE_VK);
+
+			String orderPlacedScreenTitleTextVk = orderPlacedScreenTitleVk.getText();
+
+			try {
+
+				Assert.assertEquals(orderPlacedScreenTitleTextVk, orderPlacedTitleTextString,
+						" Validated that the after tapping the feedback back arrow in the feedback screen it navigated to order placed screen with the title from the UI is : "
+								+ orderPlacedScreenTitleTextVk + " and from the string configuration file is : "
+								+ orderPlacedTitleTextString + " are same ");
+
+				System.out.println(
+						" Validated that the after tapping the feedback button in the order placed screen it navigated to feedback screen with the title from the UI is : "
+								+ feedbackScreenTitleTextVk + " and from the string configuration file is : "
+								+ feedbackScreenTitleTextString + " are same ");
+
+				actionsFlowFeedback.info(MarkupHelper.createLabel(
+						" Validated that the after tapping the feedback button in the order placed screen it navigated to feedback screen with the title from the UI is : "
+								+ feedbackScreenTitleTextVk + " and from the string configuration file is : "
+								+ feedbackScreenTitleTextString + " are same ",
+						ExtentColor.CYAN));
+
+			} catch (AssertionError e) {
+
+				actionsFlowFeedback.log(Status.FAIL,
+						" Validated that the after tapping the feedback button in the order placed screen it navigated to feedback screen with the title from the UI is : "
+								+ feedbackScreenTitleTextVk + " and from the string configuration file is : "
+								+ feedbackScreenTitleTextString + " are not same ");
+			}
+
+			commonMethods.scrollOptionsGroupDownFeedback("Feedback");
+
+			FlutterElement actionsFlowFeedbackButtonvK = find
+					.byValueKey(actionsFlowLocators.ACTIONS_FLOW_FEEDBACK_BUTTON_VK);
+
+			actionsFlowFeedbackButtonvK.click();
+
+			FlutterElement feedbackScreenTitle1Vk = find.byValueKey(actionsFlowLocators.FEEDBACK_SCREEN_TITLE_VK);
+
+			String feedbackScreenTitleText1Vk = feedbackScreenTitle1Vk.getText();
+
+			try {
+
+				Assert.assertEquals(feedbackScreenTitleText1Vk, feedbackScreenTitleTextString,
+						" Validated that the after tapping the feedback button again in the order placed screen it navigated to feedback screen with the title from the UI is : "
+								+ feedbackScreenTitleText1Vk + " and from the string configuration file is : "
+								+ feedbackScreenTitleTextString + " are same ");
+
+				System.out.println(
+						" Validated that the after tapping the feedback button again in the order placed screen it navigated to feedback screen with the title from the UI is : "
+								+ feedbackScreenTitleText1Vk + " and from the string configuration file is : "
+								+ feedbackScreenTitleTextString + " are same ");
+
+				actionsFlowFeedback.info(MarkupHelper.createLabel(
+						" Validated that the after tapping the feedback button again in the order placed screen it navigated to feedback screen with the title from the UI is : "
+								+ feedbackScreenTitleText1Vk + " and from the string configuration file is : "
+								+ feedbackScreenTitleTextString + " are same ",
+						ExtentColor.CYAN));
+
+			} catch (AssertionError e) {
+
+				actionsFlowFeedback.log(Status.FAIL,
+						" Validated that the after tapping the feedback button again in the order placed screen it navigated to feedback screen with the title from the UI is : "
+								+ feedbackScreenTitleText1Vk + " and from the string configuration file is : "
+								+ feedbackScreenTitleTextString + " are not same ");
+			}
+
+			FlutterElement feedbackScreenDescriptionVk = find
+					.byValueKey(actionsFlowLocators.FEEDBACK_SCREEN_DESCRIPTION_VK);
+
+			String feedbackScreenDescriptionTextVk = feedbackScreenDescriptionVk.getText();
+
+			try {
+
+				Assert.assertEquals(feedbackScreenDescriptionTextVk, feedbackScreenDescriptionTextString,
+						" Validated that the feedback description text in the feedback screen from the UI is : "
+								+ feedbackScreenDescriptionTextVk + " and from the string configuration file is : "
+								+ feedbackScreenDescriptionTextString + " are same ");
+
+				System.out.println(
+						" Validated that the feedback description text in the feedback screen from the UI is : "
+								+ feedbackScreenDescriptionTextVk + " and from the string configuration file is : "
+								+ feedbackScreenDescriptionTextString + " are same ");
+
+				actionsFlowFeedback.info(MarkupHelper.createLabel(
+						" Validated that the feedback description text in the feedback screen from the UI is : "
+								+ feedbackScreenDescriptionTextVk + " and from the string configuration file is : "
+								+ feedbackScreenDescriptionTextString + " are same ",
+						ExtentColor.CYAN));
+
+			} catch (AssertionError e) {
+
+				actionsFlowFeedback.log(Status.FAIL,
+						" Validated that the feedback description text in the feedback screen from the UI is : "
+								+ feedbackScreenDescriptionTextVk + " and from the string configuration file is : "
+								+ feedbackScreenDescriptionTextString + " are not same ");
+			}
+
+			try {
+
+				commonMethods.switchContext("NATIVE_APP");
+
+				boolean elementFoundOrNot = commonMethods.elementFoundOrNotFeedback(feedbackScreenHowWasTheFoodTextString);
+
+				if (elementFoundOrNot == true) {
+
+					commonMethods.scrollOptionsGroupDownFeedback(feedbackScreenHowWasTheFoodTextString);
+
+					FlutterElement feedbackScreenHowWasTheFoodVk = find
+							.byValueKey(actionsFlowLocators.FEEDBACK_SCREEN_HOW_WAS_THE_FOOD_VK);
+
+					String feedbackScreenHowWasTheFoodTextVk = feedbackScreenHowWasTheFoodVk.getText();
+
+					try {
+
+						Assert.assertEquals(feedbackScreenHowWasTheFoodTextVk, feedbackScreenHowWasTheFoodTextString,
+								" Validated that the feedback : " + feedbackScreenHowWasTheFoodTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenHowWasTheFoodTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenHowWasTheFoodTextString + " are same ");
+
+						System.out.println(" Validated that the feedback : " + feedbackScreenHowWasTheFoodTextString
+								+ " text in the feedback screen from the UI is : " + feedbackScreenHowWasTheFoodTextVk
+								+ " and from the string configuration file is : "
+								+ feedbackScreenHowWasTheFoodTextString + " are same ");
+
+						actionsFlowFeedback.info(MarkupHelper.createLabel(" Validated that the feedback : "
+								+ feedbackScreenHowWasTheFoodTextString
+								+ " text in the feedback screen from the UI is : " + feedbackScreenHowWasTheFoodTextVk
+								+ " and from the string configuration file is : "
+								+ feedbackScreenHowWasTheFoodTextString + " are same ", ExtentColor.CYAN));
+
+					} catch (AssertionError e) {
+
+						actionsFlowFeedback.log(Status.FAIL,
+								" Validated that the feedback : " + feedbackScreenHowWasTheFoodTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenHowWasTheFoodTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenHowWasTheFoodTextString + " are not same ");
+					}
+
+					for (int i = 0; i < 5; i++) {
+
+						FlutterElement feedbackScreenHowWasTheFoodStarVk = find.byValueKey(
+								actionsFlowLocators.FEEDBACK_SCREEN_HOW_WAS_THE_FOOD_UNSELECTED_STAR_VK + "_1_" + i);
+
+						feedbackScreenHowWasTheFoodStarVk.click();
+
+						if (i == 0 || i == 1) {
+
+							FlutterElement feedbackScreenHowWasTheFoodStarWhyNotVk = find
+									.byValueKey(actionsFlowLocators.FEEDBACK_SCREEN_HOW_WAS_THE_FOOD_STAR_WHY_NOT_VK);
+
+							String feedbackScreenHowWasTheFoodStarWhyNotTextVk = feedbackScreenHowWasTheFoodStarWhyNotVk
+									.getText();
+
+							try {
+
+								Assert.assertEquals(feedbackScreenHowWasTheFoodStarWhyNotTextVk,
+										feedbackScreenwhyTextString,
+										" Validated that after tapping the star : " + i + " in the feedback : "
+												+ feedbackScreenHowWasTheFoodTextString + " text in the : "
+												+ feedbackScreenwhyTextString + " from the UI is : "
+												+ feedbackScreenHowWasTheFoodStarWhyNotTextVk
+												+ " and from the string configuration file is : "
+												+ feedbackScreenwhyTextString + " are same ");
+
+								System.out.println(" Validated that after tapping the star : " + i
+										+ " in the feedback : " + feedbackScreenHowWasTheFoodTextString
+										+ " text in the : " + feedbackScreenwhyTextString + " from the UI is : "
+										+ feedbackScreenHowWasTheFoodStarWhyNotTextVk
+										+ " and from the string configuration file is : " + feedbackScreenwhyTextString
+										+ " are same ");
+
+								actionsFlowFeedback
+										.info(MarkupHelper.createLabel(
+												" Validated that after tapping the star : " + i + " in the feedback : "
+														+ feedbackScreenHowWasTheFoodTextString + " text in the : "
+														+ feedbackScreenwhyTextString + " from the UI is : "
+														+ feedbackScreenHowWasTheFoodStarWhyNotTextVk
+														+ " and from the string configuration file is : "
+														+ feedbackScreenwhyTextString + " are same ",
+												ExtentColor.CYAN));
+
+							} catch (AssertionError e) {
+
+								actionsFlowFeedback.log(Status.FAIL,
+										" Validated that after tapping the star : " + i + " in the feedback : "
+												+ feedbackScreenHowWasTheFoodTextString + " text in the : "
+												+ feedbackScreenwhyTextString + " from the UI is : "
+												+ feedbackScreenHowWasTheFoodStarWhyNotTextVk
+												+ " and from the string configuration file is : "
+												+ feedbackScreenwhyTextString + " are NOT same ");
+							}
+
+							FlutterElement feedbackScreenHowWasTheFoodStarWhyNotTextFieldVk = find.byValueKey(
+									actionsFlowLocators.FEEDBACK_SCREEN_HOW_WAS_THE_FOOD_STAR_WHY_NOT_TEXT_FIELD_VK);
+
+							if (i == 0) {
+
+								feedbackScreenHowWasTheFoodStarWhyNotTextFieldVk.sendKeys(star1CommentHowWasTheFood);
+
+								continue;
+
+							}
+
+							if (i == 1) {
+
+								feedbackScreenHowWasTheFoodStarWhyNotTextFieldVk.sendKeys(star2CommentHowWasTheFood);
+
+							}
+
+						}
+
+					}
+
+					for (int i = 4; i > 0 ; i--) {
+
+						FlutterElement feedbackScreenHowWasTheFoodStarVk = find.byValueKey(
+								actionsFlowLocators.FEEDBACK_SCREEN_HOW_WAS_THE_FOOD_SELECTED_STAR_VK + "_1_" + i);
+
+						feedbackScreenHowWasTheFoodStarVk.click();
+					}
+
+				}
+
+			} catch (Exception e) {
+
+				System.out.println(" Validated that the : " + feedbackScreenHowWasTheFoodTextString
+						+ " from the feedback screen is not available and hence skipping to the other feedback ");
+
+				actionsFlowFeedback.log(Status.SKIP, " Validated that the : " + feedbackScreenHowWasTheFoodTextString
+						+ " from the feedback screen is not available and hence skipping to the other feedback ");
+
+			}
+
+			try {
+
+				commonMethods.switchContext("NATIVE_APP");
+
+				boolean elementFoundOrNot = commonMethods
+						.elementFoundOrNotFeedback(feedbackScreenHowWasTheServiceYouReceivedTextString);
+
+				if (elementFoundOrNot == true) {
+
+					commonMethods.scrollOptionsGroupDownFeedback(feedbackScreenHowWasTheServiceYouReceivedTextString);
+
+					FlutterElement feedbackScreenHowWasTheServiceYouReceivedVk = find
+							.byValueKey(actionsFlowLocators.FEEDBACK_SCREEN_HOW_WAS_THE_SERVICE_YOU_RECEIVED_VK);
+
+					String feedbackScreenHowWasTheServiceYouReceivedTextVk = feedbackScreenHowWasTheServiceYouReceivedVk
+							.getText();
+
+					try {
+
+						Assert.assertEquals(feedbackScreenHowWasTheServiceYouReceivedTextVk,
+								feedbackScreenHowWasTheServiceYouReceivedTextString,
+								" Validated that the feedback : " + feedbackScreenHowWasTheServiceYouReceivedTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenHowWasTheServiceYouReceivedTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenHowWasTheServiceYouReceivedTextString + " are same ");
+
+						System.out.println(
+								" Validated that the feedback : " + feedbackScreenHowWasTheServiceYouReceivedTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenHowWasTheServiceYouReceivedTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenHowWasTheServiceYouReceivedTextString + " are same ");
+
+						actionsFlowFeedback.info(MarkupHelper.createLabel(
+								" Validated that the feedback : " + feedbackScreenHowWasTheServiceYouReceivedTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenHowWasTheServiceYouReceivedTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenHowWasTheServiceYouReceivedTextString + " are same ",
+								ExtentColor.CYAN));
+
+					} catch (AssertionError e) {
+
+						actionsFlowFeedback.log(Status.FAIL,
+								" Validated that the feedback : " + feedbackScreenHowWasTheServiceYouReceivedTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenHowWasTheServiceYouReceivedTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenHowWasTheServiceYouReceivedTextString + " are not same ");
+					}
+
+					for (int i = 0; i < 5; i++) {
+
+						FlutterElement feedbackScreenHowWasTheServiceYouReceivedStarVk = find.byValueKey(
+								actionsFlowLocators.FEEDBACK_SCREEN_HOW_WAS_THE_FOOD_UNSELECTED_STAR_VK +"_2_"+ i);
+
+						feedbackScreenHowWasTheServiceYouReceivedStarVk.click();
+
+						if (i == 0 || i == 1) {
+
+							FlutterElement feedbackScreenHowWasTheServiceYouReceivedStarWhyNotVk = find.byValueKey(
+									actionsFlowLocators.FEEDBACK_SCREEN_HOW_WAS_THE_SERVICE_YOU_RECEIVED_WHY_NOT_VK);
+
+							String feedbackScreenHowWasTheServiceYouReceivedStarWhyNotTextVk = feedbackScreenHowWasTheServiceYouReceivedStarWhyNotVk
+									.getText();
+
+							try {
+
+								Assert.assertEquals(feedbackScreenHowWasTheServiceYouReceivedStarWhyNotTextVk,
+										feedbackScreenwhyTextString,
+										" Validated that after tapping the star : " + i + " in the feedback : "
+												+ feedbackScreenHowWasTheServiceYouReceivedTextString
+												+ " text in the : " + feedbackScreenwhyTextString + " from the UI is : "
+												+ feedbackScreenHowWasTheServiceYouReceivedStarWhyNotTextVk
+												+ " and from the string configuration file is : "
+												+ feedbackScreenwhyTextString + " are same ");
+
+								System.out.println(" Validated that after tapping the star : " + i
+										+ " in the feedback : " + feedbackScreenHowWasTheServiceYouReceivedTextString
+										+ " text in the : " + feedbackScreenwhyTextString + " from the UI is : "
+										+ feedbackScreenHowWasTheServiceYouReceivedStarWhyNotTextVk
+										+ " and from the string configuration file is : " + feedbackScreenwhyTextString
+										+ " are same ");
+
+								actionsFlowFeedback.info(MarkupHelper.createLabel(
+										" Validated that after tapping the star : " + i + " in the feedback : "
+												+ feedbackScreenHowWasTheServiceYouReceivedTextString
+												+ " text in the : " + feedbackScreenwhyTextString + " from the UI is : "
+												+ feedbackScreenHowWasTheServiceYouReceivedStarWhyNotTextVk
+												+ " and from the string configuration file is : "
+												+ feedbackScreenwhyTextString + " are same ",
+										ExtentColor.CYAN));
+
+							} catch (AssertionError e) {
+
+								actionsFlowFeedback.log(Status.FAIL,
+										" Validated that after tapping the star : " + i + " in the feedback : "
+												+ feedbackScreenHowWasTheServiceYouReceivedTextString
+												+ " text in the : " + feedbackScreenwhyTextString + " from the UI is : "
+												+ feedbackScreenHowWasTheServiceYouReceivedStarWhyNotTextVk
+												+ " and from the string configuration file is : "
+												+ feedbackScreenwhyTextString + " are not same ");
+							}
+
+							FlutterElement feedbackScreenHowWasTheServiceYouReceivedWhyNotTextFieldVk = find.byValueKey(
+									actionsFlowLocators.FEEDBACK_SCREEN_HOW_WAS_THE_SERVICE_YOU_RECEIVED_WHY_NOT_TEXT_FIELD_VK);
+
+							if (i == 0) {
+
+								feedbackScreenHowWasTheServiceYouReceivedWhyNotTextFieldVk
+										.sendKeys(star1CommentHowWasTheService);
+
+							}
+
+							if (i == 1) {
+
+								feedbackScreenHowWasTheServiceYouReceivedWhyNotTextFieldVk
+										.sendKeys(star2CommentHowWasTheService);
+
+								continue;
+
+							}
+
+						}
+
+					}
+					
+					for (int i = 4; i > 0 ; i--) {
+
+						FlutterElement feedbackScreenHowWasTheFoodStarVk = find.byValueKey(
+								actionsFlowLocators.FEEDBACK_SCREEN_HOW_WAS_THE_FOOD_SELECTED_STAR_VK + "_2_" + i);
+
+						feedbackScreenHowWasTheFoodStarVk.click();
+					}
+
+				}
+
+			} catch (Exception e) {
+
+				System.out.println(" Validated that the : " + feedbackScreenHowWasTheFoodTextString
+						+ " from the feedback screen is not available and hence skipping to the other feedback ");
+
+				actionsFlowFeedback.log(Status.SKIP, " Validated that the : " + feedbackScreenHowWasTheFoodTextString
+						+ " from the feedback screen is not available and hence skipping to the other feedback ");
+
+			}
+
+			try {
+
+				commonMethods.switchContext("NATIVE_APP");
+
+				boolean elementFoundOrNot = commonMethods
+						.elementFoundOrNotFeedback(feedbackScreenRestaurantGoodValueForMoneyTextString);
+
+				if (elementFoundOrNot == true) {
+
+					commonMethods.scrollOptionsGroupDownFeedback(feedbackScreenRestaurantGoodValueForMoneyTextString);
+
+					FlutterElement feedbackScreenReestaurantGoodValueForMoneyVk = find
+							.byValueKey(actionsFlowLocators.FEEDBACK_SCREEN_RESTAURANT_GOOD_VALUE_FOR_MONEY_VK);
+
+					String feedbackScreenReestaurantGoodValueForMoneyTextVk = feedbackScreenReestaurantGoodValueForMoneyVk
+							.getText();
+
+					try {
+
+						Assert.assertEquals(feedbackScreenReestaurantGoodValueForMoneyTextVk,
+								feedbackScreenRestaurantGoodValueForMoneyTextString,
+								" Validated that the feedback : " + feedbackScreenRestaurantGoodValueForMoneyTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenReestaurantGoodValueForMoneyTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenRestaurantGoodValueForMoneyTextString + " are same ");
+
+						System.out.println(
+								" Validated that the feedback : " + feedbackScreenRestaurantGoodValueForMoneyTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenReestaurantGoodValueForMoneyTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenRestaurantGoodValueForMoneyTextString + " are same ");
+
+						actionsFlowFeedback.info(MarkupHelper.createLabel(
+								" Validated that the feedback : " + feedbackScreenRestaurantGoodValueForMoneyTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenReestaurantGoodValueForMoneyTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenRestaurantGoodValueForMoneyTextString + " are same ",
+								ExtentColor.CYAN));
+
+					} catch (AssertionError e) {
+
+						actionsFlowFeedback.log(Status.FAIL,
+								" Validated that the feedback : " + feedbackScreenRestaurantGoodValueForMoneyTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenReestaurantGoodValueForMoneyTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenRestaurantGoodValueForMoneyTextString + " are not same ");
+					}
+
+					for (int i = 0; i < 5; i++) {
+
+						FlutterElement feedbackScreenRestaurantGoodValueForMoneyStarVk = find.byValueKey(
+								actionsFlowLocators.FEEDBACK_SCREEN_HOW_WAS_THE_FOOD_UNSELECTED_STAR_VK +"_3_"+ i);
+
+						feedbackScreenRestaurantGoodValueForMoneyStarVk.click();
+
+						if (i == 0 || i == 1) {
+
+							FlutterElement feedbackScreenRestaurantGoodValueForMoneyStarWhyNotVk = find.byValueKey(
+									actionsFlowLocators.FEEDBACK_SCREEN_RESTAURANT_GOOD_VALUE_FOR_MONEY_WHY_NOT_VK);
+
+							String feedbackScreenRestaurantGoodValueForMoneyStarWhyNotTextVk = feedbackScreenRestaurantGoodValueForMoneyStarWhyNotVk
+									.getText();
+
+							try {
+
+								Assert.assertEquals(feedbackScreenRestaurantGoodValueForMoneyStarWhyNotTextVk,
+										feedbackScreenwhyTextString,
+										" Validated that after tapping the star : " + i + " in the feedback : "
+												+ feedbackScreenRestaurantGoodValueForMoneyTextString
+												+ " text in the : " + feedbackScreenwhyTextString + " from the UI is : "
+												+ feedbackScreenRestaurantGoodValueForMoneyStarWhyNotTextVk
+												+ " and from the string configuration file is : "
+												+ feedbackScreenwhyTextString + " are same ");
+
+								System.out.println(" Validated that after tapping the star : " + i
+										+ " in the feedback : " + feedbackScreenRestaurantGoodValueForMoneyTextString
+										+ " text in the : " + feedbackScreenwhyTextString + " from the UI is : "
+										+ feedbackScreenRestaurantGoodValueForMoneyStarWhyNotTextVk
+										+ " and from the string configuration file is : " + feedbackScreenwhyTextString
+										+ " are same ");
+
+								actionsFlowFeedback.info(MarkupHelper.createLabel(
+										" Validated that after tapping the star : " + i + " in the feedback : "
+												+ feedbackScreenRestaurantGoodValueForMoneyTextString
+												+ " text in the : " + feedbackScreenwhyTextString + " from the UI is : "
+												+ feedbackScreenRestaurantGoodValueForMoneyStarWhyNotTextVk
+												+ " and from the string configuration file is : "
+												+ feedbackScreenwhyTextString + " are same ",
+										ExtentColor.CYAN));
+
+							} catch (AssertionError e) {
+
+								actionsFlowFeedback.log(Status.FAIL,
+										" Validated that after tapping the star : " + i + " in the feedback : "
+												+ feedbackScreenRestaurantGoodValueForMoneyTextString
+												+ " text in the : " + feedbackScreenwhyTextString + " from the UI is : "
+												+ feedbackScreenRestaurantGoodValueForMoneyStarWhyNotTextVk
+												+ " and from the string configuration file is : "
+												+ feedbackScreenwhyTextString + " are not same ");
+							}
+
+							FlutterElement feedbackScreenRestaurantGoodValueForMoneyWhyNotTextFieldVk = find.byValueKey(
+									actionsFlowLocators.FEEDBACK_SCREEN_RESTAURANT_GOOD_VALUE_FOR_MONEY_WHY_NOT_TEXT_FIELD_VK);
+
+							if (i == 0) {
+
+								feedbackScreenRestaurantGoodValueForMoneyWhyNotTextFieldVk
+										.sendKeys(star1CommentRestaurantGoodValueForMoney);
+
+							}
+
+							if (i == 1) {
+
+								feedbackScreenRestaurantGoodValueForMoneyWhyNotTextFieldVk
+										.sendKeys(star2CommentRestaurantGoodValueForMoney);
+
+							}
+
+							if (i == 2) {
+
+								continue;
+
+							}
+
+						}
+
+					}
+					for (int i = 4; i > 0 ; i--) {
+
+						FlutterElement feedbackScreenHowWasTheFoodStarVk = find.byValueKey(
+								actionsFlowLocators.FEEDBACK_SCREEN_HOW_WAS_THE_FOOD_SELECTED_STAR_VK + "_3_" + i);
+
+						feedbackScreenHowWasTheFoodStarVk.click();
+					}
+
+				}
+
+			} catch (Exception e) {
+
+				System.out.println(" Validated that the : " + feedbackScreenHowWasTheServiceYouReceivedTextString
+						+ " from the feedback screen is not available and hence skipping to the other feedback ");
+
+				actionsFlowFeedback.log(Status.SKIP, " Validated that the : "
+						+ feedbackScreenHowWasTheServiceYouReceivedTextString
+						+ " from the feedback screen is not available and hence skipping to the other feedback ");
+
+			}
+
+			try {
+
+				commonMethods.switchContext("NATIVE_APP");
+
+				boolean elementFoundOrNot = commonMethods
+						.elementFoundOrNotFeedback(feedbackScreenRecommendTheRestaurantToOtherTextString);
+
+				if (elementFoundOrNot == true) {
+
+					commonMethods.scrollOptionsGroupDownFeedback(feedbackScreenRecommendTheRestaurantToOtherTextString);
+
+					FlutterElement feedbackScreenRecommendTheRestaurantToOtherVk = find
+							.byValueKey(actionsFlowLocators.FEEDBACK_SCREEN_RECOMMEND_THE_RESTAURANT_TO_OTHER_VK);
+
+					String feedbackScreenRecommendTheRestaurantToOtherTextVk = feedbackScreenRecommendTheRestaurantToOtherVk
+							.getText();
+
+					try {
+
+						Assert.assertEquals(feedbackScreenRecommendTheRestaurantToOtherTextVk,
+								feedbackScreenRecommendTheRestaurantToOtherTextString,
+								" Validated that the feedback : "
+										+ feedbackScreenRecommendTheRestaurantToOtherTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenRecommendTheRestaurantToOtherTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenRecommendTheRestaurantToOtherTextString + " are same ");
+
+						System.out.println(" Validated that the feedback : "
+								+ feedbackScreenRecommendTheRestaurantToOtherTextString
+								+ " text in the feedback screen from the UI is : "
+								+ feedbackScreenRecommendTheRestaurantToOtherTextVk
+								+ " and from the string configuration file is : "
+								+ feedbackScreenRecommendTheRestaurantToOtherTextString + " are same ");
+
+						actionsFlowFeedback.info(MarkupHelper.createLabel(
+								" Validated that the feedback : "
+										+ feedbackScreenRecommendTheRestaurantToOtherTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenRecommendTheRestaurantToOtherTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenRecommendTheRestaurantToOtherTextString + " are same ",
+								ExtentColor.CYAN));
+
+					} catch (AssertionError e) {
+
+						actionsFlowFeedback.log(Status.FAIL,
+								" Validated that the feedback : "
+										+ feedbackScreenRecommendTheRestaurantToOtherTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenRecommendTheRestaurantToOtherTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenRecommendTheRestaurantToOtherTextString + " are not same ");
+					}
+
+					for (int i = 0; i < 5; i++) {
+
+						FlutterElement feedbackScreenRestaurantGoodValueForMoneyStarVk = find.byValueKey(
+								actionsFlowLocators.FEEDBACK_SCREEN_HOW_WAS_THE_FOOD_UNSELECTED_STAR_VK +"_4_"+ i);
+
+						feedbackScreenRestaurantGoodValueForMoneyStarVk.click();
+
+						if (i == 3) {
+
+							continue;
+						}
+
+					}
+					
+					for (int i = 4; i > 0 ; i--) {
+
+						FlutterElement feedbackScreenHowWasTheFoodStarVk = find.byValueKey(
+								actionsFlowLocators.FEEDBACK_SCREEN_HOW_WAS_THE_FOOD_SELECTED_STAR_VK + "_4_" + i);
+
+						feedbackScreenHowWasTheFoodStarVk.click();
+					}
+
+				}
+
+			} catch (Exception e) {
+
+				System.out.println(" Validated that the : " + feedbackScreenHowWasTheServiceYouReceivedTextString
+						+ " from the feedback screen is not available and hence skipping to the other feedback ");
+
+				actionsFlowFeedback.log(Status.SKIP, " Validated that the : "
+						+ feedbackScreenHowWasTheServiceYouReceivedTextString
+						+ " from the feedback screen is not available and hence skipping to the other feedback ");
+
+			}
+
+			try {
+
+				commonMethods.switchContext("NATIVE_APP");
+
+				boolean elementFoundOrNot = commonMethods
+						.elementFoundOrNotFeedback(feedbackScreenOrderFromRestaurantAgainTextString);
+
+				if (elementFoundOrNot == true) {
+
+					commonMethods.scrollOptionsGroupDownFeedback(feedbackScreenOrderFromRestaurantAgainTextString);
+
+					FlutterElement feedbackScreenOrderFromRestaurantAgainVk = find
+							.byValueKey(actionsFlowLocators.FEEDBACK_SCREEN_ORDER_FROM_RESTAURANT_AGAIN_VK);
+
+					String feedbackScreenOrderFromRestaurantAgainTextVk = feedbackScreenOrderFromRestaurantAgainVk
+							.getText();
+
+					try {
+
+						Assert.assertEquals(feedbackScreenOrderFromRestaurantAgainTextVk,
+								feedbackScreenOrderFromRestaurantAgainTextString,
+								" Validated that the feedback : " + feedbackScreenOrderFromRestaurantAgainTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenOrderFromRestaurantAgainTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenOrderFromRestaurantAgainTextString + " are same ");
+
+						System.out.println(
+								" Validated that the feedback : " + feedbackScreenOrderFromRestaurantAgainTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenOrderFromRestaurantAgainTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenOrderFromRestaurantAgainTextString + " are same ");
+
+						actionsFlowFeedback.info(MarkupHelper.createLabel(
+								" Validated that the feedback : " + feedbackScreenOrderFromRestaurantAgainTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenOrderFromRestaurantAgainTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenOrderFromRestaurantAgainTextString + " are same ",
+								ExtentColor.CYAN));
+
+					} catch (AssertionError e) {
+
+						actionsFlowFeedback.log(Status.FAIL,
+								" Validated that the feedback : " + feedbackScreenOrderFromRestaurantAgainTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenOrderFromRestaurantAgainTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenOrderFromRestaurantAgainTextString + " are not same ");
+					}
+
+					for (int i = 0; i < 5; i++) {
+
+						FlutterElement feedbackScreenOrderFromRestaurantAgainStarVk = find.byValueKey(
+								actionsFlowLocators.FEEDBACK_SCREEN_HOW_WAS_THE_FOOD_UNSELECTED_STAR_VK +"_5_"+ i);
+
+						feedbackScreenOrderFromRestaurantAgainStarVk.click();
+
+						if (i == 0 || i == 1) {
+
+							FlutterElement feedbackScreenOrderFromRestaurantAgainStarWhyNotVk = find.byValueKey(
+									actionsFlowLocators.FEEDBACK_SCREEN_ORDER_FROM_RESTAURANT_AGAIN_WHY_NOT_VK);
+
+							String feedbackScreenOrderFromRestaurantAgainStarWhyNotTextVk = feedbackScreenOrderFromRestaurantAgainStarWhyNotVk
+									.getText();
+
+							try {
+
+								Assert.assertEquals(feedbackScreenOrderFromRestaurantAgainStarWhyNotTextVk,
+										feedbackScreenwhyTextString,
+										" Validated that after tapping the star : " + i + " in the feedback : "
+												+ feedbackScreenOrderFromRestaurantAgainTextString + " text in the : "
+												+ feedbackScreenwhyTextString + " from the UI is : "
+												+ feedbackScreenOrderFromRestaurantAgainStarWhyNotTextVk
+												+ " and from the string configuration file is : "
+												+ feedbackScreenwhyTextString + " are same ");
+
+								System.out.println(" Validated that after tapping the star : " + i
+										+ " in the feedback : " + feedbackScreenOrderFromRestaurantAgainTextString
+										+ " text in the : " + feedbackScreenwhyTextString + " from the UI is : "
+										+ feedbackScreenOrderFromRestaurantAgainStarWhyNotTextVk
+										+ " and from the string configuration file is : " + feedbackScreenwhyTextString
+										+ " are same ");
+
+								actionsFlowFeedback.info(MarkupHelper.createLabel(
+										" Validated that after tapping the star : " + i + " in the feedback : "
+												+ feedbackScreenOrderFromRestaurantAgainTextString + " text in the : "
+												+ feedbackScreenwhyTextString + " from the UI is : "
+												+ feedbackScreenOrderFromRestaurantAgainStarWhyNotTextVk
+												+ " and from the string configuration file is : "
+												+ feedbackScreenwhyTextString + " are same ",
+										ExtentColor.CYAN));
+
+							} catch (AssertionError e) {
+
+								actionsFlowFeedback.log(Status.FAIL,
+										" Validated that after tapping the star : " + i + " in the feedback : "
+												+ feedbackScreenOrderFromRestaurantAgainTextString + " text in the : "
+												+ feedbackScreenwhyTextString + " from the UI is : "
+												+ feedbackScreenOrderFromRestaurantAgainStarWhyNotTextVk
+												+ " and from the string configuration file is : "
+												+ feedbackScreenwhyTextString + " are not same ");
+							}
+
+							FlutterElement feedbackScreenRestaurantGoodValueForMoneyWhyNotTextFieldVk = find.byValueKey(
+									actionsFlowLocators.FEEDBACK_SCREEN_ORDER_FROM_RESTAURANT_AGAIN_WHY_NOT_TEXT_FIELD_VK);
+
+							if (i == 0) {
+
+								feedbackScreenRestaurantGoodValueForMoneyWhyNotTextFieldVk
+										.sendKeys(star1CommentOrderFromRestaurantAgain);
+
+							}
+
+							if (i == 1) {
+
+								feedbackScreenRestaurantGoodValueForMoneyWhyNotTextFieldVk
+										.sendKeys(star2CommentOrderFromRestaurantAgain);
+
+							}
+
+						}
+
+					}
+					
+					for (int i = 4; i > 0 ; i--) {
+
+						FlutterElement feedbackScreenHowWasTheFoodStarVk = find.byValueKey(
+								actionsFlowLocators.FEEDBACK_SCREEN_HOW_WAS_THE_FOOD_SELECTED_STAR_VK + "_5_" + i);
+
+						feedbackScreenHowWasTheFoodStarVk.click();
+					}
+
+				}
+
+			} catch (Exception e) {
+
+				System.out.println(" Validated that the : " + feedbackScreenRestaurantGoodValueForMoneyTextString
+						+ " from the feedback screen is not available and hence skipping to the other feedback ");
+
+				actionsFlowFeedback.log(Status.SKIP, " Validated that the : "
+						+ feedbackScreenRestaurantGoodValueForMoneyTextString
+						+ " from the feedback screen is not available and hence skipping to the other feedback ");
+
+			}
+			
+			commonMethods.scrollDownFeedback();
+			
+			Thread.sleep(5000);
+
+			try {
+
+				commonMethods.switchContext("NATIVE_APP");
+
+				boolean elementFoundOrNot = commonMethods.elementFoundOrNotFeedback(feedbackScreenAdditionalCommentsTextString);
+
+				if (elementFoundOrNot == true) {
+
+					commonMethods.scrollOptionsGroupDownFeedback(feedbackScreenAdditionalCommentsTextString);
+
+					FlutterElement feedbackScreenAdditionalCommentsVk = find
+							.byValueKey(actionsFlowLocators.FEEDBACK_SCREEN_ADDITIONAL_COMMENTS_VK);
+
+					String feedbackScreenAdditionalCommentsTextVk = feedbackScreenAdditionalCommentsVk.getText();
+
+					try {
+
+						Assert.assertEquals(feedbackScreenAdditionalCommentsTextVk,
+								feedbackScreenAdditionalCommentsTextString,
+								" Validated that the feedback : " + feedbackScreenAdditionalCommentsTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenAdditionalCommentsTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenAdditionalCommentsTextString + " are same ");
+
+						System.out
+								.println(" Validated that the feedback : " + feedbackScreenAdditionalCommentsTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenAdditionalCommentsTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenAdditionalCommentsTextString + " are same ");
+
+						actionsFlowFeedback
+								.info(MarkupHelper.createLabel(
+										" Validated that the feedback : " + feedbackScreenAdditionalCommentsTextString
+												+ " text in the feedback screen from the UI is : "
+												+ feedbackScreenAdditionalCommentsTextVk
+												+ " and from the string configuration file is : "
+												+ feedbackScreenAdditionalCommentsTextString + " are same ",
+										ExtentColor.CYAN));
+
+					} catch (AssertionError e) {
+
+						actionsFlowFeedback.log(Status.FAIL,
+								" Validated that the feedback : " + feedbackScreenAdditionalCommentsTextString
+										+ " text in the feedback screen from the UI is : "
+										+ feedbackScreenAdditionalCommentsTextVk
+										+ " and from the string configuration file is : "
+										+ feedbackScreenAdditionalCommentsTextString + " are not same ");
+					}
+
+					FlutterElement feedbackScreenAdditionalCommentsTextFieldVk = find
+							.byValueKey(actionsFlowLocators.FEEDBACK_SCREEN_ADDITIONAL_COMMENTS_TEXT_FIELD_VK);
+
+					feedbackScreenAdditionalCommentsTextFieldVk.sendKeys(additionalComments);
+
+					String feedbackScreenAdditionalCommentsTextFieldEnteredTextVk = feedbackScreenAdditionalCommentsTextFieldVk
+							.getAttribute("content-desc");
+
+					try {
+
+						Assert.assertEquals(feedbackScreenAdditionalCommentsTextFieldEnteredTextVk, additionalComments,
+								" Validated that the feedback : " + feedbackScreenAdditionalCommentsTextString
+										+ " text field already entered text in the text field from the UI is : "
+										+ feedbackScreenAdditionalCommentsTextFieldEnteredTextVk
+										+ " and from the external input data sheet is : " + additionalComments
+										+ " are same ");
+
+						System.out.println(" Validated that the feedback : "
+								+ feedbackScreenAdditionalCommentsTextString
+								+ " text field already entered text in the text field from the UI is : "
+								+ feedbackScreenAdditionalCommentsTextFieldEnteredTextVk
+								+ " and from the external input data sheet is : " + additionalComments + " are same ");
+
+						actionsFlowFeedback.info(MarkupHelper.createLabel(" Validated that the feedback : "
+								+ feedbackScreenAdditionalCommentsTextString
+								+ " text field already entered text in the text field from the UI is : "
+								+ feedbackScreenAdditionalCommentsTextFieldEnteredTextVk
+								+ " and from the external input data sheet is : " + additionalComments + " are same ",
+								ExtentColor.CYAN));
+
+					} catch (AssertionError e) {
+
+						actionsFlowFeedback.log(Status.FAIL,
+								" Validated that the feedback : " + feedbackScreenAdditionalCommentsTextString
+										+ " text field already entered text in the text field from the UI is : "
+										+ feedbackScreenAdditionalCommentsTextFieldEnteredTextVk
+										+ " and from the external input data sheet is : " + additionalComments
+										+ " are not same ");
+					}
+
+				}
+
+			} catch (Exception e) {
+
+				System.out.println(" Validated that the : " + feedbackScreenRestaurantGoodValueForMoneyTextString
+						+ " from the feedback screen is not available and hence skipping to the other feedback ");
+
+				actionsFlowFeedback.log(Status.SKIP, " Validated that the : "
+						+ feedbackScreenRestaurantGoodValueForMoneyTextString
+						+ " from the feedback screen is not available and hence skipping to the other feedback ");
+
+			}
+			
+			FlutterElement feedbackDoneButtonVk = find
+					.byValueKey(actionsFlowLocators.FEEDBACK_DONE_BUTTON_VK);
+			
+			feedbackDoneButtonVk.click();
+
+			FlutterElement feedbackScreenSubmitButtonVk = find
+					.byValueKey(actionsFlowLocators.FEEDBACK_SCREEN_SUBMIT_BUTTON_VK);
+
+			String feedbackScreenSubmitButtonTextVk = feedbackScreenSubmitButtonVk.getText();
+
+			try {
+
+				Assert.assertEquals(feedbackScreenSubmitButtonTextVk, feedbackScreenSubmitButtonTextString,
+						" Validated that the submit button text in the fedback screen from the UI is : "
+								+ feedbackScreenSubmitButtonTextVk + " and from the string configuration file is : "
+								+ feedbackScreenSubmitButtonTextString + " are same ");
+
+				System.out.println(" Validated that the submit button text in the fedback screen from the UI is : "
+						+ feedbackScreenSubmitButtonTextVk + " and from the string configuration file is : "
+						+ feedbackScreenSubmitButtonTextString + " are same ");
+
+				actionsFlowFeedback.info(MarkupHelper
+						.createLabel(" Validated that the submit button text in the fedback screen from the UI is : "
+								+ feedbackScreenSubmitButtonTextVk + " and from the string configuration file is : "
+								+ feedbackScreenSubmitButtonTextString + " are same ", ExtentColor.CYAN));
+
+			} catch (AssertionError e) {
+
+				actionsFlowFeedback.log(Status.FAIL,
+						" Validated that the submit button text in the fedback screen from the UI is : "
+								+ feedbackScreenSubmitButtonTextVk + " and from the string configuration file is : "
+								+ feedbackScreenSubmitButtonTextString + " are not same ");
+			}
+			
+			feedbackScreenSubmitButtonVk.click();
+
+			commonMethods.scrollUp();
+			
+			find.byValueKey(actionsFlowLocators.ACTIONS_FLOW_EMAIL_SENT_SUCCESSFULLY_POPUP_OK_BUTTON_VKL).click();
+
+		} else {
+
+			actionsFlowFeedback.info(MarkupHelper.createLabel(
+					"actionsFlowStoreInfoFeedback - Verified that " + actionsFlowFeedback
+							+ " is not displayed in the UI of actions flow where it is not configured in the back end.",
+					ExtentColor.CYAN));
+		}
+
+	}
+	/**
+	 * @Class_Name ActionsFlow
+	 * @Method_Name reviewInAppStore
+	 * @Description Contains code to execute reviewInAppStore scripts in actions of order placed screen
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void reviewInAppStore() throws InterruptedException {
+
+		String reviewButtonTextString = commonMethods
+				.stringsReader(actionsFlowLocators.ACTIONS_FLOW_EMAIL_REVIEW_BUTTON_TEXT_STRING);
+
+		commonMethods.scrollOptionsGroupDown(reviewButtonTextString);
+
+		commonMethods.scrollUp();
+
+	}
+
+}

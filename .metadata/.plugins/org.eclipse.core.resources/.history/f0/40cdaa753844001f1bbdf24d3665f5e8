@@ -1,0 +1,5 @@
+<string name="User_Agent" translatable="false">User-Agent</string>
+<string name="PaytronixAPI_Android" translatable="false">PaytronixAPI-Android</string>
+<string name="PX_App_Version" translatable="false">PX-App-Version</string>
+<string name="PX_OS_Version" translatable="false">PX-OS-Version</string>
+<string name="androidVersion" translatable="false">Android Version</string>

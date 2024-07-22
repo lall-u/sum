@@ -1,0 +1,724 @@
+package com.features;
+
+import java.net.URL;
+import java.text.DateFormat;
+import java.time.Duration;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogEntry;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.annotations.Test;
+
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.MediaEntityBuilder;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.base.BaseClass;
+import com.base.CommonMethods;
+import com.execution.GoogleSheetExecution;
+import com.locators.AppLaunchAndLandingScreenLocators;
+import com.locators.DashBoardLocators;
+import com.locators.SignInLocators;
+import android.content.Context;
+import android.location.LocationManager;
+import io.appium.java_client.MobileBy.ByAccessibilityId;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSTouchAction;
+import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
+import io.github.ashwith.flutter.FlutterElement;
+import io.github.ashwith.flutter.FlutterFinder;
+
+public class AppLaunchAndLandingScreen extends BaseClass {
+
+	/* To instantiate the commonMethods Methods */
+	static SignInLocators signInLocators = new SignInLocators();
+	static CommonMethods commonMethods = new CommonMethods();
+	static AppLaunchAndLandingScreenLocators appLaunchAndLandingScreenLocators = new AppLaunchAndLandingScreenLocators();
+
+//	public static String isLocationEnabled = "true";  
+
+	public static boolean isGPSEnabled(Context context) {
+		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		if (locationManager != null) {
+			return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		}
+		return false;
+	}
+
+	@Test
+	public static void nextGenAppLaunchAndLandingScreenConfigurationWithoutOrderNow() throws Exception {
+		
+		
+
+		try {
+
+			/* To create the test using the method name */
+			String nameofCurrMethod = new Object() {
+			}.getClass().getEnclosingMethod().getName();
+
+			BaseClass bc = new BaseClass();
+
+			List<String> perimeterX = bc.perimeterX();
+
+			String perimeterXConfig = perimeterX.get(0);
+
+			List<String> appConfiguration = bc.appConfiguration();
+
+			String orderNowConfiguration = appConfiguration.get(1);
+
+			/* To Create the Test in the Extent Report */
+			test = extent.createTest(nameofCurrMethod).assignAuthor(author).assignDevice(deviceName)
+					.assignCategory("Launch And Splashscreen");
+
+			/* To Print the Current Method Name in the Extent Report */
+			ExtentTest node = test.createNode(nameofCurrMethod);
+			node.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+			/**
+			 * @Class_Name AppLaunchAndLandingScreen
+			 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+			 * @Case_Id nextGenLaunchAndSplashscreen001
+			 * @Description Ensure that respected .apk and .ipa has installed in the mobile
+			 *              device
+			 * @return String
+			 * @author Prasanna Venkatesh KP
+			 */
+
+			/* To launch the application */
+
+			// 16081JECB03065-5a
+			// 3200e793dc05763b - samsung
+
+			DesiredCapabilities cap = new DesiredCapabilities();
+			cap.setCapability(MobileCapabilityType.DEVICE_NAME, "Samsung");
+			cap.setCapability("platformName", "Android");
+			cap.setCapability(MobileCapabilityType.PLATFORM_VERSION, "12");
+			cap.setCapability(MobileCapabilityType.UDID, "emulator-5554");
+			cap.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Flutter");
+			cap.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, 10000);
+			cap.setCapability("appPackage", "com.paytronix.nexgenfl");
+			cap.setCapability("appActivity", "com.paytronix.nexgenfl.MainActivity");
+
+			driver = new AndroidDriver<WebElement>(new URL("http://0.0.0.0:4723/wd/hub"), cap);
+			System.out.println("App Launched Successfully");
+
+			FlutterFinder find = new FlutterFinder(driver);
+
+			driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+
+			Thread.sleep(5000);
+
+			if (perimeterXConfig.equalsIgnoreCase("yes")) {
+
+				driver.quit();
+			}
+
+			else {
+				/* To print the status in the Extent Report */
+				ExtentTest nextGen_Launch_And_Splashscreen_001 = test.createNode("nextGen_Launch_And_Splashscreen_001");
+				nextGen_Launch_And_Splashscreen_001.info(MarkupHelper.createLabel(
+						"nextGenLaunchAndSplashscreen001 - Verified App Launched Successfully ", ExtentColor.CYAN));
+
+				/**
+				 * @Class_Name AppLaunchAndLandingScreen
+				 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+				 * @Case_Id nextGenLaunchAndSplashscreen007
+				 * @Description Ensure that the background Location Access Screen is displayed
+				 *              for the first time after the Splash screen
+				 * @return FlutterElement
+				 * @author Prasanna Venkatesh KP
+				 */
+
+				// To check background location Access screen is displayed for the First time.
+
+				FlutterElement backgroundLocationScreen = find
+						.byValueKey(appLaunchAndLandingScreenLocators.BACKGROUND_LOCATIONACCESS_TEXT_VKL);
+				commonMethods.toGetTheTextOfTheElement(backgroundLocationScreen);
+
+				ExtentTest nextGenLaunchAndSplashscreen007 = test.createNode("nextGenLaunchAndSplashscreen007");
+
+				// To print the status in the report.
+				nextGenLaunchAndSplashscreen007.info(MarkupHelper.createLabel(
+						"nextGenLaunchAndSplashscreen007 - Verified the Background Location Access screen is displayed",
+						ExtentColor.CYAN));
+
+				/**
+				 * @Class_Name AppLaunchAndLandingScreen
+				 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+				 * @Case_Id nextGenBackgroundLocationAccess001
+				 * @Description User should be able to see the background location access info
+				 *              screen when the user launchs the app for the first time.
+				 * @return FlutterElement
+				 * @author Prasanna Venkatesh KP
+				 */
+
+				ExtentTest nextGenBackgroundLocationAccess001 = test.createNode("nextGenBackgroundLocationAccess001");
+				// To print the status in the Extent Report
+				nextGenBackgroundLocationAccess001.info(MarkupHelper.createLabel(
+						"nextGenBackgroundLocationAccess001 - Verified the User successfully seen the Background Location Access info screen",
+						ExtentColor.CYAN));
+				// To attach the screenshot in the report.
+				nextGenBackgroundLocationAccess001.addScreenCaptureFromBase64String(takeScreenshot(driver));
+
+				/**
+				 * @Class_Name AppLaunchAndLandingScreen
+				 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+				 * @Case_Id nextGenBackgroundLocationAccess003
+				 * @Description Title text "Location Access" should be displayed below the map
+				 *              with pin image and the title text color, font should be
+				 *              configurable in primary color and font.
+				 * @return FlutterElement
+				 * @author Prasanna Venkatesh KP
+				 */
+
+				// To Check the LOCATION ACCESS text is displayed in the Background Location
+				// Access screen
+
+				FlutterElement backGroundLocationAccessText = find
+						.byValueKey(appLaunchAndLandingScreenLocators.BACKGROUND_LOCATIONACCESS_TEXT_VKL);
+				commonMethods.toGetTheTextOfTheElement(backGroundLocationAccessText);
+
+				ExtentTest nextGenBackgroundLocationAccess003 = test.createNode("nextGenBackgroundLocationAccess003");
+
+				/* To print the status in the Extent Report */
+				nextGenBackgroundLocationAccess003.info(MarkupHelper.createLabel(
+						"nextGenBackgroundLocationAccess003 - Verified the LOCATION ACCESS Text is displayed",
+						ExtentColor.CYAN));
+
+				/**
+				 * @Class_Name AppLaunchAndLandingScreen
+				 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+				 * @Case_Id nextGenBackgroundLocationAccess005
+				 * @Description "Continue" button should be displayed at the bottom of the
+				 *              screen
+				 * @return FlutterElement
+				 * @author Prasanna Venkatesh KP
+				 */
+
+//			/* To Check the Continue Button is displayed bottom of the screen */
+//			FlutterElement backgroundLocationAccessContinueVk2 = find
+//					.byValueKey(appLaunchAndLandingScreenLocators.BACKGROUND_LOCATIONACCESS_CONTINUE_VKL);
+//
+//			commonMethods.toGetTheTextOfTheElement(backgroundLocationAccessContinueVk2);
+
+				ExtentTest nextGenBackgroundLocationAccess005 = test.createNode("nextGenBackgroundLocationAccess005");
+
+				/* To print the status in the Extent Report */
+				nextGenBackgroundLocationAccess005.info(MarkupHelper.createLabel(
+						"nextGenBackgroundLocationAccess005 - Verified the Continue Button is displayed bottom of the screen",
+						ExtentColor.CYAN));
+
+				/**
+				 * @Class_Name AppLaunchAndLandingScreen
+				 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+				 * @Case_Id nextGenBackgroundLocationAccess006
+				 * @Description On tapping the continue button the user should be navigated to
+				 *              the landing screen Author
+				 * @return FlutterElement
+				 * @author Prasanna Venkatesh KP
+				 */
+
+				/* To Click the Continue button */
+				FlutterElement BackgroundLocationAccessContinue = find
+						.byValueKey(appLaunchAndLandingScreenLocators.BACKGROUND_LOCATIONACCESS_CONTINUE_VKL);
+				commonMethods.checkAndClickTheElement(BackgroundLocationAccessContinue);
+
+				ExtentTest nextGenBackgroundLocationAccess006 = test.createNode("nextGenBackgroundLocationAccess006");
+
+				/* To print the status in the Extent Report */
+				nextGenBackgroundLocationAccess006.info(MarkupHelper.createLabel(
+						"nextGenBackgroundLocationAccess006 - Verified the user successfully navigated to the landing screen",
+						ExtentColor.CYAN));
+
+				nextGenBackgroundLocationAccess006.addScreenCaptureFromBase64String(takeScreenshot(driver),
+						"User successfully navigated to the landing screen");
+
+				/**
+				 * @Class_Name AppLaunchAndLandingScreen
+				 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+				 * @Case_Id nextGen_LandingScreen_001
+				 * @Description Verify that location permission popup should appears while
+				 *              launching the application.
+				 * @return FlutterElement
+				 * @author Prasanna Venkatesh KP
+				 */
+
+				try {
+
+					if (GoogleSheetExecution.isLocationEnabled.contains("false")) {
+
+						FlutterElement OkButton = find.byValueKey(
+								appLaunchAndLandingScreenLocators.LOCATIONSCREEN_LOCATIONPOPUP_YES_BUTTON_VKL);
+						commonMethods.checkAndClickTheElement(OkButton);
+
+						commonMethods.switchContext("NATIVE_APP");
+
+						try {
+							WebElement toggleButton = driver
+									.findElement(By.id("com.android.settings:id/switch_widget"));
+							boolean button = toggleButton.isEnabled();
+							Thread.sleep(2000);
+//							commonMethods.checkAndClickTheElement(toggleButton);
+							driver.navigate().back();
+							Thread.sleep(5000);
+							WebElement locationDenyIDL2 = driver
+									.findElement(By.id(appLaunchAndLandingScreenLocators.LOCATIONSCREEN_DENY_ID));
+							commonMethods.checkAndClickTheElement(locationDenyIDL2);
+
+						} catch (Exception e) {
+							WebElement toggleButton1 = driver.findElement(By.id("android:id/switch_widget"));
+							Thread.sleep(2000);
+//							commonMethods.checkAndClickTheElement(toggleButton1);
+							driver.navigate().back();
+							Thread.sleep(5000);
+							WebElement locationDenyIDL2 = driver
+									.findElement(By.id(appLaunchAndLandingScreenLocators.LOCATIONSCREEN_DENY_ID));
+							commonMethods.checkAndClickTheElement(locationDenyIDL2);
+
+						}
+
+					}
+
+					else {
+
+						commonMethods.switchContext("NATIVE_APP");
+						Thread.sleep(4000);
+						WebElement locationDenyIDL2 = driver
+								.findElement(By.id(appLaunchAndLandingScreenLocators.LOCATIONSCREEN_DENY_ID));
+						commonMethods.checkAndClickTheElement(locationDenyIDL2);
+					}
+				}
+
+				catch (Exception E) {
+
+					System.out.println("Location Permission Access is not Verified");
+
+				}
+
+				/* To print the status in the Extent Report */
+				ExtentTest nextGen_LandingScreen_001 = test.createNode("nextGen_LandingScreen_001");
+				nextGen_LandingScreen_001.info(MarkupHelper.createLabel(
+						"nextGen_LandingScreen_001 - Verified that device location permission popup is appears while launching the application",
+						ExtentColor.CYAN));
+
+				System.out.println(
+						"nextGen_LandingScreen_001 - Verified that device location permission popup is appears while launching the application");
+
+//			} 
+
+				/**
+				 * @Class_Name AppLaunchAndLandingScreen
+				 * @Method_Name nexGenAppLaunchLandingScreenConfigurationWithoutOrderNow
+				 * @Case_Id nextGenLandingScreen002
+				 * @Description Verify that location permission popup should appears while
+				 *              launching the application
+				 * @return FlutterElement
+				 * @author Ganeshkumarselvaraj
+				 */
+
+//				commonMethods.switchContext("NATIVE_APP");
+//				Thread.sleep(5000);
+//				WebElement locationDenyIDL = driver
+//						.findElement(By.id(appLaunchAndLandingScreenLocators.LOCATIONSCREEN_DENY_ID));
+//				commonMethods.checkAndClickTheElement(locationDenyIDL);
+//
+//				commonMethods.switchContext("FLUTTER");
+//
+//				/* To print the status in the Extent Report */
+//				ExtentTest nextGen_LandingScreen_002 = test.createNode("nextGen_LandingScreen_002");
+//				nextGen_LandingScreen_001.info(MarkupHelper.createLabel(
+//						"nextGen_LandingScreen_002 - Verified that location permission popup is appears while launching the application",
+//						ExtentColor.CYAN));
+
+				System.out.println(
+						"nextGen_LandingScreen_002 - Verified that location permission popup is appears while launching the application");
+
+				/**
+				 * @Class_Name AppLaunchAndLandingScreen
+				 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+				 * @Case_Id nextGen_LandingScreen_003
+				 * @Description Verify that notification permission popup should appears while
+				 *              launching the application.
+				 * @return FlutterElement
+				 * @author Prasanna Venkatesh KP
+				 */
+
+				try {
+
+					commonMethods.switchContext("FLUTTER");
+					Thread.sleep(4000);
+					FlutterElement LandingscreenPushNotificationYesVK = find
+							.byValueKey(appLaunchAndLandingScreenLocators.LANDINGSCREEN_PUSHNOTIFICATION_YES_VKL);
+					commonMethods.checkAndClickTheElement(LandingscreenPushNotificationYesVK);
+
+					commonMethods.switchContext("NATIVE_APP");
+					Thread.sleep(4000);
+					WebElement JKCafeText = driver.findElement(By.xpath("//*[@text='NGA JK Cafe']"));
+
+					boolean displayed = JKCafeText.isDisplayed();
+
+					if (displayed == true) {
+						Thread.sleep(6000);
+						commonMethods.switchContext("NATIVE_APP");
+
+						driver.navigate().back();
+
+						WebElement locationDenyIDL2 = driver
+								.findElement(By.id(appLaunchAndLandingScreenLocators.LOCATIONSCREEN_DENY_ID));
+						commonMethods.checkAndClickTheElement(locationDenyIDL2);
+					}
+
+				} catch (Exception e2) {
+					// TODO: handle exception
+
+					System.out.println("App navigate to the Landing Screen");
+				}
+
+				commonMethods.switchContext("FLUTTER");
+
+				/* To print the status in the Extent Report */
+				ExtentTest NG_Landingscreen_003 = test.createNode("NG_Landingscreen_003");
+				NG_Landingscreen_003.info(MarkupHelper.createLabel(
+						"nextGen_LandingScreen_003 - Verified the PushNotification Popup appeared successfully",
+						ExtentColor.CYAN));
+
+				/* To print the status in the console */
+				System.out.println(
+						"nextGen_LandingScreen_003 - Verified the PushNotification Popup appeared successfully");
+
+				/**
+				 * @Class_Name AppLaunchAndLandingScreen
+				 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+				 * @Case_Id nextGen_LandingScreen_004
+				 * @Description Ensure that the side drawer icon should be placed at the top-
+				 *              left corner of the screen.
+				 * @return FlutterElement
+				 * @author Prasanna Venkatesh KP
+				 */
+
+				// To check side drawer is Present in the landing screen and tapping the
+				// Hamburger to open the side drawer
+
+				try {
+
+					FlutterElement toOpenSidedrawer = find
+							.byValueKey(appLaunchAndLandingScreenLocators.LANDINGSCREEN_SIDEDRAWER_VKL);
+					commonMethods.checkAndClickTheElement(toOpenSidedrawer);
+
+					ExtentTest nextGenLandingScreen004 = test.createNode("nextGenLandingScreen004");
+					nextGenLandingScreen004.info(MarkupHelper.createLabel(
+							"nextGenLandingScreen004 - Verified that the side drawer icon is be placed at the top- left corner of the screen.",
+							ExtentColor.CYAN));
+					nextGenLandingScreen004.addScreenCaptureFromBase64String(takeScreenshot(driver));
+
+					/**
+					 * @Class_Name AppLaunchAndLandingScreen
+					 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+					 * @Case_Id nextGen_LandingScreen_005
+					 * @Description On tapping Sidedrawer, locators, SIGNUP Buttons App should show
+					 *              an alert Under development.
+					 * @return FlutterElement
+					 * @author Prasanna Venkatesh KP
+					 */
+
+					// To get the message appears in the popup and print the text.
+
+					FlutterElement landingscreenSidedrawerHome = find
+							.byValueKey(appLaunchAndLandingScreenLocators.LANDINGSCREEN_SIDEDRAWER_HOME_VKL);
+
+					commonMethods.checkAndClickTheElement(landingscreenSidedrawerHome);
+
+					ExtentTest nextGenLandingScreen005 = test.createNode("nextGenLandingScreen005");
+
+					nextGenLandingScreen005.info(MarkupHelper.createLabel(
+							"nextGenLandingScreen005 - Verified that the sidedrawer is opened when the user tapping the sidedrawer",
+							ExtentColor.CYAN));
+
+					/**
+					 * @Class_Name AppLaunchAndLandingScreen
+					 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+					 * @Case_Id nextGen_LandingScreen_006
+					 * @Description By tapping the sidedrawer button the sidedrawer should closed
+					 * @return FlutterElement
+					 * @author Prasanna Venkatesh KP
+					 */
+
+					// To dismiss the popup by tapping the Ok button.
+
+					ExtentTest nextGenLandingScreen006 = test.createNode("nextGenLandingScreen006");
+
+					nextGenLandingScreen006.info(MarkupHelper.createLabel(
+							"nextGenLandingScreen006 - Verified that the sidedrawer is closed", ExtentColor.CYAN));
+
+				} catch (Exception e1) {
+
+					ExtentTest nextGenLandingScreen006 = test.createNode("nextGenLandingScreen006");
+					nextGenLandingScreen006.info(MarkupHelper.createLabel(
+							"nextGenLandingScreen006 - Verified the Sidedrawer is Not configured in the landing screen",
+							ExtentColor.CYAN));
+
+				}
+
+				/**
+				 * @Class_Name AppLaunchAndLandingScreen
+				 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+				 * @Case_Id nextGen_LandingScreen_007
+				 * @Description Ensure that the slider image should placed at the top of the
+				 *              screen with configurable images.
+				 * @return FlutterElement
+				 * @author Prasanna Venkatesh KP
+				 */
+
+				// To Slide the image using the TouchAction
+				TouchAction touch = new TouchAction(driver);
+				touch.press(PointOption.point(275, 230)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)))
+						.moveTo(PointOption.point(50, 230)).release().perform();
+				Thread.sleep(2000);
+				touch.press(PointOption.point(275, 230)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)))
+						.moveTo(PointOption.point(50, 230)).release().perform();
+				Thread.sleep(2000);
+
+				touch.press(PointOption.point(275, 230)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)))
+						.moveTo(PointOption.point(50, 230)).release().perform();
+//			test.info(MediaEntityBuilder.createScreenCaptureFromBase64String(getBase64(),"After Swipping the Slider Image Screenshot").build());
+				Thread.sleep(2000);
+
+				touch.press(PointOption.point(50, 230)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)))
+						.moveTo(PointOption.point(275, 230)).release().perform();
+
+				touch.press(PointOption.point(50, 230)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(1)))
+						.moveTo(PointOption.point(275, 230)).release().perform();
+
+				commonMethods.switchContext("FLUTTER");
+
+				ExtentTest nextGenLandingScreen007 = test.createNode("nextGenLandingScreen007");
+				nextGenLandingScreen007.info(MarkupHelper.createLabel(
+						"nextGenLandingScreen007 - Verified the slider images is placed and successfully swiped the slider images",
+						ExtentColor.CYAN));
+
+				/**
+				 * @Class_Name AppLaunchAndLandingScreen
+				 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+				 * @Case_Id nextGen_LandingScreen_008
+				 * @Description Ensure that the Slider imges should be swipable and the View
+				 *              page indicator is placed below the slider image view and at the
+				 *              bottom and center of the slider image view.
+				 * @return FlutterElement
+				 * @author Prasanna Venkatesh KP
+				 */
+
+				// To check the pageindicator is placed in slider images.
+//			FlutterElement pageIndicator = find.byValueKey(appLaunchAndLandingScreenLocators.LANDINGSCREENPAGEINDICATOR);
+//			commonMethods.checkTheElementIsPresent(pageIndicator);
+
+				ExtentTest nextGenLandingScreen008 = test.createNode("nextGenLandingScreen008");
+				nextGenLandingScreen008.info(MarkupHelper.createLabel(
+						"nextGenLandingScreen008 - Verified the page indicator is displayed", ExtentColor.CYAN));
+				nextGenLandingScreen008.addScreenCaptureFromBase64String(takeScreenshot(driver));
+
+				/**
+				 * @Class_Name AppLaunchAndLandingScreen
+				 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+				 * @Case_Id nextGen_LandingScreen_009
+				 * @Description Ensure that the ORDER NOW button is displayed or not
+				 * @return FlutterElement
+				 * @author Prasanna Venkatesh KP
+				 */
+
+//			// To Check whether the order now element is present in the screen.
+				Thread.sleep(2000);
+				FlutterElement orderNowButton = find
+						.byValueKey(appLaunchAndLandingScreenLocators.LANDINGSCREEN_ORDERNOW_BUTTON_VKL);
+
+				if (orderNowConfiguration.equalsIgnoreCase("true")) {
+
+					ExtentTest nextGenLandingScreen009 = test.createNode("nextGenLandingScreen009");
+
+					nextGenLandingScreen009.fail(MarkupHelper.createLabel(
+							"nextGenLandingScreen009 - Verified the ORDER NOW button is configured in the landing screen",
+							ExtentColor.RED));
+					nextGenLandingScreen009.addScreenCaptureFromBase64String(takeScreenshot(driver),
+							"Verified the ORDER NOW button is configured in the landing screen");
+
+				} else {
+					ExtentTest nextGenLandingScreen009 = test.createNode("nextGenLandingScreen009");
+					nextGenLandingScreen009.info(MarkupHelper.createLabel(
+							"nextGenLandingScreen009 - Verified the ORDER NOW button is Not configured in the landing screen",
+							ExtentColor.CYAN));
+					nextGenLandingScreen009.addScreenCaptureFromBase64String(takeScreenshot(driver),
+							"Verified the ORDER NOW button is Not configured in the landing screen");
+
+				}
+
+				/**
+				 * @Class_Name AppLaunchAndLandingScreen
+				 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+				 * @Case_Id nextGen_LandingScreen_010
+				 * @Description Ensure that the login button is placed at the bottom of the
+				 *              ORDER NOW button.
+				 * @return FlutterElement
+				 * @author Prasanna Venkatesh KP
+				 */
+
+				// To Check whether the locators button is enabled or displayed in the screen
+//				FlutterElement loginButton = find.byValueKey(appLaunchAndLandingScreenLocators.LANDINGSCREEN_LOGIN_VKL);
+//				commonMethods.checkAndClickTheElement(loginButton);
+//
+//				ExtentTest nextGenLandingScreen010 = test.createNode("nextGenLandingScreen010");
+//
+//				nextGenLandingScreen010.info(MarkupHelper.createLabel(
+//						"nextGenLandingScreen010 - Verified the login Button is displayed in the landing screen.",
+//						ExtentColor.CYAN));
+//
+//				nextGenLandingScreen010.addScreenCaptureFromBase64String(takeScreenshot(driver),
+//						"Successfully tapped the login button");
+
+				/**
+				 * @Class_Name AppLaunchAndLandingScreen
+				 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+				 * @Case_Id nextGen_LandingScreen_011
+				 * @Description On tapping the login button, User should navigates to the login
+				 *              screen.
+				 * @return FlutterElement
+				 * @author Prasanna Venkatesh KP
+				 */
+
+				// To get the message appears in the popup and print the text.
+//			FlutterElement loginScreen_HeaderText = find
+//					.byValueKey(appLaunchAndLandingScreenLocators.LOGINSCREEN_HEADERTEXT_TEXTL);
+//			commonMethods.toGetTheTextOfTheElement(loginScreen_HeaderText);
+
+				ExtentTest nextGenLandingScreen011 = test.createNode("nextGenLandingScreen011");
+
+				nextGenLandingScreen011.info(MarkupHelper.createLabel(
+						"nextGenLandingScreen011 - Verified that on tapping login Buttons App should navigates to the login screen.",
+						ExtentColor.CYAN));
+				nextGenLandingScreen011.addScreenCaptureFromBase64String(takeScreenshot(driver),
+						"Verified successfully navigated to the signup screen");
+
+				/**
+				 * @Class_Name APPLaunchAndLandingScreen
+				 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+				 * @Case_Id nextGen_LandingScreen_012
+				 * @Description By tapping backicon in the login screen app should navigates to
+				 *              the landing screen.
+				 * @return FlutterElement
+				 * @author Prasanna Venkatesh KP
+				 */
+
+				// To dismiss the popup by tapping the Ok button.
+
+//				FlutterElement loginScreenBackIcon = find
+//						.byValueKey(appLaunchAndLandingScreenLocators.LOGINSCREEN_BACKNAVIGATION_BUTTON_XPL);
+//				commonMethods.checkAndClickTheElement(loginScreenBackIcon);
+//
+//				ExtentTest nextGenLandingScreen012 = test.createNode("nextGenLandingScreen012");
+//
+//				nextGenLandingScreen012.info(MarkupHelper.createLabel(
+//						"nextGenLandingScreen012 - Verified that tapping the backicon in the login screen app navigates to the landing screen.",
+//						ExtentColor.CYAN));
+
+				/**
+				 * @Class_Name AppLaunchAndLandingScreen
+				 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+				 * @Case_Id nextGen_LandingScreen_013
+				 * @Description Ensure that the SIGNUP button is placed at the bottom of the
+				 *              Sign in button and bottom of the screen
+				 * @return FlutterElement
+				 * @author Prasanna Venkatesh KP
+				 */
+
+				// To Check whether the signup button is enabled or displayed in the screen
+//			FlutterElement signUpButton = find
+//					.byValueKey(appLaunchAndLandingScreenLocators.LANDINGSCREEN_SIGNUPBUTTON_VKL);
+//			commonMethods.checkAndClickTheElement(signUpButton);
+//
+				ExtentTest nextGenLandingScreen013 = test.createNode("nextGenLandingScreen013");
+				nextGenLandingScreen013.info(MarkupHelper.createLabel(
+						"nextGenLandingScreen013 - Verified the SignUp Button is displayed in the landing screen.",
+						ExtentColor.CYAN));
+				nextGenLandingScreen013.addScreenCaptureFromBase64String(takeScreenshot(driver));
+
+				/**
+				 * @Class_Name AppLaunchAndLandingScreen
+				 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+				 * @Case_Id nextGen_LandingScreen_014
+				 * @Description On tapping SIGNUP Buttons App should navigates to the signup
+				 *              screen.
+				 * @return FlutterElement
+				 * @author Prasanna Venkatesh KP
+				 */
+
+				// To get the message appears in the popup and print the text.
+//			FlutterElement signupScreenHeaderText = find
+//					.byText(appLaunchAndLandingScreenLocators.SIGNUPSCREEN_HEADERTEXT_VKL);
+//			commonMethods.toGetTheTextOfTheElement(signupScreenHeaderText);
+
+//			 To Check whether the signup button is enabled or displayed in the screen
+//				FlutterElement signUpButton = find
+//						.byValueKey(appLaunchAndLandingScreenLocators.LANDINGSCREEN_SIGNUPBUTTON_VKL);
+//				commonMethods.checkAndClickTheElement(signUpButton);
+//
+//				ExtentTest nextGenLandingScreen014 = test.createNode("nextGenLandingScreen014");
+//				nextGenLandingScreen014.info(MarkupHelper.createLabel(
+//						"nextGenLandingScreen014 - Verified that on tapping signup Buttons App should navigates to the signup screen.",
+//						ExtentColor.CYAN));
+//				nextGenLandingScreen014.addScreenCaptureFromBase64String(takeScreenshot(driver),
+//						"Successfully tapped the signup button");
+
+				/**
+				 * @Class_Name AppLaunchAndLandingScreen
+				 * @Method_Name nexGen_AppLaunch_LandingScreen_Configuration_Without_OrderNow
+				 * @Case_Id nextGen_LandingScreen_015
+				 * @Description By tapping backicon in the signup screen app should navigates to
+				 *              the landing screen.
+				 * @return FlutterElement
+				 * @author Prasanna Venkatesh KP
+				 */
+
+				// To dismiss the popup by tapping the Ok button.
+//
+//				FlutterElement signupScreenBackIcon = find
+//						.byValueKey(appLaunchAndLandingScreenLocators.SIGNUPSCREEN_BACKNAVIGATION_BUTTON_VKL);
+//				commonMethods.checkAndClickTheElement(signupScreenBackIcon);
+//
+//				ExtentTest nextGenLandingScreen015 = test.createNode("nextGenLandingScreen015");
+//
+//				nextGenLandingScreen015.info(MarkupHelper.createLabel(
+//						"nextGenLandingScreen015 - Verified that tapping the backicon in the signup screen app should navigates to the landing screen.",
+//						ExtentColor.CYAN));
+//
+//				nextGenLandingScreen014.addScreenCaptureFromBase64String(takeScreenshot(driver));
+//
+//				test.log(Status.PASS, nameofCurrMethod + "- Passed");
+			}
+		} catch (Exception e2) {
+			String nameofCurrMethod1 = new Object() {
+			}.getClass().getEnclosingMethod().getName();
+			Throwable t = new Exception(e2);
+			test = extent.createTest(nameofCurrMethod1).assignAuthor(author).assignDevice(deviceName)
+					.assignCategory("SignIn");
+			test.info(MarkupHelper.createLabel(nameofCurrMethod1, ExtentColor.RED));
+			test.fail(MediaEntityBuilder.createScreenCaptureFromBase64String(takeScreenshot(driver)).build());
+			test.fail(t).addScreenCaptureFromBase64String(takeScreenshot(driver));
+
+		}
+	}
+
+	private static LocationManager getSystemService(String locationService) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

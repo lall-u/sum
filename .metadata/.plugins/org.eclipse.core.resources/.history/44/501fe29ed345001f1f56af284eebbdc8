@@ -1,0 +1,707 @@
+package com.features;
+
+import java.net.URL;
+import java.time.Duration;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ThreadGuard;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.base.BaseClass;
+import com.base.CommonMethods;
+import com.locators.AppLaunchAndLandingScreenLocators;
+import com.locators.AppRatingLocators;
+import com.locators.BottomBarNavigationLocator;
+import com.locators.DashBoardLocators;
+import com.locators.LocationLocators;
+import com.locators.MyAccountLocators;
+import com.locators.OLOLocators;
+import com.locators.OrderNowLocators;
+import com.locators.SideDrawerLocators;
+import com.locators.SignInLocators;
+import com.locators.TransactionHistoryLocators;
+
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.IOSTouchAction;
+import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
+import io.github.ashwith.flutter.FlutterElement;
+import io.github.ashwith.flutter.FlutterFinder;
+import io.restassured.response.Response;
+import io.restassured.specification.RequestSpecification;
+
+public class OrderNowGuest extends BaseClass {
+
+	static SignInLocators signInLocator = new SignInLocators();
+	static CommonMethods commonMethods = new CommonMethods();
+	static LocationLocators locationLocators = new LocationLocators();
+	static DashBoardLocators dashBoardLocators = new DashBoardLocators();
+	static SideDrawerLocators sideDrawerLocators = new SideDrawerLocators();
+	static OrderNowLocators orderNowLocators = new OrderNowLocators();
+	static BottomBarNavigationLocator bottomBarNavigationLocators = new BottomBarNavigationLocator();
+
+	static AppRatingLocators appRating = new AppRatingLocators();
+	static SignInLocators signInLocators = new SignInLocators();
+	static AppLaunchAndLandingScreenLocators appLaunchAndLandingScreenLocators = new AppLaunchAndLandingScreenLocators();
+	static MyAccountLocators myAccountLocators = new MyAccountLocators();
+	public static String isLocationEnabled = "true";
+	static TransactionHistoryLocators transactionHistoryLocators = new TransactionHistoryLocators();
+	static OLOLocators oloLocators = new OLOLocators();
+
+	final static ArrayList<JSONObject> jList = new ArrayList<>();
+
+	public static String componentList;
+	public static String accessTokenGen;
+	public static String printedCardNumberResponse;
+	public static String firstnameResponse;
+	public static String lastnameResponse;
+	public static String salutationResponse;
+	public static String welcomeResponse;
+	public static String welcomeResponseDefault;
+	public static String usernameResponse;
+	public static StringBuilder welcomeString;
+	public static StringBuilder welcomeDefault;
+	public static StringBuilder pointTrackHead;
+	public static StringBuilder actualSubHeader;
+	public static StringBuilder responseHeader;
+	public static StringBuilder actualHeader;
+	public static String availableHeader;
+	public static String availableViewall;
+	public static StringBuilder actualWelcome;
+	public static String pointTrackerHeader;
+	public static String pointTrackerSubHeader;
+	public static int walletMaximum;
+	public static String pointBalance1;
+	public static String finalPointValue;
+	public static JSONArray resultArray;
+	public static String pullMessageResponse;
+	public static String pullMessageHeaderResponse;
+	public static String barcodeAlttextResponse;
+	public static String barcodeHeaderResponse;
+	public static String scannableLoyaltyCardHeaderText;
+	public static String mobilephoneResponse;
+	public static String codeSourceResponse;
+	public static String primaryCardNumbersResponse;
+	public static String phoneNumberResponse;
+	public static StringBuilder barcodeHeaderString;
+	public static String pointTrackerHeaderAltResponse;
+	public static String codeTypeResponse;
+	public static String dateResponse;
+	public static String messageDescriptionResponse;
+	public static String formattedDate;
+	public static String expirationTimeResponse;
+	public static String shortCardNumberResponse;
+	public static String storeCodeResponse;
+	public static String storeNameResponse;
+	public static String corpExpirationTimeResponse;
+	public static String corpShortCardNumberResponse;
+	public static String corpStoreCodeResponse;
+	public static String corpStoreNameResponse;
+	public static String contentValue;
+
+	public static int walletCode;
+	public static int walletCdn;
+	public static JSONArray perksCdn;
+	public static String cardTemplateCdn;
+	public static String tierCdn;
+	public static JSONArray perks;
+	public static String cardTemplate;
+	public static String tier;
+	public static String activeDate;
+	public static String expiryDate;
+	public static String favoriteStore;
+	public static String storeGroup;
+	public static String imageUrl1;
+	public static String imageAltText;
+	public static Response cdnResponse;
+
+	public static WebElement imagecomponent;
+
+	public static String preCheckInAltTextResponse;
+	public static String preCheckInTextResponse;
+	public static String postCheckInTextResponse;
+	public static String codeTypeCheckInResponse;
+	public static String codeSourceCheckInResponse;
+	public static StringBuilder preCheckInTextString;
+	public static StringBuilder postCheckInTextString;
+	public static String checkInStoreNameResponse;
+	public static String checkInStoreCodeResponse;
+	public static String availableRewardsHeader;
+	public static String availableRewardsViewAll;
+	public static String availableRewardsAltText;
+	public static StringBuilder availableRewardsViewAllString;
+	public static StringBuilder availableRewardsHeaderString;
+
+	public static String storeShortCode;
+	public static String userName;
+	public static String passWord;
+	public static String merchantId;
+	public static String cardTemplateCode;
+	public static String storeGroupCode;
+	public static String clientId;
+	public static String integrationDetail;
+	static String storeCode;
+	static String authorizationGrant;
+	static String merchantid;
+	static String key = "6d6bf06a4f653a54da8d88715a736a4ca6071ffb";
+	static String provider = "px";
+	static String recentlyOrderedName;
+
+	static String canDeliverResponse;
+	static String locatedResponse;
+	static String canDeliverResponse1;
+	static String locatedResponse1;
+
+	static int savedAddressLength;
+	static int savedAddressLengthUpdated;
+
+	static String authentication = "oauth";
+
+	static String[] welcomeConfig = { "{salutation}", "{firstName}", "{lastName}", "{username}" };
+
+	static String thirdPartyIntegration = "lJI1mRVajw4FmFrNqOxEqFU_3QpH2HwpBSdpnt1m97";
+
+	static String response_type = "code";
+
+	static String scope = "user_read user_write account_read account_write";
+
+	static String corpStoreCode;
+
+	static String authentication1 = "anonymous";
+
+	static String integrationDetail1 = "os=iOS%7Cosversion=16.6%7Cdevice=iPhone%7CmerchantId=60019%7Cintegrator=Paytronix%7Cversion=REST:14.15%20-%20API:23.21.20231010%20-%20APP:2023101001";
+
+	@Test
+
+	public static void nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest() throws Throwable {
+
+////		DesiredCapabilities caps = new DesiredCapabilities();
+////		caps.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone X NGA");
+////		caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
+////		caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "15.7.1");
+////		caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Flutter");
+//////		caps.setCapability(MobileCapabilityType.APP, "/Users/hoffensoft/Desktop/next_gen_app.ipa");
+////		caps.setCapability("bundleId", "com.paytronix.nexgenfl");
+////		caps.setCapability(MobileCapabilityType.UDID, "E586789F-AC24-4473-83E2-1B23CBDF4781");
+////		caps.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "300");
+////
+////		driver = new IOSDriver<WebElement>(new URL("http://0.0.0.0:4723/wd/hub"), caps);
+//
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		// To initiate the test to be print
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Ganeshkumar").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bass = new BaseClass();
+		List<String> takeoutFlowConfiguration = bass.odFlow();
+
+		String bottomBar = takeoutFlowConfiguration.get(20);
+		String sideDrawer = takeoutFlowConfiguration.get(21);
+
+		Thread.sleep(6000);
+
+		/**
+		 * @Class_Name Location
+		 * @Method_Name nextGenOrderNowFlowWithLocationOffLoggedIn
+		 * @Description Ensure that ordernow is configured in the bottombar or side
+		 *              drawer.
+		 * @TestID nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_001
+		 * @author Ganeshkumarselvaraj
+		 */
+
+		ExtentTest nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_003 = test
+				.createNode("nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_003");
+
+		if (bottomBar.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowGuest.ngaOrderNowLoggedInTakeoutAsapBottomBarConfiguredGuest();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via buttom bar is not configured.");
+
+			nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_003 - Verified that ordernow via buttom bar is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		if (sideDrawer.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowGuest.ngaOrderNowLoggedInTakeoutAsapSideDrawerConfiguredGuest();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via side drawer is not configured.");
+
+			nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_003 - Verified that ordernow via side drawer is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+		CommonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(3000);
+
+		WebElement homeButtonXpath = driver.findElement(By.xpath("//*[contains(@name,'creen')]"));
+		homeButtonXpath.click();
+	}
+
+	@Test
+
+	public static void nextGenOrderNowFlowWithCurbsideAsapConfiguredGuest() throws Exception {
+
+		DesiredCapabilities caps = new DesiredCapabilities();
+		caps.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone X NGA");
+		caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
+		caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "15.7.1");
+		caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Flutter");
+//		caps.setCapability(MobileCapabilityType.APP, "/Users/hoffensoft/Desktop/next_gen_app.ipa");
+		caps.setCapability("bundleId", "com.paytronix.nexgenfl");
+		caps.setCapability(MobileCapabilityType.UDID, "E586789F-AC24-4473-83E2-1B23CBDF4781");
+		caps.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "300");
+
+		driver = new IOSDriver<WebElement>(new URL("http://0.0.0.0:4723/wd/hub"), caps);                 
+
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		// To initiate the test to be print
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Ganeshkumar").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bass = new BaseClass();
+		List<String> curbsideFlowConfiguration = bass.odFlow();
+		String bottomBar = curbsideFlowConfiguration.get(24);
+		String sideDrawer = curbsideFlowConfiguration.get(25);
+
+		Thread.sleep(6000);
+
+		/**
+		 * @Class_Name Location
+		 * @Method_Name nextGenOrderNowFlowWithLocationOffLoggedIn
+		 * @Description Ensure that ordernow is configured in the bottombar or side
+		 *              drawer.
+		 * @TestID nextGenOrderNowFlowWithCurbsideAsapConfiguredGuest_001
+		 * @author Ganeshkumarselvaraj
+		 */
+
+		ExtentTest nextGenOrderNowFlowWithCurbsideAsapConfiguredGuest_003 = test
+				.createNode("nextGenOrderNowFlowWithCurbsideAsapConfiguredGuest_003");
+
+		if (bottomBar.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowGuest.ngaOrderNowLoggedInCurbsideAsapBottomBarConfiguredGuest();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via buttom bar is not configured.");
+
+			nextGenOrderNowFlowWithCurbsideAsapConfiguredGuest_003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithCurbsideAsapConfiguredGuest_003 - Verified that ordernow via buttom bar is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		if (sideDrawer.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowGuest.ngaOrderNowLoggedInCurbsideAsapSideDrawerConfiguredGuest();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via buttom bar is not configured.");
+
+			nextGenOrderNowFlowWithCurbsideAsapConfiguredGuest_003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithCurbsideAsapConfiguredGuest_003 - Verified that ordernow via side drawer is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		CommonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(3000);
+
+		WebElement homeButtonXpath = driver.findElement(By.xpath("//*[contains(@name,'Landing Screen')]"));
+		homeButtonXpath.click();
+
+	}
+
+	@Test
+
+	public void nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest() throws Exception {
+
+		DesiredCapabilities caps = new DesiredCapabilities();
+		caps.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone X NGA");
+		caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
+		caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "15.7.1");
+		caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Flutter");
+//		caps.setCapability(MobileCapabilityType.APP, "/Users/hoffensoft/Desktop/next_gen_app.ipa");
+		caps.setCapability("bundleId", "com.paytronix.nexgenfl");
+		caps.setCapability(MobileCapabilityType.UDID, "E586789F-AC24-4473-83E2-1B23CBDF4781");
+		caps.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "300");
+
+		driver = new IOSDriver<WebElement>(new URL("http://0.0.0.0:4723/wd/hub"), caps);
+
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		// To initiate the test to be print
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Ganeshkumar").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bass = new BaseClass();
+		List<String> takeoutFlowConfiguration = bass.odFlow();
+
+		String bottomBar = takeoutFlowConfiguration.get(22);
+		String sideDrawer = takeoutFlowConfiguration.get(23);
+
+		Thread.sleep(6000);
+
+		/**
+		 * @Class_Name Location
+		 * @Method_Name nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest
+		 * @Description Ensure that ordernow is configured in the bottombar or side
+		 *              drawer.
+		 * @TestID nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest001
+		 * @author Ganeshkumarselvaraj
+		 */
+
+		ExtentTest nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest003 = test
+				.createNode("nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest003");
+
+		if (bottomBar.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowGuest.ngaOrderNowLoggedInTakeoutLaterBottomBarConfiguredGuest();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via buttom bar is not configured.");
+
+			nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest003 - Verified that ordernow via buttom bar is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		if (sideDrawer.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowGuest.ngaOrderNowLoggedInTakeoutLaterSideDrawerConfiguredGuest();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via buttom bar is not configured.");
+
+			nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithTakeoutLaterConfiguredGuest003 - Verified that ordernow via side drawer is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		CommonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(3000);
+
+		WebElement homeButtonXpath = driver.findElement(By.xpath("//*[contains(@name,'creen')]"));
+		homeButtonXpath.click();
+
+	}
+
+	@Test
+
+	public void nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest() throws Throwable {
+
+		DesiredCapabilities caps = new DesiredCapabilities();
+		caps.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone X NGA");
+		caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
+		caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "15.7.1");
+		caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Flutter");
+//		caps.setCapability(MobileCapabilityType.APP, "/Users/hoffensoft/Desktop/next_gen_app.ipa");
+		caps.setCapability("bundleId", "com.paytronix.nexgenfl");
+		caps.setCapability(MobileCapabilityType.UDID, "E586789F-AC24-4473-83E2-1B23CBDF4781");
+		caps.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "300");
+
+		driver = new IOSDriver<WebElement>(new URL("http://0.0.0.0:4723/wd/hub"), caps);
+
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		// To initiate the test to be print
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Ganeshkumar").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bass = new BaseClass();
+		List<String> curbsideFlowConfiguration = bass.odFlow();
+		String bottomBar = curbsideFlowConfiguration.get(26);
+		String sideDrawer = curbsideFlowConfiguration.get(27);
+
+		Thread.sleep(6000);
+
+		/**
+		 * @Class_Name Location
+		 * @Method_Name nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest
+		 * @Description Ensure that ordernow is configured in the bottombar or side
+		 *              drawer.
+		 * @TestID nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest001
+		 * @author Ganeshkumarselvaraj
+		 */
+
+		ExtentTest nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest003 = test
+				.createNode("nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest003");
+
+		if (bottomBar.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowGuest.ngaOrderNowLoggedInCurbsideLaterBottomBarConfiguredGuest();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via buttom bar is not configured.");
+
+			nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest003 - Verified that ordernow via buttom bar is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		if (sideDrawer.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowGuest.ngaOrderNowLoggedInCurbsideLaterSideDrawerConfiguredGuest();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via buttom bar is not configured.");
+
+			nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithCurbsideLaterConfiguredGuest003 - Verified that ordernow via side drawer is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		CommonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(6000);
+
+		WebElement homeButtonXpath = driver.findElement(By.xpath("//*[contains(@name,'Landing Screen')]"));
+		homeButtonXpath.click();
+
+	}
+
+	@Test
+
+	public static void nextGenOrderNowFlowWithDeliveryAsapConfiguredGuest() throws Throwable {
+
+		DesiredCapabilities caps = new DesiredCapabilities();
+		caps.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone X NGA");
+		caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
+		caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "15.7.1");
+		caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Flutter");
+//		caps.setCapability(MobileCapabilityType.APP, "/Users/hoffensoft/Desktop/next_gen_app.ipa");
+		caps.setCapability("bundleId", "com.paytronix.nexgenfl");
+		caps.setCapability(MobileCapabilityType.UDID, "E586789F-AC24-4473-83E2-1B23CBDF4781");
+		caps.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "300");
+
+		driver = new IOSDriver<WebElement>(new URL("http://0.0.0.0:4723/wd/hub"), caps);
+
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		// To initiate the test to be print
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Ganeshkumar").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bc = new BaseClass();
+		List<String> deliveryFlowConfiguration = bc.odFlow();
+
+		String bottomBar = deliveryFlowConfiguration.get(28);
+		String sideDrawer = deliveryFlowConfiguration.get(29);
+
+		Thread.sleep(6000);
+
+		/**
+		 * @Class_Name Location
+		 * @Method_Name nextGenOrderNowFlowWithLocationOffLoggedIn
+		 * @Description Ensure that ordernow is configured in the bottombar or side
+		 *              drawer.
+		 * @TestID nextGenOrderNowFlowWithDeliveryAsapConfiguredGuest_001
+		 * @author Ganeshkumarselvaraj
+		 */
+
+		// Initiating the node to be print in the Extent report.
+
+		ExtentTest nextGenOrderNowFlowWithDeliveryAsapConfiguredGuest_003 = test
+				.createNode("nextGenOrderNowFlowWithDeliveryAsapConfiguredGuest_003");
+
+		if (bottomBar.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowGuest.ngaOrderNowLoggedInDeliveryAsapBottomBarConfiguredGuest();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via buttom bar is not configured.");
+
+			nextGenOrderNowFlowWithDeliveryAsapConfiguredGuest_003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithDeliveryAsapConfiguredGuest_003 - Verified that ordernow via buttom bar is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		if (sideDrawer.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowGuest.ngaOrderNowLoggedInDeliveryAsapSideDrawerConfiguredGuest();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via buttom bar is not configured.");
+
+			nextGenOrderNowFlowWithDeliveryAsapConfiguredGuest_003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithDeliveryAsapConfiguredGuest_003 - Verified that ordernow via side drawer is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+		CommonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(3000);
+
+		WebElement homeButtonXpath = driver.findElement(By.xpath("//*[contains(@name,'Landing Screen')]"));
+		homeButtonXpath.click();
+	}
+
+	@Test
+
+	public void nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest() throws Throwable {
+
+		DesiredCapabilities caps = new DesiredCapabilities();
+		caps.setCapability(MobileCapabilityType.DEVICE_NAME, "iPhone X NGA");
+		caps.setCapability(MobileCapabilityType.PLATFORM_NAME, "iOS");
+		caps.setCapability(MobileCapabilityType.PLATFORM_VERSION, "15.7.1");
+		caps.setCapability(MobileCapabilityType.AUTOMATION_NAME, "Flutter");
+//		caps.setCapability(MobileCapabilityType.APP, "/Users/hoffensoft/Desktop/next_gen_app.ipa");
+		caps.setCapability("bundleId", "com.paytronix.nexgenfl");
+		caps.setCapability(MobileCapabilityType.UDID, "E586789F-AC24-4473-83E2-1B23CBDF4781");
+		caps.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT, "300");
+
+		driver = new IOSDriver<WebElement>(new URL("http://0.0.0.0:4723/wd/hub"), caps);
+
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		// To initiate the test to be print
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Ganeshkumar").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bass = new BaseClass();
+		List<String> deliveryFlowConfig = bass.odFlow();
+
+		String bottomBar = deliveryFlowConfig.get(30);
+		String sideDrawer = deliveryFlowConfig.get(31);
+
+		Thread.sleep(6000);
+
+		/**
+		 * @Class_Name Location
+		 * @Method_Name nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest
+		 * @Description Ensure that ordernow is configured in the bottombar or side
+		 *              drawer.
+		 * @TestID nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest001
+		 * @author Ganeshkumarselvaraj
+		 */
+
+		// Initiating the node to be print in the Extent report.
+
+		ExtentTest nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest003 = test
+				.createNode("nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest003");
+
+		// To get the dashboard title text
+
+		if (bottomBar.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowGuest.ngaOrderNowLoggedInDeliveryLaterBottomBarConfiguredGuest();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via buttom bar is not configured.");
+
+			nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest003 - Verified that ordernow via buttom bar is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		if (sideDrawer.equalsIgnoreCase("Yes")) {
+
+			NGAOrderNowGuest.ngaOrderNowLoggedInDeliveryLaterSideDrawerConfiguredGuest();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via buttom bar is not configured.");
+
+			nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest003.info(MarkupHelper.createLabel(
+					"nextGenOrderNowFlowWithDeliveryLaterConfiguredGuest003 - Verified that ordernow via side drawer is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		CommonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(3000);
+
+		WebElement homeButtonXpath = driver.findElement(By.xpath("//*[contains(@name,'Landing Screen')]"));
+		homeButtonXpath.click();
+
+	}
+
+}

@@ -1,0 +1,22 @@
+//
+// Copyright 2012 Paytronix Systems, Inc.
+// All Rights Reserved
+// PAYTRONIX CONFIDENTIAL
+//
+
+package com.exceptions;
+
+public class PxException extends Exception {
+    private static final long serialVersionUID = 6459560879064687977L;
+    
+    private String response;
+    
+    public PxException(String message, String response) {
+        super(message);
+        this.response = response;
+    }
+    
+    public String getResponse() {
+        return response;
+    }
+}

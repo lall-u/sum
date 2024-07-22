@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item key="wrap" value="false"/>
+		<item key="casesensitive" value="false"/>
+		<item key="wholeword" value="false"/>
+		<item key="incremental" value="false"/>
+		<item key="isRegEx" value="false"/>
+		<item key="selection" value="&#x0A;&#x0A;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;&#x09;System.out.p"/>
+		<list key="findhistory">
+			<item value="// TODO: handle exception"/>
+			<item value="TODO: handle exception"/>
+			<item value="ORDER_DETAILS_SCREEN_CURBSIDE_INFO_TEXT&#x0A;&#x0A;&#x0A;&#x0A;&#x0A;&#x0A;&#x0A;"/>
+			<item value="getSecondField"/>
+			<item value="nextGenCheckout"/>
+			<item value="GaneshKumarSelvaraj"/>
+			<item value="Prasanna Venkatesh KP"/>
+			<item value="Ganeshkumarselvaraj"/>
+			<item value="CapacityManagement.ngaCapacityManagement();"/>
+			<item value="CapacityManagement.ngaCapacityManagement"/>
+			<item value="GuestIn user"/>
+			<item value="classes"/>
+			<item value="CLASSES"/>
+			<item value="content-desc"/>
+			<item value="nextGenOrderNowFlowWithDeliveryLaterConfigured003"/>
+		</list>
+		<list key="replacehistory">
+			<item value=""/>
+			<item value="nextGenReOrder"/>
+			<item value="GaneshKumarSelvaraj &amp; Lalith Kishore Ravi"/>
+			<item value="Prasanna Venkatesh KP &amp; Lalith Kishore Ravi"/>
+			<item value="Ganeshkumarselvaraj &amp; Lalith Kishore Ravi"/>
+			<item value="GaneshKumarSelvaraj &amp; Lalith Kishore ravi"/>
+			<item value="Prasanna Venkatesh KP &amp; Lalith Kishore ravi"/>
+			<item value="Lalith Kishore Ravi"/>
+			<item value="nextGenLocationListFlowWithDeliveryLaterConfigured003"/>
+			<item value="name"/>
+			<item value="nextGenAddressGuest"/>
+			<item value="favStoreCode"/>
+			<item value="recentlyOrderedStoreCode"/>
+			<item value="favStoreName"/>
+			<item value="CommonMethods.switchContext(&quot;FLUTTER&quot;);"/>
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="914"/>
+		<item key="DIALOG_Y_ORIGIN" value="493"/>
+		<item key="DIALOG_WIDTH" value="336"/>
+		<item key="DIALOG_HEIGHT" value="358"/>
+		<item key="DIALOG_FONT_NAME" value="1|.AppleSystemUIFont|11.0|0|COCOA|1|.AppleSystemUIFont"/>
+	</section>
+	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">
+		<item key="DIALOG_X_ORIGIN" value="457"/>
+		<item key="DIALOG_Y_ORIGIN" value="323"/>
+	</section>
+</section>

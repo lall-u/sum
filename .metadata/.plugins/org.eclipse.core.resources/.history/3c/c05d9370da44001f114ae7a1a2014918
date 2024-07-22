@@ -1,0 +1,29 @@
+package com.features;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
+
+import org.apache.poi.EncryptedDocumentException;
+import org.testng.annotations.Test;
+
+import io.restassured.response.Response;
+
+public class Launch {
+	
+	
+	@Test
+	private void launch() throws EncryptedDocumentException, IOException, GeneralSecurityException {
+		
+		String merchantSelection = MerchantSelection.merchantSelection();
+		
+		double parseDouble = Double.parseDouble(merchantSelection);
+		
+		MerchantSelection.excelReader(parseDouble);
+				
+		Response requestGuestToken = APIMethods.requestGuestToken();
+		
+		System.out.println(requestGuestToken.asPrettyString());
+
+	}
+
+}

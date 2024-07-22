@@ -1,0 +1,111 @@
+package com.features;
+
+import java.util.Scanner;
+
+import org.testng.annotations.Test;
+
+import com.base.BaseClass;
+
+import org.apache.poi.EncryptedDocumentException;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+public class MerchantSelection extends BaseClass {
+
+	@Test
+	public static String merchantSelection() {
+
+		Scanner scanner = new Scanner(System.in);
+
+		String input;
+
+		do {
+			System.out.print("Enter the merchant id you want to execute : ");
+
+			input = scanner.nextLine();
+
+			System.out.print("You have entered the merchant id : " + input + ". Confirm? (yes/no): ");
+
+			String confirmation = scanner.nextLine().toLowerCase();
+
+			if (confirmation.equals("yes")) {
+
+				System.out.println("Executing script for the merchant id : " + input);
+
+				break;
+
+			} else if (confirmation.equals("no")) {
+
+				System.out.print("Do you want to edit the merchant id? (yes/no): ");
+
+				String editOption = scanner.nextLine().toLowerCase();
+
+				if (editOption.equals("yes")) {
+
+					continue;
+
+				} else if (editOption.equals("no")) {
+
+					System.out.println("It seems you don't want to execute the script now.");
+
+					break;
+
+				} else {
+
+					System.out.println("Invalid response. Please enter 'yes' or 'no'.");
+				}
+
+			} else {
+
+				System.out.println("Invalid response. Please enter 'yes' or 'no'.");
+			}
+
+		} while (true);
+
+		scanner.close();
+
+		return input;
+	}
+
+	public static void excelReader(String input) throws EncryptedDocumentException, IOException {
+
+		String filePath = "./ConfigurationFiles/ExternalDatas.xlsx";
+		String sheetName = "Merchant_Config";
+
+	      // Load the Excel file
+	    FileInputStream file = new FileInputStream(filePath);
+        Workbook workbook = new XSSFWorkbook(file);
+        Sheet sheet = workbook.getSheet(sheetName);
+
+        // Iterating over rows and columns
+        for (Row row : sheet) {
+            for (Cell cell : row) {
+                switch (cell.getCellType()) {
+                    case STRING:
+                        System.out.print(cell.getStringCellValue() + "\t");
+                        break;
+                    case NUMERIC:
+                        System.out.print(cell.getNumericCellValue() + "\t");
+                        break;
+                    case BOOLEAN:
+                        System.out.print(cell.getBooleanCellValue() + "\t");
+                        break;
+                    case BLANK:
+                        System.out.print("[BLANK]\t");
+                        break;
+                    default:
+                        System.out.print("[UNKNOWN]\t");
+                }
+            }
+            System.out.println(); // Move to the next line after each row
+        }
+
+        workbook.close();
+        file.close();
+	}
+
+}

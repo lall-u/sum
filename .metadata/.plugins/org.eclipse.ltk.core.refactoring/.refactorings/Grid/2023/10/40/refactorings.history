@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;Grid_Data.xlsx&apos; to &apos;ConfigurationFiles&apos;&#x0A;- Original project: &apos;Grid&apos;&#x0A;- Destination element: &apos;ConfigurationFiles&apos;&#x0A;- Original element: &apos;Grid_Data.xlsx&apos;" description="Copy file" element1="ConfigurationFiles/Grid_Data.xlsx" files="1" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1696424062042" target="/Grid_Sel/ConfigurationFiles" units="0" version="1.0"/>
+</session>

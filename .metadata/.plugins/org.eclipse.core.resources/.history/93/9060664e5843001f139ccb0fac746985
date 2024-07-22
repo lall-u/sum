@@ -1,0 +1,460 @@
+package com.features;
+
+import java.net.URL;
+import java.time.Duration;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.base.BaseClass;
+import com.base.CommonMethods;
+import com.locators.AppLaunchAndLandingScreenLocators;
+import com.locators.AppRatingLocators;
+import com.locators.BottomBarNavigationLocator;
+import com.locators.DashBoardLocators;
+import com.locators.LocationLocators;
+import com.locators.MyAccountLocators;
+import com.locators.OLOLocators;
+import com.locators.OrderNowLocators;
+import com.locators.SideDrawerLocators;
+import com.locators.SignInLocators;
+import com.locators.TransactionHistoryLocators;
+
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
+
+import io.appium.java_client.remote.MobileCapabilityType;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
+import io.github.ashwith.flutter.FlutterElement;
+import io.github.ashwith.flutter.FlutterFinder;
+import io.restassured.http.ContentType;
+import io.restassured.response.Response;
+import io.restassured.response.ValidatableResponse;
+import io.restassured.specification.RequestSpecification;
+
+public class LocationListGuest extends BaseClass {
+
+	static SignInLocators signInLocator = new SignInLocators();
+	static CommonMethods commonMethods = new CommonMethods();
+	static LocationLocators locationLocators = new LocationLocators();
+	static DashBoardLocators dashBoardLocators = new DashBoardLocators();
+	static SideDrawerLocators sideDrawerLocators = new SideDrawerLocators();
+	static OrderNowLocators orderNowLocators = new OrderNowLocators();
+	static BottomBarNavigationLocator bottomBarNavigationLocators = new BottomBarNavigationLocator();
+
+	static AppRatingLocators appRating = new AppRatingLocators();
+	static SignInLocators signInLocators = new SignInLocators();
+	static AppLaunchAndLandingScreenLocators appLaunchAndLandingScreenLocators = new AppLaunchAndLandingScreenLocators();
+	static MyAccountLocators myAccountLocators = new MyAccountLocators();
+	public static String isLocationEnabled = "true";
+	static TransactionHistoryLocators transactionHistoryLocators = new TransactionHistoryLocators();
+	static OLOLocators oloLocators = new OLOLocators();
+
+	public static String storeShortCode;
+	public static String userName;
+	public static String passWord;
+	public static String merchantId;
+	public static String cardTemplateCode;
+	public static String storeGroupCode;
+	public static String clientId;
+	public static String integrationDetail;
+	static String storeCode;
+	static String authorizationGrant;
+	static String merchantid;
+	static String key = "6d6bf06a4f653a54da8d88715a736a4ca6071ffb";
+	static String provider = "px";
+	static String recentlyOrderedName;
+
+	static String canDeliverResponse;
+	static String locatedResponse;
+	static String canDeliverResponse1;
+	static String locatedResponse1;
+
+	static int savedAddressLength;
+	static int savedAddressLengthUpdated;
+
+	static String authentication = "oauth";
+
+	static String[] welcomeConfig = { "{salutation}", "{firstName}", "{lastName}", "{username}" };
+
+	static String thirdPartyIntegration = "lJI1mRVajw4FmFrNqOxEqFU_3QpH2HwpBSdpnt1m97";
+
+	static String response_type = "code";
+
+	static String scope = "user_read user_write account_read account_write";
+
+	static String corpStoreCode;
+
+	static String authentication1 = "anonymous";
+
+	static String integrationDetail1 = "os=iOS%7Cosversion=16.6%7Cdevice=iPhone%7CmerchantId=60019%7Cintegrator=Paytronix%7Cversion=REST:14.15%20-%20API:23.21.20231010%20-%20APP:2023101001";
+
+	static String accessTokenGen;
+
+	static String printedCardNumberResponse;
+
+	static String Restaurant_Id;
+
+	static List<String> list = new ArrayList<String>();
+
+	@Test
+
+	public void nextGenLocationListFlowWithTakeoutAsapConfiguredGuest() throws Exception {
+
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		// To initiate the test to be print
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Prasanna Venkatesh").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bc = new BaseClass();
+		List<String> takeoutFlowConfiguration = bc.odFlow();
+
+		String sideDrawer = takeoutFlowConfiguration.get(68);
+
+		Thread.sleep(6000);
+
+		/**
+		 * @Class_Name LocationListGuest
+		 * @Method_Name nextGenLocationListFlowWithTakeoutAsapConfiguredGuest
+		 * @Description Ensure that ordernow is configured in the bottombar or side
+		 *              drawer.
+		 * @TestID nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_001
+		 * @author Prasanna Venkatesh KP
+		 */
+
+		ExtentTest nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 = test
+				.createNode("nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_003");
+
+		if (sideDrawer.equalsIgnoreCase("Yes")) {
+
+			NGALocationListGuest.ngaLocationListTakeoutAsapSideDrawerConfiguredGuest();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via side drawer is not configured.");
+
+			nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003.info(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithTakeoutAsapConfiguredGuest_003 - Verified that ordernow via side drawer is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		CommonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(3000);
+
+		WebElement homeButtonXpath = driver.findElement(By.xpath("(//*[contains(@content-desc,'creen')])[2]"));
+		homeButtonXpath.click();
+	}
+
+	@Test
+
+	public void nextGenLocationListFlowWithDeliveryAsapConfiguredGuest() throws Throwable {
+
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		// To initiate the test to be print
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Prasanna Venkatesh").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bc = new BaseClass();
+
+		List<String> odFlow = bc.odFlow();
+
+		String sideDrawer = odFlow.get(72);
+
+		Thread.sleep(6000);
+
+		/**
+		 * @Class_Name LocationListGuest
+		 * @Method_Name nextGenLocationListFlowWithDeliveryAsapConfiguredGuest
+		 * @Description Ensure that ordernow is configured in the bottombar or side
+		 *              drawer.
+		 * @TestID nextGenLocationListFlowWithDeliveryAsapConfiguredGuest_001
+		 * @author Prasanna Venkatesh KP
+		 */
+
+		if (sideDrawer.equalsIgnoreCase("Yes")) {
+
+			NGALocationListGuest.ngaLocationListDeliveryAsapSideDrawerConfiguredGuest();
+
+		}
+
+		CommonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(3000);
+
+		WebElement homeButtonXpath = driver.findElement(By.xpath("(//*[contains(@content-desc,'creen')])[2]"));
+		homeButtonXpath.click();
+	}
+
+	@Test
+
+	public void nextGenLocationListFlowWithCurbsideAsapConfiguredGuest() throws Throwable {
+
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		// To initiate the test to be print
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Prasanna Venkatesh").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bc = new BaseClass();
+		List<String> curbsideFlowConfiguration = bc.odFlow();
+
+		String sideDrawer = curbsideFlowConfiguration.get(70);
+
+		Thread.sleep(6000);
+
+		/**
+		 * @Class_Name LocationListGuest
+		 * @Method_Name nextGenLocationListFlowWithCurbsideAsapConfiguredGuest
+		 * @Description Ensure that ordernow is configured in the bottombar or side
+		 *              drawer.
+		 * @TestID nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_001
+		 * @author Prasanna Venkatesh KP
+		 */
+
+		ExtentTest nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 = test
+				.createNode("nextGenOrderNowFlowWithTakeoutAsapConfiguredGuest_003");
+
+		if (sideDrawer.equalsIgnoreCase("Yes")) {
+
+			NGALocationListGuest.ngaLocationListCurbsideAsapSideDrawerConfiguredGuest();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via side drawer is not configured.");
+
+			nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003.info(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithCurbsideAsapConfiguredGuest_003 - Verified that ordernow via side drawer is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		CommonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(3000);
+
+		WebElement homeButtonXpath = driver.findElement(By.xpath("(//*[contains(@content-desc,'creen')])[2]"));
+		homeButtonXpath.click();
+
+	}
+
+	@Test
+
+	public void nextGenLocationListFlowWithTakeoutLaterConfiguredGuest() throws Exception {
+
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		// To initiate the test to be print
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Prasanna Venkatesh").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bc = new BaseClass();
+		List<String> takeoutFlowConfiguration = bc.odFlow();
+
+		String sideDrawer = takeoutFlowConfiguration.get(69);
+
+		Thread.sleep(6000);
+
+		/**
+		 * @Class_Name Location
+		 * @Method_Name nextGenLocationListFlowWithTakeoutLaterConfiguredGuest
+		 * @Description Ensure that ordernow is configured in the bottombar or side
+		 *              drawer.
+		 * @TestID nextGenLocationListFlowWithTakeoutLaterConfiguredGuest001
+		 * @author Ganeshkumarselvaraj
+		 */
+
+		ExtentTest nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 = test
+				.createNode("nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003");
+
+		if (sideDrawer.equalsIgnoreCase("Yes")) {
+
+			NGALocationListGuest.ngaLocationListTakeoutLaterSideDrawerConfiguredGuest();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via buttom bar is not configured.");
+
+			nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003.info(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithTakeoutLaterConfiguredGuest_003 - Verified that ordernow via side drawer is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		CommonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(3000);
+
+		WebElement homeButtonXpath = driver.findElement(By.xpath("(//*[contains(@content-desc,'creen')])[2]"));
+		homeButtonXpath.click();
+
+	}
+
+	@Test
+
+	public void nextGenLocationListFlowWithCurbsideLaterConfiguredGuest() throws Throwable {
+
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		// To initiate the test to be print
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Prasanna Venkatesh").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bc = new BaseClass();
+		List<String> curbsideFlowConfiguration = bc.odFlow();
+
+		String sideDrawer = curbsideFlowConfiguration.get(71);
+		String localConfigCurbsideText = curbsideFlowConfiguration.get(38);
+
+		List<String> storeName = bc.odFlow();
+
+		String desiredStoreName = storeName.get(15);
+
+		Thread.sleep(6000);
+
+		/**
+		 * @Class_Name Location
+		 * @Method_Name nextGenLocationListFlowWithCurbsideLaterConfiguredGuest
+		 * @Description Ensure that ordernow is configured in the bottombar or side
+		 *              drawer.
+		 * @TestID nextGenLocationListFlowWithCurbsideLaterConfiguredGuest001
+		 * @author Ganeshkumarselvaraj
+		 */
+
+		ExtentTest nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 = test
+				.createNode("nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003");
+
+		if (sideDrawer.equalsIgnoreCase("Yes")) {
+
+			NGALocationListGuest.ngaLocationListCurbsideLaterSideDrawerConfiguredGuest();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via buttom bar is not configured.");
+
+			nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003.info(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithCurbsideLaterConfiguredGuest_003 - Verified that ordernow via side drawer is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		CommonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(3000);
+
+		WebElement homeButtonXpath = driver.findElement(By.xpath("(//*[contains(@content-desc,'creen')])[2]"));
+		homeButtonXpath.click();
+
+	}
+
+	@Test
+
+	public void nextGenLocationListFlowWithDeliveryLaterConfiguredGuest() throws Throwable {
+
+		/* To get the current method name */
+		String nameofCurrMethod = new Object() {
+		}.getClass().getEnclosingMethod().getName();
+
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+		// To initiate the test to be print
+
+		test = extent.createTest(nameofCurrMethod).assignAuthor("Prasanna Venkatesh").assignDevice(deviceName)
+				.assignCategory("Ordering Flow via ordernow");
+		test.info(MarkupHelper.createLabel(nameofCurrMethod, ExtentColor.CYAN));
+
+		BaseClass bc = new BaseClass();
+		List<String> deliveryFlowConfiguration = bc.appConfiguration();
+
+		List<String> odFlow = bc.odFlow();
+
+		String sideDrawer = odFlow.get(73);
+
+		Thread.sleep(6000);
+
+		/**
+		 * @Class_Name Location
+		 * @Method_Name nextGenLocationListFlowWithDeliveryLaterConfiguredGuest
+		 * @Description Ensure that ordernow is configured in the bottombar or side
+		 *              drawer.
+		 * @TestID nextGenLocationListFlowWithDeliveryLaterConfiguredGuest001
+		 * @author Ganeshkumarselvaraj
+		 */
+
+		ExtentTest nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 = test
+				.createNode("nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003");
+
+		if (sideDrawer.equalsIgnoreCase("Yes")) {
+
+			NGALocationListGuest.ngaLocationListDeliveryLaterSideDrawerConfiguredGuest();
+
+		} else {
+
+			System.out.println("Verified that Order Now Via buttom bar is not configured.");
+
+			nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003.info(MarkupHelper.createLabel(
+					"nextGenLocationListFlowWithDeliveryLaterConfiguredGuest_003 - Verified that ordernow via side drawer is not configured in the configuration sheet.",
+					ExtentColor.CYAN));
+
+		}
+
+		CommonMethods.switchContext("NATIVE_APP");
+
+		Thread.sleep(3000);
+
+		WebElement homeButtonXpath = driver.findElement(By.xpath("(//*[contains(@content-desc,'creen')])[2]"));
+		homeButtonXpath.click();
+
+	}
+
+}

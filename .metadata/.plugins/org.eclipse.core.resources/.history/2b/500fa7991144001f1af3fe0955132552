@@ -1,0 +1,1527 @@
+package com.base;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import javax.crypto.Mac;
+
+import org.apache.http.client.methods.HttpDelete;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.json.JSONObject;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import com.aventstack.extentreports.ExtentTest;
+import com.aventstack.extentreports.Status;
+import com.aventstack.extentreports.markuputils.ExtentColor;
+import com.aventstack.extentreports.markuputils.MarkupHelper;
+import com.locators.CrossSellLocators;
+
+import android.content.Context;
+import android.text.TextUtils;
+import android.util.Base64;
+import android.util.Log;
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.touch.WaitOptions;
+import io.appium.java_client.touch.offset.PointOption;
+import io.github.ashwith.flutter.FlutterFinder;
+import javax.crypto.spec.SecretKeySpec;
+
+public class CommonMethods extends BaseClass {
+
+	static CrossSellLocators crossSellLocators = new CrossSellLocators();
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name checkAndClickTheElement
+	 * @Description Contains code to click the element
+	 * @return void
+	 * @author Prasanna Venkatesh KP
+	 */
+	public void checkAndClickTheElement(WebElement element) {
+
+		try {
+//			element.isEnabled();
+			element.click();
+			System.out.println("Element is tapped successfully");
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			System.out.println("Element not found or not Available");
+		}
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name checkAndSendTheValue
+	 * @Description Contains code to send the value to the element
+	 * @return void
+	 * @author Prasanna Venkatesh KP
+	 */
+
+	public void checkAndSendTheValue(WebElement element, String ref) {
+
+		try {
+			// element.isEnabled();
+			element.sendKeys(ref);
+			System.out.println("Value successfully entered in the text field");
+
+		} catch (NoSuchElementException e) {
+			e.printStackTrace();
+			System.out.println("Element not found or not Available");
+		}
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name toGetTheTextOfTheElement
+	 * @Description Contains code to get the text of the element
+	 * @return String
+	 * @author Prasanna Venkatesh KP
+	 */
+
+	public String toGetTheTextOfTheElement(WebElement element) {
+		String txt = element.getText();
+		System.out.println("TEXT IS : " + txt);
+		return txt;
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name checkTheElementIsPresent
+	 * @Description Contains code to check the element is present
+	 * @return void
+	 * @author Prasanna Venkatesh KP
+	 */
+
+	public void checkTheElementIsPresent(WebElement element) {
+		try {
+			element.isEnabled();
+			System.out.println("Element is available in the screen");
+
+		} catch (NoSuchElementException e) {
+			e.printStackTrace();
+			System.out.println("Element not found or not Available");
+		}
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name checkAndSendTheValue
+	 * @Description Contains code to send the value of the element
+	 * @return void
+	 * @author Prasanna Venkatesh KP
+	 */
+
+	public void checkAndSendTheValue(WebElement element, long ref) {
+		try {
+			// element.isEnabled();
+			String txt = String.valueOf(ref);
+			element.sendKeys(txt);
+			System.out.println("Value successfully entered in the text field");
+		} catch (NoSuchElementException e) {
+			e.printStackTrace();
+			System.out.println("Element not found or not Available");
+		}
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name checkTheInputFieldIsEmpty
+	 * @Description Contains code to check the element field is empty
+	 * @return void
+	 * @author Prasanna Venkatesh KP
+	 */
+
+	public void checkTheInputFieldIsEmpty(WebElement element) {
+
+		try {
+			String txt = element.getText();
+			/** TO validate text entered or not in textbox **/
+			if (txt.endsWith(".com")) {
+				System.out.println("Email/Password text is entered ");
+			} else {
+				System.out.println("Email/Password is not entered ");
+			}
+
+		} catch (NoSuchElementException e) {
+			e.printStackTrace();
+			System.out.println("Element not found or not Available");
+		}
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name switchContext
+	 * @Description Contains code to switch the native to flutter or flutter to
+	 *              native
+	 * @return void
+	 * @author Prasanna Venkatesh KP
+	 */
+
+	public static void switchContext(String context) {
+		Set<String> contexts = driver.getContextHandles();
+		for (String appContext : contexts) {
+			if (appContext.contains(context)) {
+				driver.context(appContext);
+				break;
+			}
+		}
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name clear
+	 * @Description Contains code to clear the element
+	 * @return void
+	 * @author Prasanna Venkatesh KP
+	 */
+
+	public void clear(WebElement element) {
+		try {
+			element.clear();
+			System.out.println("Cleared the Entered Text");
+		} catch (Exception e) {
+			System.out.println("Element is not found");
+		}
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name clear
+	 * @Description Contains code to clear the element
+	 * @return void
+	 * @author Prasanna Venkatesh KP
+	 */
+
+	public static void setSeekBarValue1(AndroidDriver driver, WebElement seekBar, int desiredValue) {
+		int startX = seekBar.getLocation().getX();
+		int endX = startX + seekBar.getSize().getWidth();
+		int yAxis = seekBar.getLocation().getY() + (seekBar.getSize().getHeight() / 2);
+		// Set the default range
+		int defaultStartValue = 0;
+		int defaultEndValue = 100;
+		// Calculate the percentage based on the desired value and default range
+		int desiredPercentage = (desiredValue - defaultStartValue) * 100 / (defaultEndValue - defaultStartValue);
+		// Calculate the desired position on the seek bar based on the percentage
+		int moveTo = startX + ((endX - startX) * desiredPercentage / 100);
+		Actions actions = new Actions(driver);
+		actions.clickAndHold(seekBar).moveByOffset(moveTo - startX, 0).release().build().perform();
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name clear
+	 * @Description Contains code to clear the element
+	 * @return void
+	 * @author Prasanna Venkatesh KP
+	 */
+
+	public static void swipeLeft(AndroidDriver<WebElement> driver, WebElement element) {
+		int startX = element.getLocation().getX() + (element.getSize().getWidth() / 2);
+		int startY = element.getLocation().getY() + (element.getSize().getHeight() / 2);
+		int endX = startX - 100; // Adjust the distance as needed
+
+		TouchAction touchAction = new TouchAction(driver);
+		touchAction.press(PointOption.point(startX, startY)).waitAction(WaitOptions.waitOptions(Duration.ofMillis(500)))
+				.moveTo(PointOption.point(endX, startY)).release().perform();
+		/**
+		 * @Class_Name CommonMethods
+		 * @Method_Name clear
+		 * @Description Contains code to clear the element
+		 * @return void
+		 * @author Prasanna Venkatesh KP
+		 */
+	}
+
+	public void clickSideDrawerElement(AppiumDriver<WebElement> driver, String textToSearch) {
+		String lowerTextToSearch = textToSearch.toLowerCase(); // Convert search text to ignore case sensitive
+
+		while (true) {
+			// Check if any elements with text match the "lowerTextToSearch" are visible
+			List<WebElement> elements = driver.findElements(By.xpath(
+					"//android.view.View[contains(translate(@content-desc,'ABCDEFGHIJKLMNOPQRSTUVWXYZ','abcdefghijklmnopqrstuvwxyz'),'"
+							+ lowerTextToSearch + "')]"));
+			if (elements.size() > 0) {
+				// Click on the first visible element
+				for (WebElement element : elements) {
+					if (element.isDisplayed()) {
+
+						System.out.println("Element is displayed");
+
+						TouchAction touchAction = new TouchAction(driver);
+						touchAction.press(PointOption.point(350, 1700))
+								.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(2)))
+								.moveTo(PointOption.point(350, 1400)).release().perform();
+
+//						element.click();  
+
+						return;
+					}
+				}
+
+				break;
+			} else {
+				// Scroll down the dropdown to look for more elements
+				TouchAction touchAction = new TouchAction(driver);
+				touchAction.press(PointOption.point(400, 2000))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(2))).moveTo(PointOption.point(400, 700))
+						.release().perform();
+			}
+		}
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name clickElementByPartialText
+	 * @Description Contains code to clickElementByPartialText
+	 * @return void
+	 * @author Prasanna Venkatesh KP
+	 */
+
+	public static void clickElementByPartialText(AndroidDriver<WebElement> driver, String textToSearch) {
+		while (true) {
+			// Check if any elements with text match the "textToSearch" are visible
+			List<WebElement> locationList = driver
+					.findElements(By.xpath("//android.view.View[contains(@content-desc, '" + textToSearch + "')]"));
+			if (locationList.size() > 0) {
+				// Click on the first visible element
+				for (WebElement element : locationList) {
+					if (element.isDisplayed()) {
+						String attribute = element.getAttribute("content-desc");
+						System.out.println(attribute);
+						element.click();
+						return;
+					}
+				}
+				break;
+			} else {
+				// Scroll down the location list screen to look for more elements
+				TouchAction touchAction = new TouchAction(driver);
+				touchAction.press(PointOption.point(400, 2000))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(2))).moveTo(PointOption.point(400, 700))
+						.release().perform();
+			}
+		}
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name clickElementByPartialText
+	 * @Description Contains code to read strings from the en_US.json file available
+	 *              in StringsConfiguration folder
+	 * @return void
+	 * @author Prasanna Venkatesh KP
+	 */
+	public String stringsReader(String param) {
+		try {
+			// Provide the path to your JSON file
+			String filePath = "./StringsConfigurationFile/en_US.json";
+
+			// Read the JSON file
+			String content = new String(Files.readAllBytes(Paths.get(filePath)));
+
+			// Parse the JSON content
+			JSONObject jsonObject = new JSONObject(content);
+
+//	        System.out.println("Parsed JSON: " + jsonObject.toString());
+
+			// Get the string value based on the JSON structure
+			String desiredValue = jsonObject.getString(param);
+
+			System.out.println("Desired Value: " + desiredValue);
+
+			// Return the desired value
+			return desiredValue;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+			// Handle the exception and return an appropriate value or throw an exception if
+			// needed
+			return null; // or throw new RuntimeException("Error reading JSON file", e);
+		}
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name clickElementByPartialText
+	 * @Description Contains code to toGetAState
+	 * @return void
+	 * @author Prasanna Venkatesh KP
+	 */
+	public String toGetAState(String stateCodeSelected) {
+		// Initialize map to store state abbreviations
+		Map<String, String> stateCodeMap = new HashMap<>();
+
+		// Populate the map with state codes and their abbreviations
+		stateCodeMap.put("AL", "Alabama");
+		stateCodeMap.put("AK", "Alaska");
+		stateCodeMap.put("AB", "Alberta");
+		stateCodeMap.put("AS", "American Samoa");
+		stateCodeMap.put("AZ", "Arizona");
+		stateCodeMap.put("AR", "Arkansas");
+		stateCodeMap.put("AA", "Armed Forces Americas");
+		stateCodeMap.put("AE", "Armed Forces Europe");
+		stateCodeMap.put("AP", "Armed Forces Pacific");
+		stateCodeMap.put("BC", "British Columbia");
+		stateCodeMap.put("CA", "California");
+		stateCodeMap.put("CO", "Colorado");
+		stateCodeMap.put("CT", "Connecticut");
+		stateCodeMap.put("DE", "Delaware");
+		stateCodeMap.put("DC", "District of Columbia");
+		stateCodeMap.put("FM", "Federated States of Micronesia");
+		stateCodeMap.put("FL", "Florida");
+		stateCodeMap.put("GA", "Georgia");
+		stateCodeMap.put("GU", "Guam");
+		stateCodeMap.put("HI", "Hawaii");
+		stateCodeMap.put("ID", "Idaho");
+		stateCodeMap.put("IL", "Illinois");
+		stateCodeMap.put("IN", "Indiana");
+		stateCodeMap.put("IA", "Iowa");
+		stateCodeMap.put("KS", "Kansas");
+		stateCodeMap.put("KY", "Kentucky");
+		stateCodeMap.put("LA", "Louisiana");
+		stateCodeMap.put("ME", "Maine");
+		stateCodeMap.put("MB", "Manitoba");
+		stateCodeMap.put("MH", "Marshall Islands");
+		stateCodeMap.put("MD", "Maryland");
+		stateCodeMap.put("MA", "Massachusetts");
+		stateCodeMap.put("MI", "Michigan");
+		stateCodeMap.put("MN", "Minnesota");
+		stateCodeMap.put("MS", "Mississippi");
+		stateCodeMap.put("MO", "Missouri");
+		stateCodeMap.put("MT", "Montana");
+		stateCodeMap.put("NE", "Nebraska");
+		stateCodeMap.put("NV", "Nevada");
+		stateCodeMap.put("NB", "New Brunswick");
+		stateCodeMap.put("NH", "New Hampshire");
+		stateCodeMap.put("NJ", "New Jersey");
+		stateCodeMap.put("NM", "New Mexico");
+		stateCodeMap.put("NY", "New York");
+		stateCodeMap.put("NL", "Newfoundland and Labrador");
+		stateCodeMap.put("NC", "North Carolina");
+		stateCodeMap.put("ND", "North Dakota");
+		stateCodeMap.put("NT", "Northwest Territories");
+		stateCodeMap.put("MP", "Northern Mariana Islands");
+		stateCodeMap.put("NU", "Nunavut");
+		stateCodeMap.put("OH", "Ohio");
+		stateCodeMap.put("OK", "Oklahoma");
+		stateCodeMap.put("ON", "Ontario");
+		stateCodeMap.put("OR", "Oregon");
+		stateCodeMap.put("PW", "Palau");
+		stateCodeMap.put("PA", "Pennsylvania");
+		stateCodeMap.put("PE", "Prince Edward Island");
+		stateCodeMap.put("PR", "Puerto Rico");
+		stateCodeMap.put("QC", "Quebec");
+		stateCodeMap.put("RI", "Rhode Island");
+		stateCodeMap.put("SK", "Saskatchewan");
+		stateCodeMap.put("SC", "South Carolina");
+		stateCodeMap.put("SD", "South Dakota");
+		stateCodeMap.put("TN", "Tennessee");
+		stateCodeMap.put("TX", "Texas");
+		stateCodeMap.put("UT", "Utah");
+		stateCodeMap.put("VT", "Vermont");
+		stateCodeMap.put("VI", "Virgin Islands");
+		stateCodeMap.put("VA", "Virginia");
+		stateCodeMap.put("WA", "Washington");
+		stateCodeMap.put("WV", "West Virginia");
+		stateCodeMap.put("WI", "Wisconsin");
+		stateCodeMap.put("WY", "Wyoming");
+		stateCodeMap.put("YT", "Yukon");
+		// Add more state abbreviations as needed
+
+		// Example usage: Get abbreviation by state code
+		// Example state code
+		String abbreviation = stateCodeMap.get(stateCodeSelected);
+
+		// Output the abbreviation
+		if (abbreviation != null) {
+			System.out.println("Abbreviation for " + stateCodeSelected + ": " + abbreviation);
+		} else {
+			System.out.println("Abbreviation not found for state code: " + stateCodeSelected);
+		}
+
+		return abbreviation;
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollOptionsGroupDownNonLowerCase
+	 * @Description Contains code to scroll to the desired element from the input
+	 *              using lowercase
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void scrollOptionsGroupDownNonLowerCase(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		By targetElementLocator3 = By.xpath(
+				"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+
+		int maxScrollAttempts3 = 5;
+
+		for (int j1 = 0; j1 <= maxScrollAttempts3; j1++) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator3);
+				if (element.isDisplayed()) {
+					TouchAction touchAction1 = new TouchAction(driver);
+					touchAction1.press(PointOption.point(500, 800))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+							.moveTo(PointOption.point(500, 600)).release().perform();
+					break;
+				}
+			} catch (Exception e2) {
+
+				TouchAction touchAction1 = new TouchAction(driver);
+				touchAction1.press(PointOption.point(500, 1200))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6))).moveTo(PointOption.point(500, 600))
+						.release().perform();
+			}
+
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollOptionsGroupDownFeedback
+	 * @Description Contains code to scroll to the desired element from the input
+	 *              specifically in FEEDBACK screen
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void scrollOptionsGroupDownFeedback(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		By targetElementLocator3 = By.xpath(
+				"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+
+		int maxScrollAttempts3 = 5;
+
+		for (int j1 = 0; j1 <= maxScrollAttempts3; j1++) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator3);
+				if (element.isDisplayed()) {
+					TouchAction touchAction1 = new TouchAction(driver);
+					touchAction1.press(PointOption.point(900, 800))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+							.moveTo(PointOption.point(900, 600)).release().perform();
+					break;
+				}
+			} catch (Exception e2) {
+
+				TouchAction touchAction1 = new TouchAction(driver);
+				touchAction1.press(PointOption.point(900, 1200))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6))).moveTo(PointOption.point(900, 600))
+						.release().perform();
+			}
+
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name elementFoundOrNotFeedback
+	 * @Description Contains code to check whether the element is displayed or not
+	 *              in the feedback screen
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean elementFoundOrNotFeedback(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		boolean displayed = false;
+
+		By targetElementLocator3 = By.xpath(
+				"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+
+		int maxScrollAttempts3 = 8;
+
+		for (int j1 = 0; j1 <= maxScrollAttempts3; j1++) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator3);
+
+				displayed = element.isDisplayed();
+
+				if (displayed == true) {
+					TouchAction touchAction1 = new TouchAction(driver);
+					touchAction1.press(PointOption.point(900, 800))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+							.moveTo(PointOption.point(900, 600)).release().perform();
+					break;
+				}
+			} catch (Exception e2) {
+
+				TouchAction touchAction1 = new TouchAction(driver);
+				touchAction1.press(PointOption.point(900, 1200))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6))).moveTo(PointOption.point(900, 600))
+						.release().perform();
+			}
+
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+		return displayed;
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name jkCafeRecommendedMenuItemCount
+	 * @Description Contains code to get the count of recommended menu item count
+	 *              from the app settings file for the JK CAFE
+	 * @return int
+	 * @author Lalith Kishore Ravi
+	 * @return
+	 * @throws Exception
+	 */
+	public int jkCafeRecommendedMenuItemCount() {
+
+		try {
+			// Provide the path to your JSON file
+			String filePath = "./StringsConfigurationFile/app_settings.json";
+
+			// Read the JSON file
+			String content = new String(Files.readAllBytes(Paths.get(filePath)));
+
+			// Parse the JSON content
+			JSONObject jsonObject = new JSONObject(content);
+
+			// Get the string value based on the JSON structure
+
+			JSONObject optJSONObject = jsonObject.optJSONObject("jk");
+
+			JSONObject optJSONObject2 = optJSONObject.optJSONObject("od_settings");
+
+			JSONObject optJSONObject3 = optJSONObject2.optJSONObject("menu_settings");
+
+			String optString = optJSONObject3.optString("recommended_menu_item_count");
+
+			int recommendedMenuItemCount = Integer.parseInt(optString);
+
+			return recommendedMenuItemCount;
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+			return -1;
+			// Handle the exception and return an appropriate value or throw an exception if
+			// needed
+		}
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name jkCafeRecommendedMenuEnabledorNot
+	 * @Description Contains code to check whether the recommended for you is
+	 *              enabled or not from the app settings file for the JK CAFE
+	 * @return boolean
+	 * @author Lalith Kishore Ravi
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean jkCafeRecommendedMenuEnabledorNot() {
+
+		try {
+			// Provide the path to your JSON file
+			String filePath = "./StringsConfigurationFile/app_settings.json";
+
+			// Read the JSON file
+			String content = new String(Files.readAllBytes(Paths.get(filePath)));
+
+			// Parse the JSON content
+			JSONObject jsonObject = new JSONObject(content);
+
+			// Get the string value based on the JSON structure
+
+			JSONObject optJSONObject = jsonObject.optJSONObject("jk");
+
+			JSONObject optJSONObject2 = optJSONObject.optJSONObject("od_settings");
+
+			JSONObject optJSONObject3 = optJSONObject2.optJSONObject("menu_settings");
+
+			boolean optString = optJSONObject3.optBoolean("is_menu_recommendation_enabled");
+
+			return optString;
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+			return false;
+			// Handle the exception and return an appropriate value or throw an exception if
+			// needed
+		}
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name crossSellPopUpBottomSheetClose
+	 * @Description Contains code to tap if close icon if cross sell is configured
+	 *              in our app_configuration.json file as false
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @return
+	 * @throws Exception
+	 */
+	public void crossSellPopUpBottomSheetClose() throws InterruptedException {
+
+		FlutterFinder find = new FlutterFinder(driver);
+
+		CrossSellLocators crossSellLocators = new CrossSellLocators();
+
+		String addToOrderText = stringsReader(crossSellLocators.CROSS_SELL_POPUP_ADD_TO_ORDER_TEXT);
+
+		String itemAddedText = stringsReader(crossSellLocators.CROSS_SELL_POPUP_ITEM_ADDED_TEXT);
+
+		boolean addToOrderTextBoolean = elementFoundOrNotPopUp(addToOrderText);
+		
+		boolean itemAddedTextBoolean = elementFoundOrNotPopUp(itemAddedText);
+
+		if (addToOrderTextBoolean == true) {
+
+			find.byValueKey(crossSellLocators.CROSS_SELL_POPUP_CLOSE_ICON_VKL).click();
+		}
+
+		else if (itemAddedTextBoolean == true) {
+
+			find.byValueKey(crossSellLocators.CROSS_SELL_BOTTOMSHEET_CLOSE_ICON_VKL).click();
+		}
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollOptionsGroupDown
+	 * @Description Contains code to scroll to the desired element from the input
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void scrollOptionsGroupDown(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		By targetElementLocator3 = By.xpath(
+				"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+
+		int maxScrollAttempts3 = 5;
+
+		for (int j1 = 0; j1 <= maxScrollAttempts3; j1++) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator3);
+				if (element.isDisplayed()) {
+					TouchAction touchAction1 = new TouchAction(driver);
+					touchAction1.press(PointOption.point(900, 800))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+							.moveTo(PointOption.point(900, 600)).release().perform();
+					break;
+				}
+			} catch (Exception e2) {
+
+				TouchAction touchAction1 = new TouchAction(driver);
+				touchAction1.press(PointOption.point(900, 1200))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6))).moveTo(PointOption.point(900, 600))
+						.release().perform();
+			}
+
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollDownAndClick
+	 * @Description Contains code to scroll to the desired element from the input
+	 *              and click it
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void scrollDownAndClick(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		By targetElementLocator3 = By.xpath(
+				"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+
+		int maxScrollAttempts3 = 5;
+
+		for (int j1 = 0; j1 <= maxScrollAttempts3; j1++) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator3);
+				if (element.isDisplayed()) {
+					TouchAction touchAction1 = new TouchAction(driver);
+					touchAction1.press(PointOption.point(900, 800))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+							.moveTo(PointOption.point(900, 600)).release().perform();
+					element.click();
+				}
+			} catch (Exception e2) {
+
+				TouchAction touchAction1 = new TouchAction(driver);
+				touchAction1.press(PointOption.point(900, 1200))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6))).moveTo(PointOption.point(900, 600))
+						.release().perform();
+			}
+
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollUp
+	 * @Description Contains code to scrollup in the screen
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void scrollUp() throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		System.out.println("SCROLLING UP");
+
+		Thread.sleep(1500);
+
+		TouchAction touchAction1 = new TouchAction(driver);
+		touchAction1.press(PointOption.point(500, 400)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+				.moveTo(PointOption.point(500, 800)).release().perform();
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(1500);
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name elementFoundOrNot
+	 * @Description Contains code to validate whether the element is found or not
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean elementFoundOrNot(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		boolean displayed = false;
+
+		By targetElementLocator3 = By.xpath(
+				"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+
+		int maxScrollAttempts3 = 4;
+
+		for (int j1 = 0; j1 <= maxScrollAttempts3; j1++) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator3);
+
+				displayed = element.isDisplayed();
+
+				if (displayed == true) {
+					TouchAction touchAction1 = new TouchAction(driver);
+					touchAction1.press(PointOption.point(900, 800))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+							.moveTo(PointOption.point(900, 600)).release().perform();
+					break;
+				}
+			} catch (Exception e2) {
+
+				TouchAction touchAction1 = new TouchAction(driver);
+				touchAction1.press(PointOption.point(900, 1200))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6))).moveTo(PointOption.point(900, 600))
+						.release().perform();
+			}
+
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+		return displayed;
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name elementFoundOrNotPopUp
+	 * @Description Contains code to check whether the element is displayed or not
+	 *              in the popup
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean elementFoundOrNotPopUp(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(5000);
+
+		boolean displayed = false;
+
+		By targetElementLocator3 = By.xpath(
+				"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+
+		try {
+
+			Thread.sleep(2000);
+
+			WebElement element = driver.findElement(targetElementLocator3);
+
+			displayed = element.isDisplayed();
+
+			if (displayed == true) {
+
+				System.out.println(" The element : " + input + " is displayed");
+
+			}
+
+		} catch (Exception e2) {
+
+			System.out.println(" The element : " + input + " is not displayed");
+
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(3000);
+
+		return displayed;
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name elementIsDisplayed
+	 * @Description Contains code to validate whether the element is displayed or
+	 *              not
+	 * @return boolean
+	 * @author Lalith Kishore Ravi
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean elementIsDisplayed(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(5000);
+
+		boolean displayed = false;
+
+		By targetElementLocator3 = By.xpath(
+				"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+
+		try {
+			WebElement element = driver.findElement(targetElementLocator3);
+
+			displayed = element.isDisplayed();
+
+			if (displayed == true) {
+
+				System.out.println("Element is displayed");
+
+			}
+		} catch (Exception e2) {
+
+			System.out.println("Element is not displayed");
+
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+		return displayed;
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollandTap
+	 * @Description Contains code to scroll to the desired element from the input
+	 *              and click it
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public void scrollAndTap(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		By targetElementLocator3 = By.xpath(
+				"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+
+		int maxScrollAttempts3 = 5;
+
+		for (int j1 = 0; j1 <= maxScrollAttempts3; j1++) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator3);
+				if (element.isDisplayed()) {
+					TouchAction touchAction1 = new TouchAction(driver);
+					touchAction1.press(PointOption.point(900, 800))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+							.moveTo(PointOption.point(900, 600)).release().perform();
+
+					element.click();
+
+					break;
+				}
+			} catch (Exception e2) {
+
+				TouchAction touchAction1 = new TouchAction(driver);
+				touchAction1.press(PointOption.point(900, 1200))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6))).moveTo(PointOption.point(900, 600))
+						.release().perform();
+			}
+
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollDown
+	 * @Description Contains code to scroll down to the bottom in the screen
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @return
+	 * @throws Exception
+	 */
+	public void scrollDown() throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(1500);
+
+		TouchAction touchAction1 = new TouchAction(driver);
+		touchAction1.press(PointOption.point(500, 1800)).waitAction(WaitOptions.waitOptions(Duration.ofSeconds(4)))
+				.moveTo(PointOption.point(500, 970)).release().perform();
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(1500);
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name features
+	 * @Description Contains code to select the features which needs to run
+	 * @return boolean
+	 * @author Lalith Kishore Ravi
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean features(String input) {
+
+		try {
+			// Provide the path to your JSON file
+			String filePath = "./StringsConfigurationFile/app_settings.json";
+
+			// Read the JSON file
+			String content = new String(Files.readAllBytes(Paths.get(filePath)));
+
+			// Parse the JSON content
+			JSONObject jsonObject = new JSONObject(content);
+
+			// Get the string value based on the JSON structure
+
+			JSONObject optJSONObject = jsonObject.optJSONObject("jk");
+
+			JSONObject optJSONObject2 = optJSONObject.optJSONObject("features");
+
+			boolean optJSONObject3 = optJSONObject2.optBoolean(input);
+
+			return optJSONObject3;
+
+		} catch (IOException e) {
+
+			e.printStackTrace();
+
+			return false;
+			// Handle the exception and return an appropriate value or throw an exception if
+			// needed
+		}
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name assertMethod
+	 * @Description Contains code to validate using assert
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @return
+	 * @throws Exception
+	 */
+	public void assertMethod(String uiText, String apiText, String featureName,ExtentTest feature) throws InterruptedException {
+
+		try {
+			Assert.assertEquals(uiText, apiText,
+					" Validated that " + featureName + " " + uiText + " text in the UI is : " + uiText
+							+ " and from the string configuration file is : " + apiText + " are same ");
+
+			System.out.println(" Validated that the " + featureName + " " + uiText + " text in the UI is : " + uiText
+					+ " and from the string configuration file is : " + apiText + " are same ");
+
+			feature.info(MarkupHelper.createLabel(
+					" Validated that the " + featureName + " " + uiText + " text in the UI is : " + uiText
+							+ " and from the string configuration file is : " + apiText + " are same ",
+					ExtentColor.CYAN));
+			
+			feature.addScreenCaptureFromBase64String(takeScreenshot(driver),
+					" Validated that the " + featureName + " " + uiText + " text in the UI is : " + uiText
+							+ " and from the string configuration file is : " + apiText + " are same ");
+
+		} catch (AssertionError e) {
+
+			feature.log(Status.FAIL,
+					" Validated that the " + featureName + " " + uiText + " text in the UI is : " + uiText
+							+ " and from the string configuration file is : " + apiText + " are not same ");
+
+			Thread.sleep(1500);
+
+			feature.addScreenCaptureFromBase64String(takeScreenshot(driver),
+					" Validated that the " + featureName + " " + uiText + " text in the UI is : " + uiText
+							+ " and from the string configuration file is : " + apiText + " are not same ");
+		}
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollOptionsGroupUpAndClick
+	 * @Description Contains code to scroll to the desired element from the input
+	 *              and click it
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public static void scrollOptionsGroupUpAndClick(String input) throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		By targetElementLocator3 = By.xpath(
+				"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'" + input.toLowerCase() + "'" + ")]");
+
+		int maxScrollAttempts3 = 5;
+
+		for (int j1 = 0; j1 <= maxScrollAttempts3; j1++) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator3);
+				if (element.isDisplayed()) {
+					TouchAction touchAction1 = new TouchAction(driver);
+					touchAction1.press(PointOption.point(500, 600))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+							.moveTo(PointOption.point(500, 800)).release().perform();
+
+					break;
+				}
+			} catch (Exception e2) {
+
+				TouchAction touchAction1 = new TouchAction(driver);
+				touchAction1.press(PointOption.point(500, 600))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6))).moveTo(PointOption.point(500, 1200))
+						.release().perform();
+				System.out.println(" Store not found in the : " + j1
+						+ " : scroll attempt made in the UI in the given maximum scroll attempts of : "
+						+ maxScrollAttempts3);
+			}
+
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(2500);
+
+	}
+
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name scrollSize
+	 * @Description Contains code to scroll to the size option group element from
+	 *              the input and click it
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @throws Exception
+	 */
+	public static void scrollSize() throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(2000);
+
+		By targetElementLocator3 = By.xpath(
+				"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+						+ "'size'" + ")]");
+
+		int maxScrollAttempts3 = 5;
+
+		for (int j1 = 0; j1 <= maxScrollAttempts3; j1++) {
+			try {
+				WebElement element = driver.findElement(targetElementLocator3);
+				if (element.isDisplayed()) {
+					TouchAction touchAction1 = new TouchAction(driver);
+					touchAction1.press(PointOption.point(500, 800))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6)))
+							.moveTo(PointOption.point(500, 600)).release().perform();
+
+					break;
+				}
+			} catch (Exception e2) {
+
+				TouchAction touchAction1 = new TouchAction(driver);
+				touchAction1.press(PointOption.point(500, 1200))
+						.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(6))).moveTo(PointOption.point(500, 600))
+						.release().perform();
+				System.out.println(" Store not found in the : " + j1
+						+ " : scroll attempt made in the UI in the given maximum scroll attempts of : "
+						+ maxScrollAttempts3);
+			}
+
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(2000);
+
+	}
+
+	public boolean locationListStoreSelection(String desiredStoreName) {
+
+		boolean elementFound = false;
+		try {
+			switchContext("NATIVE_APP");
+
+			Thread.sleep(3000);
+
+			// XPath to locate the state element by its name
+			By targetElementLocator = By.xpath(
+					"//*[contains(translate(@content-desc, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'),"
+							+ "'" + desiredStoreName + "'" + ")]");
+			// Variable to track whether the element is found
+
+			// Loop to attempt finding the element and scrolling
+			while (!elementFound) {
+				try {
+					// Try to find the element
+					WebElement element = driver.findElement(targetElementLocator);
+
+					// Check if the element is displayed
+					if (element.isDisplayed()) {
+						// Element found and displayed, try to click
+						try {
+							element.click();
+							System.out.println("Successfully clicked the state in the dropdown");
+							elementFound = true; // Set the flag to true to exit the loop
+
+						} catch (Exception clickException) {
+							// Handle issues with clicking, e.g., element not clickable
+							System.out.println("Issue with clicking the state. Scrolling again and retrying...");
+							TouchAction touchAction = new TouchAction(driver);
+							touchAction.press(PointOption.point(150, 650))
+									.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+									.moveTo(PointOption.point(150, 550)).release().perform();
+						}
+					} else {
+						// Element not displayed, perform scroll action
+						System.out.println("Element not displayed. Scrolling again...");
+						TouchAction touchAction = new TouchAction(driver);
+						touchAction.press(PointOption.point(150, 650))
+								.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+								.moveTo(PointOption.point(150, 550)).release().perform();
+					}
+				} catch (NoSuchElementException e) {
+					// Element not found, perform scroll action
+					System.out.println("Element not found. Scrolling again...");
+					TouchAction touchAction = new TouchAction(driver);
+					touchAction.press(PointOption.point(150, 650))
+							.waitAction(WaitOptions.waitOptions(Duration.ofSeconds(3)))
+							.moveTo(PointOption.point(150, 550)).release().perform();
+				}
+
+			}
+
+		} catch (Exception e) {
+
+		}
+
+		return elementFound;
+
+	}
+
+	public void assertvalidation(String elementName, String actualValue, String expectedValue, ExtentTest test) {
+		try {
+			Assert.assertEquals(actualValue, expectedValue);
+			test.info(MarkupHelper.createLabel("Validated the " + elementName
+					+ " in the screen and the values are similar. The expected title value is " + expectedValue + ". "
+					+ "The actual value is " + actualValue, ExtentColor.CYAN));
+
+		} catch (Throwable e) {
+			test.log(Status.FAIL,
+					"Validated the " + elementName
+							+ " in the screen and the values are not similar. The expected title value is "
+							+ expectedValue + ". " + "The actual value is " + actualValue);
+		}
+	}
+	
+	/**
+	 * @Class_Name CommonMethods
+	 * @Method_Name elementFoundOrNotDontAllowNativePopUp
+	 * @Description Contains code to check whether the element is displayed or not in the native location popup
+	 *              in the popup
+	 * @return void
+	 * @author Lalith Kishore Ravi
+	 * @return
+	 * @throws Exception
+	 */
+	public boolean elementFoundOrNotDontAllowNativePopUp() throws InterruptedException {
+
+		switchContext("NATIVE_APP");
+
+		Thread.sleep(30000);
+
+		boolean displayed = false;
+
+		By targetElementLocator3 = By.id("//*[@name='Don’t Allow']");
+
+		try {
+
+			Thread.sleep(2000);
+
+			WebElement element = driver.findElement(targetElementLocator3);
+
+			displayed = element.isDisplayed();
+
+			if (displayed == true) {
+				
+				String text = element.getText();
+
+				System.out.println(" The native pop-up : " + text + " is displayed");
+				
+				element.click();
+
+			}
+
+		} catch (Exception e2) {
+
+			System.out.println(" The element is not displayed");
+
+		}
+
+		switchContext("FLUTTER");
+
+		Thread.sleep(3000);
+
+		return displayed;
+
+	}
+	
+	
+	// HMAC Key config
+	@Test
+	private void hmac() {
+		
+		String hmac = getSecondField(null);
+		
+		System.out.println("hmac :"+hmac);
+
+	}
+	
+	private static void addMore(Context ctx, Object object, String url, String responseBody) {
+//      if (Spec.sAddiction != null && Spec.sDivision != null) {
+          try {
+              /*String pos1 = new String(Spec.sAddiction, 0, Spec.sAddiction.length, StandardCharsets.UTF_8);
+              String pos2 = new String(Spec.sDivision, 0, Spec.sDivision.length, StandardCharsets.UTF_8);*/
+//              if (!TextUtils.isEmpty(pos1) && !TextUtils.isEmpty(pos2)) {
+                  String[] toSend;
+                  if (TextUtils.isEmpty(responseBody)) {
+                      toSend = new String[]{url};
+//                      toSend = new String[]{pos1, pos2, url};
+                  } else {
+                      toSend = new String[]{url, responseBody};
+//                      toSend = new String[]{pos1, pos2, url, responseBody};
+                  }
+                  String value = getSecondField(toSend);
+                  if (null != value) {
+                      if (object instanceof HttpGet) {
+                          HttpGet httpGet = (HttpGet) object;
+                          httpGet.setHeader(FIRST_NAME, value);
+                      } else if (object instanceof HttpPost) {
+                          HttpPost httpPost = (HttpPost) object;
+                          httpPost.setHeader(FIRST_NAME, value);
+                      } else if (object instanceof HttpDelete) {
+                          HttpDelete httpDelete = (HttpDelete) object;
+                          httpDelete.setHeader(FIRST_NAME, value);
+                      }
+                  }
+//              }
+          } catch (Exception e) {
+              Log.e("Error", "setMore: ", e);
+          }
+      }
+	
+	
+	public static String getSecondField(String[] args) {
+		
+		String secondaryField = "";
+		    try {
+		        if (null != args && (args.length == 1 || args.length == 2)) {
+		            String pos3 = args[0];
+		            String pos4 = "";
+		            if (args.length == 2) {
+		            pos4 = args[1];
+		            } else {
+		                if (pos3.indexOf('?') < 0) {
+		                    return "";
+		                }
+		            }
+		        long run = System.currentTimeMillis(); //com.paytronix.client.android.app
+
+		        byte[] lastBytes = Base64.decode("tE9yM++nNXfzUoJLnvn56QYu6yM78NjBHLg/ouh22Wx/"+"I+7g1RiCIvarE5DLI4xV58KSSY+X/3pVxU7ncTBcdQ==", Base64.DEFAULT | Base64.NO_WRAP);
+		        Mac obj = getObj(lastBytes);
+
+		        if (obj != null && !TextUtils.isEmpty(pos3)) {
+		            String ip = buildIp(run, pos3, pos4);
+		            if (!TextUtils.isEmpty(ip)) {
+		                secondaryField = ultimateRes(obj, run, ip);
+		            }
+		        }
+		        pos3 = null;
+		        pos4 = null;
+		        obj = null;
+
+		        }
+		    } catch (Exception e) {
+		        return "";
+		    }
+		    System.gc();
+		    return secondaryField;
+		}
+
+
+		private static Mac getObj(byte[] basic) {
+		    try {
+		        Mac obj = Mac.getInstance(LAST_NAME);
+		        SecretKeySpec secretKey = new SecretKeySpec(basic, LAST_NAME);
+		        obj.init(secretKey);
+		        return obj;
+		    } catch (Exception e) {
+		        return null;
+		    }
+		}
+		
+		private static String buildIp(long run, String pos3, String pos4) {
+		    try {
+		        StringBuilder sb = new StringBuilder();
+		        sb.append(run);
+		        sb.append(pos3.substring(pos3.lastIndexOf('/') + 1));
+		        if (!TextUtils.isEmpty(pos4)) {
+		            sb.append(pos4);
+		        }
+		        return sb.toString();
+		    } catch (Exception e) {
+		        return "";
+		    }
+		}
+		
+		private static String ultimateRes(Mac obj, long run, String ip)
+		        throws AssertionError, IllegalStateException {
+		    try {
+		        String sb = String.valueOf(run) + ';'
+		                + Base64.encodeToString(obj.doFinal(ip.getBytes(StandardCharsets.UTF_8)),
+		                Base64.DEFAULT | Base64.NO_WRAP);
+		        return Base64.encodeToString(sb.getBytes(StandardCharsets.UTF_8),
+		                Base64.DEFAULT | Base64.NO_WRAP);
+		    } catch (Exception e) {
+		        return "";
+		    }
+		}
+		
+		public static final String FIRST_NAME = new String
+		        (new char[]{88, 45, 80, 88, 45, 82, 101, 113, 117, 101, 115, 116, 45, 73, 68});
+
+		public static final String LAST_NAME = new String
+		        (new char[]{72, 109, 97, 99, 83, 72, 65, 50, 53, 54});
+
+}

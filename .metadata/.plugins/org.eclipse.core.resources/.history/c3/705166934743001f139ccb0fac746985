@@ -1,0 +1,60 @@
+package com.locators;
+
+public class DashBoardLocators {
+
+	/**
+	 * @Class_Name DashBoardLocators
+	 * @Description Locators for Dashboard
+	 * @return String
+	 * @author Prasanna Venkatesh KP
+	 */
+
+	public final String DASHBOARD_TITLE_VKL = "welcome_component_text";
+	public final String DASHBOARD_SCREEN_DESCRIPTION_VKL = "dashboard_screen_description_text";
+	public final String DASHBOARD_DONE_BUTTON_VKL = "dashboard_done_button";
+	public final String LANDING_SIDE_DRAWER_BUTTON_VKL = "landing_menu_btn";
+	public final String DASHBOARD_SIDE_DRAWER_BUTTON_VKL = "dashboard_menu_btn";
+	public final String BOTTOMBAR_HOME_BUTTON_VKL = "bottombar_dashboard";
+
+	public final String CHECK_IN_ERROR_POPUP_DESCRIPTION_VKL = "checkin_success_content_text";
+	public final String CHECK_IN_ERROR_POPUP_OK_VKL = "checkin_success_okay_button";
+	public final String TOBACCO_COMPONENT_LABEL_TEXT = "altria_component_label_text";
+	public final String TOBACCO_COMPONENT_BUTTON_AND_TEXT ="altria_component_button_text";
+	
+	public final String OD_ORDER_AGAIN_MENU_NAME_TEXT_VK = "order_again_component_menu_name_";
+	public final String OD_ORDER_AGAIN_MENU_PRICE_TEXT_VK ="order_again_component_menu_price_";
+	public final String OD_ORDER_AGAIN_HEADER_TEXT_VK = "order_again_component_header";
+	public final String OD_ORDER_AGAIN_SUB_HEADER_TEXT_VK ="order_again_component_sub_header";
+	public final String OD_ORDER_AGAIN_SINGLE_ORDER_DESCRIPTION_VK ="order_again_single_order_description";
+	public final String OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_VK = "order_again_single_order_alert";
+	public final String OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_OK_BUTTON_VK ="order_again_single_order_alert_ok_button";
+	public final String OD_ORDER_AGAIN_FEW_ITEM_UNAVAILABLE_DESCRIPTION_VK = "order_again_few_item_unavailable_description";
+	public final String OD_ORDER_AGAIN_FEW_ITEM_UNAVAILABLE_CONTINUE_VK = "order_again_few_item_unavailable_continue_button";
+	public final String OD_ORDER_AGAIN_FEW_ITEM_UNAVAILABLE_CANCEL_VK = "order_again_few_item_unavailable_cancel_button";
+	
+	
+	// Strings
+	public final String OD_ORDER_AGAIN_SINGLE_ORDER_TITLE_STRING ="od_order_again_component_menu_not_available_description_text";
+	public final String OD_ORDER_AGAIN_SINGLE_ORDER_VIEWALL_STRING ="od_order_again_component_menu_not_available_description_text";
+
+	public final String OD_ORDER_AGAIN_SINGLE_ORDER_DESCRIPTION_ITEM_NOT_AVAILABLE_STRING ="od_order_again_component_menu_not_available_description_text";
+	public final String OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_ITEM_SOLD_OUT_STRING = "od_order_again_component_menu_sold_out_description_text";
+	public final String OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_OK_BUTTON_STRING ="alert_ok";
+	public final String OD_ORDER_AGAIN_SINGLE_ORDER_DESCRIPTION_CHOOSE_ALTERNATIVE_STRING ="od_basket_checkout_multi_order_type_description";
+	public final String OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_SWITCHED_TO_STRING = "od_basket_checkout_single_order_type_description";
+	public final String OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_RESTAURANT_NOT_ACCEPTING_BUTTON_STRING ="od_basket_checkout_not_accepting_orders_description";
+	public final String OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_RESTAURANT_CLOSED_STRING ="od_basket_checkout_restaurant_closed_description";
+	public final String OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_TITLE_STRING ="od_dialog_date_picker_title_text";
+	public final String OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_ASAP_STRING ="od_asap";
+	public final String OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_LATER_STRING ="od_later";
+	public final String OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_LATER_DESCRIPTION_STRING ="od_dialog_date_picker_title_text_content";
+	public final String OD_ORDER_AGAIN_SINGLE_ORDER_ALERT_POPUP_LATER_DATE_UNAVAILABLE_STRING ="od_order_time_not_slot_available_text";
+	public final String OD_RE_ORDER_ASAP_LATER_TEXT_STRING = "od_basket_asap_later_error_text";
+	
+	public final String OD_RE_ORDER_ONE_OR_MORE_ITEMS_NOT_AVAILABLE_DESCRIPTION_STRING ="od_order_again_component_few_not_available_description_text";
+	public final String OD_RE_ORDER_ONE_OR_MORE_ITEMS_NOT_AVAILABLE_CONTINUE_STRING ="od_order_again_component_few_not_available_continue_text";
+	public final String OD_RE_ORDER_ONE_OR_MORE_ITEMS_NOT_AVAILABLE_CANCEL_STRING ="od_order_again_component_few_not_available_cancel_text";
+	public final String OD_RE_ORDER_CANNOT_COMPLETE_THIS_ORDER_STRING ="od_order_time_not_available_text";
+	
+
+}
